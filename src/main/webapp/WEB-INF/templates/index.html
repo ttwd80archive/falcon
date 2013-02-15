@@ -3,10 +3,257 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Index</title>
+<style>
+body {
+	color: black;
+	font: 14px/1.6 "Century Gothic";
+	margin: auto;
+	width: 930px;
+}
+
+/* Header
+-----------------------------------------------
+ */
+a:link {
+	color: #FFFFFF;
+}
+
+a:visited {
+	color: #819FF7;
+}
+
+a:hover {
+	color: #E6E6E6;
+}
+
+a:active {
+	color: #FFFFFF;
+}
+
+#header-wrapper {
+	background: none repeat scroll 0 0 #00A99D;
+	height: 70px;
+	width: 930px;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+#header {
+	overflow: hidden;
+	padding: 10px;
+	height: 50px;
+}
+
+#logo {
+	position: relative;
+	bottom: 5px;
+}
+
+#accountinf {
+	text-align: right;
+	width: 200px;
+	position: relative;
+	left: 700px;
+	bottom: 41px;
+	font-color: white;
+}
+
+#content-wrapper {
+	background: none repeat scroll 0 0 #E6E6E6;
+	width: 930px;
+	height: 500px;
+	display: block;
+	margin: 0 auto;
+}
+
+#main-wrapper {
+	float: left;
+	width: 708px;
+	height: 500px;
+	margin: 0;
+	word-wrap: break-word;
+	/* fix for long text breaking sidebar float in IE */
+	overflow: hidden;
+	/* fix for long non-text content breaking IE sidebar float */
+	display: block;
+}
+
+.login {
+	background: none repeat scroll 0 0 #FFFFFF;
+	width: 692px;
+	height: 200px;
+	margin: 16px 0 0 16px;
+	float: left;
+}
+
+.login-label {
+	text-align: right;
+	width: 520px;
+	height: 38px;
+}
+
+.login h2 {
+	width: 360px;
+	position: relative;
+	left: 235px;
+	top: 10px;
+}
+
+.login-inp {
+	background-color: #E6E6E6;
+	width: 280px;
+	height: 28px;
+}
+
+.col-left {
+	background: none repeat scroll 0 0 #FFFFFF;
+	width: 220px;
+	height: 270px;
+	margin: 16px 0 0 16px;
+	float: left;
+}
+
+.col-mid {
+	background: none repeat scroll 0 0 #FFFFFF;
+	width: 220px;
+	height: 270px;
+	margin: 16px 0 0 16px;
+	float: left;
+}
+
+.col-right {
+	background: none repeat scroll 0 0 #FFFFFF;
+	width: 220px;
+	height: 270px;
+	margin: 16px 0 0 16px;
+	float: left;
+}
+
+.col-head {
+	margin: 10px;
+	font-weight: bold;
+}
+
+.col-content {
+	margin: 10px;
+	position: relative;
+	top: 40px;
+}
+
+.button {
+	background-color: #00A99D;
+	color: white;
+	font-weight: bold;
+	font-size: 16px;
+	height: 35px;
+	width: 100px;
+}
+
+#loginbutton {
+	left: 285px;
+	position: relative;
+}
+
+#sidebar-wrapper {
+	height: 500px;
+	width: 222px;
+	float: left;
+	margin: 0;
+	word-wrap: break-word;
+	/* fix for long text breaking sidebar float in IE */
+}
+
+#sidebar {
+	background: none repeat scroll 0 0 #FFFFFF;
+	width: 190px;
+	height: 484px;
+	margin: 16px;
+	text-align: center;
+	font-weight: bold;
+}
+
+#ad-banner {
+	position: relative;
+	top: 250px;
+}
+
+#footer-wrapper {
+	background: none repeat scroll 0 0 #E6E6E6;
+	width: 930px;
+	height: 90px;
+}
+
+#footer {
+	text-align: center;
+	font-size: 10px;
+	height: 60px;
+	position: relative;
+	top: 65px;
+}
+
+#forgotpwd {
+	position: relative;
+	left: 235px;
+	font-size: 12px;
+}
+</style>
 </head>
 <body>
-	<h1>Index</h1>
+	<div id='header-wrapper'>
+		<div id='header'>
+			<div id='logo'>
+				<img src='./images/aprislogo.gif' height='60px' width='150px'>
+			</div>
+			<div id='accountinf'>
+				<a href="#" id='signup'>SIGN UP</a> | <a href="#" id='login'>LOGIN</a>
+			</div>
+		</div>
+	</div>
+	<div class='clear'></div>
+	<div id='content-wrapper'>
+		<div id='main-wrapper'>
+			<div class='login'>
+				<h2>Log in to your account</h2>
+				<div class='login-label'>
+					Log in: <input type="text" value="" name="username"
+						class='login-inp'>
+				</div>
+				<div class='login-label'>
+					Password: <input type="password" name="password" class='login-inp'>
+				</div>
+				<a href="#" id='forgotpwd'>forgot your password?</a> <input
+					type="button" value="LOG IN" onclick="msg(Booya!)" class='button'
+					id='loginbutton'>
+			</div>
+			<div class='col-left'>
+				<div class='col-head'>Small banner:</div>
+				<div class='col-content'>Product Information (Click and will
+					link to a full product specs page)</div>
+			</div>
+			<div class='col-mid'>
+				<div class='col-head'>Small banner:</div>
+				<div class='col-content'>Promotion (Click and will link to a
+					full promotion page)</div>
+			</div>
+			<div class='col-right'>
+				<div class='col-head'>Small banner:</div>
+				<div class='col-content'>Testimonials (Click and will link to
+					a full testimonials page)</div>
+			</div>
+		</div>
+		<div id='sidebar-wrapper'>
+			<div id='sidebar'>
+				<div id='ad-banner'>ADVERTISING</div>
+			</div>
+		</div>
+	</div>
+	<div class='clear'></div>
+	<div id='footer-wrapper'>
+		<div id='footer'>Apris Solutions &#169; 2013 All Rights Reserved
+		</div>
+	</div>
 	<script th:src="#{script.jquery.js}"
 		src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 </body>
 </html>
+
