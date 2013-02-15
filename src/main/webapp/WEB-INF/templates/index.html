@@ -202,7 +202,8 @@ a:active {
 	<div id='header-wrapper'>
 		<div id='header'>
 			<div id='logo'>
-				<img src='./images/aprislogo.gif' height='60px' width='150px'>
+				<img th:src="@{/images/aprislogo.gif}" src='./images/aprislogo.gif'
+					height='60px' width='150px' />
 			</div>
 			<div id='accountinf'>
 				<a href="#" id='signup'>SIGN UP</a> | <a href="#" id='login'>LOGIN</a>
@@ -216,14 +217,14 @@ a:active {
 				<h2>Log in to your account</h2>
 				<div class='login-label'>
 					Log in: <input type="text" value="" name="username"
-						class='login-inp'>
+						class='login-inp' />
 				</div>
 				<div class='login-label'>
-					Password: <input type="password" name="password" class='login-inp'>
+					Password: <input type="password" name="password" class='login-inp' />
 				</div>
 				<a href="#" id='forgotpwd'>forgot your password?</a> <input
 					type="button" value="LOG IN" onclick="msg(Booya!)" class='button'
-					id='loginbutton'>
+					id='loginbutton' />
 			</div>
 			<div class='col-left'>
 				<div class='col-head'>Small banner:</div>

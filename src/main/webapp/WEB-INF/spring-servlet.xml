@@ -33,4 +33,8 @@
 
 	<mvc:view-controller path="/index" view-name="index" />
 
+	<mvc:default-servlet-handler />
+
+	<mvc:resources location="/images/" mapping="/images/**" />
+
 </beans>
