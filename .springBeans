@@ -10,6 +10,7 @@
 		<config>src/main/resources/falcon-spring-config.xml</config>
 		<config>src/main/resources/falcon-spring-entity-manager.xml</config>
 		<config>src/main/resources/falcon-spring-data-source.xml</config>
+		<config>src/main/resources/falcon-spring-security.xml</config>
 	</configs>
 	<configSets>
 		<configSet>
@@ -20,6 +21,7 @@
 				<config>src/main/resources/falcon-spring-config.xml</config>
 				<config>src/main/resources/falcon-spring-entity-manager.xml</config>
 				<config>src/main/resources/falcon-spring-data-source.xml</config>
+				<config>src/main/resources/falcon-spring-security.xml</config>
 			</configs>
 			<profiles>
 			</profiles>
