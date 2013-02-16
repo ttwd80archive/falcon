@@ -211,43 +211,46 @@ a:active {
 		</div>
 	</div>
 	<div class='clear'></div>
-	<div id='content-wrapper'>
-		<div id='main-wrapper'>
-			<div class='login'>
-				<h2>Log in to your account</h2>
-				<div class='login-label'>
-					Log in: <input type="text" value="" name="username"
-						class='login-inp' />
+	<form th:action="@{/j_spring_security_check}">
+		<div id='content-wrapper'>
+			<div id='main-wrapper'>
+				<div class='login'>
+					<h2>Log in to your account</h2>
+					<div class='login-label'>
+						Log in: <input type="text" value="" name="j_username"
+							class='login-inp' />
+					</div>
+					<div class='login-label'>
+						Password: <input type="password" name="j_password"
+							class='login-inp' />
+					</div>
+					<a href="#" id='forgotpwd'>forgot your password?</a> <input
+						type="submit" value="LOG IN" onclick="msg(Booya!)" class='button'
+						id='loginbutton' />
 				</div>
-				<div class='login-label'>
-					Password: <input type="password" name="password" class='login-inp' />
+				<div class='col-left'>
+					<div class='col-head'>Small banner:</div>
+					<div class='col-content'>Product Information (Click and will
+						link to a full product specs page)</div>
 				</div>
-				<a href="#" id='forgotpwd'>forgot your password?</a> <input
-					type="button" value="LOG IN" onclick="msg(Booya!)" class='button'
-					id='loginbutton' />
+				<div class='col-mid'>
+					<div class='col-head'>Small banner:</div>
+					<div class='col-content'>Promotion (Click and will link to a
+						full promotion page)</div>
+				</div>
+				<div class='col-right'>
+					<div class='col-head'>Small banner:</div>
+					<div class='col-content'>Testimonials (Click and will link to
+						a full testimonials page)</div>
+				</div>
 			</div>
-			<div class='col-left'>
-				<div class='col-head'>Small banner:</div>
-				<div class='col-content'>Product Information (Click and will
-					link to a full product specs page)</div>
-			</div>
-			<div class='col-mid'>
-				<div class='col-head'>Small banner:</div>
-				<div class='col-content'>Promotion (Click and will link to a
-					full promotion page)</div>
-			</div>
-			<div class='col-right'>
-				<div class='col-head'>Small banner:</div>
-				<div class='col-content'>Testimonials (Click and will link to
-					a full testimonials page)</div>
+			<div id='sidebar-wrapper'>
+				<div id='sidebar'>
+					<div id='ad-banner'>ADVERTISING</div>
+				</div>
 			</div>
 		</div>
-		<div id='sidebar-wrapper'>
-			<div id='sidebar'>
-				<div id='ad-banner'>ADVERTISING</div>
-			</div>
-		</div>
-	</div>
+	</form>
 	<div class='clear'></div>
 	<div id='footer-wrapper'>
 		<div id='footer'>Apris Solutions &#169; 2013 All Rights Reserved
