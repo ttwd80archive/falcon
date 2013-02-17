@@ -2,12 +2,21 @@ package com.twistlet.falcon.security.service;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import com.twistlet.falcon.model.entity.FalconRole;
+import com.twistlet.falcon.model.entity.FalconUser;
+import com.twistlet.falcon.model.entity.FalconUserRole;
 import com.twistlet.falcon.model.repository.FalconUserRepository;
 import com.twistlet.falcon.model.repository.FalconUserRoleRepository;
 
@@ -44,4 +53,71 @@ public class UserDetailsServiceImplTest {
 		fail("Not yet implemented");
 	}
 
+	@Test
+	public void testLoadUserByUsernameNoRoles() {
+		final FalconUser falconUser = new FalconUser("user100");
+		falconUser.setPassword("xx");
+		EasyMock.expect(
+				falconUserRepository.findOne(EasyMock.anyObject(String.class)))
+				.andReturn(falconUser);
+		EasyMock.expect(
+				falconUserRoleRepository.findByFalconUserUsername(EasyMock
+						.anyObject(String.class))).andReturn(
+				new ArrayList<FalconUserRole>());
+		EasyMock.replay(falconUserRepository, falconUserRoleRepository);
+		final UserDetails userDetails = unit.loadUserByUsername("user100");
+		final Collection<? extends GrantedAuthority> authorities = userDetails
+				.getAuthorities();
+		assertEquals(0, authorities.size());
+	}
+
+	@Test
+	public void testLoadUserByUsernameRoleAdminCount() {
+		final FalconUser falconUser = new FalconUser("user101");
+		falconUser.setPassword("xx");
+		final FalconRole falconRole = new FalconRole("ROLE_ADMIN");
+		final List<FalconUserRole> falconUserRoles = new ArrayList<>();
+		final FalconUserRole falconUserRole = new FalconUserRole();
+		falconUserRole.setId(1);
+		falconUserRole.setFalconUser(falconUser);
+		falconUserRole.setFalconRole(falconRole);
+		falconUserRoles.add(falconUserRole);
+		EasyMock.expect(
+				falconUserRepository.findOne(EasyMock.anyObject(String.class)))
+				.andReturn(falconUser);
+		EasyMock.expect(
+				falconUserRoleRepository.findByFalconUserUsername(EasyMock
+						.anyObject(String.class))).andReturn(falconUserRoles);
+		EasyMock.replay(falconUserRepository, falconUserRoleRepository);
+		final UserDetails userDetails = unit.loadUserByUsername("user100");
+		final Collection<? extends GrantedAuthority> authorities = userDetails
+				.getAuthorities();
+		assertEquals(1, authorities.size());
+	}
+
+	@Test
+	public void testLoadUserByUsernameRoleAdminValue() {
+		final FalconUser falconUser = new FalconUser("user101");
+		falconUser.setPassword("xx");
+		final FalconRole falconRole = new FalconRole("ROLE_ADMIN");
+		final List<FalconUserRole> falconUserRoles = new ArrayList<>();
+		final FalconUserRole falconUserRole = new FalconUserRole();
+		falconUserRole.setId(1);
+		falconUserRole.setFalconUser(falconUser);
+		falconUserRole.setFalconRole(falconRole);
+		falconUserRoles.add(falconUserRole);
+		EasyMock.expect(
+				falconUserRepository.findOne(EasyMock.anyObject(String.class)))
+				.andReturn(falconUser);
+		EasyMock.expect(
+				falconUserRoleRepository.findByFalconUserUsername(EasyMock
+						.anyObject(String.class))).andReturn(falconUserRoles);
+		EasyMock.replay(falconUserRepository, falconUserRoleRepository);
+		final UserDetails userDetails = unit.loadUserByUsername("user100");
+		final Collection<? extends GrantedAuthority> authorities = userDetails
+				.getAuthorities();
+		assertEquals("ROLE_ADMIN", new ArrayList<>(authorities).get(0)
+				.getAuthority());
+
+	}
 }
