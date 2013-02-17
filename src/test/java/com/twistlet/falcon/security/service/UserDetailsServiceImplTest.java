@@ -71,7 +71,7 @@ public class UserDetailsServiceImplTest {
 	}
 
 	@Test
-	public void testLoadUserByUsernameRoleAdminCount() {
+	public void testLoadUserByUsernameRoleAdminCountOne() {
 		final FalconUser falconUser = new FalconUser("user101", "xxx", "Nobody");
 		final FalconRole falconRole = new FalconRole("ROLE_ADMIN");
 		final List<FalconUserRole> falconUserRoles = new ArrayList<>();
@@ -116,5 +116,72 @@ public class UserDetailsServiceImplTest {
 		assertEquals("ROLE_ADMIN", new ArrayList<>(authorities).get(0)
 				.getAuthority());
 
+	}
+
+	@Test
+	public void testLoadUserByUsernameRoleAdminCountTwo() {
+		final FalconUser falconUser = new FalconUser("user101", "xxx", "Nobody");
+		final List<FalconUserRole> falconUserRoles = new ArrayList<>();
+		{
+			final FalconRole falconRole = new FalconRole("ROLE_ADMIN");
+			final FalconUserRole falconUserRole = new FalconUserRole();
+			falconUserRole.setId(1);
+			falconUserRole.setFalconUser(falconUser);
+			falconUserRole.setFalconRole(falconRole);
+			falconUserRoles.add(falconUserRole);
+		}
+		{
+			final FalconRole falconRole = new FalconRole("ROLE_USER");
+			final FalconUserRole falconUserRole = new FalconUserRole();
+			falconUserRole.setId(2);
+			falconUserRole.setFalconUser(falconUser);
+			falconUserRole.setFalconRole(falconRole);
+			falconUserRoles.add(falconUserRole);
+		}
+		EasyMock.expect(
+				falconUserRepository.findOne(EasyMock.anyObject(String.class)))
+				.andReturn(falconUser);
+		EasyMock.expect(
+				falconUserRoleRepository.findByFalconUserUsername(EasyMock
+						.anyObject(String.class))).andReturn(falconUserRoles);
+		EasyMock.replay(falconUserRepository, falconUserRoleRepository);
+		final UserDetails userDetails = unit.loadUserByUsername("user100");
+		final Collection<? extends GrantedAuthority> authorities = userDetails
+				.getAuthorities();
+		assertEquals(2, authorities.size());
+	}
+
+	@Test
+	public void testLoadUserByUsernameRoleAdminCountTwoValue() {
+		final FalconUser falconUser = new FalconUser("user101", "xxx", "Nobody");
+		final List<FalconUserRole> falconUserRoles = new ArrayList<>();
+		{
+			final FalconRole falconRole = new FalconRole("ROLE_ADMIN");
+			final FalconUserRole falconUserRole = new FalconUserRole();
+			falconUserRole.setId(1);
+			falconUserRole.setFalconUser(falconUser);
+			falconUserRole.setFalconRole(falconRole);
+			falconUserRoles.add(falconUserRole);
+		}
+		{
+			final FalconRole falconRole = new FalconRole("ROLE_USER");
+			final FalconUserRole falconUserRole = new FalconUserRole();
+			falconUserRole.setId(2);
+			falconUserRole.setFalconUser(falconUser);
+			falconUserRole.setFalconRole(falconRole);
+			falconUserRoles.add(falconUserRole);
+		}
+		EasyMock.expect(
+				falconUserRepository.findOne(EasyMock.anyObject(String.class)))
+				.andReturn(falconUser);
+		EasyMock.expect(
+				falconUserRoleRepository.findByFalconUserUsername(EasyMock
+						.anyObject(String.class))).andReturn(falconUserRoles);
+		EasyMock.replay(falconUserRepository, falconUserRoleRepository);
+		final UserDetails userDetails = unit.loadUserByUsername("user100");
+		final Collection<? extends GrantedAuthority> authorities = userDetails
+				.getAuthorities();
+		assertEquals("ROLE_USER", new ArrayList<>(authorities).get(1)
+				.getAuthority());
 	}
 }
