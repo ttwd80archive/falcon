@@ -31,7 +31,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_user` WRITE;
 /*!40000 ALTER TABLE `falcon_user` DISABLE KEYS */;
-INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('inban','x','Inban','','');
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('inban','5727c6363d91fcc80a98f22a748c95fba96cc9e39110a23b9a38e6ea510476cb','Inban','','');
 /*!40000 ALTER TABLE `falcon_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,4 +54,3 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-02-17 11:49:43
