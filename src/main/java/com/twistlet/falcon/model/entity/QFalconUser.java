@@ -20,11 +20,15 @@ public class QFalconUser extends EntityPathBase<FalconUser> {
 
     public static final QFalconUser falconUser = new QFalconUser("falconUser");
 
+    public final StringPath email = createString("email");
+
     public final SetPath<FalconUserRole, QFalconUserRole> falconUserRoles = this.<FalconUserRole, QFalconUserRole>createSet("falconUserRoles", FalconUserRole.class, QFalconUserRole.class, PathInits.DIRECT);
 
     public final StringPath name = createString("name");
 
     public final StringPath password = createString("password");
+
+    public final StringPath phone = createString("phone");
 
     public final StringPath username = createString("username");
 

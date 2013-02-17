@@ -4,6 +4,8 @@ package com.twistlet.falcon.model.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,13 +27,12 @@ public class FalconUserRole  implements java.io.Serializable {
     public FalconUserRole() {
     }
 
-    public FalconUserRole(Integer id, FalconUser falconUser, FalconRole falconRole) {
-       this.id = id;
+    public FalconUserRole(FalconUser falconUser, FalconRole falconRole) {
        this.falconUser = falconUser;
        this.falconRole = falconRole;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="id", unique=true, nullable=false)
