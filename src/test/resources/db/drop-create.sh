@@ -4,9 +4,9 @@ db_password=phefrebre796ayuf
 db_name=falcon
 sql_location=.
 
-echo drop database if exists eperolehan | mysql -u ep -pep
+echo drop database if exists ${db_name} | mysql -u ${db_user} -p${db_password}
 echo Database drop. Done.
-echo create database eperolehan | mysql -u ep -pep
+echo create database ${db_name} | mysql -u ${db_user} -p${db_password}
 echo Database create. Done.
 mysql -u ${db_user} -p${db_password} ${db_name} < ${sql_location}/${db_name}-structure.sql
 echo Structure create. Done.
