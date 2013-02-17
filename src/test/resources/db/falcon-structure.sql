@@ -57,6 +57,7 @@ CREATE TABLE `falcon_user_role` (
   `username` varchar(100) COLLATE utf8_bin NOT NULL,
   `rolename` varchar(50) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `username_rolename` (`username`,`rolename`),
   KEY `FK_falcon_user_role_falcon_user` (`username`),
   KEY `rolename` (`rolename`),
   CONSTRAINT `FK_falcon_user_role_falcon_role` FOREIGN KEY (`rolename`) REFERENCES `falcon_role` (`role_name`),

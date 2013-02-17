@@ -21,6 +21,7 @@
 
 LOCK TABLES `falcon_role` WRITE;
 /*!40000 ALTER TABLE `falcon_role` DISABLE KEYS */;
+INSERT INTO `falcon_role` (`role_name`) VALUES ('ROLE_ADMIN');
 INSERT INTO `falcon_role` (`role_name`) VALUES ('ROLE_USER');
 /*!40000 ALTER TABLE `falcon_role` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -31,7 +32,9 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_user` WRITE;
 /*!40000 ALTER TABLE `falcon_user` DISABLE KEYS */;
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('butterbun','c42dad8cd3f474de4a21f50c80c04326938037cd74f0adfcfa51c39f302ba276','Butterbun User','','');
 INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('inban','5727c6363d91fcc80a98f22a748c95fba96cc9e39110a23b9a38e6ea510476cb','Inban','','');
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('titiwangsa','bb1338008e7180b5b8246884e8c37eec9ac8869fccd3340a31e9cf67b375fd6e','Titi Wangsa bin Damhore','titi.wangsa.damhore@tabuk-tech.com','+60193012624');
 /*!40000 ALTER TABLE `falcon_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
