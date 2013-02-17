@@ -41,6 +41,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_user_role` WRITE;
 /*!40000 ALTER TABLE `falcon_user_role` DISABLE KEYS */;
+INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (1,'inban','ROLE_USER');
 /*!40000 ALTER TABLE `falcon_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-02-17 10:34:26
+-- Dump completed on 2013-02-17 11:49:43
