@@ -12,6 +12,8 @@
 		<config>src/main/resources/falcon-spring-data-source.xml</config>
 		<config>src/main/resources/falcon-spring-security.xml</config>
 		<config>src/main/resources/falcon-spring-smtp.xml</config>
+		<config>src/main/resources/falcon-spring-data-jpa.xml</config>
+		<config>src/main/resources/falcon-spring-service.xml</config>
 	</configs>
 	<configSets>
 		<configSet>
@@ -24,6 +26,8 @@
 				<config>src/main/resources/falcon-spring-data-source.xml</config>
 				<config>src/main/resources/falcon-spring-security.xml</config>
 				<config>src/main/resources/falcon-spring-smtp.xml</config>
+				<config>src/main/resources/falcon-spring-data-jpa.xml</config>
+				<config>src/main/resources/falcon-spring-service.xml</config>
 			</configs>
 			<profiles>
 			</profiles>
