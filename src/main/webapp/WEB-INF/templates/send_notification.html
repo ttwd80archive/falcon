@@ -198,7 +198,20 @@ a:active {
 	position: relative;
 	top: 65px;
 }
+.ui-autocomplete {
+max-height: 100px;
+overflow-y: auto;
+/* prevent horizontal scrollbar */
+overflow-x: hidden;
+}
+/* IE 6 doesn't support max-height
+* we use height instead, but this forces the menu to always be this tall
+*/
+* html .ui-autocomplete {
+height: 100px;
+}
 </style>
+<link rel="stylesheet" th:href="#{script.jqueryui.css}" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
 </head>
 <body>
 	<div id='header-wrapper'>
@@ -217,10 +230,10 @@ a:active {
 	<div id='content-wrapper'>
 		<div id='nav-wrapper'>
 			<ul id='navlist'>
-				<li>Manage Appointments<br /></li>
-				<li>View Appointments<br /></li>
-				<li>Send Notification<br /></li>
-				<li>Manage Staff &amp; Patrons</li>
+				<li><p>Manage Appointments</p></li>
+				<li><p>View Appointments</p></li>
+				<li><p>Send Notification</p></li>
+				<li><p>Manage Staff &amp; Patrons</p></li>
 			</ul>
 			<div class='csbanner'>Customer Service Banner</div>
 			<div id='navarrow'>
@@ -231,10 +244,6 @@ a:active {
 		<div id='subcontent-wrapper'>
 			<div id='subcontent'>
 				Recepient <br /> <input type='text' name='recepient' id='recepient' />
-				<div id='dropdownarrowpos'>
-					<img th:src="@{/images/grayarrow.png}" src='./images/grayarrow.png'
-						height='7px' width='14px' />
-				</div>
 				<br /> <br /> Type <br /> <input type='checkbox'
 					name='notification' value='sms' /> SMS Notification
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type='checkbox'
@@ -259,5 +268,12 @@ a:active {
 		<div id='footer'>Apris Solutions &#169; 2013 All Rights Reserved
 		</div>
 	</div>
+	<div style="display: none;">
+		<a id="link-list-patient" href="/invalid" th:href="@{/list-patient}">Ajax
+			Datasource Location</a>
+	</div>
+	<script type="text/javascript" th:src="#{script.jquery.js}" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript" th:src="#{script.jqueryui.js}" src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+	<script type="text/javascript" th:src="@{/js/send_notification.js}" src="../../../js/send_notification.js"></script>
 </body>
 </html>
