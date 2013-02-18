@@ -6,18 +6,17 @@
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${smtp.host}" />
 		<property name="port" value="${smtp.port}" />
-		<property name="protocol" value="smtps" />
 		<property name="username" value="${smtp.username}" />
 		<property name="password" value="${smtp.password}" />
 		<property name="javaMailProperties">
-			<value>
-				mail.smtps.auth=true
-				mail.smtp.ssl.enable=true
-				mail.transport.protocol=smtps
-			</value>
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.ssl.enable">true</prop>
+				<prop key="mail.smtp.debug">true</prop>
+			</props>
 		</property>
 	</bean>
-	
+
 	<bean id="" class="org.springframework.mail.SimpleMailMessage"></bean>
-	
+
 </beans>

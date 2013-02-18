@@ -39,6 +39,12 @@ $(function() {
 			$("#send-phone").val("");
 		}
 		$("#send-message").val($("#message-content").val());
+		var options = {
+			"success" : function(responseText, statusText, xhr) {
+
+			}
+		};
+		$("#form-send-notification").ajaxSubmit(options);
 		return false;
 
 	});

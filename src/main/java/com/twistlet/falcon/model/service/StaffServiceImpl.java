@@ -32,7 +32,7 @@ public class StaffServiceImpl implements StaffService {
 	@Override
 	public boolean sendEmail(final String name, final String address,
 			final String message) {
-		final String sendTo = name + " <" + address + ">";
+		final String sendTo = "\"" + name + "\"" + " <" + address + ">";
 		try {
 			mailSenderService.send(sendTo, message);
 			return true;

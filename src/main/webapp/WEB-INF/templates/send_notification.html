@@ -282,7 +282,7 @@ a:active {
 		<a id="link-list-patient" href="/invalid" th:href="@{/list-patient}">Ajax
 			Datasource Location</a>
 		<div>
-			<form action="." method="post"
+			<form id="form-send-notification" action="." method="post"
 				th:action="@{/send-notification-to-patient}">
 				<div>
 					<input id="send-name" name="name" type="hidden" />
