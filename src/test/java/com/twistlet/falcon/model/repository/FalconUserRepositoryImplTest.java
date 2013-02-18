@@ -28,10 +28,10 @@ public class FalconUserRepositoryImplTest extends AbstractFalconRepositoryTest {
 
 	@Before
 	public void init() {
-		FalconRole role1, role2, role3;
+		FalconRole role1, role3;
 		FalconUser user1, user2, user3;
 		entityManager.persist(role1 = createNewRole("ROLE_LEVEL_1"));
-		entityManager.persist(role2 = createNewRole("ROLE_LEVEL_2"));
+		entityManager.persist(createNewRole("ROLE_LEVEL_2"));
 		entityManager.persist(role3 = createNewRole("ROLE_LEVEL_3"));
 		entityManager.persist(user1 = createNewUser("USER_1"));
 		entityManager.persist(user2 = createNewUser("USER_2"));
