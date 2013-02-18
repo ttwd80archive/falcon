@@ -30,8 +30,8 @@ public class MainController {
 
 	@RequestMapping("/main")
 	public ModelAndView main() {
-		final List<? extends GrantedAuthority> list = new ArrayList<>(
-				securityContextService.getAuthorities());
+		final List<GrantedAuthority> list = securityContextService
+				.getAuthorities();
 		final List<String> grantedAuthorityList = new ArrayList<>();
 		for (final GrantedAuthority grantedAuthority : list) {
 			grantedAuthorityList.add(grantedAuthority.toString());
