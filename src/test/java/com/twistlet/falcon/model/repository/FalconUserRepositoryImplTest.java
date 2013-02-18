@@ -53,7 +53,7 @@ public class FalconUserRepositoryImplTest extends AbstractFalconRepositoryTest {
 		final FalconUser falconUser = new FalconUser();
 		falconUser.setUsername(username);
 		falconUser.setPassword("x");
-		falconUser.setName("ignore");
+		falconUser.setName(username);
 		return falconUser;
 	}
 
@@ -66,41 +66,62 @@ public class FalconUserRepositoryImplTest extends AbstractFalconRepositoryTest {
 	@Test
 	public void testFindByRolenameNoneFoundTotallyInvalid() {
 		final List<FalconUser> list = falconUserRepository
-				.findByRolename("XXX");
+				.findByRolenameAndNameLike("XXX", "");
 		assertEquals(0, list.size());
 	}
 
 	@Test
 	public void testFindByRolenameNoneFoundButValidRole() {
 		final List<FalconUser> list = falconUserRepository
-				.findByRolename("ROLE_LEVEL_2");
+				.findByRolenameAndNameLike("ROLE_LEVEL_2", "");
+		assertEquals(0, list.size());
+	}
+
+	@Test
+	public void testFindByRolenameNoneFoundButValidRoleValidName() {
+		final List<FalconUser> list = falconUserRepository
+				.findByRolenameAndNameLike("ROLE_LEVEL_2", "USER_1");
 		assertEquals(0, list.size());
 	}
 
 	@Test
 	public void testFindByRolenameShouldExistCount() {
 		final List<FalconUser> list = falconUserRepository
-				.findByRolename("ROLE_LEVEL_3");
+				.findByRolenameAndNameLike("ROLE_LEVEL_3", "");
 		assertEquals(1, list.size());
 	}
 
 	@Test
 	public void testFindByRolenameShouldExist3Count() {
 		final List<FalconUser> list = falconUserRepository
-				.findByRolename("ROLE_LEVEL_1");
+				.findByRolenameAndNameLike("ROLE_LEVEL_1", "");
 		assertEquals(3, list.size());
 	}
 
 	@Test
 	public void testFindByRolenameShouldExist3Values() {
 		final List<FalconUser> list = falconUserRepository
-				.findByRolename("ROLE_LEVEL_1");
+				.findByRolenameAndNameLike("ROLE_LEVEL_1", "");
 		final Set<String> set = new LinkedHashSet<>();
 		for (final FalconUser falconUser : list) {
 			set.add(falconUser.getUsername());
 		}
 		final String joined = StringUtils.join(set, " ");
 		assertEquals("USER_1 USER_2 USER_3", joined);
+	}
+
+	@Test
+	public void testFindByRolenameShouldExistSingleCount() {
+		final List<FalconUser> list = falconUserRepository
+				.findByRolenameAndNameLike("ROLE_LEVEL_1", "2");
+		assertEquals(1, list.size());
+	}
+
+	@Test
+	public void testFindByRolenameShouldExistSingleValue() {
+		final List<FalconUser> list = falconUserRepository
+				.findByRolenameAndNameLike("ROLE_LEVEL_1", "2");
+		assertEquals("USER_2", list.get(0).getName());
 	}
 
 }

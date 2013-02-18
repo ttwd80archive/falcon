@@ -21,8 +21,8 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconUser> listPatients() {
-		return falconUserRepository.findByRolename("ROLE_PATRON");
+	public List<FalconUser> listPatients(final String partialName) {
+		return falconUserRepository.findByRolenameAndNameLike("ROLE_PATRON", partialName);
 	}
 
 }

@@ -5,5 +5,5 @@ import java.util.List;
 import com.twistlet.falcon.model.entity.FalconUser;
 
 public interface StaffService {
-	List<FalconUser> listPatients();
+	List<FalconUser> listPatients(String partialName);
 }

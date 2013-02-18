@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.types.expr.BooleanExpression;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.entity.QFalconRole;
 import com.twistlet.falcon.model.entity.QFalconUser;
@@ -21,7 +22,8 @@ public class FalconUserRepositoryImpl implements FalconUserRepositoryCustom {
 	EntityManager entityManager;
 
 	@Override
-	public List<FalconUser> findByRolename(final String rolename) {
+	public List<FalconUser> findByRolenameAndNameLike(final String rolename,
+			final String partialName) {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconUser falconUser = QFalconUser.falconUser;
 		final QFalconRole falconRole = QFalconRole.falconRole;
@@ -29,7 +31,11 @@ public class FalconUserRepositoryImpl implements FalconUserRepositoryCustom {
 		query.from(falconUser);
 		query.join(falconUser.falconUserRoles, falconUserRole);
 		query.join(falconUserRole.falconRole, falconRole);
-		query.where(falconRole.roleName.eq(rolename));
+		final BooleanExpression conditionRolename = falconRole.roleName
+				.eq(rolename);
+		final BooleanExpression conditionNameLike = falconUser.name
+				.containsIgnoreCase(partialName);
+		query.where(conditionRolename.and(conditionNameLike));
 		return query.list(falconUser);
 	}
 }
