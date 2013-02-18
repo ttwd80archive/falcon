@@ -21,6 +21,7 @@ public class FalconMessageLog  implements java.io.Serializable {
 
 
      private Integer id;
+     private String sender;
      private String destination;
      private String messageType;
      private String message;
@@ -31,13 +32,15 @@ public class FalconMessageLog  implements java.io.Serializable {
     }
 
 	
-    public FalconMessageLog(String destination, String messageType, String message, Date sentTime) {
+    public FalconMessageLog(String sender, String destination, String messageType, String message, Date sentTime) {
+        this.sender = sender;
         this.destination = destination;
         this.messageType = messageType;
         this.message = message;
         this.sentTime = sentTime;
     }
-    public FalconMessageLog(String destination, String messageType, String message, Date sentTime, String errorMessage) {
+    public FalconMessageLog(String sender, String destination, String messageType, String message, Date sentTime, String errorMessage) {
+       this.sender = sender;
        this.destination = destination;
        this.messageType = messageType;
        this.message = message;
@@ -55,6 +58,16 @@ public class FalconMessageLog  implements java.io.Serializable {
     
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    
+    @Column(name="sender", nullable=false, length=100)
+    public String getSender() {
+        return this.sender;
+    }
+    
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
     

@@ -29,6 +29,8 @@ public class QFalconMessageLog extends EntityPathBase<FalconMessageLog> {
 
     public final StringPath messageType = createString("messageType");
 
+    public final StringPath sender = createString("sender");
+
     public final DateTimePath<java.util.Date> sentTime = createDateTime("sentTime", java.util.Date.class);
 
     public QFalconMessageLog(String variable) {
