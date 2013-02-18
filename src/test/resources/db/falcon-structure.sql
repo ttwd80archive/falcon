@@ -24,13 +24,14 @@ DROP TABLE IF EXISTS `falcon_message_log`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_message_log` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
+  `sender` varchar(100) COLLATE utf8_bin NOT NULL,
   `destination` varchar(100) COLLATE utf8_bin NOT NULL,
   `message_type` varchar(10) COLLATE utf8_bin NOT NULL,
   `message` varchar(1024) COLLATE utf8_bin NOT NULL,
   `sent_time` datetime NOT NULL,
   `error_message` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,7 +81,7 @@ CREATE TABLE `falcon_user_role` (
   KEY `rolename` (`rolename`),
   CONSTRAINT `FK_falcon_user_role_falcon_role` FOREIGN KEY (`rolename`) REFERENCES `falcon_role` (`role_name`),
   CONSTRAINT `FK_falcon_user_role_falcon_user` FOREIGN KEY (`username`) REFERENCES `falcon_user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
