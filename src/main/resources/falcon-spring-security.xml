@@ -30,4 +30,7 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 
+	<bean id="securityContextService"
+		class="com.twistlet.falcon.security.service.SecurityContextServiceImpl"></bean>
+
 </beans>
