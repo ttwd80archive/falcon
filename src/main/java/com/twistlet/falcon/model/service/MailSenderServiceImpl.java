@@ -38,11 +38,11 @@ public class MailSenderServiceImpl implements MailSenderService {
 		mailMessage.setSentDate(new Date());
 		mailMessage.setSubject(subject);
 		mailMessage.setText(message);
-		boolean ok = false;
+		String errorMessage = null;
 		try {
 			javaMailSender.send(mailMessage);
-			ok = true;
 		} catch (final MailException e) {
+			errorMessage = e.toString();
 			throw e;
 		} finally {
 			// insert new record to show that mail sending was ok or not
