@@ -6,30 +6,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.twistlet.falcon.security.service.SecurityContextService;
 
-@Controller
-public class MainController {
+public class MainController extends AbstractController {
 
 	private final SecurityContextService securityContextService;
 	private final Map<String, String> map;
 
-	@Autowired
 	public MainController(final SecurityContextService securityContextService,
-			@Qualifier("welcomePageMap") final Map<String, String> map) {
+			final Map<String, String> map) {
 		this.securityContextService = securityContextService;
 		this.map = Collections.unmodifiableMap(map);
 	}
 
-	@RequestMapping("/main")
-	public ModelAndView main() {
+	@Override
+	protected ModelAndView handleRequestInternal(
+			final HttpServletRequest request, final HttpServletResponse response)
+			throws Exception {
 		final List<GrantedAuthority> list = securityContextService
 				.getAuthorities();
 		final List<String> grantedAuthorityList = new ArrayList<>();
@@ -45,6 +45,5 @@ public class MainController {
 			}
 		}
 		return null;
-
 	}
 }

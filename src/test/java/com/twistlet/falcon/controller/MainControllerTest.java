@@ -44,47 +44,47 @@ public class MainControllerTest {
 	}
 
 	@Test
-	public void testMainNoHits() {
+	public void testMainNoHits() throws Exception {
 		final List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 		list.add(new SimpleGrantedAuthority("ROLE_SUPERVISOR"));
 		EasyMock.expect(securityContextService.getAuthorities())
 				.andReturn(list);
 		EasyMock.replay(securityContextService);
-		final ModelAndView mav = unit.main();
+		final ModelAndView mav = unit.handleRequest(null, null);
 		assertNull(mav);
 	}
 
 	@Test
-	public void testMainSingleHitAdmin() {
+	public void testMainSingleHitAdmin() throws Exception {
 		final List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 		list.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		EasyMock.expect(securityContextService.getAuthorities())
 				.andReturn(list);
 		EasyMock.replay(securityContextService);
-		final ModelAndView mav = unit.main();
+		final ModelAndView mav = unit.handleRequest(null, null);
 		assertEquals("redirect:/admin_page", mav.getViewName());
 	}
 
 	@Test
-	public void testMainSingleHitStaff() {
+	public void testMainSingleHitStaff() throws Exception {
 		final List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 		list.add(new SimpleGrantedAuthority("ROLE_STAFF"));
 		EasyMock.expect(securityContextService.getAuthorities())
 				.andReturn(list);
 		EasyMock.replay(securityContextService);
-		final ModelAndView mav = unit.main();
+		final ModelAndView mav = unit.handleRequest(null, null);
 		assertEquals("redirect:/staff_page", mav.getViewName());
 	}
 
 	@Test
-	public void testMainMultiHitAdminStaff() {
+	public void testMainMultiHitAdminStaff() throws Exception {
 		final List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
 		list.add(new SimpleGrantedAuthority("ROLE_STAFF"));
 		list.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		EasyMock.expect(securityContextService.getAuthorities())
 				.andReturn(list);
 		EasyMock.replay(securityContextService);
-		final ModelAndView mav = unit.main();
+		final ModelAndView mav = unit.handleRequest(null, null);
 		assertEquals("redirect:/admin_page", mav.getViewName());
 	}
 }
