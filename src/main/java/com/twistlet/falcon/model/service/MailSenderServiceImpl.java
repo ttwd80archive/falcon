@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,14 @@ public class MailSenderServiceImpl implements MailSenderService {
 		mailMessage.setSentDate(new Date());
 		mailMessage.setSubject(subject);
 		mailMessage.setText(message);
-		javaMailSender.send(mailMessage);
+		boolean ok = false;
+		try {
+			javaMailSender.send(mailMessage);
+			ok = true;
+		} catch (final MailException e) {
+			throw e;
+		} finally {
+			// insert new record to show that mail sending was ok or not
+		}
 	}
 }
