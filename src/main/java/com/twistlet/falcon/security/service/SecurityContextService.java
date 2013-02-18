@@ -1,6 +1,6 @@
 package com.twistlet.falcon.security.service;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,5 +11,5 @@ public interface SecurityContextService {
 
 	Authentication getAuthentication();
 
-	Collection<? extends GrantedAuthority> getAuthorities();
+	List<GrantedAuthority> getAuthorities();
 }
