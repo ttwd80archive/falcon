@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twistlet.falcon.model.entity.FalconMessageLog;
@@ -21,7 +22,7 @@ public class DatabaseLoggingServiceImpl implements DatabaseLoggingService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void logEmailSent(final String address, final String message,
 			final String errorMessage) {
 		logMessageSent(address, message, errorMessage, "mail");

@@ -204,11 +204,12 @@ a:active {
 	<div id='header-wrapper'>
 		<div id='header'>
 			<div id='logo'>
-				<img src='./images/aprislogo.gif' height='60px' width='150px'>
+				<img th:src="@{/images/aprislogo.gif}" src='./images/aprislogo.gif'
+					height='60px' width='150px' />
 			</div>
 			<div id='accountinf'>
-				<a href='#' id='signup'>Hi, Inban</a> | <a href='#' id='login'>SIGN
-					OUT</a>
+				Hi, <span th:text="${#authentication.name}">Inban</span> | <a
+					th:href="@{/logout}" href='#' id='login'>SIGN OUT</a>
 			</div>
 		</div>
 	</div>
@@ -216,33 +217,34 @@ a:active {
 	<div id='content-wrapper'>
 		<div id='nav-wrapper'>
 			<ul id='navlist'>
-				<li>Manage Appointments</li>
-				<li>View Appointments</li>
-				<li>Send Notification</li>
+				<li>Manage Appointments<br /></li>
+				<li>View Appointments<br /></li>
+				<li>Send Notification<br /></li>
 				<li>Manage Staff &amp; Patrons</li>
 			</ul>
 			<div class='csbanner'>Customer Service Banner</div>
 			<div id='navarrow'>
-				<img src='./images/navarrow1.png' height='40px' width='200px'>
+				<img th:src="@{/images/navarrow1.png}" src='./images/navarrow1.png'
+					height='40px' width='200px' />
 			</div>
 		</div>
 		<div id='subcontent-wrapper'>
 			<div id='subcontent'>
-				Recepient <br> <input type='text' name='recepient'
-					id='recepient' readonly>
+				Recepient <br /> <input type='text' name='recepient' id='recepient' />
 				<div id='dropdownarrowpos'>
-					<img src='./images/grayarrow.png' height='7px' width='14px'>
+					<img th:src="@{/images/grayarrow.png}" src='./images/grayarrow.png'
+						height='7px' width='14px' />
 				</div>
-				<br> <br> Type <br> <input type='checkbox'
-					name='notification' value='SMS'> SMS Notification
+				<br /> <br /> Type <br /> <input type='checkbox'
+					name='notification' value='sms' /> SMS Notification
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type='checkbox'
-					name='notification' value='Email'> Email Notification <br>
-				<br> Content
+					name='notification' value='mail' /> Email Notification <br /> <br />
+				Content
 				<textarea rows='6' cols='53' maxlength='100'></textarea>
 				<h4>text limit: 100 character</h4>
 				<div>
-					<input type='button' value='SUBMIT' onclick='msg(Booya!)'
-						class='button' id='submitbutton'>
+					<input type='button' value='SUBMIT' class='button'
+						id='submitbutton' />
 				</div>
 			</div>
 		</div>

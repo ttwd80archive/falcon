@@ -16,17 +16,20 @@ public class MailSenderServiceImpl implements MailSenderService {
 	private final String senderAddress;
 	private final String subject;
 	private final JavaMailSender javaMailSender;
+	private final DatabaseLoggingService databaseLoggingService;
 
 	@Autowired
 	public MailSenderServiceImpl(
 			@Value("${smtp.name}") final String senderName,
 			@Value("smtp.address") final String senderAddress,
 			@Value("smtp.subject") final String subject,
-			final JavaMailSender javaMailSender) {
+			final JavaMailSender javaMailSender,
+			final DatabaseLoggingService databaseLoggingService) {
 		this.senderName = senderName;
 		this.senderAddress = senderAddress;
 		this.subject = subject;
 		this.javaMailSender = javaMailSender;
+		this.databaseLoggingService = databaseLoggingService;
 	}
 
 	@Override
@@ -45,7 +48,7 @@ public class MailSenderServiceImpl implements MailSenderService {
 			errorMessage = e.toString();
 			throw e;
 		} finally {
-			// insert new record to show that mail sending was ok or not
+			databaseLoggingService.logEmailSent(sendTo, message, errorMessage);
 		}
 	}
 }
