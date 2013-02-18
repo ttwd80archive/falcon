@@ -16,6 +16,24 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `falcon_message_log`
+--
+
+DROP TABLE IF EXISTS `falcon_message_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `falcon_message_log` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `destination` varchar(100) COLLATE utf8_bin NOT NULL,
+  `message_type` varchar(10) COLLATE utf8_bin NOT NULL,
+  `message` varchar(1024) COLLATE utf8_bin NOT NULL,
+  `sent_time` datetime NOT NULL,
+  `error_message` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `falcon_role`
 --
 
