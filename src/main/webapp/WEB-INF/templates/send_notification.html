@@ -156,7 +156,7 @@ a:active {
 	width: 100px;
 }
 
-#submitbutton {
+#button-submit {
 	left: 0px;
 	top: 10px;
 	position: relative;
@@ -198,20 +198,29 @@ a:active {
 	position: relative;
 	top: 65px;
 }
+
 .ui-autocomplete {
-max-height: 100px;
-overflow-y: auto;
-/* prevent horizontal scrollbar */
-overflow-x: hidden;
+	max-height: 100px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
 }
 /* IE 6 doesn't support max-height
 * we use height instead, but this forces the menu to always be this tall
 */
 * html .ui-autocomplete {
-height: 100px;
+	height: 100px;
+}
+
+.sent-log {
+	max-height: 100px;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 </style>
-<link rel="stylesheet" th:href="#{script.jqueryui.css}" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+<link rel="stylesheet" th:href="#{script.jqueryui.css}"
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css"
+	type="text/css" media="all" />
 </head>
 <body>
 	<div id='header-wrapper'>
@@ -244,17 +253,18 @@ height: 100px;
 		<div id='subcontent-wrapper'>
 			<div id='subcontent'>
 				Recepient <br /> <input type='text' name='recepient' id='recepient' />
-				<br /> <br /> Type <br /> <input type='checkbox'
-					name='notification' value='sms' /> SMS Notification
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type='checkbox'
-					name='notification' value='mail' /> Email Notification <br /> <br />
-				Content
-				<textarea rows='6' cols='53' maxlength='100'></textarea>
+				<br /> <br /> Type <br /> <input id="notification-sms"
+					type='checkbox' name='notification' value='sms' /> SMS
+				Notification &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
+					id="notification-mail" type='checkbox' name='notification'
+					value='mail' /> Email Notification <br /> <br /> Content
+				<textarea id="message-content" rows='6' cols='53' maxlength='100'></textarea>
 				<h4>text limit: 100 character</h4>
 				<div>
 					<input type='button' value='SUBMIT' class='button'
-						id='submitbutton' />
+						id="button-submit" />
 				</div>
+				<div class="sent-log"></div>
 			</div>
 		</div>
 		<div id='sidebar-wrapper'>
@@ -271,9 +281,31 @@ height: 100px;
 	<div style="display: none;">
 		<a id="link-list-patient" href="/invalid" th:href="@{/list-patient}">Ajax
 			Datasource Location</a>
+		<div>
+			<form action="." method="post"
+				th:action="@{/send-notification-to-patient}">
+				<div>
+					<input id="send-name" name="name" type="hidden" />
+				</div>
+				<div>
+					<input id="send-mail" name="mail" type="hidden" />
+				</div>
+				<div>
+					<input id="send-phone" name="phone" type="hidden" />
+				</div>
+				<div>
+					<input id="send-message" name="message" type="hidden" />
+				</div>
+			</form>
+		</div>
 	</div>
-	<script type="text/javascript" th:src="#{script.jquery.js}" src="http://code.jquery.com/jquery-1.9.1.js"></script>
-	<script type="text/javascript" th:src="#{script.jqueryui.js}" src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
-	<script type="text/javascript" th:src="@{/js/send_notification.js}" src="../../../js/send_notification.js"></script>
+	<script type="text/javascript" th:src="#{script.jquery.js}"
+		src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript" th:src="#{script.jqueryui.js}"
+		src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+	<script type="text/javascript" th:src="#{script.jqueryform.js}"
+		src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.20/jquery.form.js"></script>
+	<script type="text/javascript" th:src="@{/js/send_notification.js}"
+		src="../../../js/send_notification.js"></script>
 </body>
 </html>
