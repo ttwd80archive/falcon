@@ -35,7 +35,7 @@ public class MailSenderServiceImpl implements MailSenderService {
 	@Override
 	public void send(final String sendTo, final String message) {
 		final SimpleMailMessage mailMessage = new SimpleMailMessage();
-		final String from = "\"" + senderName + "\" " + senderAddress;
+		final String from = "\"" + senderName + "\" <" + senderAddress + ">";
 		mailMessage.setFrom(from);
 		mailMessage.setTo(sendTo);
 		mailMessage.setSentDate(new Date());
