@@ -1,7 +1,7 @@
 #!/bin/sh
 db_user=falcon
 db_password=phefrebre796ayuf
-sql_location=.
+sql_location="`dirname \"$0\"`"
 file_name=falcon
 
 db_name=ignore
