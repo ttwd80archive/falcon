@@ -16,6 +16,15 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Dumping data for table `falcon_message_log`
+--
+
+LOCK TABLES `falcon_message_log` WRITE;
+/*!40000 ALTER TABLE `falcon_message_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `falcon_message_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping data for table `falcon_role`
 --
 
