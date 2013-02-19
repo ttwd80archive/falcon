@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 db_user=falcon
 db_password=phefrebre796ayuf
 sql_location="`dirname \"$0\"`"
