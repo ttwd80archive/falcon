@@ -14,12 +14,15 @@ public class StaffServiceImpl implements StaffService {
 
 	private final FalconUserRepository falconUserRepository;
 	private final MailSenderService mailSenderService;
+	private final SmsService smsService;
 
 	@Autowired
 	public StaffServiceImpl(final FalconUserRepository falconUserRepository,
-			final MailSenderService mailSenderService) {
+			final MailSenderService mailSenderService,
+			final SmsService smsService) {
 		this.falconUserRepository = falconUserRepository;
 		this.mailSenderService = mailSenderService;
+		this.smsService = smsService;
 	}
 
 	@Override
@@ -35,6 +38,17 @@ public class StaffServiceImpl implements StaffService {
 		final String sendTo = "\"" + name + "\"" + " <" + address + ">";
 		try {
 			mailSenderService.send(sendTo, message);
+			return true;
+		} catch (final Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean sendSms(final String phone, final String message) {
+		try {
+			smsService.send(phone, message);
 			return true;
 		} catch (final Exception e) {
 			e.printStackTrace();

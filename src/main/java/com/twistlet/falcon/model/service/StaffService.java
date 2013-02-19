@@ -8,4 +8,6 @@ public interface StaffService {
 	List<FalconUser> listPatients(String partialName);
 
 	boolean sendEmail(String name, String address, String message);
+
+	boolean sendSms(String phone, String message);
 }
