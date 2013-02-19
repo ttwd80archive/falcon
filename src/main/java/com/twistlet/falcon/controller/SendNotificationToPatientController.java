@@ -34,7 +34,12 @@ public class SendNotificationToPatientController {
 		if (!StringUtils.isEmpty(mail)) {
 			logger.debug("sending email to {}", mail);
 			final boolean result = staffService.sendEmail(name, mail, message);
-			logger.debug("sent email to {} - ", mail, result);
+			logger.debug("sent email to {} - {}", mail, result);
+		}
+		if (!StringUtils.isEmpty(phone)) {
+			logger.debug("sending sms to {}", phone);
+			final boolean result = staffService.sendSms(phone, message);
+			logger.debug("sent sms to {} - {}", phone, result);
 		}
 		return StringUtils.EMPTY;
 	}
