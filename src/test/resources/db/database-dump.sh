@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 db_host=localhost
 db_user=falcon
 db_password=phefrebre796ayuf
