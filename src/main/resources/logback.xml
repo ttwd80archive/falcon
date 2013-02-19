@@ -10,6 +10,7 @@
 	<logger name="org.springframework.context.annotation" level="INFO" />
 	<logger name="org.springframework.web.servlet.mvc" level="INFO" />
 	<logger name="org.springframework.web.servlet" level="INFO" />
+	<logger name="com.twistlet.falcon.controller" level="DEBUG" />
 
 
 
