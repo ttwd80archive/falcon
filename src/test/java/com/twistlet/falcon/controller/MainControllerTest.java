@@ -11,6 +11,8 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,9 +24,14 @@ public class MainControllerTest {
 	private MainController unit;
 	private SecurityContextService securityContextService;
 	private Map<String, String> map;
+	private MockHttpServletRequest httpServletRequest;
+	private MockHttpServletResponse httpServletResponse;
 
 	@Before
 	public void init() {
+		httpServletRequest = new MockHttpServletRequest();
+		httpServletResponse = new MockHttpServletResponse();
+		httpServletRequest.setMethod("GET");
 		securityContextService = EasyMock
 				.createStrictMock(SecurityContextService.class);
 		createMap();
@@ -50,7 +57,8 @@ public class MainControllerTest {
 		EasyMock.expect(securityContextService.getAuthorities())
 				.andReturn(list);
 		EasyMock.replay(securityContextService);
-		final ModelAndView mav = unit.handleRequest(null, null);
+		final ModelAndView mav = unit.handleRequest(httpServletRequest,
+				httpServletResponse);
 		assertNull(mav);
 	}
 
@@ -61,7 +69,8 @@ public class MainControllerTest {
 		EasyMock.expect(securityContextService.getAuthorities())
 				.andReturn(list);
 		EasyMock.replay(securityContextService);
-		final ModelAndView mav = unit.handleRequest(null, null);
+		final ModelAndView mav = unit.handleRequest(httpServletRequest,
+				httpServletResponse);
 		assertEquals("redirect:/admin_page", mav.getViewName());
 	}
 
@@ -72,7 +81,8 @@ public class MainControllerTest {
 		EasyMock.expect(securityContextService.getAuthorities())
 				.andReturn(list);
 		EasyMock.replay(securityContextService);
-		final ModelAndView mav = unit.handleRequest(null, null);
+		final ModelAndView mav = unit.handleRequest(httpServletRequest,
+				httpServletResponse);
 		assertEquals("redirect:/staff_page", mav.getViewName());
 	}
 
@@ -84,7 +94,8 @@ public class MainControllerTest {
 		EasyMock.expect(securityContextService.getAuthorities())
 				.andReturn(list);
 		EasyMock.replay(securityContextService);
-		final ModelAndView mav = unit.handleRequest(null, null);
+		final ModelAndView mav = unit.handleRequest(httpServletRequest,
+				httpServletResponse);
 		assertEquals("redirect:/admin_page", mav.getViewName());
 	}
 }
