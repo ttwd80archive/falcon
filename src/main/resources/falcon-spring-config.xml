@@ -7,6 +7,6 @@
 	<context:annotation-config />
 
 	<context:property-placeholder
-		location="classpath:jdbc.properties, classpath:smtp.properties" />
+		location="classpath:jdbc.properties, classpath:smtp.properties, classpath:sms.properties" />
 
 </beans>
