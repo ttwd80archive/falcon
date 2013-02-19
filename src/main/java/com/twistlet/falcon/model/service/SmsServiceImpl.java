@@ -4,16 +4,20 @@ import java.net.URLEncoder;
 import java.text.MessageFormat;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+@Service
 public class SmsServiceImpl implements SmsService {
 
 	private final String smsGatewayLocation;
 	private final DatabaseLoggingService databaseLoggingService;
 
+	@Autowired
 	public SmsServiceImpl(
 			@Value("${sms.location}") final String smsGatewayLocation,
 			final DatabaseLoggingService databaseLoggingService) {
