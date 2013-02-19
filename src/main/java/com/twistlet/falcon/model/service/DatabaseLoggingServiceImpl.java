@@ -34,6 +34,14 @@ public class DatabaseLoggingServiceImpl implements DatabaseLoggingService {
 
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void logSmsSent(final String phone, final String message,
+			final String errorMessage) {
+		logMessageSent(phone, message, errorMessage, "sms");
+
+	}
+
 	private void logMessageSent(final String address, final String message,
 			final String errorMessage, final String messageType) {
 		final Authentication auth = securityContextService.getAuthentication();
