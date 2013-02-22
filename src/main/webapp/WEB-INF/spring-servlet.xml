@@ -46,7 +46,7 @@
 		</constructor-arg>
 		<constructor-arg>
 			<util:map id="welcomePageMap">
-				<entry key="ROLE_USER" value="redirect:/send_notification" />
+				<entry key="ROLE_USER" value="redirect:/manage_appointments" />
 			</util:map>
 		</constructor-arg>
 	</bean>
@@ -76,6 +76,8 @@
 		view-name="manage_appointments" />
 	<mvc:view-controller path="/send_notification"
 		view-name="send_notification" />
+	<mvc:view-controller path="/patron_self_register"
+		view-name="patron_self_register" />
 
 	<context:component-scan base-package="com.twistlet.falcon.controller" />
 
