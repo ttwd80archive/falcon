@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <style>
 body {
@@ -7,6 +8,11 @@ body {
 	font: 14px/1.6 "Century Gothic";
 	margin: auto;
 	width: 930px;
+}
+
+td,th {
+	text-align: center;
+	font-weight: normal;
 }
 
 /* Header
@@ -86,7 +92,7 @@ a:active {
 #navarrow {
 	position: relative;
 	z-index: 10;
-	bottom: 170px;
+	bottom: 260px;
 	left: 15px;
 }
 
@@ -120,16 +126,12 @@ a:active {
 	margin: 16px;
 	padding: 14px 0 0 16px;
 	font-size: 14px;
+	color: #999999;
 }
 
 .content-inp {
 	width: 430px;
 	height: 20px;
-}
-
-#recepient {
-	width: 280px;
-	height: 25px;
 }
 
 #dropdownarrowpos {
@@ -138,6 +140,7 @@ a:active {
 	height: 10px;
 	width: 30px;
 	display: inline;
+	top: -2px;
 }
 
 #subcontent h4 {
@@ -197,47 +200,275 @@ a:active {
 	position: relative;
 	top: 65px;
 }
+
+#calendarTable {
+	width: 448px;
+	position: relative;
+	right: -5px;
+	border-collapse: collapse;
+	table-layout: fixed;
+	border: 0;
+	align: center;
+}
+
+#calendarTable td {
+	text-align: center;
+	width: 64px;
+	height: 40px;
+	padding: 0.25em;
+	text-align: left;
+	vertical-align: bottom;
+	border: 1px solid #E6E6E6;
+	font-size: small;
+}
+
+#tableHeader {
+	font-weight: bold;
+}
+
+.notificationsColor {
+	background: #00A99D;
+}
+
+.schedulesColor {
+	background: #47BBE2;
+}
+
+.blockedColor {
+	background: #808080;
+}
+
+.legend {
+	width: 450px;
+	position: relative;
+	top: -15px;
+	left: 5px;
+}
+
+ul.legend-labels {
+	list-style: none;
+	padding: 0;
+}
+
+ul.legend-labels li {
+	float: left; display; block;
+	font-size: 12px;
+	width: 130px;
+}
+
+ul.legend-labels li span {
+	display: block;
+	float: left;
+	height: 15px;
+	width: 15px;
+	margin-right: 5px;
+	margin-top: 1px;
+	border: none;
+}
+
+#cal-icon {
+	position: relative;
+	height: 40px;
+	font-size: 12px;
+	display: block;
+	float: left;
+	top: -8px;
+}
+
+#cal-icon img {
+	position: relative;
+	tOP: 8px;
+}
+
+#subcontent-split {
+	height: 2px;
+	width: 488px;
+	position: relative;
+	left: -16px;
+	background-color: #E6E6E6;
+	top: 35px;
+}
+
+.date-options {
+	display: block;
+	float: right;
+	position: relative;
+	right: 10px;
+	text-align: right;
+	top: 5px;
+	width: 200px;
+}
+
+#calendarfilter {
+	position: relative;
+	height: 35px;
+	left: 5px;
+}
+
+#calendarfilter img {
+	position: relative;
+	top: 2px;
+}
+
+#staff {
+	height: 22px;
+	width: 280px;
+}
 </style>
 </head>
-<body>
-	<div id='header-wrapper'>
-		<div id='header'>
-			<div id='logo'>
-				<img src='./images/aprislogo.gif' height='60px' width='150px' />
+<body onload="fillYears(); populateTable(document.dateChooser)">
+	<div id="header-wrapper">
+		<div id="header">
+			<div id="logo">
+				<img width="150px" height="60px" src="./images/aprislogo.gif" />
 			</div>
-			<div id='accountinf'>
-				<a href='#' id='signup'>Hi, Inban</a> | <a href='#' id='login'>SIGN
+			<div id="accountinf">
+				<a id="signup" href="#">Hi, Inban</a> | <a id="login" href="#">SIGN
 					OUT</a>
 			</div>
 		</div>
 	</div>
-	<div class='clear'></div>
-	<div id='content-wrapper'>
-		<div id='nav-wrapper'>
-			<ul id='navlist'>
-				<li>Manage Appointments</li>
-				<li>View Appointments</li>
-				<li>Send Notification</li>
+	<div class="clear"></div>
+	<div id="content-wrapper">
+		<div id="nav-wrapper">
+			<ul id="navlist">
+				<li>Manage Appointments<br /></li>
+				<li>View Appointments<br /></li>
+				<li>Send Notification<br /></li>
 				<li>Manage Staff &amp; Patrons</li>
 			</ul>
-			<div class='csbanner'>Customer Service Banner</div>
-			<div id='navarrow'>
-				<img src='./images/navarrow1.png' height='40px' width='200px'>
+			<div class="csbanner">Customer Service Banner</div>
+			<div id="navarrow">
+				<img width="200px" height="40px" src="./images/navarrow1.png" />
 			</div>
 		</div>
-		<div id='subcontent-wrapper'>
-			<div id='subcontent'></div>
+		<div id="subcontent-wrapper">
+			<div id="subcontent">
+				<div id="options-banner">
+					<div id="calendarfilter">
+						<img width="15px" height="15px" src="./images/search-icon.png" />
+						<input type="text" readonly="readonly" value="Staff Name"
+							size="30" id="staff" name="staff" />
+						<div id="dropdownarrowpos">
+							<img width="14px" height="7px" src="./images/grayarrow.png" />
+						</div>
+					</div>
+					<div id="cal-icon">
+						<img width="35px" height="30px" src="./images/calendar-icon.png" />
+						All&nbsp;&nbsp;&nbsp;Schedules&nbsp;&nbsp;&nbsp;Notifications
+					</div>
+					<div class="date-options">
+
+
+						<form name="dateChooser">
+							<select name="chooseMonth">
+								<option selected="selected">January</option>
+								<option>February</option>
+								<option>March</option>
+								<option>April</option>
+								<option>May</option>
+								<option>June</option>
+								<option>July</option>
+								<option>August</option>
+								<option>September</option>
+								<option>October</option>
+								<option>November</option>
+								<option>December</option>
+							</select> <select name="chooseYear">
+								<option value="2013">2013</option>
+								<option value="2014">2014</option>
+								<option value="2015">2015</option>
+							</select>
+						</form>
+
+
+					</div>
+				</div>
+				<div id="subcontent-split"></div>
+				<table id="calendarTable">
+					<tbody>
+						<tr>
+							<th colspan="7" id="tableHeader">February 2013</th>
+						</tr>
+						<tr>
+							<th>sun</th>
+							<th>mon</th>
+							<th>tue</th>
+							<th>wed</th>
+							<th>thu</th>
+							<th>fri</th>
+							<th>sat</th>
+						</tr>
+					</tbody>
+					<tbody id="tableBody">
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>1</td>
+							<td>2</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>4</td>
+							<td>5</td>
+							<td>6</td>
+							<td>7</td>
+							<td>8</td>
+							<td>9</td>
+						</tr>
+						<tr>
+							<td>10</td>
+							<td>11</td>
+							<td>12</td>
+							<td>13</td>
+							<td>14</td>
+							<td>15</td>
+							<td>16</td>
+						</tr>
+						<tr>
+							<td>17</td>
+							<td>18</td>
+							<td>19</td>
+							<td>20</td>
+							<td>21</td>
+							<td>22</td>
+							<td>23</td>
+						</tr>
+						<tr>
+							<td>24</td>
+							<td>25</td>
+							<td>26</td>
+							<td>27</td>
+							<td>28</td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				<br />
+				<div class="legend">
+					<ul class="legend-labels">
+						<li><span class="notificationsColor"></span>Notifications</li>
+						<li><span class="schedulesColor"></span>Schedules</li>
+						<li><span class="blockedColor"></span>Blocked</li>
+					</ul>
+				</div>
+			</div>
 		</div>
-		<div id='sidebar-wrapper'>
-			<div id='sidebar'>
-				<div id='ad-banner'>ADVERTISING</div>
+		<div id="sidebar-wrapper">
+			<div id="sidebar">
+				<div id="ad-banner">ADVERTISING</div>
 			</div>
 		</div>
 	</div>
-	<div class='clear'></div>
-	<div id='footer-wrapper'>
-		<div id='footer'>Apris Solutions &#169; 2013 All Rights Reserved
+	<div class="clear"></div>
+	<div id="footer-wrapper">
+		<div id="footer">Apris Solutions &copy; 2013 All Rights Reserved
 		</div>
 	</div>
+
 </body>
 </html>
