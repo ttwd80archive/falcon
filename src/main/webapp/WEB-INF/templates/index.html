@@ -27,25 +27,26 @@
 		<div id="main-wrapper">
 			<div class="login">
 				<h2>Sign in to your account</h2>
-				<div class="login-label">
-					<span>User ID&#58;</span> <input type="text" value=""
-						name="username" class="login-inp" />
-				</div>
-				<div class="login-label">
-					<span>Password&#58;</span> <input type="password" name="password"
-						class="login-inp" />
-				</div>
-				<div>
-					<ul class="nopadding">
-						<li><a href="#" id="forgotpwd">forgot your password?</a> <input
-							type="button" value="SIGN IN" onclick="msg(Booya!)"
-							class="button" id="loginbutton" /></li>
-						<li id="newuserinf"><span>New User&#63; Sign Up
-								Now&#33;</span> <input type="button" value="SIGN UP"
-							onclick="location.href='registration.html'" class="button"
-							id="signupbutton" /></li>
-					</ul>
-				</div>
+				<form th:action="@{/j_spring_security_check}" method="post">
+					<div class="login-label">
+						<span>User ID&#58;</span> <input type="text" value=""
+							name="j_username" class="login-inp" />
+					</div>
+					<div class="login-label">
+						<span>Password&#58;</span> <input type="password"
+							name="j_password" class="login-inp" />
+					</div>
+					<div>
+						<ul class="nopadding">
+							<li><a href="#" id="forgotpwd">forgot your password?</a> <input
+								type="submit" value="SIGN IN" class="button" id="loginbutton" /></li>
+							<li id="newuserinf"><span>New User&#63; Sign Up
+									Now&#33;</span> <input type="button" value="SIGN UP"
+								onclick="location.href='registration.html'" class="button"
+								id="signupbutton" /></li>
+						</ul>
+					</div>
+				</form>
 			</div>
 			<div class="col-left">
 				<div class="col-content">
