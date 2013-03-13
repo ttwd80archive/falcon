@@ -46,6 +46,8 @@
 		</constructor-arg>
 		<constructor-arg>
 			<util:map id="welcomePageMap">
+				<!-- Order is important, first match will be used -->
+				<entry key="ROLE_ADMIN" value="redirect:/admin/admin_landing" />
 				<entry key="ROLE_USER" value="redirect:/manage_appointments" />
 			</util:map>
 		</constructor-arg>
@@ -80,6 +82,10 @@
 		view-name="send_notification" />
 	<mvc:view-controller path="/patron_self_register"
 		view-name="patron_self_register" />
+
+	<!-- Admin Pages -->
+	<mvc:view-controller path="/admin/admin_landing"
+		view-name="admin/admin_landing" />
 
 	<context:component-scan base-package="com.twistlet.falcon.controller" />
 

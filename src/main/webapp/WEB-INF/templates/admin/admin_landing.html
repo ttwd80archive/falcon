@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Create Appointments</title>
+<link rel="stylesheet" th:href="@{/css/styles.css}"
+	href="css/styles.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" th:href="@{/css/layout.css}"
+	href="css/layout.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+	<div id="header-wrapper">
+		<div id="header">
+			<div id="logo">
+				<img th:src="@{/images/aprislogo.gif}" src="./images/aprislogo.gif"
+					alt="Image failed to load" height="60px" width="150px" />
+			</div>
+			<div id="header-inf">
+				<a href="customersupport.html" id="custsupportlink">CONTACT
+					CUSTOMER SUPPORT</a>
+			</div>
+			<div class="account-inf">
+				<ul>
+					<li><a href="homepage.html" id="signout">SIGN OUT</a></li>
+					<li class="editprofile">
+						<div id="editprofile">
+							Hi&#44; Inban<span class="drop-arrow-white"></span> &#124;
+							<div class="drop-menu">
+								<ul class="menu-lvl-1">
+									<li><a href="editprofile.html">Edit Profile</a></li>
+								</ul>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div id="content-wrapper">
+		<div id="nav-wrapper">
+			<ul id="navlist">
+				<li class="bold">Create Appointments<span class="navarrow"></span></li>
+				<li><a href="manageappointments.html">Manage Appointments</a></li>
+				<li><a href="manageusers.html">Manage Staff &amp; Patrons</a></li>
+				<li><a href="sendnotifications.html">Send Notifications</a></li>
+			</ul>
+		</div>
+		<div id="subcontent-wrapper">
+			<div id="subcontent">
+				<div id="options-banner">
+					<div class="date-options">
+						<div id="cal-icon">
+							<img th:src="@{/images/calendar-icon.png}"
+								src="./images/calendar-icon.png" height="30px" width="35px"
+								alt="Image failed to load" />
+						</div>
+						<table>
+							<tbody>
+								<tr>
+									<td colspan="7">
+										<form id="datechooser" action="">
+											<div>
+												<select id="choosemonth">
+													<option>January</option>
+													<option>February</option>
+													<option>March</option>
+													<option>April</option>
+													<option>May</option>
+													<option>June</option>
+													<option>July</option>
+													<option>August</option>
+													<option>September</option>
+													<option>October</option>
+													<option>November</option>
+													<option>December</option>
+												</select> <select name="chooseyear">
+												</select>
+											</div>
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div id="subcontent-split" class="subcontent-split"></div>
+				<table id="calendartable">
+					<tbody>
+						<tr>
+							<th id="tableheader" colspan="7" class="bold"><span>March</span> <span>2013</span></th>
+						</tr>
+						<tr>
+							<th>sun</th>
+							<th>mon</th>
+							<th>tue</th>
+							<th>wed</th>
+							<th>thu</th>
+							<th>fri</th>
+							<th>sat</th>
+						</tr>
+					</tbody>
+					<tbody id="tablebody">
+						<tr id="calender-row-1">
+							<td id="calender-row-1-col-1">&nbsp;</td>
+							<td id="calender-row-1-col-2">&nbsp;</td>
+							<td id="calender-row-1-col-3">&nbsp;</td>
+							<td id="calender-row-1-col-4">&nbsp;</td>
+							<td id="calender-row-1-col-5">&nbsp;</td>
+							<td id="calender-row-1-col-6">1</td>
+							<td id="calender-row-1-col-7">2</td>
+						</tr>
+						<tr id="calender-row-2">
+							<td id="calender-row-2-col-1">3</td>
+							<td id="calender-row-2-col-2" class="fullhousecolor">4</td>
+							<td id="calender-row-2-col-3">5</td>
+							<td id="calender-row-2-col-4">6</td>
+							<td id="calender-row-2-col-5">7</td>
+							<td id="calender-row-2-col-6">8</td>
+							<td id="calender-row-2-col-7"
+								onclick="document.getElementById('createappt-box').style.display='block'; document.getElementById('bg').style.display='block';">9</td>
+						</tr>
+						<tr id="calender-row-3">
+							<td id="calender-row-3-col-1">10</td>
+							<td id="calender-row-3-col-2">11</td>
+							<td id="calender-row-3-col-3">12</td>
+							<td id="calender-row-3-col-4" class="packedhousecolor">13</td>
+							<td id="calender-row-3-col-5">14</td>
+							<td id="calender-row-3-col-6">15</td>
+							<td id="calender-row-3-col-7">16</td>
+						</tr>
+						<tr id="calender-row-4">
+							<td id="calender-row-4-col-1">17</td>
+							<td id="calender-row-4-col-2">18</td>
+							<td id="calender-row-4-col-3">19</td>
+							<td id="calender-row-4-col-4">20</td>
+							<td id="calender-row-4-col-5">21</td>
+							<td id="calender-row-4-col-6">22</td>
+							<td id="calender-row-4-col-7">23</td>
+						</tr>
+						<tr id="calender-row-5">
+							<td id="calender-row-5-col-1">24</td>
+							<td id="calender-row-5-col-2">25</td>
+							<td id="calender-row-5-col-3">26</td>
+							<td id="calender-row-5-col-4">27</td>
+							<td id="calender-row-5-col-5" class="lighthousecolor">28</td>
+							<td id="calender-row-5-col-6">29</td>
+							<td id="calender-row-5-col-7">30</td>
+						</tr>
+						<tr id="calender-row-6">
+							<td id="calender-row-6-col-1">31</td>
+							<td id="calender-row-6-col-2">&nbsp;</td>
+							<td id="calender-row-6-col-3">&nbsp;</td>
+							<td id="calender-row-6-col-4">&nbsp;</td>
+							<td id="calender-row-6-col-5">&nbsp;</td>
+							<td id="calender-row-6-col-6">&nbsp;</td>
+							<td id="calender-row-6-col-7">&nbsp;</td>
+						</tr>
+					</tbody>
+				</table>
+				<br />
+				<div class="legend">
+					<ul class="legend-labels nopadding">
+						<li><span class="lighthousecolor"></span>Light House
+							<div class="notes">&#40;Many Slots Remaining&#41;</div></li>
+						<li><span class="packedhousecolor"></span>Packed House
+							<div class="notes">&#40;Few Slots Remaining&#41;</div></li>
+						<li><span class="fullhousecolor"></span>Full House
+							<div class="notes">&#40;No Slots Available&#41;</div></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="createappt-box" class="absoluteleftcenter hidden">
+			<a class="close-box"
+				onclick="document.getElementById('createappt-box').style.display='none'; document.getElementById('bg').style.display='none';"><img
+				class="whitecross" src="./images/whitecross.png"
+				alt="Image failed to load" /><img class="blackcross"
+				src="./images/blackcross.png" alt="Image failed to load" /></a>
+			<div id="createappt" class="relativeleftcenter">
+				<h2>Schedule Appointment</h2>
+				<ul id="createapptfilter" class="nopadding">
+					<li><span>Select Patron</span><input id="patron" type="text"
+						size="33" /><img src="./images/drop-arrow-gray.png"
+						alt="Image failed to load" class="drop-arrow-gray" /></li>
+					<li><span>Select Staff</span><input id="staff" type="text"
+						size="33" /><img src="./images/drop-arrow-gray.png"
+						alt="Image failed to load" class="drop-arrow-gray" /></li>
+					<li><span>Select Date</span><input id="date" type="text"
+						size="33" /><img src="./images/drop-arrow-gray.png"
+						alt="Image failed to load" class="drop-arrow-gray" /></li>
+					<li><span>Select Time</span><input id="time" type="text"
+						size="33" /><img src="./images/drop-arrow-gray.png"
+						alt="Image failed to load" class="drop-arrow-gray" /></li>
+					<li><span>Select Venue</span><input id="venue" type="text"
+						size="33" /><img src="./images/drop-arrow-gray.png"
+						alt="Image failed to load" class="drop-arrow-gray" /></li>
+					<li><input class="button" type="submit" value="SUBMIT" /></li>
+					<li class="notes" style="font-size: 12px">Note&#58; To edit
+						existing appointments, please use <a
+						href="manageappointments.html">Manage Appointments</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div id="sidebar-wrapper">
+			<div id="sidebar" class="bold">
+				<div id="ad-banner">ADVERTISING</div>
+			</div>
+		</div>
+		<div id="bg"></div>
+	</div>
+	<div class="clear"></div>
+	<div id="footer-wrapper">
+		<div id="footer">Apris Solutions &#169; 2013 All Rights Reserved
+		</div>
+	</div>
+</body>
+</html>
