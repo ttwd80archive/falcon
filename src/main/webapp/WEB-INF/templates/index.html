@@ -1,263 +1,88 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Index</title>
-<style>
-body {
-	color: black;
-	font: 14px/1.6 "Century Gothic";
-	margin: auto;
-	width: 930px;
-}
-
-/* Header
------------------------------------------------
- */
-a:link {
-	color: #FFFFFF;
-}
-
-a:visited {
-	color: #819FF7;
-}
-
-a:hover {
-	color: #E6E6E6;
-}
-
-a:active {
-	color: #FFFFFF;
-}
-
-#header-wrapper {
-	background: none repeat scroll 0 0 #00A99D;
-	height: 70px;
-	width: 930px;
-	color: #FFFFFF;
-	font-weight: bold;
-}
-
-#header {
-	overflow: hidden;
-	padding: 10px;
-	height: 50px;
-}
-
-#logo {
-	position: relative;
-	bottom: 5px;
-}
-
-#accountinf {
-	text-align: right;
-	width: 200px;
-	position: relative;
-	left: 700px;
-	bottom: 41px;
-	font-color: white;
-}
-
-#content-wrapper {
-	background: none repeat scroll 0 0 #E6E6E6;
-	width: 930px;
-	height: 500px;
-	display: block;
-	margin: 0 auto;
-}
-
-#main-wrapper {
-	float: left;
-	width: 708px;
-	height: 500px;
-	margin: 0;
-	word-wrap: break-word;
-	/* fix for long text breaking sidebar float in IE */
-	overflow: hidden;
-	/* fix for long non-text content breaking IE sidebar float */
-	display: block;
-}
-
-.login {
-	background: none repeat scroll 0 0 #FFFFFF;
-	width: 692px;
-	height: 200px;
-	margin: 16px 0 0 16px;
-	float: left;
-}
-
-.login-label {
-	text-align: right;
-	width: 520px;
-	height: 38px;
-}
-
-.login h2 {
-	width: 360px;
-	position: relative;
-	left: 235px;
-	top: 10px;
-}
-
-.login-inp {
-	background-color: #E6E6E6;
-	width: 280px;
-	height: 28px;
-}
-
-.col-left {
-	background: none repeat scroll 0 0 #FFFFFF;
-	width: 220px;
-	height: 270px;
-	margin: 16px 0 0 16px;
-	float: left;
-}
-
-.col-mid {
-	background: none repeat scroll 0 0 #FFFFFF;
-	width: 220px;
-	height: 270px;
-	margin: 16px 0 0 16px;
-	float: left;
-}
-
-.col-right {
-	background: none repeat scroll 0 0 #FFFFFF;
-	width: 220px;
-	height: 270px;
-	margin: 16px 0 0 16px;
-	float: left;
-}
-
-.col-head {
-	margin: 10px;
-	font-weight: bold;
-}
-
-.col-content {
-	margin: 10px;
-	position: relative;
-	top: 40px;
-}
-
-.button {
-	background-color: #00A99D;
-	color: white;
-	font-weight: bold;
-	font-size: 16px;
-	height: 35px;
-	width: 100px;
-}
-
-#loginbutton {
-	left: 285px;
-	position: relative;
-}
-
-#sidebar-wrapper {
-	height: 500px;
-	width: 222px;
-	float: left;
-	margin: 0;
-	word-wrap: break-word;
-	/* fix for long text breaking sidebar float in IE */
-}
-
-#sidebar {
-	background: none repeat scroll 0 0 #FFFFFF;
-	width: 190px;
-	height: 484px;
-	margin: 16px;
-	text-align: center;
-	font-weight: bold;
-}
-
-#ad-banner {
-	position: relative;
-	top: 250px;
-}
-
-#footer-wrapper {
-	background: none repeat scroll 0 0 #E6E6E6;
-	width: 930px;
-	height: 90px;
-}
-
-#footer {
-	text-align: center;
-	font-size: 10px;
-	height: 60px;
-	position: relative;
-	top: 65px;
-}
-
-#forgotpwd {
-	position: relative;
-	left: 235px;
-	font-size: 12px;
-}
-</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Butter&#45;Bun Homepage</title>
+<link rel="stylesheet" th:href="@{/css/styles.css}"
+	href="css/styles.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" th:href="@{/css/layout.css}"
+	href="css/layout.css" type="text/css" media="screen" charset="utf-8" />
 </head>
 <body>
-	<div id='header-wrapper'>
-		<div id='header'>
-			<div id='logo'>
-				<img th:src="@{/images/aprislogo.gif}" src='./images/aprislogo.gif'
-					height='60px' width='150px' />
+	<div id="header-wrapper">
+		<div id="header">
+			<div id="logo">
+				<img th:src="@{/images/aprislogo.gif}" src="./images/aprislogo.gif"
+					alt="Image failed to load" height="60px" width="150px" />
 			</div>
-			<div id='accountinf'>
-				<a href="#" id='signup'>SIGN UP</a> | <a href="#" id='login'>LOGIN</a>
+			<div id="header-inf" class="hidden">
+				<a href="customersupport.html" id="custsupportlink">CONTACT
+					CUSTOMER SUPPORT</a>
 			</div>
 		</div>
 	</div>
-	<div class='clear'></div>
-	<form th:action="@{/j_spring_security_check}" method="post">
-		<div id='content-wrapper'>
-			<div id='main-wrapper'>
-				<div class='login'>
-					<h2>Log in to your account</h2>
-					<div class='login-label'>
-						Log in: <input type="text" value="" name="j_username"
-							class='login-inp' />
-					</div>
-					<div class='login-label'>
-						Password: <input type="password" name="j_password"
-							class='login-inp' />
-					</div>
-					<a href="#" id='forgotpwd'>forgot your password?</a> <input
-						type="submit" value="LOG IN" onclick="msg(Booya!)" class='button'
-						id='loginbutton' />
+	<div class="clear"></div>
+	<div id="content-wrapper">
+		<div id="main-wrapper">
+			<div class="login">
+				<h2>Sign in to your account</h2>
+				<div class="login-label">
+					<span>User ID&#58;</span> <input type="text" value=""
+						name="username" class="login-inp" />
 				</div>
-				<div class='col-left'>
-					<div class='col-head'>Small banner:</div>
-					<div class='col-content'>Product Information (Click and will
-						link to a full product specs page)</div>
+				<div class="login-label">
+					<span>Password&#58;</span> <input type="password" name="password"
+						class="login-inp" />
 				</div>
-				<div class='col-mid'>
-					<div class='col-head'>Small banner:</div>
-					<div class='col-content'>Promotion (Click and will link to a
-						full promotion page)</div>
-				</div>
-				<div class='col-right'>
-					<div class='col-head'>Small banner:</div>
-					<div class='col-content'>Testimonials (Click and will link to
-						a full testimonials page)</div>
+				<div>
+					<ul class="nopadding">
+						<li><a href="#" id="forgotpwd">forgot your password?</a> <input
+							type="button" value="SIGN IN" onclick="msg(Booya!)"
+							class="button" id="loginbutton" /></li>
+						<li id="newuserinf"><span>New User&#63; Sign Up
+								Now&#33;</span> <input type="button" value="SIGN UP"
+							onclick="location.href='registration.html'" class="button"
+							id="signupbutton" /></li>
+					</ul>
 				</div>
 			</div>
-			<div id='sidebar-wrapper'>
-				<div id='sidebar'>
-					<div id='ad-banner'>ADVERTISING</div>
+			<div class="col-left">
+				<div class="col-content">
+					<p>
+						<b>Welcome to Butter Bun Intelligent Scheduling Solution</b>. We
+						place a premium on customer comfort and care and that means
+						ensuring you keep your appointments!
+					</p>
+					<p>
+						With this tool, you may <b>make or change appointments</b>, <b>review
+							schedules</b>, and <b>receive E-Mail &amp; SMS notifications</b> for
+						your upcoming appointments, all from the comfort of your home or
+						on the go.
+					</p>
 				</div>
+			</div>
+			<div class="col-mid">
+				<div class="col-head bold">Small banner:</div>
+				<div class="col-content">Promotion (Click and will link to a
+					full promotion page)</div>
+			</div>
+			<div class="col-right">
+				<div class="col-head bold">Small banner:</div>
+				<div class="col-content">Testimonials (Click and will link to
+					a full testimonials page)</div>
 			</div>
 		</div>
-	</form>
-	<div class='clear'></div>
-	<div id='footer-wrapper'>
-		<div id='footer'>Apris Solutions &#169; 2013 All Rights Reserved
+		<div id="sidebar-wrapper">
+			<div id="sidebar" class="bold">
+				<div id="ad-banner">ADVERTISING</div>
+			</div>
 		</div>
 	</div>
-	<script th:src="#{script.jquery.js}"
-		src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<div class="clear"></div>
+	<div id="footer-wrapper">
+		<div id="footer">Apris Solutions &#169; 2013 All Rights Reserved
+		</div>
+	</div>
 </body>
 </html>
-
