@@ -6,6 +6,7 @@
 
 	<security:http pattern="/js/**" security="none" />
 	<security:http pattern="/images/**" security="none" />
+	<security:http pattern="/css/**" security="none" />
 	<security:http pattern="/index" security="none" />
 	<security:http pattern="/patron_self_register" security="none" />
 
