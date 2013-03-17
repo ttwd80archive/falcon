@@ -54,11 +54,11 @@ a:active                                         {color: #0000FF;}
 */
 
 .drop-arrow-white                                {padding: 0px 10px; position: relative; top: 1px;
-                                                  background-image: url('file:///C:/Users/ajith.nair/Desktop/APRIS/02 Build/images/drop-arrow-white.gif');
+                                                  background-image: url('../images/drop-arrow-white.gif');
                                                   background-repeat: no-repeat;
                                                   background-position: center center;}
 li.editprofile:hover .drop-arrow-white           {background-color: #00847D;                                                 
-                                                  background-image: url('file:///C:/Users/ajith.nair/Desktop/APRIS/02 Build/images/drop-arrow-green.gif');}
+                                                  background-image: url('../images/drop-arrow-green.gif');}
 
 .drop-menu ul li                                 {background-color: #00A99D;}
 .login-inp                                       {background-color: #FAFFBD;}
@@ -67,7 +67,7 @@ li.editprofile:hover .drop-arrow-white           {background-color: #00847D;
 .packedhousecolor                                {background: #FFFF00;}
 
 .navarrow                                        {left: -10px; padding: 10px 10px; position: relative; 
-                                                  background-image: url('file:///C:/Users/ajith.nair/Desktop/APRIS/02 Build/images/navarrow.png');
+                                                  background-image: url('../images/navarrow.png');
                                                   background-repeat: no-repeat;}
 .subcontent-split                                {background-color: #E6E6E6;}
 
@@ -76,8 +76,8 @@ li.editprofile:hover .drop-arrow-white           {background-color: #00847D;
 #result-table td                                 {background-color: #CEDCE1;}
 #result-table thead                              {background-color: #3891A7; }
 #tab-nav ol a                                    {display: block; float: left; height: 40px; padding-left: 8px; text-decoration: none;
-                                                  background: url("file:///C:/Users/ajith.nair/Desktop/APRIS/02 Build/images/tab.png") no-repeat scroll 0 -60px #CCCCCC;}
+                                                  background: url("../images/tab.png") no-repeat scroll 0 -60px #CCCCCC;}
 #tab-nav ol span                                 {cursor: pointer; display: block; float: left; padding: 14px 0 0 0; font-size: 14px; width: 100px; text-align: center;
-                                                  background: url("file:///C:/Users/ajith.nair/Desktop/APRIS/02 Build/images/tab.png") no-repeat scroll 100% -60px transparent;}
+                                                  background: url("../images/tab.png") no-repeat scroll 100% -60px transparent;}
 #tab-nav ol a.active:hover, #tab-nav ol a.active {background-color: #FFFFFF;}
 #tab-nav ol a:hover                              {background-color: #D8D8D8;}
