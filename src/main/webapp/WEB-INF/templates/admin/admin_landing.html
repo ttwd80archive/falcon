@@ -25,7 +25,8 @@
 					<li><a href="homepage.html" id="signout">SIGN OUT</a></li>
 					<li class="editprofile">
 						<div id="editprofile">
-							Hi&#44; Inban<span class="drop-arrow-white"></span> &#124;
+							Hi&#44; <span th:text="${#authentication.name}">Inban</span><span
+								class="drop-arrow-white"></span> &#124;
 							<div class="drop-menu">
 								<ul class="menu-lvl-1">
 									<li><a href="editprofile.html">Edit Profile</a></li>
@@ -75,7 +76,8 @@
 													<option>October</option>
 													<option>November</option>
 													<option>December</option>
-												</select> <select name="chooseyear">
+												</select> <select name="chooseyear"><option>2013</option
+													<option>2014</option>
 												</select>
 											</div>
 										</form>
@@ -89,7 +91,8 @@
 				<table id="calendartable">
 					<tbody>
 						<tr>
-							<th id="tableheader" colspan="7" class="bold"><span>March</span> <span>2013</span></th>
+							<th id="tableheader" colspan="7" class="bold"><span>March</span>
+								<span>2013</span></th>
 						</tr>
 						<tr>
 							<th>sun</th>
@@ -174,28 +177,25 @@
 		</div>
 		<div id="createappt-box" class="absoluteleftcenter hidden">
 			<a class="close-box"
-				onclick="document.getElementById('createappt-box').style.display='none'; document.getElementById('bg').style.display='none';"><img
-				class="whitecross" src="./images/whitecross.png"
-				alt="Image failed to load" /><img class="blackcross"
-				src="./images/blackcross.png" alt="Image failed to load" /></a>
+				onclick="document.getElementById('createappt-box').style.display='none'; document.getElementById('bg').style.display='none';">
+				<img class="whitecross" th:src="@{/images/whitecross.png}"
+				src="./images/whitecross.png" alt="Image failed to load" /> <img
+				th:src="@{/images/blackcross.png}" class="blackcross"
+				src="./images/blackcross.png" alt="Image failed to load" />
+			</a>
 			<div id="createappt" class="relativeleftcenter">
 				<h2>Schedule Appointment</h2>
 				<ul id="createapptfilter" class="nopadding">
-					<li><span>Select Patron</span><input id="patron" type="text"
-						size="33" /><img src="./images/drop-arrow-gray.png"
-						alt="Image failed to load" class="drop-arrow-gray" /></li>
-					<li><span>Select Staff</span><input id="staff" type="text"
-						size="33" /><img src="./images/drop-arrow-gray.png"
-						alt="Image failed to load" class="drop-arrow-gray" /></li>
-					<li><span>Select Date</span><input id="date" type="text"
-						size="33" /><img src="./images/drop-arrow-gray.png"
-						alt="Image failed to load" class="drop-arrow-gray" /></li>
-					<li><span>Select Time</span><input id="time" type="text"
-						size="33" /><img src="./images/drop-arrow-gray.png"
-						alt="Image failed to load" class="drop-arrow-gray" /></li>
-					<li><span>Select Venue</span><input id="venue" type="text"
-						size="33" /><img src="./images/drop-arrow-gray.png"
-						alt="Image failed to load" class="drop-arrow-gray" /></li>
+					<li><span>Select Patron</span><select><option></option>
+							<option>SIMPLE VALUE PLACEHOLDER</option></select></li>
+					<li><span>Select Staff</span><select><option></option>
+							<option>SIMPLE VALUE PLACEHOLDER</option></select></li>
+					<li><span>Select Date</span><select><option></option>
+							<option>SIMPLE VALUE PLACEHOLDER</option></select></li>
+					<li><span>Select Time</span><select><option></option>
+							<option>SIMPLE VALUE PLACEHOLDER</option></select></li>
+					<li><span>Select Venue</span><select><option></option>
+							<option>SIMPLE VALUE PLACEHOLDER</option></select></li>
 					<li><input class="button" type="submit" value="SUBMIT" /></li>
 					<li class="notes" style="font-size: 12px">Note&#58; To edit
 						existing appointments, please use <a
@@ -216,5 +216,9 @@
 		<div id="footer">Apris Solutions &#169; 2013 All Rights Reserved
 		</div>
 	</div>
+	<script type="text/javascript" th:src="@{/js/lib/jquery-1.9.1.min.js}"
+		src="js/lib/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/admin/admin_landing.js}"
+		src="js/admin/admin_landing.js"></script>
 </body>
 </html>
