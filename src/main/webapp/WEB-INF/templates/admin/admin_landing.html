@@ -64,20 +64,20 @@
 										<form id="datechooser" action="">
 											<div>
 												<select id="choosemonth">
-													<option>January</option>
-													<option>February</option>
-													<option>March</option>
-													<option>April</option>
-													<option>May</option>
-													<option>June</option>
-													<option>July</option>
-													<option>August</option>
-													<option>September</option>
-													<option>October</option>
-													<option>November</option>
-													<option>December</option>
-												</select> <select name="chooseyear"><option>2013</option
-													<option>2014</option>
+													<option value="0">January</option>
+													<option value="1">February</option>
+													<option value="2">March</option>
+													<option value="3">April</option>
+													<option value="4">May</option>
+													<option value="5">June</option>
+													<option value="6">July</option>
+													<option value="7">August</option>
+													<option value="8">September</option>
+													<option value="9">October</option>
+													<option value="10">November</option>
+													<option value="11">December</option>
+												</select> 
+												<select id="chooseyear">
 												</select>
 											</div>
 										</form>
@@ -91,8 +91,8 @@
 				<table id="calendartable">
 					<tbody>
 						<tr>
-							<th id="tableheader" colspan="7" class="bold"><span>March</span>
-								<span>2013</span></th>
+							<th id="tableheader" colspan="7" class="bold"><span id="selectedmonth"></span>
+								<span id="selectedyear"></span></th>
 						</tr>
 						<tr>
 							<th>sun</th>
