@@ -30,7 +30,7 @@ function renderSelectedMonth(month, year){
 	var endDays = [31,28,31,30,31,30,31,31,30,31,30,31];
 	var endDay = endDays[month];
 	if(month == 1){
-		var isLeap = new Date(date, 1, 29).getMonth() == 1;
+		var isLeap = new Date(date.getFullYear(), 1, 29).getMonth() == 1;
 		if(isLeap){
 			endDay = endDay + 1;
 		}
