@@ -54,5 +54,23 @@ function renderSelectedMonth(month, year) {
 			dayCount = dayCount + 1;
 		});
 	});
+
+	$("tr.calendar-row td").click(function() {
+		if ($(this).prop("tagName") == "TD") {
+			if ($(this).hasClass("fullhousecolor")) {
+				return false;
+			}
+			var dateValue = $(this).text();
+			var dateInt = parseInt(dateValue);
+			if (dateInt >= 1 && dateInt <= 31) {
+				$('#createappt-box').css({
+					"display" : "block"
+				});
+				$('#bg').css({
+					"display" : "block"
+				});
+			}
+		}
+	});
 };
 
