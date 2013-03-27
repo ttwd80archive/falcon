@@ -6,6 +6,10 @@ import com.twistlet.falcon.model.entity.FalconUser;
 
 public interface StaffService {
 	List<FalconUser> listPatients(String partialName);
+	
+	List<FalconUser> listAllPatients();
+	
+	List<FalconUser> listAllStaffs();
 
 	boolean sendEmail(String name, String address, String message);
 
