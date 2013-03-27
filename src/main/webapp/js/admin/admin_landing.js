@@ -20,7 +20,54 @@ $(function() {
 		var year = $(this).val();
 		renderSelectedMonth(month, year);
 	});
+	
+	$.getJSON('../list-all-patient', function(data) {
+		setSelectOptions($('#patrons'), data, 'username', 'name', '');
+	});
+	
+	$.getJSON('../list-all-staff', function(data) {
+		setSelectOptions($('#staffs'), data, 'username', 'name', '');
+	});
+	
+	$.getJSON('../list-all-location', function(data) {
+		setSelectOptions($('#locations'), data, 'id', 'name', '');
+	});
 });
+
+function setSelectOptions(selectElement, values, valueKey, textKey, defaultValue) {
+    if (typeof (selectElement) == "string") {
+        selectElement = $(selectElement);
+    }
+    selectElement.empty();
+    if (typeof (values) == 'object') {
+        if (values.length) {
+            var type = typeof (values[0]);
+            var html = "";
+
+            if (type == 'object') {
+                // values is array of hashes
+                $.each(values, function () {
+                	console.log(this[valueKey]);
+                    html += '<option value="' + this[valueKey] + '">' + this[textKey] + '</option>';                    
+                });
+
+            } else {
+                $.each(values, function () {
+                	console.log('String');
+                    var value = this.toString();
+                    html += '<option value="' + value + '">' + value + '</option>';                    
+                });
+            }
+            console.log(html);
+            selectElement.html(html);
+        }
+        // select the defaultValue is one was passed in
+        if (typeof defaultValue != 'undefined') {
+            selectElement.children('option[value="' + defaultValue + '"]').attr('selected', 'selected');
+        }
+    }
+    return false;
+}
 
 function renderSelectedMonth(month, year) {
 	var date = new Date(year, month, 1);
@@ -63,6 +110,14 @@ function renderSelectedMonth(month, year) {
 			var dateValue = $(this).text();
 			var dateInt = parseInt(dateValue);
 			if (dateInt >= 1 && dateInt <= 31) {
+				$('#appointmenttime').timepicker({
+					controlType: 'select',
+					timeFormat: 'hh:mm tt'
+				});
+				$("#appointmentdate").datepicker({
+					dateFormat : 'dd-mm-yy'
+				});
+				$("#appointmentdate").val(dateValue + '-' +  (parseInt($("#choosemonth").val()) + 1) + '-' + $("#chooseyear").val());
 				$('#createappt-box').css({
 					"display" : "block"
 				});
