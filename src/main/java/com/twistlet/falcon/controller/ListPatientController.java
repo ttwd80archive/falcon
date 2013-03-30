@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.twistlet.falcon.controller.bean.User;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.StaffService;
 
@@ -39,5 +41,22 @@ public class ListPatientController {
 			list.add(map);
 		}
 		return list;
+	}
+	
+	@RequestMapping("/list-all-patient")
+	@ResponseBody
+	public List<User> listAllPatient() {
+		final List<FalconUser> users = staffService.listAllPatients();
+		final List<User> patients = new ArrayList<>();
+		User patient = new User();
+		patient.setName(StringUtils.EMPTY);
+		patient.setUsername(StringUtils.EMPTY);
+		patients.add(patient);
+		for(FalconUser user : users){
+			patient = new User();
+			BeanUtils.copyProperties(user, patient);
+			patients.add(patient);
+		}
+		return patients;
 	}
 }

@@ -4,6 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Create Appointments</title>
+<link rel="stylesheet" th:href="@{/css/jquery-ui-timepicker-addon.css}"
+	href="css/jquery-ui-timepicker-addon.css" type="text/css" media="screen" charset="utf-8" /> 
+<link rel="stylesheet" th:href="@{/css/smoothness/jquery-ui-1.10.2.custom.min.css}"
+	href="css/smoothness/jquery-ui-1.10.2.custom.min.css" type="text/css" media="screen" charset="utf-8" /> 
 <link rel="stylesheet" th:href="@{/css/styles.css}"
 	href="css/styles.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" th:href="@{/css/layout.css}"
@@ -184,16 +188,26 @@
 			<div id="createappt" class="relativeleftcenter">
 				<h2>Schedule Appointment</h2>
 				<ul id="createapptfilter" class="nopadding">
-					<li><span>Select Patron</span><select><option></option>
-							<option>SIMPLE VALUE PLACEHOLDER</option></select></li>
-					<li><span>Select Staff</span><select><option></option>
-							<option>SIMPLE VALUE PLACEHOLDER</option></select></li>
-					<li><span>Select Date</span><select><option></option>
-							<option>SIMPLE VALUE PLACEHOLDER</option></select></li>
-					<li><span>Select Time</span><select><option></option>
-							<option>SIMPLE VALUE PLACEHOLDER</option></select></li>
-					<li><span>Select Venue</span><select><option></option>
-							<option>SIMPLE VALUE PLACEHOLDER</option></select></li>
+					<li>
+						<span>Select Patron</span>
+						<select id="patrons"></select>
+					</li>
+					<li>
+						<span>Select Staff</span>
+						<select id="staffs"></select>
+					</li>
+					<li>
+						<span>Select Date</span>
+						<input type="text" id="appointmentdate" />
+					</li>
+					<li>
+						<span>Select Time</span>
+						<input type="text" id="appointmenttime" />
+					</li>
+					<li>
+						<span>Select Venue</span>
+						<select id="locations"></select>
+					</li>
 					<li><input class="button" type="submit" value="SUBMIT" /></li>
 					<li class="notes" style="font-size: 12px">Note&#58; To edit
 						existing appointments, please use <a
@@ -216,7 +230,14 @@
 	</div>
 	<script type="text/javascript" th:src="@{/js/lib/jquery-1.9.1.min.js}"
 		src="js/lib/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery-ui-1.10.2.custom.min.js}"
+		src="js/lib/jquery-ui-1.10.2.custom.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery-ui-timepicker-addon.js}"
+		src="js/lib/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery-ui-sliderAccess.js}"
+		src="js/lib/jquery-ui-sliderAccess.js"></script>
 	<script type="text/javascript" th:src="@{/js/admin/admin_landing.js}"
 		src="js/admin/admin_landing.js"></script>
+		
 </body>
 </html>

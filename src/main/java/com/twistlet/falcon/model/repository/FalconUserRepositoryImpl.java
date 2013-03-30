@@ -35,6 +35,7 @@ public class FalconUserRepositoryImpl implements FalconUserRepositoryCustom {
 				.eq(rolename);
 		final BooleanExpression conditionNameLike = falconUser.name
 				.containsIgnoreCase(partialName);
+		query.orderBy(falconUser.name.asc());
 		query.where(conditionRolename.and(conditionNameLike));
 		return query.list(falconUser);
 	}

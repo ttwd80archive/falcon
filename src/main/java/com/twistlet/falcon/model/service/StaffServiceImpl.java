@@ -2,6 +2,7 @@ package com.twistlet.falcon.model.service;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,19 @@ public class StaffServiceImpl implements StaffService {
 		return falconUserRepository.findByRolenameAndNameLike("ROLE_PATRON",
 				partialName);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconUser> listAllPatients() {
+		return falconUserRepository.findByRolenameAndNameLike("ROLE_PATRON", StringUtils.EMPTY);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconUser> listAllStaffs() {
+		return falconUserRepository.findByRolenameAndNameLike("ROLE_USER", StringUtils.EMPTY);
+	}
+
 
 	@Override
 	public boolean sendEmail(final String name, final String address,
@@ -55,5 +69,5 @@ public class StaffServiceImpl implements StaffService {
 			return false;
 		}
 	}
-
+	
 }
