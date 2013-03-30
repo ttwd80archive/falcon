@@ -62,4 +62,15 @@ public class PasswordEncoderTest {
 		final String expected = "cda98a529a2cdac1ec3b067c56ffc1ca17cd5724515b1e6f95cfeca383b4ba6b";
 		assertEquals(expected, actual);
 	}
+
+	@Test
+	public void testSha256bmw() {
+		final String username = "bmw";
+		final String password = "car";
+		final PasswordEncoder passwordEncoder = new ShaPasswordEncoder(256);
+		final String actual = passwordEncoder
+				.encodePassword(password, username);
+		final String expected = "b8b76e16b326bb31bec225d5c9a41eb4432d749fbc60b6b53ea2ecbca5e999b8";
+		assertEquals(expected, actual);
+	}
 }
