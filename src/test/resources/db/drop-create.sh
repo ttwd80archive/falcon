@@ -13,16 +13,16 @@ else
 fi
 
 
-echo drop database if exists ${db_name} | mysql -u ${db_user} -p${db_password}
+echo drop database if exists ${db_name} | mysql -u ${db_user} -p${db_password}  2> /dev/null
 echo Database drop. Done.
-echo create database ${db_name} | mysql -u ${db_user} -p${db_password}
+echo create database ${db_name} | mysql -u ${db_user} -p${db_password}  2> /dev/null
 echo Database create. Done.
-mysql -u ${db_user} -p${db_password} ${db_name} < ${sql_location}/${file_name}-structure.sql
+mysql -u ${db_user} -p${db_password} ${db_name} < ${sql_location}/${file_name}-structure.sql 2> /dev/null
 echo Structure create. Done.
 
 if [ "$file_name" == "$db_name" ]
 then
-	mysql -u ${db_user} -p${db_password} ${db_name} < ${sql_location}/${file_name}-data.sql
+	mysql -u ${db_user} -p${db_password} ${db_name} < ${sql_location}/${file_name}-data.sql 2> /dev/null
 	echo Data populate. Done.
 fi
 	
