@@ -66,7 +66,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_user_role` WRITE;
 /*!40000 ALTER TABLE `falcon_user_role` DISABLE KEYS */;
-INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (9,'bmw','ROLE_USER');
+INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (9,'bmw','ROLE_ADMIN');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (4,'butterbun','ROLE_PATRON');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (5,'inban','ROLE_PATRON');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (1,'inban','ROLE_USER');
