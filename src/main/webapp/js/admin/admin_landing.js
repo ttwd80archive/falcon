@@ -20,6 +20,13 @@ $(function() {
 		var year = $(this).val();
 		renderSelectedMonth(month, year);
 	});
+	$('#appointmentform').submit(function(){
+		var date = $('#appointmentdate').val();
+		var time = $('#appointmenttime').val();
+		$('#appointmentdatetime').val(date + " " + time);
+		console.log($('#appointmentdatetime').val());
+	});
+	
 	
 	$.getJSON('../list-all-patient', function(data) {
 		setSelectOptions($('#patrons'), data, 'username', 'name', '');
@@ -30,6 +37,7 @@ $(function() {
 	});
 	
 	$.getJSON('../list-all-location', function(data) {
+		console.log(data);
 		setSelectOptions($('#locations'), data, 'id', 'name', '');
 	});
 });

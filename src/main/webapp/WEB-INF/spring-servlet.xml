@@ -83,10 +83,10 @@
 	<mvc:view-controller path="/patron_self_register"
 		view-name="patron_self_register" />
 
-	<!-- Admin Pages -->
+	<!-- Admin Pages 
 	<mvc:view-controller path="/admin/admin_landing"
 		view-name="admin/admin_landing" />
-
+	-->
 	<context:component-scan base-package="com.twistlet.falcon.controller" />
 
 </beans>

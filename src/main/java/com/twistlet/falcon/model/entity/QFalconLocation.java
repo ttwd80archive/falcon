@@ -7,6 +7,7 @@ import com.mysema.query.types.path.*;
 import com.mysema.query.types.PathMetadata;
 import javax.annotation.Generated;
 import com.mysema.query.types.Path;
+import com.mysema.query.types.path.PathInits;
 
 
 /**
@@ -18,6 +19,8 @@ public class QFalconLocation extends EntityPathBase<FalconLocation> {
     private static final long serialVersionUID = 855870012;
 
     public static final QFalconLocation falconLocation = new QFalconLocation("falconLocation");
+
+    public final SetPath<FalconAppointment, QFalconAppointment> falconAppointments = this.<FalconAppointment, QFalconAppointment>createSet("falconAppointments", FalconAppointment.class, QFalconAppointment.class, PathInits.DIRECT);
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 

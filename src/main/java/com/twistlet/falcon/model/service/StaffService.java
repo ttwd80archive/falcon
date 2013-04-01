@@ -10,6 +10,8 @@ public interface StaffService {
 	List<FalconUser> listAllPatients();
 	
 	List<FalconUser> listAllStaffs();
+	
+	FalconUser getUser(String username);
 
 	boolean sendEmail(String name, String address, String message);
 

@@ -28,6 +28,9 @@ public class ListLocationController {
 		location.setName(StringUtils.EMPTY);
 		List<FalconLocation> locations = locationService.findAllLocations();
 		locations.add(0, location);
+		for(FalconLocation entity : locations){
+			entity.setFalconAppointments(null);
+		}
 		return locations;
 	}
 	

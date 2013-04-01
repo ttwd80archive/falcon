@@ -185,6 +185,7 @@
 				th:src="@{/images/blackcross.png}" class="blackcross"
 				src="./images/blackcross.png" alt="Image failed to load" />
 			</a>
+			<form action="#" th:object="${appointment}" th:action="@{create-appointment}" method="post" id="appointmentform"> 
 			<div id="createappt" class="relativeleftcenter">
 				<h2>Schedule Appointment</h2>
 				<ul id="createapptfilter" class="nopadding">
@@ -193,8 +194,12 @@
 						<select id="patrons"></select>
 					</li>
 					<li>
+						<span>Select Service</span>
+						<input id="service" th:field="*{service}"></input>
+					</li>
+					<li>
 						<span>Select Staff</span>
-						<select id="staffs"></select>
+						<select id="staffs" th:field="*{falconUser.username}"></select>
 					</li>
 					<li>
 						<span>Select Date</span>
@@ -206,15 +211,17 @@
 					</li>
 					<li>
 						<span>Select Venue</span>
-						<select id="locations"></select>
+						<select id="locations" th:field="*{falconLocation.id}"></select>
 					</li>
-					<li><input class="button" type="submit" value="SUBMIT" /></li>
+					<li><input class="button" type="submit" value="SUBMIT" id="submit" /></li>
 					<li class="notes" style="font-size: 12px">Note&#58; To edit
 						existing appointments, please use <a
 						href="manageappointments.html">Manage Appointments</a>
 					</li>
 				</ul>
+				<input type="hidden" id='appointmentdatetime'  th:field="*{appointmentDate}"></input>
 			</div>
+			</form>
 		</div>
 		<div id="sidebar-wrapper">
 			<div id="sidebar" class="bold">

@@ -69,5 +69,11 @@ public class StaffServiceImpl implements StaffService {
 			return false;
 		}
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public FalconUser getUser(final String username) {
+		return falconUserRepository.findOne(username);
+	}
 	
 }

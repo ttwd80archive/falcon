@@ -14,6 +14,42 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+--
+-- Table structure for table `falcon_appointment`
+--
+
+DROP TABLE IF EXISTS `falcon_appointment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `falcon_appointment` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `staff` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `service` varchar(300) DEFAULT NULL,
+  `appointment_date` datetime DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
+  `create_by` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `update_by` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_falcon_appointment_falcon_user` (`staff`),
+  CONSTRAINT `FK_falcon_appointment_falcon_user` FOREIGN KEY (`staff`) REFERENCES `falcon_user` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `falcon_location`
+--
+
+DROP TABLE IF EXISTS `falcon_location`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `falcon_location` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8 DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `falcon_message_log`
@@ -32,6 +68,25 @@ CREATE TABLE `falcon_message_log` (
   `error_message` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `falcon_patron`
+--
+
+DROP TABLE IF EXISTS `falcon_patron`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `falcon_patron` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `appointment` int(11) unsigned NOT NULL,
+  `patron` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `FK_falcon_patron_falcon_user` (`patron`),
+  KEY `FK_falcon_patron_falcon_appointment` (`appointment`),
+  CONSTRAINT `FK_falcon_patron_falcon_appointment` FOREIGN KEY (`appointment`) REFERENCES `falcon_appointment` (`id`),
+  CONSTRAINT `FK_falcon_patron_falcon_user` FOREIGN KEY (`patron`) REFERENCES `falcon_user` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

@@ -1,11 +1,15 @@
 package com.twistlet.falcon.model.entity;
 
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -19,12 +23,14 @@ public class FalconLocation  implements java.io.Serializable {
 
      private Integer id;
      private String name;
+     private Set<FalconAppointment> falconAppointments = new HashSet<FalconAppointment>(0);
 
     public FalconLocation() {
     }
 
-    public FalconLocation(String name) {
+    public FalconLocation(String name, Set<FalconAppointment> falconAppointments) {
        this.name = name;
+       this.falconAppointments = falconAppointments;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -47,6 +53,15 @@ public class FalconLocation  implements java.io.Serializable {
     
     public void setName(String name) {
         this.name = name;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="falconLocation")
+    public Set<FalconAppointment> getFalconAppointments() {
+        return this.falconAppointments;
+    }
+    
+    public void setFalconAppointments(Set<FalconAppointment> falconAppointments) {
+        this.falconAppointments = falconAppointments;
     }
 
 

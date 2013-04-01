@@ -24,6 +24,8 @@ public class FalconUser  implements java.io.Serializable {
      private String name;
      private String email;
      private String phone;
+     private Set<FalconAppointment> falconAppointments = new HashSet<FalconAppointment>(0);
+     private Set<FalconPatron> falconPatrons = new HashSet<FalconPatron>(0);
      private Set<FalconUserRole> falconUserRoles = new HashSet<FalconUserRole>(0);
 
     public FalconUser() {
@@ -35,12 +37,14 @@ public class FalconUser  implements java.io.Serializable {
         this.password = password;
         this.name = name;
     }
-    public FalconUser(String username, String password, String name, String email, String phone, Set<FalconUserRole> falconUserRoles) {
+    public FalconUser(String username, String password, String name, String email, String phone, Set<FalconAppointment> falconAppointments, Set<FalconPatron> falconPatrons, Set<FalconUserRole> falconUserRoles) {
        this.username = username;
        this.password = password;
        this.name = name;
        this.email = email;
        this.phone = phone;
+       this.falconAppointments = falconAppointments;
+       this.falconPatrons = falconPatrons;
        this.falconUserRoles = falconUserRoles;
     }
    
@@ -94,6 +98,24 @@ public class FalconUser  implements java.io.Serializable {
     
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="falconUser")
+    public Set<FalconAppointment> getFalconAppointments() {
+        return this.falconAppointments;
+    }
+    
+    public void setFalconAppointments(Set<FalconAppointment> falconAppointments) {
+        this.falconAppointments = falconAppointments;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="falconUser")
+    public Set<FalconPatron> getFalconPatrons() {
+        return this.falconPatrons;
+    }
+    
+    public void setFalconPatrons(Set<FalconPatron> falconPatrons) {
+        this.falconPatrons = falconPatrons;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="falconUser")
