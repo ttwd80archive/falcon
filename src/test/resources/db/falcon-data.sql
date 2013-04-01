@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.28, for Win64 (x86)
+-- MySQL dump 10.13  Distrib 5.6.10, for Win64 (x86_64)
 --
 -- Host: localhost    Database: falcon
 -- ------------------------------------------------------
--- Server version	5.5.28
+-- Server version	5.6.10
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -51,6 +51,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_user` WRITE;
 /*!40000 ALTER TABLE `falcon_user` DISABLE KEYS */;
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('bmw','b8b76e16b326bb31bec225d5c9a41eb4432d749fbc60b6b53ea2ecbca5e999b8','BMW','','');
 INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('butterbun','c42dad8cd3f474de4a21f50c80c04326938037cd74f0adfcfa51c39f302ba276','Butterbun User','','');
 INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('inban','5727c6363d91fcc80a98f22a748c95fba96cc9e39110a23b9a38e6ea510476cb','Inban Iyyadurai','inban.iyyadurai@apris-solutions.com','60123684124');
 INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('melissa','f092d4ac27c31e03eebd80b8634f9d62ca88dc2263b382861374d4992a3eec20','Melissa','','');
@@ -65,6 +66,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_user_role` WRITE;
 /*!40000 ALTER TABLE `falcon_user_role` DISABLE KEYS */;
+INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (9,'bmw','ROLE_ADMIN');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (4,'butterbun','ROLE_PATRON');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (5,'inban','ROLE_PATRON');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (1,'inban','ROLE_USER');
