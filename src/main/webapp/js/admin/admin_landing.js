@@ -24,7 +24,6 @@ $(function() {
 		var date = $('#appointmentdate').val();
 		var time = $('#appointmenttime').val();
 		$('#appointmentdatetime').val(date + " " + time);
-		console.log($('#appointmentdatetime').val());
 	});
 	
 	
@@ -37,7 +36,6 @@ $(function() {
 	});
 	
 	$.getJSON('../list-all-location', function(data) {
-		console.log(data);
 		setSelectOptions($('#locations'), data, 'id', 'name', '');
 	});
 });
@@ -55,18 +53,15 @@ function setSelectOptions(selectElement, values, valueKey, textKey, defaultValue
             if (type == 'object') {
                 // values is array of hashes
                 $.each(values, function () {
-                	console.log(this[valueKey]);
                     html += '<option value="' + this[valueKey] + '">' + this[textKey] + '</option>';                    
                 });
 
             } else {
                 $.each(values, function () {
-                	console.log('String');
                     var value = this.toString();
                     html += '<option value="' + value + '">' + value + '</option>';                    
                 });
             }
-            console.log(html);
             selectElement.html(html);
         }
         // select the defaultValue is one was passed in
@@ -81,6 +76,8 @@ function renderSelectedMonth(month, year) {
 	var date = new Date(year, month, 1);
 	var monthNames = [ "January", "February", "March", "April", "May", "June",
 			"July", "August", "September", "October", "November", "December" ];
+	var monthDigits = [ "01", "02", "03", "04", "05", "06",
+	       			"07", "08", "09", "10", "11", "12" ];
 	var endDays = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 	var endDay = endDays[month];
 	if (month == 1) {
@@ -96,6 +93,7 @@ function renderSelectedMonth(month, year) {
 	var cellNo = 0;
 	$('#tablebody tr').each(function() {
 		$.each(this.cells, function() {
+			$(this).attr('class','');
 			if (cellNo < day) {
 				$(this).text('');
 				cellNo = cellNo + 1;
@@ -107,9 +105,46 @@ function renderSelectedMonth(month, year) {
 			}
 			$(this).text(dayCount);
 			dayCount = dayCount + 1;
+			
 		});
 	});
 
+	var dateString = '' + date.getFullYear() + monthDigits[date.getMonth()] + '01';
+	console.log(dateString);
+	$.getJSON('../list-appointment/' + dateString, function(data){
+		$.each(data, function(i, obj){
+			var day = obj.day;
+			var SLOTS = 4;
+			var total = obj.totalAppointment;
+			var percentAvailable = 100;
+			if(total >= SLOTS){
+				percentAvailable = 0;
+			}else{
+				percentAvailable = (((SLOTS - total)/SLOTS)*100);
+			}
+			$('#tablebody tr').each(function() {
+				$.each(this.cells, function() {
+					var currentDay = $(this).text();
+					if(currentDay != ''){
+						if(currentDay == day){
+							console.log(currentDay + " - " + percentAvailable + '%');
+							if(percentAvailable < 1){
+								$(this).attr('class','fullhousecolor');
+							}else if(percentAvailable < 26){
+								$(this).attr('class','packedhousecolor');
+							}else if(percentAvailable < 99){
+								$(this).attr('class','lighthousecolor');
+							}
+						}
+					}else{
+						return true;
+					}
+				});
+			});
+		});
+	});
+	
+	
 	$("tr.calendar-row td").click(function() {
 		if ($(this).prop("tagName") == "TD") {
 			if ($(this).hasClass("fullhousecolor")) {
@@ -135,5 +170,5 @@ function renderSelectedMonth(month, year) {
 			}
 		}
 	});
+	
 };
-
