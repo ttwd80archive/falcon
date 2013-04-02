@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.twistlet.falcon.model.entity.FalconAppointment;
+import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.AppointmentService;
 import com.twistlet.falcon.model.service.StaffService;
@@ -48,6 +49,10 @@ public class AdminLandingController {
 		final SimpleDateFormat sdf = new SimpleDateFormat(dateformat);
 		sdf.setLenient(false);
 		dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, false));
+	}
+	
+	@InitBinder
+	public void initFalconPatronsBinder(final WebDataBinder dataBinder){
 		dataBinder.registerCustomEditor(Set.class, "falconPatrons", new CustomCollectionEditor(Set.class){
 			 @Override
 	         protected Object convertElement(Object element){
@@ -59,7 +64,9 @@ public class AdminLandingController {
 					 return null;
 				 }
 				 FalconUser staff = staffService.getUser(username);
-				 return staff;
+				 FalconPatron falconPatron = new FalconPatron();
+				 falconPatron.setFalconUser(staff);
+				 return falconPatron;
 			 }
 		});
 	}
