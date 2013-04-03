@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.10, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.20, for osx10.6 (i386)
 --
 -- Host: localhost    Database: falcon
 -- ------------------------------------------------------
--- Server version	5.6.10
+-- Server version	5.5.20
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,50 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Dumping data for table `falcon_appointment`
+--
+
+LOCK TABLES `falcon_appointment` WRITE;
+/*!40000 ALTER TABLE `falcon_appointment` DISABLE KEYS */;
+INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (14,'testss','2013-04-01 12:28:00',NULL,NULL,NULL,NULL,5,1);
+INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (15,'test2','2013-04-08 12:29:00',NULL,NULL,NULL,NULL,5,1);
+INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (16,'test3','2013-04-08 01:38:00',NULL,NULL,NULL,NULL,5,1);
+INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (17,'test4','2013-04-08 17:29:00',NULL,NULL,NULL,NULL,5,1);
+INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (18,'fte','2013-04-15 01:00:00',NULL,NULL,NULL,NULL,5,1);
+INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (19,'tass','2013-04-15 12:30:00',NULL,NULL,NULL,NULL,5,1);
+INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (20,'gfdrt','2013-04-15 13:00:00',NULL,NULL,NULL,NULL,5,1);
+INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (21,'gdsf','2013-04-15 19:00:00',NULL,NULL,NULL,NULL,5,1);
+/*!40000 ALTER TABLE `falcon_appointment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `falcon_appointment_patron`
+--
+
+LOCK TABLES `falcon_appointment_patron` WRITE;
+/*!40000 ALTER TABLE `falcon_appointment_patron` DISABLE KEYS */;
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (9,14,'shankar');
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (10,15,'shankar');
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (11,16,'inban');
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (12,17,'inban');
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (13,18,'inban');
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (14,19,'inban');
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (15,20,'shankar');
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (16,21,'shankar');
+/*!40000 ALTER TABLE `falcon_appointment_patron` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `falcon_location`
+--
+
+LOCK TABLES `falcon_location` WRITE;
+/*!40000 ALTER TABLE `falcon_location` DISABLE KEYS */;
+INSERT INTO `falcon_location` (`id`, `name`, `admin`) VALUES (5,'Panic Room','titiwangsa');
+/*!40000 ALTER TABLE `falcon_location` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping data for table `falcon_message_log`
@@ -34,6 +78,17 @@ INSERT INTO `falcon_message_log` (`id`, `sender`, `destination`, `message_type`,
 UNLOCK TABLES;
 
 --
+-- Dumping data for table `falcon_patron`
+--
+
+LOCK TABLES `falcon_patron` WRITE;
+/*!40000 ALTER TABLE `falcon_patron` DISABLE KEYS */;
+INSERT INTO `falcon_patron` (`id`, `patron`, `admin`) VALUES (7,'inban','titiwangsa');
+INSERT INTO `falcon_patron` (`id`, `patron`, `admin`) VALUES (8,'shankar','titiwangsa');
+/*!40000 ALTER TABLE `falcon_patron` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping data for table `falcon_role`
 --
 
@@ -46,12 +101,21 @@ INSERT INTO `falcon_role` (`role_name`) VALUES ('ROLE_USER');
 UNLOCK TABLES;
 
 --
+-- Dumping data for table `falcon_staff`
+--
+
+LOCK TABLES `falcon_staff` WRITE;
+/*!40000 ALTER TABLE `falcon_staff` DISABLE KEYS */;
+INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`) VALUES (1,'Nini Marina','850101235066','titiwangsa');
+/*!40000 ALTER TABLE `falcon_staff` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping data for table `falcon_user`
 --
 
 LOCK TABLES `falcon_user` WRITE;
 /*!40000 ALTER TABLE `falcon_user` DISABLE KEYS */;
-INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('bmw','b8b76e16b326bb31bec225d5c9a41eb4432d749fbc60b6b53ea2ecbca5e999b8','BMW','','');
 INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('butterbun','c42dad8cd3f474de4a21f50c80c04326938037cd74f0adfcfa51c39f302ba276','Butterbun User','','');
 INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('inban','5727c6363d91fcc80a98f22a748c95fba96cc9e39110a23b9a38e6ea510476cb','Inban Iyyadurai','inban.iyyadurai@apris-solutions.com','60123684124');
 INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('melissa','f092d4ac27c31e03eebd80b8634f9d62ca88dc2263b382861374d4992a3eec20','Melissa','','');
@@ -66,14 +130,12 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_user_role` WRITE;
 /*!40000 ALTER TABLE `falcon_user_role` DISABLE KEYS */;
-INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (9,'bmw','ROLE_ADMIN');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (4,'butterbun','ROLE_PATRON');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (5,'inban','ROLE_PATRON');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (1,'inban','ROLE_USER');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (8,'shankar','ROLE_PATRON');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (7,'shankar','ROLE_USER');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (2,'titiwangsa','ROLE_ADMIN');
-INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (6,'titiwangsa','ROLE_PATRON');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (3,'titiwangsa','ROLE_USER');
 /*!40000 ALTER TABLE `falcon_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -87,3 +149,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+-- Dump completed on 2013-04-03 14:56:15
