@@ -22,9 +22,15 @@ public class QFalconUser extends EntityPathBase<FalconUser> {
 
     public final StringPath email = createString("email");
 
-    public final SetPath<FalconAppointment, QFalconAppointment> falconAppointments = this.<FalconAppointment, QFalconAppointment>createSet("falconAppointments", FalconAppointment.class, QFalconAppointment.class, PathInits.DIRECT);
+    public final SetPath<FalconAppointmentPatron, QFalconAppointmentPatron> falconAppointmentPatrons = this.<FalconAppointmentPatron, QFalconAppointmentPatron>createSet("falconAppointmentPatrons", FalconAppointmentPatron.class, QFalconAppointmentPatron.class, PathInits.DIRECT);
 
-    public final SetPath<FalconPatron, QFalconPatron> falconPatrons = this.<FalconPatron, QFalconPatron>createSet("falconPatrons", FalconPatron.class, QFalconPatron.class, PathInits.DIRECT);
+    public final SetPath<FalconLocation, QFalconLocation> falconLocations = this.<FalconLocation, QFalconLocation>createSet("falconLocations", FalconLocation.class, QFalconLocation.class, PathInits.DIRECT);
+
+    public final SetPath<FalconPatron, QFalconPatron> falconPatronsForAdmin = this.<FalconPatron, QFalconPatron>createSet("falconPatronsForAdmin", FalconPatron.class, QFalconPatron.class, PathInits.DIRECT);
+
+    public final SetPath<FalconPatron, QFalconPatron> falconPatronsForPatron = this.<FalconPatron, QFalconPatron>createSet("falconPatronsForPatron", FalconPatron.class, QFalconPatron.class, PathInits.DIRECT);
+
+    public final SetPath<FalconStaff, QFalconStaff> falconStaffs = this.<FalconStaff, QFalconStaff>createSet("falconStaffs", FalconStaff.class, QFalconStaff.class, PathInits.DIRECT);
 
     public final SetPath<FalconUserRole, QFalconUserRole> falconUserRoles = this.<FalconUserRole, QFalconUserRole>createSet("falconUserRoles", FalconUserRole.class, QFalconUserRole.class, PathInits.DIRECT);
 

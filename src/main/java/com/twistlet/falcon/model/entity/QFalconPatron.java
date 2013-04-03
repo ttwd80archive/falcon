@@ -22,9 +22,9 @@ public class QFalconPatron extends EntityPathBase<FalconPatron> {
 
     public static final QFalconPatron falconPatron = new QFalconPatron("falconPatron");
 
-    public final QFalconAppointment falconAppointment;
+    public final QFalconUser falconUserByAdmin;
 
-    public final QFalconUser falconUser;
+    public final QFalconUser falconUserByPatron;
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
@@ -47,8 +47,8 @@ public class QFalconPatron extends EntityPathBase<FalconPatron> {
 
     public QFalconPatron(Class<? extends FalconPatron> type, PathMetadata<?> metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.falconAppointment = inits.isInitialized("falconAppointment") ? new QFalconAppointment(forProperty("falconAppointment"), inits.get("falconAppointment")) : null;
-        this.falconUser = inits.isInitialized("falconUser") ? new QFalconUser(forProperty("falconUser")) : null;
+        this.falconUserByAdmin = inits.isInitialized("falconUserByAdmin") ? new QFalconUser(forProperty("falconUserByAdmin")) : null;
+        this.falconUserByPatron = inits.isInitialized("falconUserByPatron") ? new QFalconUser(forProperty("falconUserByPatron")) : null;
     }
 
 }

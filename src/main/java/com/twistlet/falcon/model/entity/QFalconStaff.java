@@ -11,16 +11,16 @@ import com.mysema.query.types.path.PathInits;
 
 
 /**
- * QFalconLocation is a Querydsl query type for FalconLocation
+ * QFalconStaff is a Querydsl query type for FalconStaff
  */
 @Generated("com.mysema.query.codegen.EntitySerializer")
-public class QFalconLocation extends EntityPathBase<FalconLocation> {
+public class QFalconStaff extends EntityPathBase<FalconStaff> {
 
-    private static final long serialVersionUID = 855870012;
+    private static final long serialVersionUID = 707739065;
 
     private static final PathInits INITS = PathInits.DIRECT;
 
-    public static final QFalconLocation falconLocation = new QFalconLocation("falconLocation");
+    public static final QFalconStaff falconStaff = new QFalconStaff("falconStaff");
 
     public final SetPath<FalconAppointment, QFalconAppointment> falconAppointments = this.<FalconAppointment, QFalconAppointment>createSet("falconAppointments", FalconAppointment.class, QFalconAppointment.class, PathInits.DIRECT);
 
@@ -30,24 +30,26 @@ public class QFalconLocation extends EntityPathBase<FalconLocation> {
 
     public final StringPath name = createString("name");
 
-    public QFalconLocation(String variable) {
-        this(FalconLocation.class, forVariable(variable), INITS);
+    public final StringPath nric = createString("nric");
+
+    public QFalconStaff(String variable) {
+        this(FalconStaff.class, forVariable(variable), INITS);
     }
 
     @SuppressWarnings("all")
-    public QFalconLocation(Path<? extends FalconLocation> path) {
+    public QFalconStaff(Path<? extends FalconStaff> path) {
         this((Class)path.getType(), path.getMetadata(), path.getMetadata().isRoot() ? INITS : PathInits.DEFAULT);
     }
 
-    public QFalconLocation(PathMetadata<?> metadata) {
+    public QFalconStaff(PathMetadata<?> metadata) {
         this(metadata, metadata.isRoot() ? INITS : PathInits.DEFAULT);
     }
 
-    public QFalconLocation(PathMetadata<?> metadata, PathInits inits) {
-        this(FalconLocation.class, metadata, inits);
+    public QFalconStaff(PathMetadata<?> metadata, PathInits inits) {
+        this(FalconStaff.class, metadata, inits);
     }
 
-    public QFalconLocation(Class<? extends FalconLocation> type, PathMetadata<?> metadata, PathInits inits) {
+    public QFalconStaff(Class<? extends FalconStaff> type, PathMetadata<?> metadata, PathInits inits) {
         super(type, metadata, inits);
         this.falconUser = inits.isInitialized("falconUser") ? new QFalconUser(forProperty("falconUser")) : null;
     }

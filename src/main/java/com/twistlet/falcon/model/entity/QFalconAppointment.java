@@ -28,11 +28,11 @@ public class QFalconAppointment extends EntityPathBase<FalconAppointment> {
 
     public final DateTimePath<java.util.Date> createDate = createDateTime("createDate", java.util.Date.class);
 
+    public final SetPath<FalconAppointmentPatron, QFalconAppointmentPatron> falconAppointmentPatrons = this.<FalconAppointmentPatron, QFalconAppointmentPatron>createSet("falconAppointmentPatrons", FalconAppointmentPatron.class, QFalconAppointmentPatron.class, PathInits.DIRECT);
+
     public final QFalconLocation falconLocation;
 
-    public final SetPath<FalconPatron, QFalconPatron> falconPatrons = this.<FalconPatron, QFalconPatron>createSet("falconPatrons", FalconPatron.class, QFalconPatron.class, PathInits.DIRECT);
-
-    public final QFalconUser falconUser;
+    public final QFalconStaff falconStaff;
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
@@ -61,8 +61,8 @@ public class QFalconAppointment extends EntityPathBase<FalconAppointment> {
 
     public QFalconAppointment(Class<? extends FalconAppointment> type, PathMetadata<?> metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.falconLocation = inits.isInitialized("falconLocation") ? new QFalconLocation(forProperty("falconLocation")) : null;
-        this.falconUser = inits.isInitialized("falconUser") ? new QFalconUser(forProperty("falconUser")) : null;
+        this.falconLocation = inits.isInitialized("falconLocation") ? new QFalconLocation(forProperty("falconLocation"), inits.get("falconLocation")) : null;
+        this.falconStaff = inits.isInitialized("falconStaff") ? new QFalconStaff(forProperty("falconStaff"), inits.get("falconStaff")) : null;
     }
 
 }
