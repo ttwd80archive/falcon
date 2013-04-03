@@ -26,16 +26,17 @@ $(function() {
 		$('#appointmentdatetime').val(date + " " + time);
 	});
 	
-	
-	$.getJSON('../list-all-patient', function(data) {
+	var currentuser = $('#username').html();
+	console.log(currentuser);
+	$.getJSON('../list-patient/' + currentuser, function(data) {
 		setSelectOptions($('#patrons'), data, 'username', 'name', '');
 	});
 	
-	$.getJSON('../list-all-staff', function(data) {
-		setSelectOptions($('#staffs'), data, 'username', 'name', '');
+	$.getJSON('../list-staff/'+ currentuser, function(data) {
+		setSelectOptions($('#staffs'), data, 'id', 'name', '');
 	});
 	
-	$.getJSON('../list-all-location', function(data) {
+	$.getJSON('../list-location/' + currentuser, function(data) {
 		setSelectOptions($('#locations'), data, 'id', 'name', '');
 	});
 });

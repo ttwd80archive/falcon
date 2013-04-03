@@ -29,7 +29,7 @@
 					<li><a href="homepage.html" id="signout">SIGN OUT</a></li>
 					<li class="editprofile">
 						<div id="editprofile">
-							Hi&#44; <span th:text="${#authentication.name}">Inban</span><span
+							Hi&#44; <span id="username" th:text="${#authentication.name}">Inban</span><span
 								class="drop-arrow-white"></span> &#124;
 							<div class="drop-menu">
 								<ul class="menu-lvl-1">
@@ -191,7 +191,7 @@
 				<ul id="createapptfilter" class="nopadding">
 					<li>
 						<span>Select Patron</span>
-						<select id="patrons" th:field="*{falconPatrons}"></select>
+						<select id="patrons" th:field="*{falconAppointmentPatrons}"></select>
 					</li>
 					<li>
 						<span>Select Service</span>
@@ -199,7 +199,7 @@
 					</li>
 					<li>
 						<span>Select Staff</span>
-						<select id="staffs" th:field="*{falconUser.username}"></select>
+						<select id="staffs" th:field="*{falconStaff.id}"></select>
 					</li>
 					<li>
 						<span>Select Date</span>
