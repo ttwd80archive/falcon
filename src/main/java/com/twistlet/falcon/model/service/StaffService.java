@@ -2,14 +2,13 @@ package com.twistlet.falcon.model.service;
 
 import java.util.List;
 
+import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
 
 public interface StaffService {
 	List<FalconUser> listPatients(String partialName);
 	
-	List<FalconUser> listAllPatients();
-	
-	List<FalconUser> listAllStaffs();
+	List<FalconStaff> listStaffByAdmin(String admin);
 	
 	FalconUser getUser(String username);
 

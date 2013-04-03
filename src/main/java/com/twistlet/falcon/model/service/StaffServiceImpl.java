@@ -2,26 +2,30 @@ package com.twistlet.falcon.model.service;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
+import com.twistlet.falcon.model.repository.FalconStaffRepository;
 import com.twistlet.falcon.model.repository.FalconUserRepository;
 
 @Service
 public class StaffServiceImpl implements StaffService {
 
 	private final FalconUserRepository falconUserRepository;
+	private final FalconStaffRepository falconStaffRepository;
 	private final MailSenderService mailSenderService;
 	private final SmsService smsService;
 
+	
 	@Autowired
-	public StaffServiceImpl(final FalconUserRepository falconUserRepository,
-			final MailSenderService mailSenderService,
-			final SmsService smsService) {
+	public StaffServiceImpl(FalconUserRepository falconUserRepository,
+			FalconStaffRepository falconStaffRepository,
+			MailSenderService mailSenderService, SmsService smsService) {
 		this.falconUserRepository = falconUserRepository;
+		this.falconStaffRepository = falconStaffRepository;
 		this.mailSenderService = mailSenderService;
 		this.smsService = smsService;
 	}
@@ -33,19 +37,6 @@ public class StaffServiceImpl implements StaffService {
 				partialName);
 	}
 	
-	@Override
-	@Transactional(readOnly = true)
-	public List<FalconUser> listAllPatients() {
-		return falconUserRepository.findByRolenameAndNameLike("ROLE_PATRON", StringUtils.EMPTY);
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<FalconUser> listAllStaffs() {
-		return falconUserRepository.findByRolenameAndNameLike("ROLE_USER", StringUtils.EMPTY);
-	}
-
-
 	@Override
 	public boolean sendEmail(final String name, final String address,
 			final String message) {
@@ -74,6 +65,15 @@ public class StaffServiceImpl implements StaffService {
 	@Transactional(readOnly = true)
 	public FalconUser getUser(final String username) {
 		return falconUserRepository.findOne(username);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconStaff> listStaffByAdmin(String admin) {
+		FalconUser user = new FalconUser();
+		user.setUsername(admin);
+		List<FalconStaff> staffs = falconStaffRepository.findByFalconUser(user);
+		return staffs;
 	}
 	
 }
