@@ -6,25 +6,32 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.twistlet.falcon.controller.bean.User;
+import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
+import com.twistlet.falcon.model.service.AppointmentService;
 import com.twistlet.falcon.model.service.StaffService;
 
 @Controller
 public class ListPatientController {
 
 	private final StaffService staffService;
+	
+	private final AppointmentService appointmentService;
 
+	
 	@Autowired
-	public ListPatientController(final StaffService staffService) {
+	public ListPatientController(StaffService staffService,
+			AppointmentService appointmentService) {
 		this.staffService = staffService;
+		this.appointmentService = appointmentService;
 	}
 
 	@RequestMapping("/list-patient")
@@ -43,20 +50,12 @@ public class ListPatientController {
 		return list;
 	}
 	
-	@RequestMapping("/list-all-patient")
+	@RequestMapping("/list-patient/{admin}")
 	@ResponseBody
-	public List<User> listAllPatient() {
-		final List<FalconUser> users = staffService.listAllPatients();
-		final List<User> patients = new ArrayList<>();
-		User patient = new User();
-		patient.setName(StringUtils.EMPTY);
-		patient.setUsername(StringUtils.EMPTY);
-		patients.add(patient);
-		for(FalconUser user : users){
-			patient = new User();
-			BeanUtils.copyProperties(user, patient);
-			patients.add(patient);
-		}
+	public List<User> listPatients(@PathVariable String admin) {
+		FalconUser falconUser = new FalconUser();
+		falconUser.setUsername(admin);
+		List<User> patients = appointmentService.listRegisteredPatrons(falconUser);
 		return patients;
 	}
 }

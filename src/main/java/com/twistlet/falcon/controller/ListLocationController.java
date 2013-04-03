@@ -2,13 +2,14 @@ package com.twistlet.falcon.controller;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.twistlet.falcon.model.entity.FalconLocation;
+import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.LocationService;
 
 @Controller
@@ -21,16 +22,12 @@ public class ListLocationController {
 		this.locationService = locationService;
 	}
 	
-	@RequestMapping("/list-all-location")
+	@RequestMapping("/list-location/{admin}")
 	@ResponseBody
-	public List<FalconLocation> listAllLocation(){
-		FalconLocation location = new FalconLocation();
-		location.setName(StringUtils.EMPTY);
-		List<FalconLocation> locations = locationService.findAllLocations();
-		locations.add(0, location);
-		for(FalconLocation entity : locations){
-			entity.setFalconAppointments(null);
-		}
+	public List<FalconLocation> listLocation(@PathVariable String admin){
+		FalconUser falconUser = new FalconUser();
+		falconUser.setUsername(admin);
+		List<FalconLocation> locations = locationService.listAdminLocations(falconUser);
 		return locations;
 	}
 	

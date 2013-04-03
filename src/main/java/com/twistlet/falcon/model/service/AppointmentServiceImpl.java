@@ -16,8 +16,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twistlet.falcon.controller.bean.Schedule;
+import com.twistlet.falcon.controller.bean.User;
 import com.twistlet.falcon.model.entity.FalconAppointment;
+import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconPatron;
+import com.twistlet.falcon.model.entity.FalconUser;
+import com.twistlet.falcon.model.repository.FalconAppointmentPatronRepository;
 import com.twistlet.falcon.model.repository.FalconAppointmentRepository;
 import com.twistlet.falcon.model.repository.FalconPatronRepository;
 
@@ -26,13 +30,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	private final FalconAppointmentRepository falconAppointmentRepository;
 	
+	private final FalconAppointmentPatronRepository falconAppointmentPatronRepository;
+	
 	private final FalconPatronRepository falconPatronRepository;
 	
 	@Autowired
 	public AppointmentServiceImpl(
 			FalconAppointmentRepository falconAppointmentRepository,
+			FalconAppointmentPatronRepository falconAppointmentPatronRepository,
 			FalconPatronRepository falconPatronRepository) {
 		this.falconAppointmentRepository = falconAppointmentRepository;
+		this.falconAppointmentPatronRepository = falconAppointmentPatronRepository;
 		this.falconPatronRepository = falconPatronRepository;
 	}
 
@@ -40,13 +48,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void createAppointment(FalconAppointment falconAppointment) {
 		falconAppointmentRepository.save(falconAppointment);
-		for(FalconPatron falconPatron : falconAppointment.getFalconPatrons()){
-			falconPatron.setFalconAppointment(falconAppointment);
-			falconPatronRepository.save(falconPatron);
+		for(FalconAppointmentPatron falconAppointmentPatron : falconAppointment.getFalconAppointmentPatrons()){
+			falconAppointmentPatron.setFalconAppointment(falconAppointment);
+			falconAppointmentPatronRepository.save(falconAppointmentPatron);
 		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Schedule> getMonthlySchedule(Date date) {
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		final Date start = DateUtils.truncate(date, Calendar.MONTH);
@@ -72,6 +81,22 @@ public class AppointmentServiceImpl implements AppointmentService {
 			schedules.add(schedule);
 		}
 		return schedules;	
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<User> listRegisteredPatrons(FalconUser admin) {
+		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserByAdmin(admin);
+		List<User> patrons = new ArrayList<>();
+		User user = null;
+		for(FalconPatron falconPatron : falconPatrons){
+			FalconUser falconUser = falconPatron.getFalconUserByPatron();
+			user = new User();
+			user.setName(falconUser.getName());
+			user.setUsername(falconUser.getUsername());
+			patrons.add(user);
+		}
+		return patrons;
 	}
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twistlet.falcon.model.entity.FalconLocation;
+import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.repository.FalconLocationRepository;
 
 @Service
@@ -21,8 +22,13 @@ public class LocationServiceImpl implements LocationService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconLocation> findAllLocations() {
-		return falconLocationRepository.findAll();
+	public List<FalconLocation> listAdminLocations(FalconUser admin) {
+		List<FalconLocation> locations = falconLocationRepository.findByFalconUser(admin);
+		for(FalconLocation location : locations){
+			location.setFalconAppointments(null);
+			location.setFalconUser(null);
+		}
+		return locations;
 	}
 
 }
