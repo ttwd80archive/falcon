@@ -156,10 +156,21 @@ function renderSelectedMonth(month, year) {
 			if (dateInt >= 1 && dateInt <= 31) {
 				$('#appointmenttime').timepicker({
 					controlType: 'select',
-					timeFormat: 'hh:mm tt'
+					timeOnly: true,
+					timeFormat: 'hh:mm tt',
+					defaultValue:	function(){
+						var now = new Date();
+						var hours = now.getHours();
+						hours = hours % 12;
+						var min = now.getMinutes();
+						var ampm = hours >= 12 ? 'pm' : 'am';
+						min = min < 10 ? '0' + min : min;
+						console.log(hours + ':' + min + ' ' + ampm);
+						return hours + ':' + min + ' ' + ampm;
+					}
 				});
 				$("#appointmentdate").datepicker({
-					dateFormat : 'dd-mm-yy'
+					dateFormat: 'dd-mm-yy'
 				});
 				$("#appointmentdate").val(dateValue + '-' +  (parseInt($("#choosemonth").val()) + 1) + '-' + $("#chooseyear").val());
 				$('#createappt-box').css({
