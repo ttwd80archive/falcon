@@ -30,6 +30,8 @@ public class QFalconUser extends EntityPathBase<FalconUser> {
 
     public final SetPath<FalconPatron, QFalconPatron> falconPatronsForPatron = this.<FalconPatron, QFalconPatron>createSet("falconPatronsForPatron", FalconPatron.class, QFalconPatron.class, PathInits.DIRECT);
 
+    public final SetPath<FalconService, QFalconService> falconServices = this.<FalconService, QFalconService>createSet("falconServices", FalconService.class, QFalconService.class, PathInits.DIRECT);
+
     public final SetPath<FalconStaff, QFalconStaff> falconStaffs = this.<FalconStaff, QFalconStaff>createSet("falconStaffs", FalconStaff.class, QFalconStaff.class, PathInits.DIRECT);
 
     public final SetPath<FalconUserRole, QFalconUserRole> falconUserRoles = this.<FalconUserRole, QFalconUserRole>createSet("falconUserRoles", FalconUserRole.class, QFalconUserRole.class, PathInits.DIRECT);

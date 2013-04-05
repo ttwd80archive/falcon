@@ -32,11 +32,11 @@ public class QFalconAppointment extends EntityPathBase<FalconAppointment> {
 
     public final QFalconLocation falconLocation;
 
+    public final QFalconService falconService;
+
     public final QFalconStaff falconStaff;
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
-
-    public final StringPath service = createString("service");
 
     public final StringPath updateBy = createString("updateBy");
 
@@ -62,6 +62,7 @@ public class QFalconAppointment extends EntityPathBase<FalconAppointment> {
     public QFalconAppointment(Class<? extends FalconAppointment> type, PathMetadata<?> metadata, PathInits inits) {
         super(type, metadata, inits);
         this.falconLocation = inits.isInitialized("falconLocation") ? new QFalconLocation(forProperty("falconLocation"), inits.get("falconLocation")) : null;
+        this.falconService = inits.isInitialized("falconService") ? new QFalconService(forProperty("falconService"), inits.get("falconService")) : null;
         this.falconStaff = inits.isInitialized("falconStaff") ? new QFalconStaff(forProperty("falconStaff"), inits.get("falconStaff")) : null;
     }
 
