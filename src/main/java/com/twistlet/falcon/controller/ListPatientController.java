@@ -17,6 +17,7 @@ import com.twistlet.falcon.controller.bean.User;
 import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.AppointmentService;
+import com.twistlet.falcon.model.service.PatronService;
 import com.twistlet.falcon.model.service.StaffService;
 
 @Controller
@@ -24,14 +25,13 @@ public class ListPatientController {
 
 	private final StaffService staffService;
 	
-	private final AppointmentService appointmentService;
+	private final PatronService patronService;
 
-	
 	@Autowired
 	public ListPatientController(StaffService staffService,
-			AppointmentService appointmentService) {
+			PatronService patronService) {
 		this.staffService = staffService;
-		this.appointmentService = appointmentService;
+		this.patronService = patronService;
 	}
 
 	@RequestMapping("/list-patient")
@@ -55,7 +55,7 @@ public class ListPatientController {
 	public List<User> listPatients(@PathVariable String admin) {
 		FalconUser falconUser = new FalconUser();
 		falconUser.setUsername(admin);
-		List<User> patients = appointmentService.listRegisteredPatrons(falconUser);
+		List<User> patients = patronService.listRegisteredPatrons(falconUser);
 		return patients;
 	}
 }
