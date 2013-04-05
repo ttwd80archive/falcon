@@ -13,6 +13,4 @@ public interface AppointmentService {
 	void createAppointment(FalconAppointment falconAppointment);
 	
 	List<Schedule> getMonthlySchedule(Date date);
-	
-	List<User> listRegisteredPatrons(FalconUser admin);
 }

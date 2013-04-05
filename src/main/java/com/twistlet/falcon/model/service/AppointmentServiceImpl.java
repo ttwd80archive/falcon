@@ -83,20 +83,4 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return schedules;	
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<User> listRegisteredPatrons(FalconUser admin) {
-		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserByAdmin(admin);
-		List<User> patrons = new ArrayList<>();
-		User user = null;
-		for(FalconPatron falconPatron : falconPatrons){
-			FalconUser falconUser = falconPatron.getFalconUserByPatron();
-			user = new User();
-			user.setName(falconUser.getName());
-			user.setUsername(falconUser.getUsername());
-			patrons.add(user);
-		}
-		return patrons;
-	}
-
 }
