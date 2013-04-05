@@ -28,6 +28,7 @@ public class FalconUser  implements java.io.Serializable {
      private Set<FalconPatron> falconPatronsForAdmin = new HashSet<FalconPatron>(0);
      private Set<FalconAppointmentPatron> falconAppointmentPatrons = new HashSet<FalconAppointmentPatron>(0);
      private Set<FalconUserRole> falconUserRoles = new HashSet<FalconUserRole>(0);
+     private Set<FalconService> falconServices = new HashSet<FalconService>(0);
      private Set<FalconStaff> falconStaffs = new HashSet<FalconStaff>(0);
      private Set<FalconLocation> falconLocations = new HashSet<FalconLocation>(0);
 
@@ -40,7 +41,7 @@ public class FalconUser  implements java.io.Serializable {
         this.password = password;
         this.name = name;
     }
-    public FalconUser(String username, String password, String name, String email, String phone, Set<FalconPatron> falconPatronsForPatron, Set<FalconPatron> falconPatronsForAdmin, Set<FalconAppointmentPatron> falconAppointmentPatrons, Set<FalconUserRole> falconUserRoles, Set<FalconStaff> falconStaffs, Set<FalconLocation> falconLocations) {
+    public FalconUser(String username, String password, String name, String email, String phone, Set<FalconPatron> falconPatronsForPatron, Set<FalconPatron> falconPatronsForAdmin, Set<FalconAppointmentPatron> falconAppointmentPatrons, Set<FalconUserRole> falconUserRoles, Set<FalconService> falconServices, Set<FalconStaff> falconStaffs, Set<FalconLocation> falconLocations) {
        this.username = username;
        this.password = password;
        this.name = name;
@@ -50,6 +51,7 @@ public class FalconUser  implements java.io.Serializable {
        this.falconPatronsForAdmin = falconPatronsForAdmin;
        this.falconAppointmentPatrons = falconAppointmentPatrons;
        this.falconUserRoles = falconUserRoles;
+       this.falconServices = falconServices;
        this.falconStaffs = falconStaffs;
        this.falconLocations = falconLocations;
     }
@@ -140,6 +142,15 @@ public class FalconUser  implements java.io.Serializable {
     
     public void setFalconUserRoles(Set<FalconUserRole> falconUserRoles) {
         this.falconUserRoles = falconUserRoles;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="falconUser")
+    public Set<FalconService> getFalconServices() {
+        return this.falconServices;
+    }
+    
+    public void setFalconServices(Set<FalconService> falconServices) {
+        this.falconServices = falconServices;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="falconUser")

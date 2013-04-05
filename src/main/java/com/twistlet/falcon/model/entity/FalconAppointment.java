@@ -29,7 +29,7 @@ public class FalconAppointment  implements java.io.Serializable {
      private Integer id;
      private FalconStaff falconStaff;
      private FalconLocation falconLocation;
-     private String service;
+     private FalconService falconService;
      private Date appointmentDate;
      private Date createDate;
      private Date updateDate;
@@ -40,10 +40,10 @@ public class FalconAppointment  implements java.io.Serializable {
     public FalconAppointment() {
     }
 
-    public FalconAppointment(FalconStaff falconStaff, FalconLocation falconLocation, String service, Date appointmentDate, Date createDate, Date updateDate, String createBy, String updateBy, Set<FalconAppointmentPatron> falconAppointmentPatrons) {
+    public FalconAppointment(FalconStaff falconStaff, FalconLocation falconLocation, FalconService falconService, Date appointmentDate, Date createDate, Date updateDate, String createBy, String updateBy, Set<FalconAppointmentPatron> falconAppointmentPatrons) {
        this.falconStaff = falconStaff;
        this.falconLocation = falconLocation;
-       this.service = service;
+       this.falconService = falconService;
        this.appointmentDate = appointmentDate;
        this.createDate = createDate;
        this.updateDate = updateDate;
@@ -84,14 +84,14 @@ public class FalconAppointment  implements java.io.Serializable {
         this.falconLocation = falconLocation;
     }
 
-    
-    @Column(name="service", length=300)
-    public String getService() {
-        return this.service;
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="service")
+    public FalconService getFalconService() {
+        return this.falconService;
     }
     
-    public void setService(String service) {
-        this.service = service;
+    public void setFalconService(FalconService falconService) {
+        this.falconService = falconService;
     }
 
     @Temporal(TemporalType.TIMESTAMP)

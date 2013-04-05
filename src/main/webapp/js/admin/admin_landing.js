@@ -39,6 +39,10 @@ $(function() {
 	$.getJSON('../list-location/' + currentuser, function(data) {
 		setSelectOptions($('#locations'), data, 'id', 'name', '');
 	});
+	
+	$.getJSON('../list-services/' + currentuser, function(data) {
+		setSelectOptions($('#services'), data, 'id', 'name', '');
+	});
 });
 
 function setSelectOptions(selectElement, values, valueKey, textKey, defaultValue) {
