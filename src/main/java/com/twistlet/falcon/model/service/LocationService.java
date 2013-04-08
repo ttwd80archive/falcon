@@ -8,5 +8,7 @@ import com.twistlet.falcon.model.entity.FalconUser;
 public interface LocationService {
 	
 	List<FalconLocation> listAdminLocations(FalconUser admin);
+	
+	void saveLocation(FalconLocation falcLocation);
 
 }

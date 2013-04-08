@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twistlet.falcon.model.entity.FalconService;
@@ -31,6 +32,13 @@ public class ServicesTypeServiceImpl implements ServicesTypeService {
 			service.setFalconAppointments(null);
 		}
 		return services;
+	}
+
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void saveService(FalconService service) {
+		falconServiceRepository.save(service);
 	}
 
 }

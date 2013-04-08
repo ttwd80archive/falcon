@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twistlet.falcon.model.entity.FalconStaff;
@@ -74,6 +75,40 @@ public class StaffServiceImpl implements StaffService {
 		user.setUsername(admin);
 		List<FalconStaff> staffs = falconStaffRepository.findByFalconUser(user);
 		return staffs;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void saveStaff(FalconStaff staff) {
+		falconStaffRepository.save(staff);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconStaff> listStaffByAdminNameLike(FalconUser admin,
+			String username) {
+		return falconStaffRepository.findByFalconUserNameLike(admin, username);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconStaff> listStaffByAdminNricLike(FalconUser admin,
+			String nric) {
+		return falconStaffRepository.findByFalconUserNricLike(admin, nric);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconStaff> listStaffByAdminEmailLike(FalconUser admin,
+			String email) {
+		return falconStaffRepository.findByFalconUserEmailLike(admin, email);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconStaff> listStaffByAdminStaffLike(FalconUser admin,
+			FalconStaff staff) {
+		return falconStaffRepository.findByFalconUserStaffLike(admin, staff);
 	}
 	
 }

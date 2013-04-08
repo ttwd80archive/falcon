@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twistlet.falcon.model.entity.FalconLocation;
@@ -29,6 +30,12 @@ public class LocationServiceImpl implements LocationService {
 			location.setFalconUser(null);
 		}
 		return locations;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void saveLocation(FalconLocation falcLocation) {
+		falconLocationRepository.save(falcLocation);		
 	}
 
 }

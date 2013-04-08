@@ -10,7 +10,17 @@ public interface StaffService {
 	
 	List<FalconStaff> listStaffByAdmin(String admin);
 	
+	List<FalconStaff> listStaffByAdminNameLike(FalconUser admin, String name);
+
+	List<FalconStaff> listStaffByAdminNricLike(FalconUser admin, String nric);
+	
+	List<FalconStaff> listStaffByAdminEmailLike(FalconUser admin, String nric);
+	
+	List<FalconStaff> listStaffByAdminStaffLike(FalconUser admin, FalconStaff staff);
+	
 	FalconUser getUser(String username);
+	
+	void saveStaff(FalconStaff staff);
 
 	boolean sendEmail(String name, String address, String message);
 
