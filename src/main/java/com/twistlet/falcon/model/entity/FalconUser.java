@@ -24,6 +24,10 @@ public class FalconUser  implements java.io.Serializable {
      private String name;
      private String email;
      private String phone;
+     private String nric;
+     private String hpTel;
+     private Boolean sendSms;
+     private Boolean sendEmail;
      private Set<FalconPatron> falconPatronsForPatron = new HashSet<FalconPatron>(0);
      private Set<FalconPatron> falconPatronsForAdmin = new HashSet<FalconPatron>(0);
      private Set<FalconAppointmentPatron> falconAppointmentPatrons = new HashSet<FalconAppointmentPatron>(0);
@@ -41,12 +45,16 @@ public class FalconUser  implements java.io.Serializable {
         this.password = password;
         this.name = name;
     }
-    public FalconUser(String username, String password, String name, String email, String phone, Set<FalconPatron> falconPatronsForPatron, Set<FalconPatron> falconPatronsForAdmin, Set<FalconAppointmentPatron> falconAppointmentPatrons, Set<FalconUserRole> falconUserRoles, Set<FalconService> falconServices, Set<FalconStaff> falconStaffs, Set<FalconLocation> falconLocations) {
+    public FalconUser(String username, String password, String name, String email, String phone, String nric, String hpTel, Boolean sendSms, Boolean sendEmail, Set<FalconPatron> falconPatronsForPatron, Set<FalconPatron> falconPatronsForAdmin, Set<FalconAppointmentPatron> falconAppointmentPatrons, Set<FalconUserRole> falconUserRoles, Set<FalconService> falconServices, Set<FalconStaff> falconStaffs, Set<FalconLocation> falconLocations) {
        this.username = username;
        this.password = password;
        this.name = name;
        this.email = email;
        this.phone = phone;
+       this.nric = nric;
+       this.hpTel = hpTel;
+       this.sendSms = sendSms;
+       this.sendEmail = sendEmail;
        this.falconPatronsForPatron = falconPatronsForPatron;
        this.falconPatronsForAdmin = falconPatronsForAdmin;
        this.falconAppointmentPatrons = falconAppointmentPatrons;
@@ -106,6 +114,46 @@ public class FalconUser  implements java.io.Serializable {
     
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    
+    @Column(name="nric", length=20)
+    public String getNric() {
+        return this.nric;
+    }
+    
+    public void setNric(String nric) {
+        this.nric = nric;
+    }
+
+    
+    @Column(name="hp_tel", length=50)
+    public String getHpTel() {
+        return this.hpTel;
+    }
+    
+    public void setHpTel(String hpTel) {
+        this.hpTel = hpTel;
+    }
+
+    
+    @Column(name="send_sms")
+    public Boolean getSendSms() {
+        return this.sendSms;
+    }
+    
+    public void setSendSms(Boolean sendSms) {
+        this.sendSms = sendSms;
+    }
+
+    
+    @Column(name="send_email")
+    public Boolean getSendEmail() {
+        return this.sendEmail;
+    }
+    
+    public void setSendEmail(Boolean sendEmail) {
+        this.sendEmail = sendEmail;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="falconUserByPatron")
