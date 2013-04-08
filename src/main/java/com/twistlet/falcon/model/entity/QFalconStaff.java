@@ -22,15 +22,23 @@ public class QFalconStaff extends EntityPathBase<FalconStaff> {
 
     public static final QFalconStaff falconStaff = new QFalconStaff("falconStaff");
 
+    public final StringPath email = createString("email");
+
     public final SetPath<FalconAppointment, QFalconAppointment> falconAppointments = this.<FalconAppointment, QFalconAppointment>createSet("falconAppointments", FalconAppointment.class, QFalconAppointment.class, PathInits.DIRECT);
 
     public final QFalconUser falconUser;
+
+    public final StringPath hpTel = createString("hpTel");
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
     public final StringPath name = createString("name");
 
     public final StringPath nric = createString("nric");
+
+    public final BooleanPath sendEmail = createBoolean("sendEmail");
+
+    public final BooleanPath sendSms = createBoolean("sendSms");
 
     public QFalconStaff(String variable) {
         this(FalconStaff.class, forVariable(variable), INITS);
