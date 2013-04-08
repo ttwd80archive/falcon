@@ -41,4 +41,8 @@
 	<bean id="securityContextService"
 		class="com.twistlet.falcon.security.service.SecurityContextServiceImpl"></bean>
 
+	<bean
+		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"
+		id="passwordEncoder"></bean>
+
 </beans>
