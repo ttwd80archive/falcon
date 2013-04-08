@@ -29,6 +29,7 @@ INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_d
 INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (29,1,'2013-04-23 13:07:00',NULL,NULL,NULL,NULL,5,1);
 INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (30,1,'2013-04-23 00:08:00',NULL,NULL,NULL,NULL,5,1);
 INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (31,1,'2013-04-23 05:08:00',NULL,NULL,NULL,NULL,5,1);
+INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (32,1,'2013-04-02 04:05:00',NULL,NULL,NULL,NULL,5,1);
 /*!40000 ALTER TABLE `falcon_appointment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -46,6 +47,7 @@ INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (
 INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (24,29,'inban');
 INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (25,30,'inban');
 INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (26,31,'inban');
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (27,32,'inban');
 /*!40000 ALTER TABLE `falcon_appointment_patron` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,6 +87,7 @@ LOCK TABLES `falcon_patron` WRITE;
 /*!40000 ALTER TABLE `falcon_patron` DISABLE KEYS */;
 INSERT INTO `falcon_patron` (`id`, `patron`, `admin`) VALUES (7,'inban','titiwangsa');
 INSERT INTO `falcon_patron` (`id`, `patron`, `admin`) VALUES (8,'shankar','titiwangsa');
+INSERT INTO `falcon_patron` (`id`, `patron`, `admin`) VALUES (9,'helmy','titiwangsa');
 /*!40000 ALTER TABLE `falcon_patron` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,6 +111,10 @@ LOCK TABLES `falcon_service` WRITE;
 /*!40000 ALTER TABLE `falcon_service` DISABLE KEYS */;
 INSERT INTO `falcon_service` (`id`, `name`, `admin`) VALUES (1,'Service 1','titiwangsa');
 INSERT INTO `falcon_service` (`id`, `name`, `admin`) VALUES (3,'Servuce 2','titiwangsa');
+INSERT INTO `falcon_service` (`id`, `name`, `admin`) VALUES (4,'test service ','titiwangsa');
+INSERT INTO `falcon_service` (`id`, `name`, `admin`) VALUES (5,'check up','titiwangsa');
+INSERT INTO `falcon_service` (`id`, `name`, `admin`) VALUES (6,'test my serv','titiwangsa');
+INSERT INTO `falcon_service` (`id`, `name`, `admin`) VALUES (7,'service inner','titiwangsa');
 /*!40000 ALTER TABLE `falcon_service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +124,10 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_staff` WRITE;
 /*!40000 ALTER TABLE `falcon_staff` DISABLE KEYS */;
-INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`) VALUES (1,'Nini Marina','850101235066','titiwangsa');
+INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`) VALUES (1,'Nini Marina','850101235066','titiwangsa',NULL,'nini@tabuk-tech.com',0,0);
+INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`) VALUES (2,'Helmy Iqbal bin Ambotang','801115025097','titiwangsa','0192612624','test@gmail.com',1,1);
+INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`) VALUES (4,'Shima shipa','791115025095','titiwangsa','0192612624','test@nowhere.com',1,0);
+INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`) VALUES (6,'Ahmad shahirul alim','891112145675','titiwangsa','0123990988','nobody@gmail.com',1,1);
 /*!40000 ALTER TABLE `falcon_staff` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,11 +137,12 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_user` WRITE;
 /*!40000 ALTER TABLE `falcon_user` DISABLE KEYS */;
-INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('butterbun','c42dad8cd3f474de4a21f50c80c04326938037cd74f0adfcfa51c39f302ba276','Butterbun User','','');
-INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('inban','5727c6363d91fcc80a98f22a748c95fba96cc9e39110a23b9a38e6ea510476cb','Inban Iyyadurai','inban.iyyadurai@apris-solutions.com','60123684124');
-INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('melissa','f092d4ac27c31e03eebd80b8634f9d62ca88dc2263b382861374d4992a3eec20','Melissa','','');
-INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('shankar','cda98a529a2cdac1ec3b067c56ffc1ca17cd5724515b1e6f95cfeca383b4ba6b','Shankar Krishnan','shankar.krishnan@apris-solutions.com','60166884401');
-INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`) VALUES ('titiwangsa','bb1338008e7180b5b8246884e8c37eec9ac8869fccd3340a31e9cf67b375fd6e','Titi Wangsa bin Damhore','titi.wangsa.damhore@tabuk-tech.com','60193012624');
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `hp_tel`, `send_sms`, `send_email`) VALUES ('butterbun','c42dad8cd3f474de4a21f50c80c04326938037cd74f0adfcfa51c39f302ba276','Butterbun User','','',NULL,NULL,NULL,NULL);
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `hp_tel`, `send_sms`, `send_email`) VALUES ('helmy','cb1fbbab478f4029d854be20c0b21ba6bf2e67a3','helmy iqbal','nowhere@gmail.com',NULL,'800110124087','0192621624',1,1);
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `hp_tel`, `send_sms`, `send_email`) VALUES ('inban','5727c6363d91fcc80a98f22a748c95fba96cc9e39110a23b9a38e6ea510476cb','Inban Iyyadurai','inban.iyyadurai@apris-solutions.com','60123684124',NULL,NULL,NULL,NULL);
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `hp_tel`, `send_sms`, `send_email`) VALUES ('melissa','f092d4ac27c31e03eebd80b8634f9d62ca88dc2263b382861374d4992a3eec20','Melissa','','',NULL,NULL,NULL,NULL);
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `hp_tel`, `send_sms`, `send_email`) VALUES ('shankar','cda98a529a2cdac1ec3b067c56ffc1ca17cd5724515b1e6f95cfeca383b4ba6b','Shankar Krishnan','shankar.krishnan@apris-solutions.com','60166884401',NULL,NULL,NULL,NULL);
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `hp_tel`, `send_sms`, `send_email`) VALUES ('titiwangsa','bb1338008e7180b5b8246884e8c37eec9ac8869fccd3340a31e9cf67b375fd6e','Titi Wangsa bin Damhore','titi.wangsa.damhore@tabuk-tech.com','60193012624',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `falcon_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
