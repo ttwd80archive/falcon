@@ -124,10 +124,8 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_staff` WRITE;
 /*!40000 ALTER TABLE `falcon_staff` DISABLE KEYS */;
-INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`) VALUES (1,'Nini Marina','850101235066','titiwangsa',NULL,'nini@tabuk-tech.com',0,0);
-INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`) VALUES (2,'Helmy Iqbal bin Ambotang','801115025097','titiwangsa','0192612624','test@gmail.com',1,1);
-INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`) VALUES (4,'Shima shipa','791115025095','titiwangsa','0192612624','test@nowhere.com',1,0);
-INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`) VALUES (6,'Ahmad shahirul alim','891112145675','titiwangsa','0123990988','nobody@gmail.com',1,1);
+INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`, `valid`) VALUES (1,'Nini Marina','850101235066','titiwangsa','0102345672','nini@tabuk-tech.com',1,0,1);
+INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`, `valid`) VALUES (4,'Shima shipa','791115025095','titiwangsa','0192612624','test@nowhere.com',1,0,1);
 /*!40000 ALTER TABLE `falcon_staff` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,3 +169,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+-- Dump completed on 2013-04-09 23:14:54

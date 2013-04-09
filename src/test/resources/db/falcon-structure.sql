@@ -162,10 +162,11 @@ CREATE TABLE `falcon_staff` (
   `email` varchar(100) DEFAULT NULL,
   `send_sms` tinyint(1) unsigned DEFAULT NULL,
   `send_email` tinyint(1) unsigned DEFAULT NULL,
+  `valid` tinyint(1) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_staff_ibfk_1` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,4 +219,4 @@ CREATE TABLE `falcon_user_role` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-09  2:00:15
+-- Dump completed on 2013-04-09 23:13:02
