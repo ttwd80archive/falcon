@@ -31,6 +31,7 @@ public class FalconStaff  implements java.io.Serializable {
      private String email;
      private Boolean sendSms;
      private Boolean sendEmail;
+     private Boolean valid;
      private Set<FalconAppointment> falconAppointments = new HashSet<FalconAppointment>(0);
 
     public FalconStaff() {
@@ -42,7 +43,7 @@ public class FalconStaff  implements java.io.Serializable {
         this.name = name;
         this.nric = nric;
     }
-    public FalconStaff(FalconUser falconUser, String name, String nric, String hpTel, String email, Boolean sendSms, Boolean sendEmail, Set<FalconAppointment> falconAppointments) {
+    public FalconStaff(FalconUser falconUser, String name, String nric, String hpTel, String email, Boolean sendSms, Boolean sendEmail, Boolean valid, Set<FalconAppointment> falconAppointments) {
        this.falconUser = falconUser;
        this.name = name;
        this.nric = nric;
@@ -50,6 +51,7 @@ public class FalconStaff  implements java.io.Serializable {
        this.email = email;
        this.sendSms = sendSms;
        this.sendEmail = sendEmail;
+       this.valid = valid;
        this.falconAppointments = falconAppointments;
     }
    
@@ -133,6 +135,16 @@ public class FalconStaff  implements java.io.Serializable {
     
     public void setSendEmail(Boolean sendEmail) {
         this.sendEmail = sendEmail;
+    }
+
+    
+    @Column(name="valid")
+    public Boolean getValid() {
+        return this.valid;
+    }
+    
+    public void setValid(Boolean valid) {
+        this.valid = valid;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="falconStaff")

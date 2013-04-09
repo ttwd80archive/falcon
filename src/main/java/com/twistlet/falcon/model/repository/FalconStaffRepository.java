@@ -9,6 +9,6 @@ import com.twistlet.falcon.model.entity.FalconUser;
 
 public interface FalconStaffRepository extends JpaRepository<FalconStaff, Integer>, FalconStaffRepositoryCustom  {
 	
-	List<FalconStaff> findByFalconUser(FalconUser falconUser);
+	List<FalconStaff> findByFalconUserAndValid(FalconUser falconUser, Boolean valid);
 
 }

@@ -40,6 +40,8 @@ public class QFalconStaff extends EntityPathBase<FalconStaff> {
 
     public final BooleanPath sendSms = createBoolean("sendSms");
 
+    public final BooleanPath valid = createBoolean("valid");
+
     public QFalconStaff(String variable) {
         this(FalconStaff.class, forVariable(variable), INITS);
     }

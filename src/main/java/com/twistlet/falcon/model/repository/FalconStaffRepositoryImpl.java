@@ -29,7 +29,7 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 		final BooleanExpression conditionNameLike = falconStaff.name.containsIgnoreCase(name);
 		final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
 		query.from(falconStaff);
-		query.where(conditionFalconUser.and(conditionNameLike));
+		query.where(conditionFalconUser.and(conditionNameLike).and(falconStaff.valid.eq(true)));
 		query.orderBy(falconStaff.name.asc());
 		return query.list(falconStaff);
 	}
@@ -41,7 +41,7 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 		final BooleanExpression conditionNricLike = falconStaff.nric.containsIgnoreCase(nric);
 		final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
 		query.from(falconStaff);
-		query.where(conditionFalconUser.and(conditionNricLike));
+		query.where(conditionFalconUser.and(conditionNricLike).and(falconStaff.valid.eq(true)));
 		query.orderBy(falconStaff.name.asc());
 		return query.list(falconStaff);
 	}
@@ -53,7 +53,7 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 		final BooleanExpression conditionNricLike = falconStaff.email.containsIgnoreCase(email);
 		final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
 		query.from(falconStaff);
-		query.where(conditionFalconUser.and(conditionNricLike));
+		query.where(conditionFalconUser.and(conditionNricLike).and(falconStaff.valid.eq(true)));
 		query.orderBy(falconStaff.name.asc());
 		return query.list(falconStaff);
 	}
@@ -65,7 +65,7 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 		final BooleanExpression conditionMobileLike = falconStaff.hpTel.containsIgnoreCase(hpTel);
 		final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
 		query.from(falconStaff);
-		query.where(conditionFalconUser.and(conditionMobileLike));
+		query.where(conditionFalconUser.and(conditionMobileLike).and(falconStaff.valid.eq(true)));
 		query.orderBy(falconStaff.name.asc());
 		return query.list(falconStaff);
 	}
@@ -102,7 +102,7 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 				conditionStaff.and(falconStaff.nric.eq(staff.getNric()));
 			}
 		}
-		query.where(conditionFalconUser.and(conditionStaff));
+		query.where(conditionFalconUser.and(conditionStaff).and(falconStaff.valid.eq(true)));
 		query.orderBy(falconStaff.name.asc());
 		return query.list(falconStaff);
 	}
