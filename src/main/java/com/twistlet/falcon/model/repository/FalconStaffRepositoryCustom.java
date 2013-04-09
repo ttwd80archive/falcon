@@ -12,6 +12,8 @@ public interface FalconStaffRepositoryCustom {
 	List<FalconStaff> findByFalconUserNricLike(FalconUser falconUser, String nric);
 	
 	List<FalconStaff> findByFalconUserEmailLike(FalconUser falconUser, String email);
+
+	List<FalconStaff> findByFalconUserHpTelLike(FalconUser falconUser, String hpTel);
 	
 	List<FalconStaff> findByFalconUserStaffLike(FalconUser falconUser, FalconStaff staff);
 

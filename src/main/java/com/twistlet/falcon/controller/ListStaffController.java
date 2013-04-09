@@ -80,6 +80,20 @@ public class ListStaffController {
 		}
 		return emails;
 	}
+	
+	@RequestMapping("/list-staff-mobile/{admin}")
+	@ResponseBody
+	public List<String> listStaffMobile(@PathVariable("admin") String username,
+			@RequestParam("term") String mobile) {
+		FalconUser admin = new FalconUser();
+		admin.setUsername(username);
+		List<FalconStaff> staffs = staffService.listStaffByAdminMobileLike(admin, mobile);
+		List<String> mobiles = new ArrayList<>();
+		for (FalconStaff staff : staffs) {
+			mobiles.add(staff.getHpTel());
+		}
+		return mobiles;
+	}
 
 	@RequestMapping("/search-staff/{admin}")
 	@ResponseBody

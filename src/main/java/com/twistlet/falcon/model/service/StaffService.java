@@ -16,6 +16,8 @@ public interface StaffService {
 	
 	List<FalconStaff> listStaffByAdminEmailLike(FalconUser admin, String nric);
 	
+	List<FalconStaff> listStaffByAdminMobileLike(FalconUser admin, String mobile);
+	
 	List<FalconStaff> listStaffByAdminStaffLike(FalconUser admin, FalconStaff staff);
 	
 	FalconUser getUser(String username);

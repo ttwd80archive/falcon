@@ -110,5 +110,12 @@ public class StaffServiceImpl implements StaffService {
 			FalconStaff staff) {
 		return falconStaffRepository.findByFalconUserStaffLike(admin, staff);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconStaff> listStaffByAdminMobileLike(FalconUser admin,
+			String mobile) {
+		return falconStaffRepository.findByFalconUserHpTelLike(admin, mobile);
+	}
 	
 }

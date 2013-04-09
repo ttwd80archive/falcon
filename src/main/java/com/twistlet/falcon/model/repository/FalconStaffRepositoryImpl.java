@@ -57,6 +57,18 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 		query.orderBy(falconStaff.name.asc());
 		return query.list(falconStaff);
 	}
+	
+	@Override
+	public List<FalconStaff> findByFalconUserHpTelLike(FalconUser admin, String hpTel) {
+		final JPQLQuery query = new JPAQuery(entityManager);
+		final QFalconStaff falconStaff = QFalconStaff.falconStaff;
+		final BooleanExpression conditionMobileLike = falconStaff.hpTel.containsIgnoreCase(hpTel);
+		final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
+		query.from(falconStaff);
+		query.where(conditionFalconUser.and(conditionMobileLike));
+		query.orderBy(falconStaff.name.asc());
+		return query.list(falconStaff);
+	}
 
 	@Override
 	public List<FalconStaff> findByFalconUserStaffLike(FalconUser admin,
