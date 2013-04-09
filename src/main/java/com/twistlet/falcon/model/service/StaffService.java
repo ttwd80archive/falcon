@@ -23,6 +23,8 @@ public interface StaffService {
 	FalconUser getUser(String username);
 	
 	void saveStaff(FalconStaff staff);
+	
+	void deleteStaff(FalconStaff staff);
 
 	boolean sendEmail(String name, String address, String message);
 

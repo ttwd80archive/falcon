@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,6 +50,7 @@ protected final Logger logger = LoggerFactory.getLogger(getClass());
 	@RequestMapping("/admin/manageusers")
 	public ModelAndView view(){
 		FalconStaff falconStaff = new FalconStaff();
+		falconStaff.setValid(true);
 		FalconPatron falconPatron = new FalconPatron();
 		FalconLocation falconLocation = new FalconLocation();
 		FalconService falconService = new FalconService();
@@ -103,6 +105,14 @@ protected final Logger logger = LoggerFactory.getLogger(getClass());
 	    service.setFalconUser(admin);
 	    serviceTypeService.saveService(service);
 	    return new ModelAndView("redirect:manageusers?f=4");
+	}
+	
+	@RequestMapping(value = "/admin/delete-staff/{id}", method = RequestMethod.GET)
+	public ModelAndView deleteStaff(@PathVariable("id") Integer id) {
+		FalconStaff staff = new FalconStaff();
+		staff.setId(id);
+		staffService.deleteStaff(staff);
+		return new ModelAndView("redirect:manageusers?f=1");
 	}
 	
 }

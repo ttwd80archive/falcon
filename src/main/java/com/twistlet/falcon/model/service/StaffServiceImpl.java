@@ -73,7 +73,7 @@ public class StaffServiceImpl implements StaffService {
 	public List<FalconStaff> listStaffByAdmin(String admin) {
 		FalconUser user = new FalconUser();
 		user.setUsername(admin);
-		List<FalconStaff> staffs = falconStaffRepository.findByFalconUser(user);
+		List<FalconStaff> staffs = falconStaffRepository.findByFalconUserAndValid(user, true);
 		return staffs;
 	}
 
@@ -116,6 +116,12 @@ public class StaffServiceImpl implements StaffService {
 	public List<FalconStaff> listStaffByAdminMobileLike(FalconUser admin,
 			String mobile) {
 		return falconStaffRepository.findByFalconUserHpTelLike(admin, mobile);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void deleteStaff(FalconStaff staff) {
+		falconStaffRepository.delete(staff);
 	}
 	
 }

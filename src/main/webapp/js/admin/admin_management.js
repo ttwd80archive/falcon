@@ -155,7 +155,16 @@ $(function() {
 	});
 	
 	$('#saveStaff').click(function(){
-		$('#staffform').submit();
+		if($('#email-staff').val() != ''){
+			$('#staffform').submit();
+		}
+	});
+	
+	$('#deleteStaff').click(function(){
+		if($('#id').val() != null && $('#id').val() != ''){
+			$('#valid').val('0');
+			$('#staffform').submit();
+		}
 	});
 	
 });
