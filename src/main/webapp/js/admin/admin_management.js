@@ -64,6 +64,7 @@ $(function() {
 		}
 	});
 	
+	/** for staff **/
 	
 	url = '../list-staff-nric/'+ currentuser;
 	$("#identificationnum-staff").autocomplete({
@@ -166,6 +167,30 @@ $(function() {
 			$('#staffform').submit();
 		}
 	});
+	
+	
+	/** For Patron **/
+	
+	url = '../list-patron-name/'+ currentuser;
+	$("#fullname-patron").autocomplete({
+		source: url,
+		minLength: 3,
+		select: function(event, ui){
+			console.log(ui.item.value);
+			var url = '../search-patron/' + currentuser + '?';
+			url = url + 'name=' + ui.item.value;
+			$.getJSON(url, function(data){
+				 $('#id').val(data.id);
+				 $('#fullname-staff').val(data.name);
+				 $('#identificationnum-staff').val(data.nric);
+				 $('#email-staff').val(data.email);
+				 $('#mobilenum-staff').val(data.hpTel);
+				 $('#smsnotification-staff').prop('checked', data.sendSms);
+				 $('#emailnotification-staff').prop('checked', data.sendEmail);
+			});
+		}
+	});
+	
 	
 });
 

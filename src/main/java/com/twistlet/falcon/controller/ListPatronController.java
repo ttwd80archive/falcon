@@ -19,14 +19,14 @@ import com.twistlet.falcon.model.service.PatronService;
 import com.twistlet.falcon.model.service.StaffService;
 
 @Controller
-public class ListPatientController {
+public class ListPatronController {
 
 	private final StaffService staffService;
 	
 	private final PatronService patronService;
 
 	@Autowired
-	public ListPatientController(StaffService staffService,
+	public ListPatronController(StaffService staffService,
 			PatronService patronService) {
 		this.staffService = staffService;
 		this.patronService = patronService;
