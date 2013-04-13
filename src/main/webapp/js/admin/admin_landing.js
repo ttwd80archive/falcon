@@ -1,4 +1,5 @@
 $(function() {
+	$(".chzn-select").chosen();
 	var NO_OF_YEARS = 2;
 	var date = new Date();
 	var options = "";
@@ -30,6 +31,7 @@ $(function() {
 	console.log(currentuser);
 	$.getJSON('../list-patient/' + currentuser, function(data) {
 		setSelectOptions($('#patrons'), data, 'username', 'name', '');
+		$("#patrons").chosen();
 	});
 	
 	$.getJSON('../list-staff/'+ currentuser, function(data) {

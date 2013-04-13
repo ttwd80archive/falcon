@@ -12,6 +12,8 @@
 	href="css/styles.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" th:href="@{/css/layout.css}"
 	href="css/layout.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" th:href="@{/css/chosen.css}"
+	href="css/chosen.css" type="text/css" media="screen" charset="utf-8" />
 <style>
 	.ui-widget {
 		font-size: x-small;
@@ -196,7 +198,8 @@
 				<ul id="createapptfilter" class="nopadding">
 					<li>
 						<span>Select Patron</span>
-						<select id="patrons" th:field="*{falconAppointmentPatrons}"></select>
+						<select id="patrons" th:field="*{falconAppointmentPatrons}" multiple="multiple" 
+							style="width:350px;" ></select>
 					</li>
 					<li>
 						<span>Select Service</span>
@@ -248,6 +251,8 @@
 		src="js/lib/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" th:src="@{/js/lib/jquery-ui-sliderAccess.js}"
 		src="js/lib/jquery-ui-sliderAccess.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/chosen.jquery.min.js}"
+		src="js/lib/chosen.jquery.min.js"></script>
 	<script type="text/javascript" th:src="@{/js/admin/admin_landing.js}"
 		src="js/admin/admin_landing.js"></script>
 		
