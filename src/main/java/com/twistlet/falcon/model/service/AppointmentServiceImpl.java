@@ -83,4 +83,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return schedules;	
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconAppointment> listMonthlySchedule(Date date) {
+		final Date start = DateUtils.truncate(date, Calendar.MONTH);
+		final Date end = DateUtils.addSeconds(DateUtils.ceiling(date, Calendar.MONTH), -1);
+		List<FalconAppointment> appointments = falconAppointmentRepository.listFullByAppointmentDateBetween(start, end);
+		for(FalconAppointment appointment : appointments){
+			appointment.getFalconStaff().getName();
+			appointment.getFalconLocation().getName();
+			appointment.getFalconService().getName();
+			for(FalconAppointmentPatron falconAppointmentPatron : appointment.getFalconAppointmentPatrons()){
+				falconAppointmentPatron.getFalconUser().getName();
+			}
+		}
+		return appointments;
+	}
+
 }
