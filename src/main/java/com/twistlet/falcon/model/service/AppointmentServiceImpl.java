@@ -31,17 +31,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 	private final FalconAppointmentRepository falconAppointmentRepository;
 	
 	private final FalconAppointmentPatronRepository falconAppointmentPatronRepository;
-	
-	private final FalconPatronRepository falconPatronRepository;
+
 	
 	@Autowired
 	public AppointmentServiceImpl(
 			FalconAppointmentRepository falconAppointmentRepository,
-			FalconAppointmentPatronRepository falconAppointmentPatronRepository,
-			FalconPatronRepository falconPatronRepository) {
+			FalconAppointmentPatronRepository falconAppointmentPatronRepository) {
 		this.falconAppointmentRepository = falconAppointmentRepository;
 		this.falconAppointmentPatronRepository = falconAppointmentPatronRepository;
-		this.falconPatronRepository = falconPatronRepository;
 	}
 
 	@Override
@@ -98,6 +95,31 @@ public class AppointmentServiceImpl implements AppointmentService {
 			}
 		}
 		return appointments;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public FalconAppointment findAppointment(Integer id) {
+		FalconAppointment falconAppointment = falconAppointmentRepository.findOne(id);
+		for(FalconAppointmentPatron falconAppointmentPatron : falconAppointment.getFalconAppointmentPatrons()){
+			falconAppointmentPatron.getFalconUser().getName();
+			falconAppointmentPatron.getFalconAppointment().getFalconLocation().getName();
+			falconAppointmentPatron.getFalconAppointment().getFalconService().getName();
+			falconAppointmentPatron.getFalconAppointment().getFalconStaff().getName();
+		}
+		return falconAppointment;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void deleteAppointment(Integer id) {
+		FalconAppointment appointment = new FalconAppointment();
+		appointment.setId(id);
+		List<FalconAppointmentPatron> patrons = falconAppointmentPatronRepository.findByFalconAppointment(appointment);
+		for(FalconAppointmentPatron patron : patrons){
+			falconAppointmentPatronRepository.delete(patron);
+		}
+		falconAppointmentRepository.delete(appointment);
 	}
 
 }

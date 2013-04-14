@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Manage Appointments</title>
@@ -101,7 +100,7 @@
 												<tr th:each="appointment : ${appointments}">
 													<td class="td1-ext" th:text="${appointment.falconStaff.name}"></td>
 													<td class="td2-ext" >
-														<a href="#" th:if="${#lists.size(appointment.falconAppointmentPatrons) > 1}">Patient Group</a>
+														<a href="#" th:href="@{patron_group_list(id=${appointment.id})}" th:if="${#lists.size(appointment.falconAppointmentPatrons) > 1}">Patient Group</a>
 														<div th:unless="${#lists.size(appointment.falconAppointmentPatrons) > 1}">
 															<span th:each="patron : ${appointment.falconAppointmentPatrons}">
 																<span th:text="${patron.falconUser.name}"></span>
@@ -115,8 +114,7 @@
 													<td class="td8">
 														<ul class="schedule-action">
 															<li>
-																<a onclick="document.getElementById('removeappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																	href="#">Remove</a>
+																<a class="remove" href="#" th:id="${appointment.id}">Remove</a>
 															</li>
 															<li>
 																<a onclick="document.getElementById('rescheduleappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
@@ -144,14 +142,17 @@
 			<div id="removeappt" class="relativeleftcenter">
 				<h2>Confirm delete this appointment?</h2>
 				<ul id="getappointment" class="nopadding">
-					<li><span>Date&#58;</span>07&#47;11&#47;2012</li>
-					<li><span>Time&#58;</span>10&#58;30 a&#46;m&#46;</li>
-					<li><span>Venue&#58;</span>Room 1</li>
-					<li><span>Staff&#58;</span>Dr&#46; Dre</li>
-					<li><span>Patron&#58;</span>Patient Zero</li>
-					<li><input class="button" type="submit" value="YES" /><input
-						class="button" type="button" value="NO"
-						onclick="document.getElementById('removeappt-box').style.display='none'; document.getElementById('bg').style.display='none';" /></li>
+					<li><span>Date&#58;</span><div id="deleteDate"></div></li>
+					<li><span>Time&#58;</span><div id="deleteTime"></div></li>
+					<li><span>Venue&#58;</span><div id="deleteLocation"></div></li>
+					<li><span>Staff&#58;</span><div id="deleteStaff"></div></li>
+					<li><span>Patron&#58;</span><div id="deletePatrons"></div></li>
+					<li id="deleteId" style="visibility:hidden;"></li>
+					<li>
+						<input class="button" type="button" value="YES" id="delete"/>
+						<input class="button" type="button" value="NO"
+							onclick="document.getElementById('removeappt-box').style.display='none'; document.getElementById('bg').style.display='none';" />
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -195,5 +196,9 @@
 		<div id="footer">Apris Solutions &#169; 2013 All Rights Reserved
 		</div>
 	</div>
+	<script type="text/javascript" th:src="@{/js/lib/jquery-1.9.1.min.js}"
+		src="js/lib/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/admin/manage_appointments.js}"
+		src="js/admin/admin_landing.js"></script>
 </body>
 </html>

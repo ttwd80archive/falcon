@@ -13,4 +13,8 @@ public interface AppointmentService {
 	List<Schedule> getMonthlySchedule(Date date);
 	
 	List<FalconAppointment> listMonthlySchedule(Date date);
+	
+	FalconAppointment findAppointment(Integer id);
+	
+	void deleteAppointment(Integer id);
 }
