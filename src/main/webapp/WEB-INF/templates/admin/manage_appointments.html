@@ -98,99 +98,32 @@
 									<div class="innertable1">
 										<table class="result-table-rows">
 											<tbody>
-												<tr>
-													<td class="td1-ext">Dr&#46; Dre</td>
-													<td class="td2-ext">Patient Zero</td>
-													<td class="td3-ext">Room 1</td>
-													<td class="td5">Medical Check-Up</td>
-													<td class="td6">07&#47;11&#47;2012</td>
-													<td class="td7">10&#58;30 a&#46;m&#46;</td>
-													<td class="td8"><ul class="schedule-action">
-															<li><a
-																onclick="document.getElementById('removeappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																href="#">Remove</a></li>
-															<li><a
-																onclick="document.getElementById('rescheduleappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																href="#">Reschedule</a></li>
-														</ul></td>
-												</tr>
-												<tr>
-													<td>Trainer Jack</td>
-													<td><a id="patron-group" href="patrongrouplist.html">Patient
-															Group</a></td>
-													<td>Room 1</td>
-													<td>Yoga</td>
-													<td>04&#47;12&#47;2012</td>
-													<td>4&#58;30 p&#46;m&#46;</td>
-													<td><ul class="schedule-action">
-															<li><a href="#">Remove</a></li>
-															<li><a href="#">Reschedule</a></li>
-														</ul></td>
-												</tr>
-
-												<tr>
-													<td>Dr&#46; Dre</td>
-													<td>Patient Zero</td>
-													<td>Room 1</td>
-													<td>Medical Check-Up</td>
-													<td>07&#47;11&#47;2012</td>
-													<td>10&#58;30 a&#46;m&#46;</td>
-													<td><ul class="schedule-action">
-															<li><a
-																onclick="document.getElementById('removeappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																href="#">Remove</a></li>
-															<li><a
-																onclick="document.getElementById('rescheduleappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																href="#">Reschedule</a></li>
-														</ul></td>
-												</tr>
-												<tr>
-													<td>Dr&#46; Dre</td>
-													<td>Patient Zero</td>
-													<td>Room 1</td>
-													<td>Medical Check-Up</td>
-													<td>07&#47;11&#47;2012</td>
-													<td>10&#58;30 a&#46;m&#46;</td>
-													<td><ul class="schedule-action">
-															<li><a
-																onclick="document.getElementById('removeappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																href="#">Remove</a></li>
-															<li><a
-																onclick="document.getElementById('rescheduleappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																href="#">Reschedule</a></li>
-														</ul></td>
-												</tr>
-												<tr>
-													<td>Dr&#46; Dre</td>
-													<td>Patient Zero</td>
-													<td>Room 1</td>
-													<td>Medical Check-Up</td>
-													<td>07&#47;11&#47;2012</td>
-													<td>10&#58;30 a&#46;m&#46;</td>
-													<td><ul class="schedule-action">
-															<li><a
-																onclick="document.getElementById('removeappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																href="#">Remove</a></li>
-															<li><a
-																onclick="document.getElementById('rescheduleappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																href="#">Reschedule</a></li>
-														</ul></td>
-												</tr>
-												<tr>
-													<td>Dr&#46; Dre</td>
-													<td>Patient Zero</td>
-													<td>Room 1</td>
-													<td>Medical Check-Up</td>
-													<td>07&#47;11&#47;2012</td>
-													<td>10&#58;30 a&#46;m&#46;</td>
-													<td><ul class="schedule-action">
-															<li><a
-																onclick="document.getElementById('removeappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																href="#">Remove</a></li>
-															<li><a
-																onclick="document.getElementById('rescheduleappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																href="#">Reschedule</a></li>
-														</ul></td>
+												<tr th:each="appointment : ${appointments}">
+													<td class="td1-ext" th:text="${appointment.falconStaff.name}"></td>
+													<td class="td2-ext" >
+														<a href="#" th:if="${#lists.size(appointment.falconAppointmentPatrons) > 1}">Patient Group</a>
+														<div th:unless="${#lists.size(appointment.falconAppointmentPatrons) > 1}">
+															<span th:each="patron : ${appointment.falconAppointmentPatrons}">
+																<span th:text="${patron.falconUser.name}"></span>
+															</span>
+														</div>
+													</td>
+													<td class="td3-ext" th:text="${appointment.falconLocation.name}"></td>
+													<td class="td5" th:text="${appointment.falconService.name}"></td>
+													<td class="td6" th:text="${#dates.format(appointment.appointmentDate, 'dd/MM/yyyy')}"></td>
+													<td class="td7" th:text="${#dates.format(appointment.appointmentDate, 'hh:mm aaa')}"></td>
+													<td class="td8">
+														<ul class="schedule-action">
+															<li>
+																<a onclick="document.getElementById('removeappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
+																	href="#">Remove</a>
+															</li>
+															<li>
+																<a onclick="document.getElementById('rescheduleappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
+																	href="#">Reschedule</a>
+															</li>
+														</ul>
+													</td>
 												</tr>
 											</tbody>
 										</table>
