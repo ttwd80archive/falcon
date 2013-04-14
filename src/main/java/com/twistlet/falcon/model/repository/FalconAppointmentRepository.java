@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.twistlet.falcon.model.entity.FalconAppointment;
 
 public interface FalconAppointmentRepository extends
-		JpaRepository<FalconAppointment, Integer> {
+		JpaRepository<FalconAppointment, Integer>, FalconAppointmentRepositoryCustom {
 	
 	List<FalconAppointment> findByAppointmentDateBetween(Date start, Date end);
 
