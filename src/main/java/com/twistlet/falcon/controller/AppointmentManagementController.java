@@ -51,4 +51,11 @@ public class AppointmentManagementController {
 		return new ModelAndView("redirect:../manage-appointments");
 	}
 	
+	
+	@RequestMapping("/admin/delete_patron_appointment/{id}")
+	public ModelAndView deleteAppointmentPatron(@PathVariable Integer id){
+		appointmentService.deleteAppointmentPatron(id);
+		return new ModelAndView("redirect:../manage-appointments");
+	}
+	
 }

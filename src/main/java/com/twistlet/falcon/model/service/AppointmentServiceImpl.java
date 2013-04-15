@@ -16,14 +16,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twistlet.falcon.controller.bean.Schedule;
-import com.twistlet.falcon.controller.bean.User;
 import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
-import com.twistlet.falcon.model.entity.FalconPatron;
-import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.repository.FalconAppointmentPatronRepository;
 import com.twistlet.falcon.model.repository.FalconAppointmentRepository;
-import com.twistlet.falcon.model.repository.FalconPatronRepository;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -120,6 +116,24 @@ public class AppointmentServiceImpl implements AppointmentService {
 			falconAppointmentPatronRepository.delete(patron);
 		}
 		falconAppointmentRepository.delete(appointment);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public FalconAppointmentPatron findPatron(Integer id) {
+		FalconAppointmentPatron falconAppointmentPatron = falconAppointmentPatronRepository.findOne(id);
+		falconAppointmentPatron.getFalconAppointment().getFalconStaff().getName();
+		falconAppointmentPatron.getFalconAppointment().getFalconLocation().getName();
+		falconAppointmentPatron.getFalconUser().getName();
+		return falconAppointmentPatron;
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void deleteAppointmentPatron(Integer id) {
+		FalconAppointmentPatron appointmentPatron = new FalconAppointmentPatron();
+		appointmentPatron.setId(id);
+		falconAppointmentPatronRepository.delete(appointmentPatron);
 	}
 
 }

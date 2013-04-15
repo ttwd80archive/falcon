@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.twistlet.falcon.controller.bean.Schedule;
 import com.twistlet.falcon.model.entity.FalconAppointment;
+import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 
 public interface AppointmentService {
 
@@ -17,4 +18,8 @@ public interface AppointmentService {
 	FalconAppointment findAppointment(Integer id);
 	
 	void deleteAppointment(Integer id);
+	
+	FalconAppointmentPatron findPatron(Integer id);
+	
+	void deleteAppointmentPatron(Integer id);
 }

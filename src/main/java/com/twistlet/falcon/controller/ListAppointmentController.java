@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.twistlet.falcon.controller.bean.Appointment;
+import com.twistlet.falcon.controller.bean.AppointmentPatron;
 import com.twistlet.falcon.controller.bean.Schedule;
 import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
@@ -46,9 +46,9 @@ public class ListAppointmentController {
 		return schedules;
 	}
 	
-	@RequestMapping("/apppointment_fetch")
+	@RequestMapping("/apppointment_fetch/{id}")
 	@ResponseBody
-	public Appointment getAppointments(@RequestParam("id") Integer id) {
+	public Appointment getAppointment(@PathVariable Integer id) {
 		FalconAppointment falconAppointment = appointmentService.findAppointment(id);
 		final SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
 		final SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm aaa");
@@ -63,6 +63,22 @@ public class ListAppointmentController {
 			appointment.getPatrons().add(patron.getFalconUser().getName());
 		}
 		return appointment;
+	}
+	
+	@RequestMapping("/apppointment_patron_fetch/{id}")
+	@ResponseBody
+	public AppointmentPatron getAppointmentPatron(@PathVariable Integer id) {
+		FalconAppointmentPatron falconAppointmentPatron = appointmentService.findPatron(id);
+		AppointmentPatron appointmentPatron = new AppointmentPatron();
+		final SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
+		final SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm aaa");
+		appointmentPatron.setId(falconAppointmentPatron.getId());
+		appointmentPatron.setAppointmentDate(sdfDate.format(falconAppointmentPatron.getFalconAppointment().getAppointmentDate()));
+		appointmentPatron.setAppointmentTime(sdfTime.format(falconAppointmentPatron.getFalconAppointment().getAppointmentDate()));
+		appointmentPatron.setLocation(falconAppointmentPatron.getFalconAppointment().getFalconLocation().getName());
+		appointmentPatron.setStaff(falconAppointmentPatron.getFalconAppointment().getFalconStaff().getName());
+		appointmentPatron.setPatron(falconAppointmentPatron.getFalconUser().getName());
+		return appointmentPatron;
 	}
 
 }
