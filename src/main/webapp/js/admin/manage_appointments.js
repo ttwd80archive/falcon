@@ -1,6 +1,6 @@
 $(function() {
 	$('.remove').click(function(){
-		var url = '../apppointment_fetch?id=' + $(this).attr('id');
+		var url = '../apppointment_fetch/' + $(this).attr('id');
 		console.log(url);
 		$.getJSON(url, function(data){
 			console.log(data);
