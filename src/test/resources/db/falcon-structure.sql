@@ -32,14 +32,15 @@ CREATE TABLE `falcon_appointment` (
   `update_by` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `location` int(11) unsigned DEFAULT NULL,
   `staff` int(11) unsigned DEFAULT NULL,
+  `appointment_date_end` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_falcon_appointment_falcon_location` (`location`),
   KEY `staff` (`staff`),
   KEY `service` (`service`),
-  CONSTRAINT `falcon_appointment_ibfk_2` FOREIGN KEY (`service`) REFERENCES `falcon_service` (`id`),
   CONSTRAINT `falcon_appointment_ibfk_1` FOREIGN KEY (`staff`) REFERENCES `falcon_staff` (`id`),
+  CONSTRAINT `falcon_appointment_ibfk_2` FOREIGN KEY (`service`) REFERENCES `falcon_service` (`id`),
   CONSTRAINT `FK_falcon_appointment_falcon_location` FOREIGN KEY (`location`) REFERENCES `falcon_location` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,13 +53,13 @@ DROP TABLE IF EXISTS `falcon_appointment_patron`;
 CREATE TABLE `falcon_appointment_patron` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `appointment` int(11) unsigned NOT NULL,
-  `patron` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `patron` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_falcon_patron_falcon_user` (`patron`),
   KEY `FK_falcon_patron_falcon_appointment` (`appointment`),
-  CONSTRAINT `FK_falcon_patron_falcon_appointment` FOREIGN KEY (`appointment`) REFERENCES `falcon_appointment` (`id`),
-  CONSTRAINT `FK_falcon_patron_falcon_user` FOREIGN KEY (`patron`) REFERENCES `falcon_user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+  KEY `patron` (`patron`),
+  CONSTRAINT `falcon_appointment_patron_ibfk_1` FOREIGN KEY (`patron`) REFERENCES `falcon_patron` (`id`),
+  CONSTRAINT `FK_falcon_patron_falcon_appointment` FOREIGN KEY (`appointment`) REFERENCES `falcon_appointment` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,7 +76,7 @@ CREATE TABLE `falcon_location` (
   PRIMARY KEY (`id`),
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_location_ibfk_1` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,8 +112,8 @@ CREATE TABLE `falcon_patron` (
   PRIMARY KEY (`id`),
   KEY `patron` (`patron`),
   KEY `admin` (`admin`),
-  CONSTRAINT `falcon_patron_ibfk_3` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`),
-  CONSTRAINT `falcon_patron_ibfk_2` FOREIGN KEY (`patron`) REFERENCES `falcon_user` (`username`)
+  CONSTRAINT `falcon_patron_ibfk_2` FOREIGN KEY (`patron`) REFERENCES `falcon_user` (`username`),
+  CONSTRAINT `falcon_patron_ibfk_3` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -166,7 +167,7 @@ CREATE TABLE `falcon_staff` (
   PRIMARY KEY (`id`),
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_staff_ibfk_1` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,4 +220,4 @@ CREATE TABLE `falcon_user_role` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-09 23:13:02
+-- Dump completed on 2013-04-21 12:07:29

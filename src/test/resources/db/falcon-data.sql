@@ -21,15 +21,8 @@
 
 LOCK TABLES `falcon_appointment` WRITE;
 /*!40000 ALTER TABLE `falcon_appointment` DISABLE KEYS */;
-INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (24,3,'2013-04-12 10:07:00',NULL,NULL,NULL,NULL,5,1);
-INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (25,3,'2013-04-15 03:07:00',NULL,NULL,NULL,NULL,5,1);
-INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (26,1,'2013-04-15 06:07:00',NULL,NULL,NULL,NULL,5,1);
-INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (27,1,'2013-04-15 10:07:00',NULL,NULL,NULL,NULL,5,1);
-INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (28,1,'2013-04-23 10:07:00',NULL,NULL,NULL,NULL,5,1);
-INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (29,1,'2013-04-23 13:07:00',NULL,NULL,NULL,NULL,5,1);
-INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (30,1,'2013-04-23 00:08:00',NULL,NULL,NULL,NULL,5,1);
-INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (31,1,'2013-04-23 05:08:00',NULL,NULL,NULL,NULL,5,1);
-INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`) VALUES (32,1,'2013-04-02 04:05:00',NULL,NULL,NULL,NULL,5,1);
+INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`, `appointment_date_end`) VALUES (38,1,'2013-04-01 02:10:00',NULL,NULL,NULL,NULL,5,1,'2013-04-01 03:00:00');
+INSERT INTO `falcon_appointment` (`id`, `service`, `appointment_date`, `create_date`, `update_date`, `create_by`, `update_by`, `location`, `staff`, `appointment_date_end`) VALUES (39,1,'2013-04-01 02:12:00',NULL,NULL,NULL,NULL,5,1,'2013-04-01 03:12:00');
 /*!40000 ALTER TABLE `falcon_appointment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -39,15 +32,9 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_appointment_patron` WRITE;
 /*!40000 ALTER TABLE `falcon_appointment_patron` DISABLE KEYS */;
-INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (19,24,'inban');
-INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (20,25,'shankar');
-INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (21,26,'inban');
-INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (22,27,'shankar');
-INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (23,28,'inban');
-INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (24,29,'inban');
-INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (25,30,'inban');
-INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (26,31,'inban');
-INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (27,32,'inban');
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (32,38,7);
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (33,38,8);
+INSERT INTO `falcon_appointment_patron` (`id`, `appointment`, `patron`) VALUES (34,39,9);
 /*!40000 ALTER TABLE `falcon_appointment_patron` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,6 +113,7 @@ LOCK TABLES `falcon_staff` WRITE;
 /*!40000 ALTER TABLE `falcon_staff` DISABLE KEYS */;
 INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`, `valid`) VALUES (1,'Nini Marina','850101235066','titiwangsa','0102345672','nini@tabuk-tech.com',1,0,1);
 INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`, `valid`) VALUES (4,'Shima shipa','791115025095','titiwangsa','0192612624','test@nowhere.com',1,0,1);
+INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`, `valid`) VALUES (12,'titi wangsa','7911231231231','titiwangsa','2893748927427','1ahakjkhf',1,1,0);
 /*!40000 ALTER TABLE `falcon_staff` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,4 +157,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-09 23:14:54
+-- Dump completed on 2013-04-21 12:07:59
