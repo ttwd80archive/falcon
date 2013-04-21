@@ -24,14 +24,17 @@ $(function() {
 	$('#appointmentform').submit(function(){
 		var date = $('#appointmentdate').val();
 		var time = $('#appointmenttime').val();
+		var timeend = $('#appointmenttimeend').val();
 		$('#appointmentdatetime').val(date + " " + time);
+		$('#appointmentdatetimeend').val(date + " " + timeend);
 	});
 	
 	var currentuser = $('#username').html();
 	console.log(currentuser);
 	$.getJSON('../list-patient/' + currentuser, function(data) {
 		setSelectOptions($('#patrons'), data, 'username', 'name', '');
-		$("#patrons").chosen();
+		$(".chzn-select").chosen();
+		$(".chzn-select").trigger("liszt:updated");
 	});
 	
 	$.getJSON('../list-staff/'+ currentuser, function(data) {
@@ -60,6 +63,7 @@ function setSelectOptions(selectElement, values, valueKey, textKey, defaultValue
             if (type == 'object') {
                 // values is array of hashes
                 $.each(values, function () {
+                	console.log('key:' + this[valueKey] + ' val:' + this[textKey]);
                     html += '<option value="' + this[valueKey] + '">' + this[textKey] + '</option>';                    
                 });
 
@@ -167,18 +171,78 @@ function renderSelectedMonth(month, year) {
 					defaultValue:	function(){
 						var now = new Date();
 						var hours = now.getHours();
-						hours = hours % 12;
+						var hour = hours % 12;
 						var min = now.getMinutes();
 						var ampm = hours >= 12 ? 'pm' : 'am';
 						min = min < 10 ? '0' + min : min;
-						console.log(hours + ':' + min + ' ' + ampm);
+						console.log(hour + ':' + min + ' ' + ampm);
 						return hours + ':' + min + ' ' + ampm;
 					}
 				});
-				$("#appointmentdate").datepicker({
-					dateFormat: 'dd-mm-yy'
+				var currentuser = $('#username').html();
+				$('#appointmenttimeend').timepicker({
+					controlType: 'select',
+					timeOnly: true,
+					timeFormat: 'hh:mm tt',
+					minTime: $('#appointmenttime').val(),
+					maxTime: '12:00pm',
+					defaultValue:	function(){
+						var now = new Date();
+						var hours = now.getHours();
+						var hour = hours % 12;
+						var min = now.getMinutes();
+						var ampm = hours >= 12 ? 'pm' : 'am';
+						min = min < 10 ? '0' + min : min;
+						console.log(hour + ':' + min + ' ' + ampm);
+						return hours + ':' + min + ' ' + ampm;
+					}
 				});
-				$("#appointmentdate").val(dateValue + '-' +  (parseInt($("#choosemonth").val()) + 1) + '-' + $("#chooseyear").val());
+				$('#appointmenttimeend').change(function(){
+					if($.trim($('#appointmenttime').val()) != ""){
+						var date = $("#appointmentdate").val().replace(/-/g, '');
+						console.log(date + ':' + date.length);
+						if(date.length == 7 ){
+							console.log('add padding 0');
+							date = "0".concat(date);
+							console.log('DATE:' + date);
+						}
+						var starttime = $('#appointmenttime').val().replace(/:/g, '');
+						var endtime =  $('#appointmenttimeend').val().replace(/:/g, '');
+						if(starttime.substring(5,7) == 'pm'){
+							starttime = starttime.substring(0,4);
+							starttime = parseInt(starttime) + 1200;
+						}else{
+							starttime = starttime.substring(0,4);
+						}
+						if(endtime.substring(5,7) == 'pm'){
+							endtime = endtime.substring(0,4);
+							console.log(parseInt(endtime));
+							if(parseInt(endtime) <= 1200 ){
+								console.log("adding to pm");
+								endtime = parseInt(endtime) + 1200;
+								console.log(endtime);
+							}
+						}else{
+							endtime = endtime.substring(0,4);
+						}
+						console.log("date:" + date);
+						console.log("start:" + starttime + " end: "+ endtime );
+						var url = '../list-patient/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime;
+						$.getJSON(url, function(data) {
+							console.log(data);
+							setSelectOptions($('#patrons'), data, 'username', 'name', '');
+							$(".chzn-select").trigger("liszt:updated");
+						});
+					}
+				});
+				$("#appointmentdate").datepicker({
+					dateFormat: 'dd-MM-yy'
+				});
+				
+				var dateString =  monthDigits[date.getMonth()];
+				var currentDay = dateValue + '-' +  dateString + '-' + $("#chooseyear").val();
+				console.log(dateValue);
+				$("#appointmentdate").val(currentDay);
 				$('#createappt-box').css({
 					"display" : "block"
 				});
