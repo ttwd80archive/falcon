@@ -24,6 +24,8 @@ public class QFalconAppointment extends EntityPathBase<FalconAppointment> {
 
     public final DateTimePath<java.util.Date> appointmentDate = createDateTime("appointmentDate", java.util.Date.class);
 
+    public final DateTimePath<java.util.Date> appointmentDateEnd = createDateTime("appointmentDateEnd", java.util.Date.class);
+
     public final StringPath createBy = createString("createBy");
 
     public final DateTimePath<java.util.Date> createDate = createDateTime("createDate", java.util.Date.class);

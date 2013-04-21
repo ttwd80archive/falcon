@@ -1,6 +1,8 @@
 package com.twistlet.falcon.model.entity;
 
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,13 +26,20 @@ public class FalconPatron  implements java.io.Serializable {
      private Integer id;
      private FalconUser falconUserByPatron;
      private FalconUser falconUserByAdmin;
+     private Set<FalconAppointmentPatron> falconAppointmentPatrons = new HashSet<FalconAppointmentPatron>(0);
 
     public FalconPatron() {
     }
 
+	
     public FalconPatron(FalconUser falconUserByPatron, FalconUser falconUserByAdmin) {
+        this.falconUserByPatron = falconUserByPatron;
+        this.falconUserByAdmin = falconUserByAdmin;
+    }
+    public FalconPatron(FalconUser falconUserByPatron, FalconUser falconUserByAdmin, Set<FalconAppointmentPatron> falconAppointmentPatrons) {
        this.falconUserByPatron = falconUserByPatron;
        this.falconUserByAdmin = falconUserByAdmin;
+       this.falconAppointmentPatrons = falconAppointmentPatrons;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -62,6 +72,15 @@ public class FalconPatron  implements java.io.Serializable {
     
     public void setFalconUserByAdmin(FalconUser falconUserByAdmin) {
         this.falconUserByAdmin = falconUserByAdmin;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="falconPatron")
+    public Set<FalconAppointmentPatron> getFalconAppointmentPatrons() {
+        return this.falconAppointmentPatrons;
+    }
+    
+    public void setFalconAppointmentPatrons(Set<FalconAppointmentPatron> falconAppointmentPatrons) {
+        this.falconAppointmentPatrons = falconAppointmentPatrons;
     }
 
 

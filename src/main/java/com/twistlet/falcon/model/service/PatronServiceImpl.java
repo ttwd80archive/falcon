@@ -1,10 +1,14 @@
 package com.twistlet.falcon.model.service;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -24,6 +28,7 @@ public class PatronServiceImpl implements PatronService {
 	private final FalconUserRepository falconUserRepository;
 	
 	private final PasswordEncoder passwordEncoder;
+	
 	
 	@Autowired
 	public PatronServiceImpl(FalconPatronRepository falconPatronRepository,
@@ -60,6 +65,39 @@ public class PatronServiceImpl implements PatronService {
 		patron.setFalconUserByPatron(user);
 		falconUserRepository.save(user);
 		falconPatronRepository.save(patron);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Set<User> listAvailablePatrons(FalconUser admin, Date start, Date end) {
+		List<User> allPatron = listRegisteredPatrons(admin);
+		Set<User> availablePatron = new HashSet<>();
+		Set<FalconPatron> busyPatrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
+		for(User user: allPatron){
+			boolean found = false;
+			for(FalconPatron patron : busyPatrons){
+				if(StringUtils.equals(user.getUsername(), patron.getFalconUserByPatron().getUsername())){
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				availablePatron.add(user);
+			}
+		}
+		return availablePatron;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public FalconPatron findPatron(String patron, String admin) {
+		FalconUser falconPatron = new FalconUser();
+		falconPatron.setUsername(patron);
+		FalconUser falconAdmin = new FalconUser();
+		falconAdmin.setUsername(admin);
+		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserByAdminAndFalconUserByPatron(falconAdmin, falconPatron);
+		FalconPatron uniqeFalconPatron = DataAccessUtils.uniqueResult(falconPatrons);
+		return uniqeFalconPatron;
 	}
 
 }

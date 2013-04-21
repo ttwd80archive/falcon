@@ -60,7 +60,7 @@ public class ListAppointmentController {
 		appointment.setAppointmentTime(sdfTime.format(falconAppointment.getAppointmentDate()));
 		appointment.setPatrons(new ArrayList<String>());
 		for(FalconAppointmentPatron patron : falconAppointment.getFalconAppointmentPatrons()){
-			appointment.getPatrons().add(patron.getFalconUser().getName());
+			appointment.getPatrons().add(patron.getFalconPatron().getFalconUserByPatron().getName());
 		}
 		return appointment;
 	}
@@ -77,7 +77,7 @@ public class ListAppointmentController {
 		appointmentPatron.setAppointmentTime(sdfTime.format(falconAppointmentPatron.getFalconAppointment().getAppointmentDate()));
 		appointmentPatron.setLocation(falconAppointmentPatron.getFalconAppointment().getFalconLocation().getName());
 		appointmentPatron.setStaff(falconAppointmentPatron.getFalconAppointment().getFalconStaff().getName());
-		appointmentPatron.setPatron(falconAppointmentPatron.getFalconUser().getName());
+		appointmentPatron.setPatron(falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName());
 		return appointmentPatron;
 	}
 

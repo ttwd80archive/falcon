@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconUser;
 
-public interface FalconPatronRepository extends JpaRepository<FalconPatron, Integer> {
+public interface FalconPatronRepository extends JpaRepository<FalconPatron, Integer>, FalconPatronRepositoryCustom {
 	
 	List<FalconPatron> findByFalconUserByAdmin(FalconUser admin);
+	
+	List<FalconPatron> findByFalconUserByAdminAndFalconUserByPatron(FalconUser admin, FalconUser patron);
 
 }

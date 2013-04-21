@@ -35,12 +35,13 @@ public class FalconAppointment  implements java.io.Serializable {
      private Date updateDate;
      private String createBy;
      private String updateBy;
+     private Date appointmentDateEnd;
      private Set<FalconAppointmentPatron> falconAppointmentPatrons = new HashSet<FalconAppointmentPatron>(0);
 
     public FalconAppointment() {
     }
 
-    public FalconAppointment(FalconStaff falconStaff, FalconLocation falconLocation, FalconService falconService, Date appointmentDate, Date createDate, Date updateDate, String createBy, String updateBy, Set<FalconAppointmentPatron> falconAppointmentPatrons) {
+    public FalconAppointment(FalconStaff falconStaff, FalconLocation falconLocation, FalconService falconService, Date appointmentDate, Date createDate, Date updateDate, String createBy, String updateBy, Date appointmentDateEnd, Set<FalconAppointmentPatron> falconAppointmentPatrons) {
        this.falconStaff = falconStaff;
        this.falconLocation = falconLocation;
        this.falconService = falconService;
@@ -49,6 +50,7 @@ public class FalconAppointment  implements java.io.Serializable {
        this.updateDate = updateDate;
        this.createBy = createBy;
        this.updateBy = updateBy;
+       this.appointmentDateEnd = appointmentDateEnd;
        this.falconAppointmentPatrons = falconAppointmentPatrons;
     }
    
@@ -142,6 +144,16 @@ public class FalconAppointment  implements java.io.Serializable {
     
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="appointment_date_end", length=19)
+    public Date getAppointmentDateEnd() {
+        return this.appointmentDateEnd;
+    }
+    
+    public void setAppointmentDateEnd(Date appointmentDateEnd) {
+        this.appointmentDateEnd = appointmentDateEnd;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="falconAppointment")

@@ -30,7 +30,6 @@ public class FalconUser  implements java.io.Serializable {
      private Boolean sendEmail;
      private Set<FalconPatron> falconPatronsForPatron = new HashSet<FalconPatron>(0);
      private Set<FalconPatron> falconPatronsForAdmin = new HashSet<FalconPatron>(0);
-     private Set<FalconAppointmentPatron> falconAppointmentPatrons = new HashSet<FalconAppointmentPatron>(0);
      private Set<FalconUserRole> falconUserRoles = new HashSet<FalconUserRole>(0);
      private Set<FalconService> falconServices = new HashSet<FalconService>(0);
      private Set<FalconStaff> falconStaffs = new HashSet<FalconStaff>(0);
@@ -45,7 +44,7 @@ public class FalconUser  implements java.io.Serializable {
         this.password = password;
         this.name = name;
     }
-    public FalconUser(String username, String password, String name, String email, String phone, String nric, String hpTel, Boolean sendSms, Boolean sendEmail, Set<FalconPatron> falconPatronsForPatron, Set<FalconPatron> falconPatronsForAdmin, Set<FalconAppointmentPatron> falconAppointmentPatrons, Set<FalconUserRole> falconUserRoles, Set<FalconService> falconServices, Set<FalconStaff> falconStaffs, Set<FalconLocation> falconLocations) {
+    public FalconUser(String username, String password, String name, String email, String phone, String nric, String hpTel, Boolean sendSms, Boolean sendEmail, Set<FalconPatron> falconPatronsForPatron, Set<FalconPatron> falconPatronsForAdmin, Set<FalconUserRole> falconUserRoles, Set<FalconService> falconServices, Set<FalconStaff> falconStaffs, Set<FalconLocation> falconLocations) {
        this.username = username;
        this.password = password;
        this.name = name;
@@ -57,7 +56,6 @@ public class FalconUser  implements java.io.Serializable {
        this.sendEmail = sendEmail;
        this.falconPatronsForPatron = falconPatronsForPatron;
        this.falconPatronsForAdmin = falconPatronsForAdmin;
-       this.falconAppointmentPatrons = falconAppointmentPatrons;
        this.falconUserRoles = falconUserRoles;
        this.falconServices = falconServices;
        this.falconStaffs = falconStaffs;
@@ -172,15 +170,6 @@ public class FalconUser  implements java.io.Serializable {
     
     public void setFalconPatronsForAdmin(Set<FalconPatron> falconPatronsForAdmin) {
         this.falconPatronsForAdmin = falconPatronsForAdmin;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="falconUser")
-    public Set<FalconAppointmentPatron> getFalconAppointmentPatrons() {
-        return this.falconAppointmentPatrons;
-    }
-    
-    public void setFalconAppointmentPatrons(Set<FalconAppointmentPatron> falconAppointmentPatrons) {
-        this.falconAppointmentPatrons = falconAppointmentPatrons;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="falconUser")

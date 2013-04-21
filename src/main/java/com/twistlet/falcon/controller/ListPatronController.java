@@ -1,9 +1,14 @@
 package com.twistlet.falcon.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +27,7 @@ import com.twistlet.falcon.model.service.StaffService;
 public class ListPatronController {
 
 	private final StaffService staffService;
-	
+
 	private final PatronService patronService;
 
 	@Autowired
@@ -47,13 +52,33 @@ public class ListPatronController {
 		}
 		return list;
 	}
-	
+
 	@RequestMapping("/list-patient/{admin}")
 	@ResponseBody
-	public List<User> listPatients(@PathVariable String admin) {
+	public List<User> listAllPatrons(@PathVariable("admin") String admin) {
 		FalconUser falconUser = new FalconUser();
 		falconUser.setUsername(admin);
 		List<User> patients = patronService.listRegisteredPatrons(falconUser);
+		return patients;
+	}
+	
+	@RequestMapping("/list-patient/{admin}/{date}/{startTime}/{endTime}")
+	@ResponseBody
+	public Set<User> listAvailablePatrons(@PathVariable("admin") String admin,
+			@PathVariable(value="date") String date,
+			@PathVariable("startTime") String start,
+			@PathVariable("endTime") String end) {
+		FalconUser falconUser = new FalconUser();
+		final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy HHmm");
+		Set<User> patients = new HashSet<>();
+		try {
+			final Date startDate = sdf.parse(date + " " + start);
+			final Date endDate = sdf.parse(date + " " + end);
+			falconUser.setUsername(admin);
+			patients = patronService.listAvailablePatrons(falconUser, startDate, endDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		return patients;
 	}
 }

@@ -87,7 +87,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 			appointment.getFalconLocation().getName();
 			appointment.getFalconService().getName();
 			for(FalconAppointmentPatron falconAppointmentPatron : appointment.getFalconAppointmentPatrons()){
-				falconAppointmentPatron.getFalconUser().getName();
+				falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName();
 			}
 		}
 		return appointments;
@@ -98,7 +98,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public FalconAppointment findAppointment(Integer id) {
 		FalconAppointment falconAppointment = falconAppointmentRepository.findOne(id);
 		for(FalconAppointmentPatron falconAppointmentPatron : falconAppointment.getFalconAppointmentPatrons()){
-			falconAppointmentPatron.getFalconUser().getName();
+			falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName();
 			falconAppointmentPatron.getFalconAppointment().getFalconLocation().getName();
 			falconAppointmentPatron.getFalconAppointment().getFalconService().getName();
 			falconAppointmentPatron.getFalconAppointment().getFalconStaff().getName();
@@ -124,7 +124,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		FalconAppointmentPatron falconAppointmentPatron = falconAppointmentPatronRepository.findOne(id);
 		falconAppointmentPatron.getFalconAppointment().getFalconStaff().getName();
 		falconAppointmentPatron.getFalconAppointment().getFalconLocation().getName();
-		falconAppointmentPatron.getFalconUser().getName();
+		falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName();
 		return falconAppointmentPatron;
 	}
 	

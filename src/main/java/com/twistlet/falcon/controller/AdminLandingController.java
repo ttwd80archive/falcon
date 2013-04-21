@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -21,8 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
-import com.twistlet.falcon.model.entity.FalconUser;
+import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.service.AppointmentService;
+import com.twistlet.falcon.model.service.PatronService;
 import com.twistlet.falcon.model.service.StaffService;
 
 @Controller
@@ -33,13 +36,15 @@ public class AdminLandingController {
 
 	private final AppointmentService appointmentService;
 	
-	private final StaffService staffService;
+	private final PatronService patronService;
 	
+	private final StaffService staffService;
 	
 	@Autowired
 	public AdminLandingController(AppointmentService appointmentService,
-			StaffService staffService) {
+			PatronService patronService, StaffService staffService) {
 		this.appointmentService = appointmentService;
+		this.patronService = patronService;
 		this.staffService = staffService;
 	}
 
@@ -56,6 +61,8 @@ public class AdminLandingController {
 		dataBinder.registerCustomEditor(Set.class, "falconAppointmentPatrons", new CustomCollectionEditor(Set.class){
 			 @Override
 	         protected Object convertElement(Object element){
+				 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			     String adminUsername = auth.getName();
 				 String username = StringUtils.EMPTY;
 				 if(element instanceof String && !((String)element).equals("")){
 					 username = (String) element;
@@ -63,9 +70,9 @@ public class AdminLandingController {
 				 else{
 					 return null;
 				 }
-				 FalconUser patron = staffService.getUser(username);
 				 FalconAppointmentPatron falconAppointmentPatron = new FalconAppointmentPatron();
-				 falconAppointmentPatron.setFalconUser(patron);
+				 FalconPatron falconPatron = patronService.findPatron(username, adminUsername);
+				 falconAppointmentPatron.setFalconPatron(falconPatron);
 				 return falconAppointmentPatron;
 			 }
 		});

@@ -21,15 +21,15 @@ public class FalconAppointmentPatron  implements java.io.Serializable {
 
 
      private Integer id;
-     private FalconUser falconUser;
      private FalconAppointment falconAppointment;
+     private FalconPatron falconPatron;
 
     public FalconAppointmentPatron() {
     }
 
-    public FalconAppointmentPatron(FalconUser falconUser, FalconAppointment falconAppointment) {
-       this.falconUser = falconUser;
+    public FalconAppointmentPatron(FalconAppointment falconAppointment, FalconPatron falconPatron) {
        this.falconAppointment = falconAppointment;
+       this.falconPatron = falconPatron;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -45,16 +45,6 @@ public class FalconAppointmentPatron  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="patron", nullable=false)
-    public FalconUser getFalconUser() {
-        return this.falconUser;
-    }
-    
-    public void setFalconUser(FalconUser falconUser) {
-        this.falconUser = falconUser;
-    }
-
-@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="appointment", nullable=false)
     public FalconAppointment getFalconAppointment() {
         return this.falconAppointment;
@@ -62,6 +52,16 @@ public class FalconAppointmentPatron  implements java.io.Serializable {
     
     public void setFalconAppointment(FalconAppointment falconAppointment) {
         this.falconAppointment = falconAppointment;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="patron", nullable=false)
+    public FalconPatron getFalconPatron() {
+        return this.falconPatron;
+    }
+    
+    public void setFalconPatron(FalconPatron falconPatron) {
+        this.falconPatron = falconPatron;
     }
 
 

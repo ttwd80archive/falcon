@@ -22,6 +22,8 @@ public class QFalconPatron extends EntityPathBase<FalconPatron> {
 
     public static final QFalconPatron falconPatron = new QFalconPatron("falconPatron");
 
+    public final SetPath<FalconAppointmentPatron, QFalconAppointmentPatron> falconAppointmentPatrons = this.<FalconAppointmentPatron, QFalconAppointmentPatron>createSet("falconAppointmentPatrons", FalconAppointmentPatron.class, QFalconAppointmentPatron.class, PathInits.DIRECT);
+
     public final QFalconUser falconUserByAdmin;
 
     public final QFalconUser falconUserByPatron;
