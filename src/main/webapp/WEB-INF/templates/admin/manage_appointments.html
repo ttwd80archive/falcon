@@ -103,7 +103,7 @@
 														<a href="#" th:href="@{patron_group_list(id=${appointment.id})}" th:if="${#lists.size(appointment.falconAppointmentPatrons) > 1}">Patient Group</a>
 														<div th:unless="${#lists.size(appointment.falconAppointmentPatrons) > 1}">
 															<span th:each="patron : ${appointment.falconAppointmentPatrons}">
-																<span th:text="${patron.falconUser.name}"></span>
+																<span th:text="${patron.falconPatron.falconUserByPatron.name}"></span>
 															</span>
 														</div>
 													</td>
