@@ -96,7 +96,8 @@
 								<th class="th3-ext">Venue</th>
 								<th class="th5">Service</th>
 								<th class="th6">Date</th>
-								<th class="th7">Time</th>
+								<th class="th7">Start Time</th>
+								<th class="th7">End Time</th>
 								<th class="th8">Action</th>
 							</tr>
 						</thead>
@@ -120,6 +121,7 @@
 													<td class="td5" th:text="${appointment.falconService.name}"></td>
 													<td class="td6" th:text="${#dates.format(appointment.appointmentDate, 'dd/MM/yyyy')}"></td>
 													<td class="td7" th:text="${#dates.format(appointment.appointmentDate, 'hh:mm aaa')}"></td>
+													<td class="td7" th:text="${#dates.format(appointment.appointmentDateEnd, 'hh:mm aaa')}"></td>
 													<td class="td8">
 														<ul class="schedule-action">
 															<li>
