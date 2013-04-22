@@ -89,7 +89,7 @@
                                                   z-index: 1000; top: 70px;}
 #rescheduleappt                                  {background: none repeat scroll 0 0 #FFFFFF; border: 5px solid #22B574; padding: 0 30px 16px; min-width: 360px; 
                                                   z-index: 1000; top: 70px;}
-#rescheduleapptfilter span                       {float: left; width: 100px;}
+#rescheduleapptfilter span                       {float: left; width: 120px;}
 #rescheduleapptfilter li                         {display: block; padding: 4px;}
 #result-list                                     {margin-top: 15px; display: block; float: left;}
 #result-split                                    {height: 2px; width: 710px; position: relative; left: -16px; margin-bottom: 10px;}
