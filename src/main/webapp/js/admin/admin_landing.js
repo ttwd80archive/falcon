@@ -236,7 +236,7 @@ function renderSelectedMonth(month, year) {
 					}
 				});
 				$("#appointmentdate").datepicker({
-					dateFormat: 'dd-MM-yy'
+					dateFormat: 'dd-mm-yy'
 				});
 				
 				var dateString =  monthDigits[date.getMonth()];

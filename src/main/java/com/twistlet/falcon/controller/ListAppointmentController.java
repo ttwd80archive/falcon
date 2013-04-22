@@ -50,7 +50,7 @@ public class ListAppointmentController {
 	@ResponseBody
 	public Appointment getAppointment(@PathVariable Integer id) {
 		FalconAppointment falconAppointment = appointmentService.findAppointment(id);
-		final SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
+		final SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy");
 		final SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm aaa");
 		Appointment appointment = new Appointment();
 		appointment.setId(falconAppointment.getId());
@@ -58,6 +58,7 @@ public class ListAppointmentController {
 		appointment.setLocation(falconAppointment.getFalconLocation().getName());
 		appointment.setAppointmentDate(sdfDate.format(falconAppointment.getAppointmentDate()));
 		appointment.setAppointmentTime(sdfTime.format(falconAppointment.getAppointmentDate()));
+		appointment.setAppointmentTimeEnd(sdfTime.format(falconAppointment.getAppointmentDateEnd()));
 		appointment.setPatrons(new ArrayList<String>());
 		for(FalconAppointmentPatron patron : falconAppointment.getFalconAppointmentPatrons()){
 			appointment.getPatrons().add(patron.getFalconPatron().getFalconUserByPatron().getName());

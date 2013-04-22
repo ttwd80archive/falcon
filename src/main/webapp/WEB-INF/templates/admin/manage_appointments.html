@@ -4,10 +4,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Manage Appointments</title>
+<link rel="stylesheet" th:href="@{/css/jquery-ui-timepicker-addon.css}"
+	href="css/jquery-ui-timepicker-addon.css" type="text/css" media="screen" charset="utf-8" /> 
+<link rel="stylesheet" th:href="@{/css/smoothness/jquery-ui-1.10.2.custom.min.css}"
+	href="css/smoothness/jquery-ui-1.10.2.custom.min.css" type="text/css" media="screen" charset="utf-8" /> 
 <link rel="stylesheet" th:href="@{/css/styles.css}"
 	href="css/styles.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" th:href="@{/css/layout.css}"
 	href="css/layout.css" type="text/css" media="screen" charset="utf-8" />
+<style>
+	.ui-widget {
+		font-size: x-small;
+	}
+</style>
 </head>
 <body>
 	<div id="header-wrapper">
@@ -25,7 +34,7 @@
 					<li><a href="homepage.html" id="signout">SIGN OUT</a></li>
 					<li class="editprofile">
 						<div id="editprofile">
-							Hi&#44; <span th:text="${#authentication.name}"></span><span
+							Hi&#44; <span id="username" th:text="${#authentication.name}"></span><span
 								class="drop-arrow-white"></span> &#124;
 							<div class="drop-menu">
 								<ul class="menu-lvl-1">
@@ -117,8 +126,7 @@
 																<a class="remove" href="#" th:id="${appointment.id}">Remove</a>
 															</li>
 															<li>
-																<a onclick="document.getElementById('rescheduleappt-box').style.display='block'; document.getElementById('bg').style.display='block';"
-																	href="#">Reschedule</a>
+																<a class="reschedule" href="#" th:id="${appointment.id}" >Reschedule</a>
 															</li>
 														</ul>
 													</td>
@@ -146,7 +154,7 @@
 					<li><span>Time&#58;</span><div id="deleteTime"></div></li>
 					<li><span>Venue&#58;</span><div id="deleteLocation"></div></li>
 					<li><span>Staff&#58;</span><div id="deleteStaff"></div></li>
-					<li><span>Patron&#58;</span><div id="deletePatrons"></div></li>
+					<li><span>Patron&#58;</span><div id="deletePatrons" style="display: inline-block;"></div></li>
 					<li id="deleteId" style="visibility:hidden;"></li>
 					<li>
 						<input class="button" type="button" value="YES" id="delete"/>
@@ -165,26 +173,13 @@
 			<div id="rescheduleappt" class="relativeleftcenter">
 				<h2>Reschedule Existing Appointment</h2>
 				<ul id="rescheduleapptfilter" class="nopadding">
-					<li><span>Select Patron</span><input id="patron-upd"
-						type="text" value="Patient Zero" size="33" /><img th:src="@{/images/drop-arrow-gray.png}"
-						src="./images/drop-arrow-gray.png" alt="Image failed to load"
-						class="drop-arrow-gray" /></li>
-					<li><span>Select Staff</span><input id="staff-upd" type="text"
-						value="Dr&#46; Dre" size="33" /><img th:src="@{/images/drop-arrow-gray.png}"
-						src="./images/drop-arrow-gray.png" alt="Image failed to load"
-						class="drop-arrow-gray" /></li>
-					<li><span>Select Date</span><input id="date-upd" type="text"
-						value="07&#47;11&#47;2012" size="33" /><img th:src="@{/images/drop-arrow-gray.png}"
-						src="./images/drop-arrow-gray.png" alt="Image failed to load"
-						class="drop-arrow-gray" /></li>
-					<li><span>Select Time</span><input id="time-upd" type="text"
-						value="10&#58;30 a&#46;m&#46;" size="33" /><img th:src="@{/images/drop-arrow-gray.png}"
-						src="./images/drop-arrow-gray.png" alt="Image failed to load"
-						class="drop-arrow-gray" /></li>
-					<li><span>Select Venue</span><input id="venue-upd" type="text"
-						value="Room 1" size="33" /><img th:src="@{/images/drop-arrow-gray.png}"
-						src="./images/drop-arrow-gray.png" alt="Image failed to load"
-						class="drop-arrow-gray" /></li>
+					<li id="deleteId" style="visibility:hidden;"></li>
+					<li><span style="font-weight: bold;">Patron&#58;</span><div id="reschedulePatrons" style=" display: inline-block; "></div></li>
+					<li><span style="font-weight: bold;">Staff&#58;</span><div id="rescheduleStaff"></div></li>
+					<li><span style="font-weight: bold;">Select Date&#58;</span><input id="rescheduleDate" type="text"/></li>
+					<li><span style="font-weight: bold;">Select Start Time&#58;</span><input id="rescheduleTime" type="text"/></li>
+					<li><span style="font-weight: bold;">Select End Time&#58;</span><input id="rescheduleTimeEnd" type="text"/></li>
+					<li><span style="font-weight: bold;">Select Venue&#58;</span><select id="rescheduleVenue"></select></li>
 					<li><input class="button" type="submit" value="UPDATE" /></li>
 				</ul>
 			</div>
@@ -198,6 +193,12 @@
 	</div>
 	<script type="text/javascript" th:src="@{/js/lib/jquery-1.9.1.min.js}"
 		src="js/lib/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery-ui-1.10.2.custom.min.js}"
+		src="js/lib/jquery-ui-1.10.2.custom.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery-ui-timepicker-addon.js}"
+		src="js/lib/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery-ui-sliderAccess.js}"
+		src="js/lib/jquery-ui-sliderAccess.js"></script>
 	<script type="text/javascript" th:src="@{/js/admin/manage_appointments.js}"
 		src="js/admin/admin_landing.js"></script>
 </body>

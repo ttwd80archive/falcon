@@ -10,6 +10,8 @@ public class Appointment {
 	
 	String appointmentTime;
 	
+	String appointmentTimeEnd;
+	
 	String location;
 	
 	String staff;
@@ -62,6 +64,14 @@ public class Appointment {
 
 	public void setPatrons(List<String> patrons) {
 		this.patrons = patrons;
+	}
+
+	public String getAppointmentTimeEnd() {
+		return appointmentTimeEnd;
+	}
+
+	public void setAppointmentTimeEnd(String appointmentTimeEnd) {
+		this.appointmentTimeEnd = appointmentTimeEnd;
 	}
 	
 	
