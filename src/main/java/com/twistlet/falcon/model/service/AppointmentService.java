@@ -22,4 +22,6 @@ public interface AppointmentService {
 	FalconAppointmentPatron findPatron(Integer id);
 	
 	void deleteAppointmentPatron(Integer id);
+	
+	void rescheduleAppointment(Integer appointmentId, Date startDate, Date endDate, Integer locationId);
 }

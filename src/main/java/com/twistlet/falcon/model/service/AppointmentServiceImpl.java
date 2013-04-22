@@ -18,8 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.twistlet.falcon.controller.bean.Schedule;
 import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
+import com.twistlet.falcon.model.entity.FalconLocation;
 import com.twistlet.falcon.model.repository.FalconAppointmentPatronRepository;
 import com.twistlet.falcon.model.repository.FalconAppointmentRepository;
+import com.twistlet.falcon.model.repository.FalconLocationRepository;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -27,14 +29,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 	private final FalconAppointmentRepository falconAppointmentRepository;
 	
 	private final FalconAppointmentPatronRepository falconAppointmentPatronRepository;
-
+	
+	private final FalconLocationRepository falconLocationRepository;
 	
 	@Autowired
 	public AppointmentServiceImpl(
 			FalconAppointmentRepository falconAppointmentRepository,
-			FalconAppointmentPatronRepository falconAppointmentPatronRepository) {
+			FalconAppointmentPatronRepository falconAppointmentPatronRepository,
+			FalconLocationRepository falconLocationRepository) {
 		this.falconAppointmentRepository = falconAppointmentRepository;
 		this.falconAppointmentPatronRepository = falconAppointmentPatronRepository;
+		this.falconLocationRepository = falconLocationRepository;
 	}
 
 	@Override
@@ -134,6 +139,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 		FalconAppointmentPatron appointmentPatron = new FalconAppointmentPatron();
 		appointmentPatron.setId(id);
 		falconAppointmentPatronRepository.delete(appointmentPatron);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void rescheduleAppointment(Integer appointmentId, Date startDate,
+			Date endDate, Integer locationId) {
+		FalconAppointment appointment = falconAppointmentRepository.findOne(appointmentId);
+		FalconLocation location = falconLocationRepository.findOne(locationId);
+		appointment.setAppointmentDate(startDate);
+		appointment.setAppointmentDateEnd(endDate);
+		appointment.setFalconLocation(location);
+		falconAppointmentRepository.save(appointment);
 	}
 
 }

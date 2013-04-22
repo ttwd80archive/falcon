@@ -94,6 +94,15 @@ $(function() {
 		$.getJSON('../list-location/' + currentuser, function(data) {
 			setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', '');
 		});
+		$('#update').click(function(){
+			var url = "reschedule_appointment/" + $("#rescheduleId").html() + "/" + $("#rescheduleDate").val() + "/" + $("#rescheduleTime").val() + "/" + $("#rescheduleTimeEnd").val() + "/" + $("#rescheduleVenue").val() + "/";
+			console.log(url);
+			$.ajax({
+				  url: url
+			}).done(function(){
+				window.location = "manage-appointments";
+			});
+		});
 	});
 });
 

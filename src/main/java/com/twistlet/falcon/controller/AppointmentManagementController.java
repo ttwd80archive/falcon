@@ -1,5 +1,7 @@
 package com.twistlet.falcon.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -48,9 +50,21 @@ public class AppointmentManagementController {
 	@RequestMapping("/admin/delete_appointment/{id}")
 	public ModelAndView deleteAppointment(@PathVariable Integer id){
 		appointmentService.deleteAppointment(id);
-		return new ModelAndView("redirect:../manage-appointments");
+		return new ModelAndView("redirect:/admin/manage-appointments");
 	}
 	
+	@RequestMapping("/admin/reschedule_appointment/{id}/{date}/{start}/{end}/{location}")
+	public ModelAndView rescheduleAppointment(@PathVariable Integer id, @PathVariable String date, @PathVariable String start, @PathVariable String end, @PathVariable Integer location){
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
+		try {
+			final Date startDate = sdf.parse(date + " " + start);
+			final Date endDate = sdf.parse(date + " " + end);
+			appointmentService.rescheduleAppointment(id, startDate, endDate, location);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return new ModelAndView("redirect:/admin/manage-appointments");
+	}
 	
 	@RequestMapping("/admin/delete_patron_appointment/{id}")
 	public ModelAndView deleteAppointmentPatron(@PathVariable Integer id){
