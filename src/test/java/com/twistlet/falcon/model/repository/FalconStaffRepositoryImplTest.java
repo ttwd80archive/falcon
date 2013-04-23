@@ -92,14 +92,18 @@ public class FalconStaffRepositoryImplTest extends AbstractFalconRepositoryTest{
 
 	
 	@Test
-	public void testFindByFalconUserStaffLike(){
+	public void testFindByFalconUserStaffLikeEmpty(){
 		final FalconUser admin = createNewUser("USER_1");
-		final FalconUser admin2 = createNewUser("USER_2");
-		final FalconStaff staff = createNewStaff("staff1", "87111", "ggg@gmail.com", admin);
-		final FalconStaff empty = createNewStaff(null, null, null, admin);
-		List<FalconStaff> staffs = falconStaffRepository.findByFalconUserStaffLike(admin, staff);
-		List<FalconStaff> result = falconStaffRepository.findByFalconUserStaffLike(admin2, empty);
-		assertEquals(1, staffs.size());
+		final FalconStaff empty = createNewStaff(null, null, "yyy@yahoo.com", admin);
+		List<FalconStaff> result = falconStaffRepository.findByFalconUserStaffLike(admin, empty);
 		assertEquals(1, result.size());
+	}
+	
+	@Test
+	public void testFindByFalconUserStaffLikeFull(){
+		final FalconUser admin = createNewUser("USER_1");
+		final FalconStaff staff = createNewStaff("staff1", "87111", "ggg@gmail.com", admin);
+		List<FalconStaff> staffs = falconStaffRepository.findByFalconUserStaffLike(admin, staff);
+		assertEquals(1, staffs.size());
 	}
 }
