@@ -1,7 +1,12 @@
 package com.twistlet.falcon.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +40,33 @@ public class ListStaffController {
 		}
 		return staffs;
 	}
+	
+	
+	@RequestMapping("/list-staff/{admin}/{date}/{startTime}/{endTime}")
+	@ResponseBody
+	public Set<FalconStaff> listAvailableStaffs(@PathVariable String admin,
+			@PathVariable(value="date") String date,
+			@PathVariable("startTime") String start,
+			@PathVariable("endTime") String end) {
+		final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy HHmm");
+		FalconUser falconUser = new FalconUser();
+		falconUser.setUsername(admin);
+		Set<FalconStaff> staffs = new HashSet<>();
+		try {
+			final Date startDate = sdf.parse(date + " " + start);
+			final Date endDate = sdf.parse(date + " " + end);
+			staffs = staffService.listAvailableStaff(falconUser, startDate, endDate);
+			for (FalconStaff staff : staffs) {
+				staff.setFalconUser(null);
+				staff.setFalconAppointments(null);
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return staffs;
+	}
+	
+	
 
 	@RequestMapping("/list-staff-name/{admin}")
 	@ResponseBody

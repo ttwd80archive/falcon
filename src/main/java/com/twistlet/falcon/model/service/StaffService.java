@@ -1,6 +1,8 @@
 package com.twistlet.falcon.model.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
@@ -9,6 +11,8 @@ public interface StaffService {
 	List<FalconUser> listPatients(String partialName);
 	
 	List<FalconStaff> listStaffByAdmin(String admin);
+	
+	Set<FalconStaff> listAvailableStaff(FalconUser admin, Date start, Date end);
 	
 	List<FalconStaff> listStaffByAdminNameLike(FalconUser admin, String name);
 

@@ -1,6 +1,9 @@
 package com.twistlet.falcon.model.service;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,6 +125,27 @@ public class StaffServiceImpl implements StaffService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void deleteStaff(FalconStaff staff) {
 		falconStaffRepository.delete(staff);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Set<FalconStaff> listAvailableStaff(FalconUser admin, Date start, Date end) {
+		List<FalconStaff> staffs = falconStaffRepository.findByFalconUserAndValid(admin, true);
+		Set<FalconStaff> busyStaffs = falconStaffRepository.findStaffDateRange(admin, start, end);
+		Set<FalconStaff> availableStaffs = new HashSet<>();
+		for(FalconStaff staff : staffs){
+			boolean found = false;
+			for(FalconStaff busyStaff : busyStaffs){
+				if(staff.getId().equals(busyStaff.getId())){
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				availableStaffs.add(staff);
+			}
+		}
+		return availableStaffs;
 	}
 	
 }
