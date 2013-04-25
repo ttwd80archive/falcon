@@ -1,6 +1,11 @@
 package com.twistlet.falcon.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,5 +36,24 @@ public class ListLocationController {
 		return locations;
 	}
 	
+	@RequestMapping("/list-location/{admin}/{date}/{startTime}/{endTime}")
+	@ResponseBody
+	public Set<FalconLocation> listAvailableLocation(@PathVariable String admin,
+			@PathVariable(value="date") String date,
+			@PathVariable("startTime") String start,
+			@PathVariable("endTime") String end) {
+		final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy HHmm");
+		FalconUser falconUser = new FalconUser();
+		falconUser.setUsername(admin);
+		Set<FalconLocation> locations = new HashSet<>();
+		try {
+			final Date startDate = sdf.parse(date + " " + start);
+			final Date endDate = sdf.parse(date + " " + end);
+			locations = locationService.listAvailableLocations(falconUser, startDate, endDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return locations;
+	}
 	
 }
