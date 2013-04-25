@@ -1,6 +1,9 @@
 package com.twistlet.falcon.model.service;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,27 @@ public class LocationServiceImpl implements LocationService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void saveLocation(FalconLocation falcLocation) {
 		falconLocationRepository.save(falcLocation);		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Set<FalconLocation> listAvailableLocations(FalconUser admin, Date start, Date end) {
+		List<FalconLocation> locations = falconLocationRepository.findByFalconUser(admin);
+		Set<FalconLocation> occupiedLocations = falconLocationRepository.findLocationDateRange(admin, start, end);
+		Set<FalconLocation> availableLocations = new HashSet<>();
+		for(FalconLocation location : locations){
+			boolean found = false;
+			for(FalconLocation occupiedLocation : occupiedLocations){
+				if(location.getId().equals(occupiedLocation.getId())){
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				availableLocations.add(location);
+			}
+		}
+		return availableLocations;
 	}
 
 }
