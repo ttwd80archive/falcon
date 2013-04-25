@@ -18,7 +18,6 @@ import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.entity.QFalconAppointment;
-import com.twistlet.falcon.model.entity.QFalconPatron;
 
 @Repository
 public class FalconPatronRepositoryImpl implements FalconPatronRepositoryCustom {
