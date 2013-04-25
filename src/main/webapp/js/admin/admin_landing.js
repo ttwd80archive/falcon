@@ -233,6 +233,12 @@ function renderSelectedMonth(month, year) {
 							setSelectOptions($('#patrons'), data, 'username', 'name', '');
 							$(".chzn-select").trigger("liszt:updated");
 						});
+						$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime, function(data) {
+							setSelectOptions($('#locations'), data, 'id', 'name', '');
+						});
+						$.getJSON('../list-staff/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime, function(data) {
+							setSelectOptions($('#staffs'), data, 'id', 'name', '');
+						});
 					}
 				});
 				$("#appointmentdate").datepicker({
