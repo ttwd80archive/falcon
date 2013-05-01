@@ -50,42 +50,41 @@ public class FalconAppointmentRepositoryImpl implements
 
 	@Override
 	public List<FalconAppointment> listAppointmentsByParam(FalconUser staff,
-			FalconPatron patron, Date start, Date end, FalconLocation location,
+			FalconPatron patron, Date searchDate, FalconLocation location,
 			FalconService service) {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconAppointment falconAppointment = QFalconAppointment.falconAppointment;
 		final QFalconLocation falconLocation = QFalconLocation.falconLocation;
-		final QFalconService falconService = falconAppointment.falconService;
+		final QFalconService falconService = QFalconService.falconService;
 		final QFalconStaff falconStaff = QFalconStaff.falconStaff;
 		final QFalconAppointmentPatron falconAppointmentPatron = QFalconAppointmentPatron.falconAppointmentPatron;
 		final QFalconPatron falconPatron = QFalconPatron.falconPatron;
 		query.from(falconAppointment);
-		query.join(falconAppointment.falconStaff, falconStaff).fetch();
-		query.join(falconAppointment.falconAppointmentPatrons,
-				falconAppointmentPatron).fetch();
-		query.join(falconAppointmentPatron.falconPatron, falconPatron).fetch();
-		query.join(falconAppointment.falconLocation, falconLocation).fetch();
 		List<BooleanExpression> expressions = new ArrayList<>();
-		if (start != null) {
-			BooleanExpression x = falconAppointment.appointmentDate.between(
-					start, end);
+		if (searchDate != null) {
+			BooleanExpression t1 = falconAppointment.appointmentDate.loe(searchDate);
+			BooleanExpression t2 = falconAppointment.appointmentDateEnd.goe(searchDate);
+			BooleanExpression x = t1.and(t2);
 			expressions.add(x);
 		}
 		if (staff != null) {
-			BooleanExpression x = falconStaff.falconUser.username.eq(staff
-					.getUsername());
+			query.join(falconAppointment.falconStaff, falconStaff).fetch();
+			BooleanExpression x = falconStaff.falconUser.username.eq(staff.getUsername());
 			expressions.add(x);
 		}
 		if (patron != null) {
+			query.join(falconAppointment.falconAppointmentPatrons, falconAppointmentPatron).fetch();
+			query.join(falconAppointmentPatron.falconPatron, falconPatron).fetch();
 			BooleanExpression x = falconPatron.id.eq(patron.getId());
 			expressions.add(x);
 		}
 		if (location != null) {
-			BooleanExpression x = falconAppointment.falconLocation.id
-					.eq(location.getId());
+			query.join(falconAppointment.falconLocation, falconLocation).fetch();
+			BooleanExpression x = falconAppointment.falconLocation.id.eq(location.getId());
 			expressions.add(x);
 		}
 		if (service != null) {
+			query.join(falconAppointment.falconService, falconService).fetch();
 			BooleanExpression x = falconService.id.eq(service.getId());
 			expressions.add(x);
 		}
