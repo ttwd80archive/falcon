@@ -32,16 +32,22 @@ public class FalconAppointmentRepositoryImplTest extends AbstractFalconRepositor
 	@Autowired
 	FalconAppointmentRepository falconAppointmentRepository;
 
+	FalconRole role1, role3;
+	
+	FalconUser user1, user2, user3, admin1;
+	
+	FalconPatron patron1, patron2, patron3;
+	
+	FalconLocation location1;
+	
+	FalconService service1;
+	
+	FalconStaff staff1;
+	
+	FalconAppointment appointment1, appointment2;
+	
 	@Before
 	public void init() {
-		FalconRole role1, role3;
-		FalconUser user1, user2, user3, admin1;
-		FalconPatron patron1, patron2, patron3;
-		FalconLocation location1;
-		FalconService service1;
-		FalconStaff staff1;
-		FalconAppointment appointment1, appointment2;
-		
 		entityManager.persist(role1 = createNewRole("ROLE_LEVEL_1"));
 		entityManager.persist(createNewRole("ROLE_LEVEL_2"));
 		entityManager.persist(role3 = createNewRole("ROLE_LEVEL_3"));
@@ -135,20 +141,10 @@ public class FalconAppointmentRepositoryImplTest extends AbstractFalconRepositor
 	
 	@Test
 	public void testListAppointmentsByParam(){
-		FalconUser admin1 = createNewUser("ADMIN_1");
-		FalconStaff staff = createNewStaff("STAFF_1", admin1);
-		FalconUser user1 = createNewUser("USER_1");
-		FalconPatron patron = createNewPatron(user1, admin1);
 		final Date now = new Date();
 		final Date start = DateUtils.truncate(now, Calendar.MONTH);
 		final Date end = DateUtils.addSeconds(DateUtils.ceiling(now, Calendar.MONTH), -1);
-		FalconLocation location = createNewLocation("LOCATION_1", admin1);
-		FalconService service = createNewService("SERVICE_1", admin1);
-		FalconAppointment appointment1 = createNewAppointment(now, DateUtils.addHours(now , 4), staff, service, location);
-		FalconAppointmentPatron patron1 = createNewFalconAppointmentPatron(patron, appointment1);
-		entityManager.flush();
-		entityManager.clear();
-		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(user1, patron1, start, end, location, service);
+		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(user1, patron1, start, end, location1, service1);
 		assertEquals(0, appointments.size());
 	}
 	
