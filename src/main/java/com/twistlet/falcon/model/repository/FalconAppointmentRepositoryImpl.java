@@ -13,7 +13,6 @@ import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.twistlet.falcon.model.entity.FalconAppointment;
-import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconLocation;
 import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconService;
@@ -25,8 +24,9 @@ import com.twistlet.falcon.model.entity.QFalconService;
 import com.twistlet.falcon.model.entity.QFalconStaff;
 
 @Repository
-public class FalconAppointmentRepositoryImpl implements FalconAppointmentRepositoryCustom {
-	
+public class FalconAppointmentRepositoryImpl implements
+		FalconAppointmentRepositoryCustom {
+
 	@PersistenceContext
 	EntityManager entityManager;
 
@@ -59,30 +59,36 @@ public class FalconAppointmentRepositoryImpl implements FalconAppointmentReposit
 		final QFalconAppointmentPatron falconAppointmentPatron = QFalconAppointmentPatron.falconAppointmentPatron;
 		query.from(falconAppointment);
 		query.join(falconAppointment.falconStaff, falconStaff).fetch();
-		query.join(falconAppointment.falconAppointmentPatrons, falconAppointmentPatron);
+		query.join(falconAppointment.falconAppointmentPatrons,
+				falconAppointmentPatron);
 		query.join(falconAppointment.falconLocation, falconLocation).fetch();
 		List<BooleanExpression> expressions = new ArrayList<>();
-		if(start != null){
-			BooleanExpression x = falconAppointment.appointmentDate.between(start, end);
+		if (start != null) {
+			BooleanExpression x = falconAppointment.appointmentDate.between(
+					start, end);
 			expressions.add(x);
 		}
-		if(staff != null){
-			BooleanExpression x = falconStaff.falconUser.username.eq(staff.getUsername());
+		if (staff != null) {
+			BooleanExpression x = falconStaff.falconUser.username.eq(staff
+					.getUsername());
 			expressions.add(x);
 		}
-//		if(patron != null){
-//			BooleanExpression x = falconAppointmentPatron.eq(patron);
-//			expressions.add(x);
-//		}
-		if(location != null){
-			BooleanExpression x = falconAppointment.falconLocation.id.eq(location.getId());
+		if (patron != null) {
+			BooleanExpression x = falconAppointment.falconAppointmentPatrons
+					.any().falconPatron.id.eq(patron.getId());
+			expressions.add(x);
+
+		}
+		if (location != null) {
+			BooleanExpression x = falconAppointment.falconLocation.id
+					.eq(location.getId());
 			expressions.add(x);
 		}
-		if(service != null){
+		if (service != null) {
 			BooleanExpression x = falconService.id.eq(service.getId());
 			expressions.add(x);
 		}
-		query.where(expressions.toArray(new BooleanExpression[]{}));
+		query.where(expressions.toArray(new BooleanExpression[] {}));
 		return query.list(falconAppointment);
 	}
 
