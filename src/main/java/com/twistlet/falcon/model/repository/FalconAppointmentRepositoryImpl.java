@@ -15,6 +15,7 @@ import com.mysema.query.types.expr.BooleanExpression;
 import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconLocation;
+import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconService;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.entity.QFalconAppointment;
@@ -48,7 +49,7 @@ public class FalconAppointmentRepositoryImpl implements FalconAppointmentReposit
 
 	@Override
 	public List<FalconAppointment> listAppointmentsByParam(FalconUser staff,
-			FalconAppointmentPatron patron, Date start, Date end, FalconLocation location,
+			FalconPatron patron, Date start, Date end, FalconLocation location,
 			FalconService service) {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconAppointment falconAppointment = QFalconAppointment.falconAppointment;
@@ -66,19 +67,19 @@ public class FalconAppointmentRepositoryImpl implements FalconAppointmentReposit
 			expressions.add(x);
 		}
 		if(staff != null){
-			BooleanExpression x = falconStaff.falconUser.eq(staff);
+			BooleanExpression x = falconStaff.falconUser.username.eq(staff.getUsername());
 			expressions.add(x);
 		}
-		if(patron != null){
-			BooleanExpression x = falconAppointmentPatron.eq(patron);
-			expressions.add(x);
-		}
+//		if(patron != null){
+//			BooleanExpression x = falconAppointmentPatron.eq(patron);
+//			expressions.add(x);
+//		}
 		if(location != null){
-			BooleanExpression x = falconAppointment.falconLocation.eq(location);
+			BooleanExpression x = falconAppointment.falconLocation.id.eq(location.getId());
 			expressions.add(x);
 		}
 		if(service != null){
-			BooleanExpression x = falconService.eq(service);
+			BooleanExpression x = falconService.id.eq(service.getId());
 			expressions.add(x);
 		}
 		query.where(expressions.toArray(new BooleanExpression[]{}));
