@@ -20,6 +20,7 @@ import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.entity.QFalconAppointment;
 import com.twistlet.falcon.model.entity.QFalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.QFalconLocation;
+import com.twistlet.falcon.model.entity.QFalconPatron;
 import com.twistlet.falcon.model.entity.QFalconService;
 import com.twistlet.falcon.model.entity.QFalconStaff;
 
@@ -57,10 +58,12 @@ public class FalconAppointmentRepositoryImpl implements
 		final QFalconService falconService = falconAppointment.falconService;
 		final QFalconStaff falconStaff = QFalconStaff.falconStaff;
 		final QFalconAppointmentPatron falconAppointmentPatron = QFalconAppointmentPatron.falconAppointmentPatron;
+		final QFalconPatron falconPatron = QFalconPatron.falconPatron;
 		query.from(falconAppointment);
 		query.join(falconAppointment.falconStaff, falconStaff).fetch();
 		query.join(falconAppointment.falconAppointmentPatrons,
-				falconAppointmentPatron);
+				falconAppointmentPatron).fetch();
+		query.join(falconAppointmentPatron.falconPatron, falconPatron).fetch();
 		query.join(falconAppointment.falconLocation, falconLocation).fetch();
 		List<BooleanExpression> expressions = new ArrayList<>();
 		if (start != null) {
@@ -74,10 +77,8 @@ public class FalconAppointmentRepositoryImpl implements
 			expressions.add(x);
 		}
 		if (patron != null) {
-			BooleanExpression x = falconAppointment.falconAppointmentPatrons
-					.any().falconPatron.id.eq(patron.getId());
+			BooleanExpression x = falconPatron.id.eq(patron.getId());
 			expressions.add(x);
-
 		}
 		if (location != null) {
 			BooleanExpression x = falconAppointment.falconLocation.id
@@ -91,5 +92,4 @@ public class FalconAppointmentRepositoryImpl implements
 		query.where(expressions.toArray(new BooleanExpression[] {}));
 		return query.list(falconAppointment);
 	}
-
 }
