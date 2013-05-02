@@ -26,7 +26,6 @@ import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.service.AppointmentService;
 import com.twistlet.falcon.model.service.PatronService;
-import com.twistlet.falcon.model.service.StaffService;
 
 @Controller
 @RequestMapping("/admin")
@@ -38,14 +37,11 @@ public class AdminLandingController {
 	
 	private final PatronService patronService;
 	
-	private final StaffService staffService;
-	
 	@Autowired
 	public AdminLandingController(AppointmentService appointmentService,
-			PatronService patronService, StaffService staffService) {
+			PatronService patronService) {
 		this.appointmentService = appointmentService;
 		this.patronService = patronService;
-		this.staffService = staffService;
 	}
 
 	@InitBinder
