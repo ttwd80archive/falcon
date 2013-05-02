@@ -24,4 +24,6 @@ public interface AppointmentService {
 	void deleteAppointmentPatron(Integer id);
 	
 	void rescheduleAppointment(Integer appointmentId, Date startDate, Date endDate, Integer locationId);
+	
+	List<FalconAppointment> findAppointmentsByParameter(Integer staffId, String patronId, Integer serviceId, Integer locationId, Date appointmentDate);
 }

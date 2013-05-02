@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,5 +153,25 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointment.setFalconLocation(location);
 		falconAppointmentRepository.save(appointment);
 	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<FalconAppointment> findAppointmentsByParameter(Integer staffId,
+			String patronId, Integer serviceId, Integer locationId,
+			Date appointmentDate) {
+		List<FalconAppointment> appointments = falconAppointmentRepository.listAppointmentsByParam(staffId, patronId, serviceId, locationId, appointmentDate);
+		if(CollectionUtils.isNotEmpty(appointments)){
+			for(FalconAppointment falconAppointment : appointments){
+				for(FalconAppointmentPatron appointmentPatron : falconAppointment.getFalconAppointmentPatrons()){
+					appointmentPatron.getFalconPatron().getFalconUserByPatron().getName();
+				}
+				falconAppointment.getFalconLocation().getName();
+				falconAppointment.getFalconService().getName();
+				falconAppointment.getFalconStaff().getName();
+			}
+		}
+		return appointments;
+	}
+	
 
 }
