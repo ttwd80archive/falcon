@@ -60,31 +60,39 @@
 		<div id="subcontent-wrapper-ext-right">
 			<div id="subcontent-ext-right">
 				<div id="searchfilters">
+					<form action="#" th:object="${search}" th:action="@{search-appointments}" method="post" id="searchform">
 					<h3 style="width: 380px">
 						Please select filter criteria and click <input type="button"
-							value="SEARCH" onclick="msg(Booya!)" class="button"
+							value="SEARCH" class="button"
 							id="querybutton" />
 					</h3>
 					<ul id="query-items">
-						<li><span>Staff</span> <input id="filter-staff" type="text"
-							size="15" /><img th:src="@{/images/drop-arrow-gray.png}" src="./images/drop-arrow-gray.png"
-							alt="Image failed to load" class="drop-arrow-gray" /></li>
-						<li><span>Patron</span> <input id="filter-patron" type="text"
-							size="15" /><img th:src="@{/images/drop-arrow-gray.png}" src="./images/drop-arrow-gray.png"
-							alt="Image failed to load" class="drop-arrow-gray" /></li>
-						<li><span>Date</span> <input id="filter-date" type="text"
-							size="15" /><img th:src="@{/images/drop-arrow-gray.png}" src="./images/drop-arrow-gray.png"
-							alt="Image failed to load" class="drop-arrow-gray" /></li>
-						<li><span>Time</span> <input id="filter-time" type="text"
-							size="15" /><img th:src="@{/images/drop-arrow-gray.png}" src="./images/drop-arrow-gray.png"
-							alt="Image failed to load" class="drop-arrow-gray" /></li>
-						<li><span>Venue</span> <input id="filter-venue" type="text"
-							size="15" /><img th:src="@{/images/drop-arrow-gray.png}" src="./images/drop-arrow-gray.png"
-							alt="Image failed to load" class="drop-arrow-gray" /></li>
-						<li><span>Service</span> <input id="filter-service"
-							type="text" size="15" /><img th:src="@{/images/drop-arrow-gray.png}" src="./images/drop-arrow-gray.png"
-							alt="Image failed to load" class="drop-arrow-gray" /></li>
+						<li>
+							<span>Staff</span> 
+							<select id="staffs" th:field="*{staffId}" style="width: 137px;"/>
+						</li>
+						<li>
+							<span>Patron</span> 
+							<select id="patrons" th:field="*{patronId}" class="chzn-select" />
+						</li>
+						<li>
+							<span>Date</span> 
+							<input type="text" id="appointmentdate" th:field="*{searchDate}" style="width: 130px;"/>
+						</li>
+						<li>
+							<span>Time</span> 
+							<input type="text" id="appointmenttime" th:field="*{searchTime}" />
+						</li>
+						<li>
+							<span>Venue</span> 
+							<select id="locations" th:field="*{locationId}" style="width: 137px;"></select>
+						</li>
+						<li>
+							<span>Service</span> 
+							<select id="services" th:field="*{serviceId}"></select>
+						</li>
 					</ul>
+					</form>
 				</div>
 				<div id="result-list">
 					<div id="result-split" class="subcontent-split"></div>
@@ -202,6 +210,6 @@
 	<script type="text/javascript" th:src="@{/js/lib/jquery-ui-sliderAccess.js}"
 		src="js/lib/jquery-ui-sliderAccess.js"></script>
 	<script type="text/javascript" th:src="@{/js/admin/manage_appointments.js}"
-		src="js/admin/admin_landing.js"></script>
+		src="js/admin/manage_appointments.js"></script>
 </body>
 </html>

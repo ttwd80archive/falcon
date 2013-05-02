@@ -1,4 +1,5 @@
 $(function() {
+	var currentuser = $('#username').html();
 	$('.remove').click(function(){
 		var url = '../apppointment_fetch/' + $(this).attr('id');
 		console.log(url);
@@ -89,7 +90,6 @@ $(function() {
 				}
 			});
 		});
-		var currentuser = $('#username').html();
 		console.log(currentuser);
 		$.getJSON('../list-location/' + currentuser, function(data) {
 			setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', '');
@@ -104,6 +104,42 @@ $(function() {
 			});
 		});
 	});
+	$.getJSON('../list-staff/'+ currentuser, function(data) {
+		console.log('in here');
+		setSelectOptions($('#staffs'), data, 'id', 'name', '');
+	});
+	$.getJSON('../list-patient/' + currentuser, function(data) {
+		setSelectOptions($('#patrons'), data, 'username', 'name', '');
+	});
+
+	$.getJSON('../list-location/' + currentuser, function(data) {
+		setSelectOptions($('#locations'), data, 'id', 'name', '');
+	});
+	
+	$.getJSON('../list-services/' + currentuser, function(data) {
+		setSelectOptions($('#services'), data, 'id', 'name', '');
+	});
+	$("#appointmentdate").datepicker({
+		dateFormat: 'dd-mm-yy'
+	});
+	$('#appointmenttime').timepicker({
+		controlType: 'select',
+		timeOnly: true,
+		timeFormat: 'hh:mm tt',
+		defaultValue:	function(){
+			var now = new Date();
+			var hours = now.getHours();
+			var hour = hours % 12;
+			var min = now.getMinutes();
+			var ampm = hours >= 12 ? 'pm' : 'am';
+			min = min < 10 ? '0' + min : min;
+			console.log(hour + ':' + min + ' ' + ampm);
+			return hours + ':' + min + ' ' + ampm;
+		}
+	});
+	$('#querybutton').click(function(){
+		$('#searchform').submit();
+	});
 });
 
 
@@ -115,7 +151,7 @@ function setSelectOptions(selectElement, values, valueKey, textKey, defaultValue
     if (typeof (values) == 'object') {
         if (values.length) {
             var type = typeof (values[0]);
-            var html = "";
+            var html = '<option value=""></option>'; ;
 
             if (type == 'object') {
                 // values is array of hashes
