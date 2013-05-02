@@ -13,10 +13,6 @@ import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.twistlet.falcon.model.entity.FalconAppointment;
-import com.twistlet.falcon.model.entity.FalconLocation;
-import com.twistlet.falcon.model.entity.FalconPatron;
-import com.twistlet.falcon.model.entity.FalconService;
-import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.entity.QFalconAppointment;
 import com.twistlet.falcon.model.entity.QFalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.QFalconLocation;
@@ -49,9 +45,9 @@ public class FalconAppointmentRepositoryImpl implements
 	}
 
 	@Override
-	public List<FalconAppointment> listAppointmentsByParam(FalconUser staff,
-			FalconPatron patron, Date searchDate, FalconLocation location,
-			FalconService service) {
+	public List<FalconAppointment> listAppointmentsByParam(Integer staffId,
+			String patronId, Integer serviceId, Integer locationId,
+			Date searchDate) {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconAppointment falconAppointment = QFalconAppointment.falconAppointment;
 		final QFalconLocation falconLocation = QFalconLocation.falconLocation;
@@ -67,25 +63,25 @@ public class FalconAppointmentRepositoryImpl implements
 			BooleanExpression x = t1.and(t2);
 			expressions.add(x);
 		}
-		if (staff != null) {
+		if (staffId != null) {
 			query.join(falconAppointment.falconStaff, falconStaff).fetch();
-			BooleanExpression x = falconStaff.falconUser.username.eq(staff.getUsername());
+			BooleanExpression x = falconStaff.id.eq(staffId);
 			expressions.add(x);
 		}
-		if (patron != null) {
+		if (patronId != null) {
 			query.join(falconAppointment.falconAppointmentPatrons, falconAppointmentPatron).fetch();
 			query.join(falconAppointmentPatron.falconPatron, falconPatron).fetch();
-			BooleanExpression x = falconPatron.id.eq(patron.getId());
+			BooleanExpression x = falconPatron.falconUserByPatron.username.eq(patronId);
 			expressions.add(x);
 		}
-		if (location != null) {
+		if (locationId != null) {
 			query.join(falconAppointment.falconLocation, falconLocation).fetch();
-			BooleanExpression x = falconAppointment.falconLocation.id.eq(location.getId());
+			BooleanExpression x = falconAppointment.falconLocation.id.eq(locationId);
 			expressions.add(x);
 		}
-		if (service != null) {
+		if (serviceId != null) {
 			query.join(falconAppointment.falconService, falconService).fetch();
-			BooleanExpression x = falconService.id.eq(service.getId());
+			BooleanExpression x = falconService.id.eq(serviceId);
 			expressions.add(x);
 		}
 		query.where(expressions.toArray(new BooleanExpression[] {}));
