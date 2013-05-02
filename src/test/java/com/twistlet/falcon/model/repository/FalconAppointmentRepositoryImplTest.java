@@ -141,13 +141,13 @@ public class FalconAppointmentRepositoryImplTest extends AbstractFalconRepositor
 	
 	@Test
 	public void testListAppointmentsByStaff(){
-		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(admin1, null, null, null, null);
+		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(staff1.getId(), null, null, null, null);
 		assertEquals(2, appointments.size());
 	}
 	
 	@Test
 	public void testListAppointmentsByPatron(){
-		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(null, patron1, null, null, null);
+		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(null, patron1.getFalconUserByPatron().getUsername(), null, null, null);
 		assertEquals(2, appointments.size());
 	}
 	
@@ -158,19 +158,19 @@ public class FalconAppointmentRepositoryImplTest extends AbstractFalconRepositor
 		System.out.println("start:" + appointment1.getAppointmentDate());
 		System.out.println("end:" + appointment1.getAppointmentDateEnd());
 		System.out.println("search:" + searchDate);
-		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(null, null, searchDate, null, null);
+		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(null, null, null, null, searchDate);
 		assertEquals(1, appointments.size());
 	}
 	
 	@Test
 	public void testListAppointmentsByLocation(){
-		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(null, null, null, location1, null);
+		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(null, null, null, location1.getId(), null);
 		assertEquals(2, appointments.size());
 	}
 	
 	@Test
 	public void testListAppointmentsByService(){
-		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(null, null, null, null, service1);
+		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(null, null, service1.getId(), null, null);
 		assertEquals(2, appointments.size());
 	}
 	
@@ -178,7 +178,7 @@ public class FalconAppointmentRepositoryImplTest extends AbstractFalconRepositor
 	public void testListAppointmentsByServiceAndDate(){
 		final Date now = new Date();
 		final Date searchDate = DateUtils.addHours(now, 1);
-		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(null, null, searchDate, null, service1);
+		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(null, null, service1.getId(), null, searchDate);
 		assertEquals(1, appointments.size());
 	}
 	
