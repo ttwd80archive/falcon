@@ -43,10 +43,10 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 		entityManager.persist(role1 = createNewRole("ROLE_LEVEL_1"));
 		entityManager.persist(createNewRole("ROLE_LEVEL_2"));
 		entityManager.persist(role3 = createNewRole("ROLE_LEVEL_3"));
-		entityManager.persist(user1 = createNewUser("USER_1"));
-		entityManager.persist(user2 = createNewUser("USER_2"));
-		entityManager.persist(user3 = createNewUser("USER_3"));
-		entityManager.persist(admin1 = createNewUser("ADMIN_1"));
+		entityManager.persist(user1 = createNewUser("USER_1", "email1@add.com", "1", "1"));
+		entityManager.persist(user2 = createNewUser("USER_2", "email2@add.com", "2", "2"));
+		entityManager.persist(user3 = createNewUser("USER_3", "email3@add.com", "3", "3"));
+		entityManager.persist(admin1 = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4"));
 		entityManager.persist(new FalconUserRole(user1, role1));
 		entityManager.persist(new FalconUserRole(user2, role1));
 		entityManager.persist(new FalconUserRole(user3, role1));
@@ -70,11 +70,14 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 		entityManager.clear();
 	}
 	
-	private FalconUser createNewUser(final String username) {
+	private FalconUser createNewUser(final String username, final String email, final String nric, final String phone) {
 		final FalconUser falconUser = new FalconUser();
 		falconUser.setUsername(username);
 		falconUser.setPassword("x");
 		falconUser.setName(username);
+		falconUser.setEmail(email);
+		falconUser.setNric(nric);
+		falconUser.setPhone(phone);
 		return falconUser;
 	}
 
@@ -135,7 +138,7 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 	public void testPatronsOverlapStart() {
 		Date end = new Date();
 		Date start = DateUtils.addHours(end, -1);
-		FalconUser admin = createNewUser("ADMIN_1");
+		FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
 		Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
 		assertEquals(2, patrons.size());
 	}
@@ -144,7 +147,7 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 	public void testPatronsOverlapEnd() {
 		Date start = DateUtils.addHours(new Date(), 3);
 		Date end = DateUtils.addHours(new Date(), 6);
-		FalconUser admin = createNewUser("ADMIN_1");
+		FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
 		Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
 		assertEquals(3, patrons.size());
 	}
@@ -153,7 +156,7 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 	public void testPatronsOverlapMiddle() {
 		Date start = DateUtils.addHours(new Date(), 1);
 		Date end = DateUtils.addHours(new Date(), 2);
-		FalconUser admin = createNewUser("ADMIN_1");
+		FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
 		Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
 		assertEquals(2, patrons.size());
 	}
@@ -162,7 +165,7 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 	public void testPatronsNoOverlap() {
 		Date start = DateUtils.addHours(new Date(), -4);
 		Date end = DateUtils.addHours(new Date(), -2);
-		FalconUser admin = createNewUser("ADMIN_1");
+		FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
 		Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
 		assertEquals(0, patrons.size());
 	}
