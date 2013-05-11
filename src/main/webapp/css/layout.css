@@ -1,7 +1,7 @@
 /* Wrappers 
 -------------------------------------------------
 */
-#header-wrapper                                  {background: none repeat scroll 0 0 #00A99D; height: 70px; width: 930px; display: block; float: left;}
+#header-wrapper                                  {height: 70px; width: 100%; display: block; float: left;}
 #content-wrapper                                 {background: none repeat scroll 0 0 #E6E6E6; width: 930px; height: 570px; display: block; margin: 0 auto;}
 #main-wrapper                                    {float: left; width: 708px; height: 500px; margin: 0; word-wrap: break-word; overflow: hidden;   display: block;}
 #sidebar-wrapper                                 {height: 500px; width: 222px; float: left; margin: 0; word-wrap: break-word;}
@@ -60,7 +60,7 @@
 #header-inf                                      {float: left; text-align: right; width: 500px;}
 
 #loginbutton                                     {float: right;position: relative; bottom: 4px;}
-#logo                                            {bottom: 5px; float: left; height: 100%; position: relative; width: 400px;}
+#logo                                            {float: left; height: 100%; position: relative; width: 400px;}
 #logopos                                         {bottom: 30px; float: right; position: relative; left: 20px;}
 #msg-box                                         {background: none repeat scroll 0 0 #FFFFFF; border-style: solid; border-width: 2px; border-color: #1F1F1F; 
                                                   height: 480px; margin: 16px; position: relative; text-align: center; width: 190px; z-index: 15; padding: 0; 
@@ -89,7 +89,7 @@
                                                   z-index: 1000; top: 70px;}
 #rescheduleappt                                  {background: none repeat scroll 0 0 #FFFFFF; border: 5px solid #22B574; padding: 0 30px 16px; min-width: 360px; 
                                                   z-index: 1000; top: 70px;}
-#rescheduleapptfilter span                       {float: left; width: 120px;}
+#rescheduleapptfilter span                       {float: left; width: 100px;}
 #rescheduleapptfilter li                         {display: block; padding: 4px;}
 #result-list                                     {margin-top: 15px; display: block; float: left;}
 #result-split                                    {height: 2px; width: 710px; position: relative; left: -16px; margin-bottom: 10px;}
@@ -126,6 +126,29 @@
 #tab-window div ul li                            {display: block; padding: 4px; float: left; width: 100%;}
 #tab-window div ul li span                       {float: left; width: 100px;}
 #tablebody tr td:hover                           {border: 1px solid #22B574; font-weight: bold;}
+
+
+#removeclient                                    {background: none repeat scroll 0 0 #FFFFFF; border: 5px solid #22B574; padding: 0 30px 16px; min-width: 360px; 
+                                                  z-index: 1000; top: 70px;}
+#updsmspool                                      {background: none repeat scroll 0 0 #FFFFFF; border: 5px solid #22B574; padding: 0 30px 16px; min-width: 360px; 
+                                                  z-index: 1000; top: 70px;}
+#updemailpool                                     {background: none repeat scroll 0 0 #FFFFFF; border: 5px solid #22B574; padding: 0 30px 16px; min-width: 360px; 
+                                                  z-index: 1000; top: 70px;}
+#getclient li                                    {display: block; padding: 4px;}
+#getclient li input                              {margin: 0 30px 10px;}
+#getclient li span                               {float: left; width: 140px; font-weight:bold;}
+#totalclient                                     {padding-right: 16px;font-weight: bold;}
+#superusercontrols                               {display: block; float:right; padding-right: 16px; text-align: right; font-size: 16px; font-weight: bold; width:180px;}
+#createclient                                    {background: none repeat scroll 0 0 #FFFFFF; border: 5px solid #22B574; padding: 0 30px; min-width: 360px; 
+                                                  z-index: 1000; top: 70px;}
+#createclient ul li span                         {float: left; width: 100px;}
+#createclient ul li                              {display: block; padding: 4px;}
+
+#updsmspool ul li                                {display: block; padding: 4px;}
+#updsmspool ul li span                           {float: left; width: 140px;}
+
+#updemailpool ul li                              {display: block; padding: 4px;}
+#updemailpool ul li span                         {float: left; width: 140px;}
 
 /* Layout - Classes
 -------------------------------------------------
@@ -183,6 +206,7 @@
 .td1-ext                                         {width: 100px;}
 .td2-ext                                         {width: 100px;}
 .td3-ext                                         {width: 100px;}
+.updbuttons input                                {margin: 0 30px 10px;}
 
 /* Layout - Misc
 -------------------------------------------------
@@ -190,5 +214,40 @@
 a.close-box:hover img.blackcross                 {display: inline; visibility: visible;}
 a.close-box:hover img.whitecross                 {display: none;}
 li.editprofile:hover .drop-menu .menu-lvl-1      {display: block;}
-ul.legend-labels li                              {float: left; display; block;  width: 130px;}
-ul.legend-labels li span                         {display: block; float: left; height: 15px; width: 15px; margin-right: 5px; margin-top: 4px; border: none;}
+ul.legend-labels li                              {float: left; display; block; }
+ul.legend-labels li span                         {display: block; float: left; height: 15px; margin-right: 15px; border: none;}
+
+.appt-count {
+  color: #d9d9d9;
+  font-size: 12px;
+  text-shadow: 1px 1px 2px rgba(150, 150, 150, 0.1);
+  float: right;
+  position: relative;
+  top: -50%;
+}
+
+.appt-count-img {
+    height: 9px;
+    width: 9px;
+    left: 2px;
+    top:-1px;
+    position: relative;
+}
+
+.appt-count-img-legend{
+    position: relative;
+    top: 4px;
+    left: 2px;
+}
+
+.legend-labels li .appt-count{
+  color: #b9b9b9;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.show-error-msg{
+  color: red;
+  font-weight: bold;
+  padding:10px;
+}

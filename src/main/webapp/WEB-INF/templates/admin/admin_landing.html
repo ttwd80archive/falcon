@@ -24,7 +24,7 @@
 	<div id="header-wrapper">
 		<div id="header">
 			<div id="logo">
-				<img th:src="@{/images/aprislogo.gif}" src="./images/aprislogo.gif"
+				<img th:src="@{/images/butter-bun-logo.png}" src="./images/butter-bun-logo.png"
 					alt="Image failed to load" height="60px" width="150px" />
 			</div>
 			<div id="header-inf">
@@ -174,12 +174,19 @@
 				<br />
 				<div class="legend">
 					<ul class="legend-labels nopadding">
-						<li><span class="lighthousecolor"></span>Light House
-							<div class="notes">&#40;Many Slots Remaining&#41;</div></li>
-						<li><span class="packedhousecolor"></span>Packed House
-							<div class="notes">&#40;Few Slots Remaining&#41;</div></li>
-						<li><span class="fullhousecolor"></span>Full House
-							<div class="notes">&#40;No Slots Available&#41;</div></li>
+						<li>
+							<span class="appt-count">[x]<img class="appt-count-img-legend" height="15px" width="15px" alt="@" th:src="@{/images/clock.png}" src="../images/clock.png" /></span>
+								x = Total Number of Appointments(for specific day)
+						</li>
+						<li class="hidden">
+							<span class="lighthousecolor"></span>Light House<div class="notes">&#40;Many Slots Remaining&#41;</div>
+						</li>
+						<li class="hidden">
+							<span class="packedhousecolor"></span>Packed House<div class="notes">&#40;Few Slots Remaining&#41;</div>
+						</li>
+						<li class="hidden">
+							<span class="fullhousecolor"></span>Full House<div class="notes">&#40;No Slots Available&#41;</div>
+						</li>
 					</ul>
 				</div>
 			</div>

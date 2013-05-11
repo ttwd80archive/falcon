@@ -47,7 +47,7 @@ $(function() {
 	var url = '../list-staff-name/'+ currentuser;
 	$("#fullname-staff").autocomplete({
 		source: url,
-		minLength: 3,
+		minLength: 8,
 		select: function(event, ui){
 			console.log(ui.item.value);
 			var url = '../search-staff/' + currentuser + '?';
@@ -69,7 +69,7 @@ $(function() {
 	url = '../list-staff-nric/'+ currentuser;
 	$("#identificationnum-staff").autocomplete({
 		source: url,
-		minLength: 3,
+		minLength: 8,
 		select: function(event, ui){
 			console.log(ui.item.value);
 			var url = '../search-staff/' + currentuser + '?';
@@ -89,7 +89,7 @@ $(function() {
 	url = '../list-staff-email/'+ currentuser;
 	$("#email-staff").autocomplete({
 		source: url,
-		minLength: 3,
+		minLength: 8,
 		select: function(event, ui){
 			console.log(ui.item.value);
 			var url = '../search-staff/' + currentuser + '?';
@@ -109,7 +109,7 @@ $(function() {
 	url = '../list-staff-mobile/'+ currentuser;
 	$("#mobilenum-staff").autocomplete({
 		source: url,
-		minLength: 3,
+		minLength: 8,
 		select: function(event, ui){
 			console.log(ui.item.value);
 			var url = '../search-staff/' + currentuser + '?';
@@ -174,7 +174,7 @@ $(function() {
 	url = '../list-patron-name/'+ currentuser;
 	$("#fullname-patron").autocomplete({
 		source: url,
-		minLength: 3,
+		minLength: 8,
 		select: function(event, ui){
 			console.log(ui.item.value);
 			var url = '../search-patron/' + currentuser + '?';

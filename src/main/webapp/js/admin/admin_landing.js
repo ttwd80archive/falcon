@@ -139,13 +139,8 @@ function renderSelectedMonth(month, year) {
 					if(currentDay != ''){
 						if(currentDay == day){
 							console.log(currentDay + " - " + percentAvailable + '%');
-							if(percentAvailable < 1){
-								$(this).attr('class','fullhousecolor');
-							}else if(percentAvailable < 26){
-								$(this).attr('class','packedhousecolor');
-							}else if(percentAvailable < 99){
-								$(this).attr('class','lighthousecolor');
-							}
+							var inCell = day + '<span class="appt-count">' + total +'<img src="../images/clock.png" class="appt-count-img" alt="@" /></span>';
+							$(this).html(inCell);
 						}
 					}else{
 						return true;

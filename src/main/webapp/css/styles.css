@@ -53,6 +53,7 @@ a:active                                         {color: #0000FF;}
 -------------------------------------------------
 */
 
+#header-wrapper                                  {background: url("../images/head-bg.png") repeat scroll 100% 100% #00A99D;}
 .drop-arrow-white                                {padding: 0px 10px; position: relative; top: 1px;
                                                   background-image: url('../images/drop-arrow-white.gif');
                                                   background-repeat: no-repeat;
