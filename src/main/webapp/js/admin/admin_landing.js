@@ -125,7 +125,7 @@ function renderSelectedMonth(month, year) {
 	$.getJSON('../list-appointment/' + dateString, function(data){
 		$.each(data, function(i, obj){
 			var day = obj.day;
-			var SLOTS = 4;
+			var SLOTS = 99999;
 			var total = obj.totalAppointment;
 			var percentAvailable = 100;
 			if(total >= SLOTS){
@@ -139,8 +139,7 @@ function renderSelectedMonth(month, year) {
 					if(currentDay != ''){
 						if(currentDay == day){
 							console.log(currentDay + " - " + percentAvailable + '%');
-							var inCell = day + '<span class="appt-count">' + total +'<img src="../images/clock.png" class="appt-count-img" alt="@" /></span>';
-							$(this).html(inCell);
+							$(this).html(day + ' ' + '<span class="appt-count">' + total +'<img src="../images/clock.png" class="appt-count-img" alt="@" /></span>');
 						}
 					}else{
 						return true;
