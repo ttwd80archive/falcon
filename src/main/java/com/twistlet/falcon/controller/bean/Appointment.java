@@ -14,9 +14,11 @@ public class Appointment {
 	
 	String location;
 	
+	Integer locationId;
+	
 	String staff;
 	
-	List<String> patrons;
+	List<Patron> patrons;
 
 	public Integer getId() {
 		return id;
@@ -58,11 +60,11 @@ public class Appointment {
 		this.staff = staff;
 	}
 
-	public List<String> getPatrons() {
+	public List<Patron> getPatrons() {
 		return patrons;
 	}
 
-	public void setPatrons(List<String> patrons) {
+	public void setPatrons(List<Patron> patrons) {
 		this.patrons = patrons;
 	}
 
@@ -72,6 +74,14 @@ public class Appointment {
 
 	public void setAppointmentTimeEnd(String appointmentTimeEnd) {
 		this.appointmentTimeEnd = appointmentTimeEnd;
+	}
+
+	public Integer getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(Integer locationId) {
+		this.locationId = locationId;
 	}
 	
 	

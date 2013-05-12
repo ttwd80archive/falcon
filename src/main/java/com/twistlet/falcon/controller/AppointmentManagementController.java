@@ -4,21 +4,31 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.twistlet.falcon.controller.bean.SearchAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointment;
+import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
+import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.service.AppointmentService;
+import com.twistlet.falcon.model.service.PatronService;
 
 @Controller
 public class AppointmentManagementController {
@@ -29,11 +39,36 @@ public class AppointmentManagementController {
 	
 	final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
 	
+	private final PatronService patronService;
+	
 	@Autowired
-	public AppointmentManagementController(AppointmentService appointmentService) {
+	public AppointmentManagementController(
+			AppointmentService appointmentService, PatronService patronService) {
 		this.appointmentService = appointmentService;
+		this.patronService = patronService;
 	}
 
+	@InitBinder
+	public void initFalconPatronsBinder(final WebDataBinder dataBinder){
+		dataBinder.registerCustomEditor(Set.class, "falconAppointmentPatrons", new CustomCollectionEditor(Set.class){
+			 @Override
+	         protected Object convertElement(Object element){
+				 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			     String adminUsername = auth.getName();
+				 String username = StringUtils.EMPTY;
+				 if(element instanceof String && !((String)element).equals("")){
+					 username = (String) element;
+				 }
+				 else{
+					 return null;
+				 }
+				 FalconAppointmentPatron falconAppointmentPatron = new FalconAppointmentPatron();
+				 FalconPatron falconPatron = patronService.findPatron(username, adminUsername);
+				 falconAppointmentPatron.setFalconPatron(falconPatron);
+				 return falconAppointmentPatron;
+			 }
+		});
+	}
 
 	@RequestMapping("/admin/manage-appointments")
 	public ModelAndView viewAppointments(){
@@ -41,12 +76,14 @@ public class AppointmentManagementController {
 		List<FalconAppointment> falconAppointments = appointmentService.listMonthlySchedule(now);
 		SearchAppointment search = new SearchAppointment();
 		ModelAndView mav = new ModelAndView("admin/manage_appointments");
+		FalconAppointment appointment = new FalconAppointment();
+		mav.addObject("appointment", appointment);
 		mav.addObject("appointments", falconAppointments);
 		mav.addObject("search", search);
 		return mav;
 	}
 	
-	@RequestMapping("/admin/search-appointments")
+	@RequestMapping(value="/admin/search-appointments", method =  RequestMethod.POST)
 	public ModelAndView searchAppointments(@ModelAttribute("search") SearchAppointment searchAppointment){
 		Date searchDate = null;
 		if(StringUtils.isNotBlank(searchAppointment.getSearchDate())){
@@ -66,10 +103,11 @@ public class AppointmentManagementController {
 			patronId = searchAppointment.getPatronId();
 		}
 		List<FalconAppointment> falconAppointments = appointmentService.findAppointmentsByParameter(searchAppointment.getStaffId(), patronId, searchAppointment.getServiceId(), searchAppointment.getLocationId(), searchDate);
-		SearchAppointment search = new SearchAppointment();
 		ModelAndView mav = new ModelAndView("admin/manage_appointments");
+		FalconAppointment appointment = new FalconAppointment();
+		mav.addObject("appointment", appointment);
 		mav.addObject("appointments", falconAppointments);
-		mav.addObject("search", search);
+		mav.addObject("search", searchAppointment);
 		return mav;
 	}
 	
@@ -99,10 +137,10 @@ public class AppointmentManagementController {
 		return new ModelAndView("redirect:/admin/manage-appointments");
 	}
 	
-	@RequestMapping("/admin/delete_patron_appointment/{id}")
-	public ModelAndView deleteAppointmentPatron(@PathVariable Integer id){
-		appointmentService.deleteAppointmentPatron(id);
-		return new ModelAndView("redirect:../manage-appointments");
+	@RequestMapping(value = "/admin/update-appointment", method = RequestMethod.POST)
+	public ModelAndView updateAppointmentPatron(@ModelAttribute("appointment") FalconAppointment appointment){
+		appointmentService.updateAppointmentPatrons(appointment);
+		return new ModelAndView("redirect:/admin/manage-appointments");
 	}
 	
 }

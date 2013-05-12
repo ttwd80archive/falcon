@@ -12,6 +12,8 @@
 	href="css/styles.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" th:href="@{/css/layout.css}"
 	href="css/layout.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" th:href="@{/css/chosen.css}"
+	href="css/chosen.css" type="text/css" media="screen" charset="utf-8" />
 <style>
 	.ui-widget {
 		font-size: x-small;
@@ -60,7 +62,7 @@
 		<div id="subcontent-wrapper-ext-right">
 			<div id="subcontent-ext-right">
 				<div id="searchfilters">
-					<form action="#" th:object="${search}" th:action="@{search-appointments}" method="post" id="searchform">
+					<form action="search-appointments" th:object="${search}" th:action="@{search-appointments}" method="post" id="searchform">
 					<h3 style="width: 380px">
 						Please select filter criteria and click <input type="button"
 							value="SEARCH" class="button"
@@ -73,7 +75,7 @@
 						</li>
 						<li>
 							<span>Patron</span> 
-							<select id="patrons" th:field="*{patronId}" class="chzn-select" />
+							<select id="patrons" th:field="*{patronId}" />
 						</li>
 						<li>
 							<span>Date</span> 
@@ -197,6 +199,34 @@
 				</ul>
 			</div>
 		</div>
+		<div id="createappt-box" class="absoluteleftcenter hidden">
+			<a class="close-box"
+				onclick="document.getElementById('createappt-box').style.display='none'; document.getElementById('bg').style.display='none';">
+				<img class="whitecross" th:src="@{/images/whitecross.png}"
+				src="./images/whitecross.png" alt="Image failed to load" /> <img
+				th:src="@{/images/blackcross.png}" class="blackcross"
+				src="./images/blackcross.png" alt="Image failed to load" />
+			</a>
+			<form action="update-appointment" th:object="${appointment}" th:action="@{update-appointment}" method="post" id="appointmentupdateform"> 
+			<div id="createappt" class="relativeleftcenter">
+				<h2>Schedule Appointment</h2>
+				<ul id="addpatronfilter" class="nopadding">
+					<li>
+						<span style="font-weight: bold;">Select Patron</span>
+						<select id="managePatronPatrons" th:field="*{falconAppointmentPatrons}" multiple="multiple" 
+							style="width:350px;" class="chzn-select" ></select>
+					</li>
+					<li id="managePatronId" style="visibility:hidden;"><input type="hidden" id="appointmentId" th:field="*{id}" /></li>
+					<li><span style="font-weight: bold;">Staff&#58;</span><div id="managePatronStaff" /></li>
+					<li><span style="font-weight: bold;">Date&#58;</span><div id="managePatronDate" type="text"/></li>
+					<li><span style="font-weight: bold;">Start Time&#58;</span><div id="managePatronTime" type="text"/></li>
+					<li><span style="font-weight: bold;">End Time&#58;</span><div id="managePatronTimeEnd" type="text"/></li>
+					<li><span style="font-weight: bold;">Venue&#58;</span><div id="managePatronVenue"></div></li>
+					<li><input class="button" type="button" id="updateAppointment" value="UPDATE" /></li>
+				</ul>
+			</div>
+			</form>
+		</div>
 		<div id="bg"></div>
 	</div>
 	<div class="clear"></div>
@@ -214,5 +244,7 @@
 		src="js/lib/jquery-ui-sliderAccess.js"></script>
 	<script type="text/javascript" th:src="@{/js/admin/manage_appointments.js}"
 		src="js/admin/manage_appointments.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/chosen.jquery.min.js}"
+		src="js/lib/chosen.jquery.min.js"></script>
 </body>
 </html>

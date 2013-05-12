@@ -10,5 +10,5 @@ import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 public interface FalconAppointmentPatronRepository extends JpaRepository<FalconAppointmentPatron, Integer> {
 
 	List<FalconAppointmentPatron> findByFalconAppointment(FalconAppointment appointment);
-
+	
 }

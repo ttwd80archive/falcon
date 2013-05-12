@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.twistlet.falcon.controller.bean.Appointment;
 import com.twistlet.falcon.controller.bean.AppointmentPatron;
+import com.twistlet.falcon.controller.bean.Patron;
 import com.twistlet.falcon.controller.bean.Schedule;
 import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
@@ -56,12 +57,17 @@ public class ListAppointmentController {
 		appointment.setId(falconAppointment.getId());
 		appointment.setStaff(falconAppointment.getFalconStaff().getName());
 		appointment.setLocation(falconAppointment.getFalconLocation().getName());
+		appointment.setLocationId(falconAppointment.getFalconLocation().getId());
 		appointment.setAppointmentDate(sdfDate.format(falconAppointment.getAppointmentDate()));
 		appointment.setAppointmentTime(sdfTime.format(falconAppointment.getAppointmentDate()));
 		appointment.setAppointmentTimeEnd(sdfTime.format(falconAppointment.getAppointmentDateEnd()));
-		appointment.setPatrons(new ArrayList<String>());
-		for(FalconAppointmentPatron patron : falconAppointment.getFalconAppointmentPatrons()){
-			appointment.getPatrons().add(patron.getFalconPatron().getFalconUserByPatron().getName());
+		appointment.setPatrons(new ArrayList<Patron>());
+		Patron patron = null;
+		for(FalconAppointmentPatron falconAppointmentPatron : falconAppointment.getFalconAppointmentPatrons()){
+			patron = new Patron();
+			patron.setKey(falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getUsername());
+			patron.setName(falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName());
+			appointment.getPatrons().add(patron);
 		}
 		return appointment;
 	}

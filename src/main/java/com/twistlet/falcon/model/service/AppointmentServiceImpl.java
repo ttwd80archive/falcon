@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -171,6 +172,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 			}
 		}
 		return appointments;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void updateAppointmentPatrons(FalconAppointment falconAppointment) {
+		final FalconAppointment appointment = falconAppointmentRepository.findOne(falconAppointment.getId());
+		final Set<FalconAppointmentPatron> falconAppointmentPatrons = appointment.getFalconAppointmentPatrons();
+		falconAppointmentPatronRepository.delete(falconAppointmentPatrons);
+		for(FalconAppointmentPatron falconAppointmentPatron : falconAppointment.getFalconAppointmentPatrons()){
+			falconAppointmentPatron.setFalconAppointment(appointment);
+			falconAppointmentPatronRepository.save(falconAppointmentPatron);
+		}
 	}
 	
 

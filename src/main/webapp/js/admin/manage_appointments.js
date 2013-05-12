@@ -16,7 +16,7 @@ $(function() {
 				if(i > 0){
 					list = list + ', ';
 				}
-				list = list + data.patrons[i];
+				list = list + data.patrons[i].name;
 			}
 			$("#deletePatrons").html(list);
 			$("#deleteId").html(data.id);
@@ -32,7 +32,56 @@ $(function() {
 			});
 		});
 	});
-	
+	$('.addPatron').click(function(){
+		var url = '../apppointment_fetch/' + $(this).attr('id');
+		$.getJSON(url, function(data){
+			var selectedKeys = new Array();
+			for(var i = 0; i < data.patrons.length ; i++){
+				console.log('patronz: ' + data.patrons[i].key);
+				selectedKeys[i] = data.patrons[i].key;
+			}
+			console.log('patrons:' + data.patrons);
+			$("#appointmentId").val(data.id);
+			$("#managePatronDate").html(data.appointmentDate);
+			$("#managePatronTime").html(data.appointmentTime);
+			$("#managePatronTimeEnd").html(data.appointmentTimeEnd);
+			$("#managePatronVenue").html(data.location);
+			$("#managePatronStaff").html(data.staff);
+			var date = data.appointmentDate.replace(/-/g, '');
+			var starttime = data.appointmentTime.replace(/:/g, '');
+			var endtime =  data.appointmentTime.replace(/:/g, '');
+			if(starttime.substring(5,7) == 'pm'){
+				starttime = starttime.substring(0,4);
+				starttime = parseInt(starttime) + 1200;
+			}else{
+				starttime = starttime.substring(0,4);
+			}
+			if(endtime.substring(5,7) == 'pm'){
+				endtime = endtime.substring(0,4);
+				console.log(parseInt(endtime));
+				if(parseInt(endtime) <= 1200 ){
+					console.log("adding to pm");
+					endtime = parseInt(endtime) + 1200;
+					console.log(endtime);
+				}
+			}else{
+				endtime = endtime.substring(0,4);
+			}
+			console.log("date:" + date);
+			console.log("start:" + starttime + " end: "+ endtime );
+			var url = '../list-patient/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime;
+			$.getJSON(url, function(data) {
+				setSelectOptions($('#managePatronPatrons'), data, 'username', 'name', selectedKeys);
+				$(".chzn-select").chosen();
+				$(".chzn-select").trigger("liszt:updated");
+			});
+		});
+		$("#createappt-box").css("display","block");
+		$("#bg").css("display","block");
+		$('#updateAppointment').click(function(){
+			$("#appointmentupdateform").submit();
+		});
+	});
 	$('.reschedule').click(function(){
 		console.log('clicked');
 		var url = '../apppointment_fetch/' + $(this).attr('id');
@@ -43,14 +92,14 @@ $(function() {
 			$("#rescheduleDate").val(data.appointmentDate);
 			$("#rescheduleTime").val(data.appointmentTime);
 			$("#rescheduleTimeEnd").val(data.appointmentTimeEnd);
-			$("#rescheduleLocation").val(data.location);
+			$("#rescheduleVenue").val(data.locationId);
 			$("#rescheduleStaff").html(data.staff);
 			var list = "";
 			for(var i = 0; i < data.patrons.length; i++){
 				if(i > 0){
 					list = list + ', ';
 				}
-				list = list + data.patrons[i];
+				list = list + data.patrons[i].name;
 			}
 			$("#reschedulePatrons").html(list);
 			$("#rescheduleId").html(data.id);
@@ -169,8 +218,12 @@ function setSelectOptions(selectElement, values, valueKey, textKey, defaultValue
             selectElement.html(html);
         }
         // select the defaultValue is one was passed in
+        console.log('default: ' +defaultValue);
         if (typeof defaultValue != 'undefined') {
-            selectElement.children('option[value="' + defaultValue + '"]').attr('selected', 'selected');
+        	for(var i = 0; i < defaultValue.length ; i++){
+				var key = defaultValue[i];
+				selectElement.children('option[value="' + key + '"]').attr('selected', 'selected');
+			}
         }
     }
     return false;
