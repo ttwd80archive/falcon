@@ -78,7 +78,7 @@ public class ListStaffController {
 				name);
 		List<String> names = new ArrayList<>();
 		for (FalconStaff staff : staffs) {
-			names.add(staff.getName());
+			names.add(staff.getName() + " (" + staff.getHpTel() + ")");
 		}
 		return names;
 	}
