@@ -114,7 +114,7 @@ function renderSelectedMonth(month, year) {
 				$(this).text('');
 				return true;
 			}
-			$(this).text(dayCount);
+			$(this).html(dayCount);
 			dayCount = dayCount + 1;
 			
 		});
@@ -139,7 +139,7 @@ function renderSelectedMonth(month, year) {
 					if(currentDay != ''){
 						if(currentDay == day){
 							console.log(currentDay + " - " + percentAvailable + '%');
-							$(this).html(day + ' ' + '<span class="appt-count">' + total +'<img src="../images/clock.png" class="appt-count-img" alt="@" /></span>');
+							$(this).html('<span id="theDay">'+ day + '</span>' + ' ' + '<span class="appt-count">' + total +'<img src="../images/clock.png" class="appt-count-img" alt="@" /></span>');
 						}
 					}else{
 						return true;
@@ -155,7 +155,10 @@ function renderSelectedMonth(month, year) {
 			if ($(this).hasClass("fullhousecolor")) {
 				return false;
 			}
-			var dateValue = $(this).text();
+			var inBox = $(this).text();
+			var values = inBox.split(" ");
+			var dateValue = values[0];
+			console.log('Helmy:' + dateValue);
 			var dateInt = parseInt(dateValue);
 			if (dateInt >= 1 && dateInt <= 31) {
 				$('#appointmenttime').timepicker({
