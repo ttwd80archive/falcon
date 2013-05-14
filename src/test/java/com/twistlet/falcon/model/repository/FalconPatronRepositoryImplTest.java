@@ -3,6 +3,7 @@ package com.twistlet.falcon.model.repository;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -168,5 +169,13 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 		FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
 		Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
 		assertEquals(0, patrons.size());
+	}
+	
+	@Test
+	public void testFindByFalconUserNameLike(){
+		FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
+		String name = "USER_1";
+		List<FalconPatron> patrons = falconPatronRepository.findByFalconUserNameLike(admin, name);
+		assertEquals(1, patrons.size());
 	}
 }

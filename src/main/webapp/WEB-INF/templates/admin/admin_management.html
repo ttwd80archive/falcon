@@ -94,7 +94,7 @@
 								<input type="checkbox" id="emailnotification-staff" value="Email" th:field="*{sendEmail}" />Email
 							</li>
 							<li>
-								<input type="hidden" th:field="*{id}" id="id" />
+								<input type="hidden" th:field="*{id}" id="id-staff" />
 								<input type="hidden" th:field="*{valid}" id="valid" />
 								<input class="button" type="button" value="SEARCH" id="searchStaff" />&nbsp;&nbsp;&nbsp;
 								<a href="#" id="saveStaff">save</a>
@@ -127,8 +127,12 @@
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 								<input type="checkbox" id="emailnotification-patron" value="Email" th:field="*{falconUserByPatron.sendEmail}" /> Email
 							</li>
-							<li><input class="button" type="submit" value="SAVE" />&nbsp;&nbsp;&nbsp;
-							<a href="#">delete patron</a></li>
+							<li>
+								<input type="hidden" th:field="*{id}" id="id-patron" />
+								<input class="button" type="button" value="SEARCH" id="searchPatron" />&nbsp;&nbsp;&nbsp;
+								<a href="#" id="savePatron">save</a>
+								<a href="#" id="deletePatron">delete</a>
+							</li>
 						</ul>
 						</form>
 					</div>

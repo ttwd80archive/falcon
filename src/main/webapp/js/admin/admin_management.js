@@ -43,8 +43,12 @@ $(function() {
 		$('#service-hdr').attr('class','active');
 	});
 	
+	var url = '';
 	var currentuser = $('#username').html();
-	var url = '../list-staff-name/'+ currentuser;
+	
+	/** for staff **/
+	
+	url = '../list-staff-name/'+ currentuser;
 	$("#fullname-staff").autocomplete({
 		source: url,
 		minLength: 4,
@@ -55,7 +59,7 @@ $(function() {
 			var theName = ui.item.value.substring(0, index);
 			url = url + 'name=' + theName;
 			$.getJSON(url, function(data){
-				 $('#id').val(data.id);
+				 $('#id-staff').val(data.id);
 				 $('#fullname-staff').val(data.name);
 				 $('#identificationnum-staff').val(data.nric);
 				 $('#email-staff').val(data.email);
@@ -66,8 +70,6 @@ $(function() {
 		}
 	});
 	
-	/** for staff **/
-	
 	url = '../list-staff-nric/'+ currentuser;
 	$("#identificationnum-staff").autocomplete({
 		source: url,
@@ -77,7 +79,7 @@ $(function() {
 			var url = '../search-staff/' + currentuser + '?';
 			url = url + 'nric=' + ui.item.value;
 			$.getJSON(url, function(data){
-				 $('#id').val(data.id);
+				 $('#id-staff').val(data.id);
 				 $('#fullname-staff').val(data.name);
 				 $('#identificationnum-staff').val(data.nric);
 				 $('#email-staff').val(data.email);
@@ -97,7 +99,7 @@ $(function() {
 			var url = '../search-staff/' + currentuser + '?';
 			url = url + 'email=' + ui.item.value;
 			$.getJSON(url, function(data){
-				 $('#id').val(data.id);
+				 $('#id-staff').val(data.id);
 				 $('#fullname-staff').val(data.name);
 				 $('#identificationnum-staff').val(data.nric);
 				 $('#email-staff').val(data.email);
@@ -117,7 +119,7 @@ $(function() {
 			var url = '../search-staff/' + currentuser + '?';
 			url = url + 'mobile=' + ui.item.value;
 			$.getJSON(url, function(data){
-				 $('#id').val(data.id);
+				 $('#id-staff').val(data.id);
 				 $('#fullname-staff').val(data.name);
 				 $('#identificationnum-staff').val(data.nric);
 				 $('#email-staff').val(data.email);
@@ -147,7 +149,7 @@ $(function() {
 			url = url + '&mobile=' + hpTel;
 		}
 		$.getJSON(url, function(data){
-			 $('#id').val(data.id);
+			 $('#id-staff').val(data.id);
 			 $('#fullname-staff').val(data.name);
 			 $('#identificationnum-staff').val(data.nric);
 			 $('#email-staff').val(data.email);
@@ -178,17 +180,78 @@ $(function() {
 		source: url,
 		minLength: 4,
 		select: function(event, ui){
+			var index = ui.item.value.indexOf("(");
+			var theNo = ui.item.value.substring(index + 1, ui.item.value.length - 1);
+			url = '../search-patron/' + currentuser + '?';
+			url = url + 'mobile=' + theNo;
+			$.getJSON(url, function(data){
+				 $('#id-patron').val(data.id);
+				 $('#fullname-patron').val(data.name);
+				 $('#identificationnum-patron').val(data.nric);
+				 $('#email-patron').val(data.email);
+				 $('#mobilenum-patron').val(data.phone);
+				 $('#smsnotification-patron').prop('checked', data.sendSms);
+				 $('#emailnotification-patron').prop('checked', data.sendEmail);
+			});
+		}
+	});
+	
+	url = '../list-patron-nric/'+ currentuser;
+	$("#identificationnum-patron").autocomplete({
+		source: url,
+		minLength: 4,
+		select: function(event, ui){
 			console.log(ui.item.value);
 			var url = '../search-patron/' + currentuser + '?';
-			url = url + 'name=' + ui.item.value;
+			url = url + 'nric=' + ui.item.value;
 			$.getJSON(url, function(data){
-				 $('#id').val(data.id);
-				 $('#fullname-staff').val(data.name);
-				 $('#identificationnum-staff').val(data.nric);
-				 $('#email-staff').val(data.email);
-				 $('#mobilenum-staff').val(data.hpTel);
-				 $('#smsnotification-staff').prop('checked', data.sendSms);
-				 $('#emailnotification-staff').prop('checked', data.sendEmail);
+				$('#id-patron').val(data.id);
+				 $('#fullname-patron').val(data.name);
+				 $('#identificationnum-patron').val(data.nric);
+				 $('#email-patron').val(data.email);
+				 $('#mobilenum-patron').val(data.phone);
+				 $('#smsnotification-patron').prop('checked', data.sendSms);
+				 $('#emailnotification-patron').prop('checked', data.sendEmail);
+			});
+		}
+	});
+	
+	url = '../list-patron-phone/'+ currentuser;
+	$("#mobilenum-patron").autocomplete({
+		source: url,
+		minLength: 4,
+		select: function(event, ui){
+			console.log(ui.item.value);
+			var url = '../search-patron/' + currentuser + '?';
+			url = url + 'mobile=' + ui.item.value;
+			$.getJSON(url, function(data){
+				$('#id-patron').val(data.id);
+				 $('#fullname-patron').val(data.name);
+				 $('#identificationnum-patron').val(data.nric);
+				 $('#email-patron').val(data.email);
+				 $('#mobilenum-patron').val(data.phone);
+				 $('#smsnotification-patron').prop('checked', data.sendSms);
+				 $('#emailnotification-patron').prop('checked', data.sendEmail);
+			});
+		}
+	});
+	
+	url = '../list-patron-email/'+ currentuser;
+	$("#email-patron").autocomplete({
+		source: url,
+		minLength: 4,
+		select: function(event, ui){
+			console.log(ui.item.value);
+			var url = '../search-patron/' + currentuser + '?';
+			url = url + 'email=' + ui.item.value;
+			$.getJSON(url, function(data){
+				$('#id-patron').val(data.id);
+				 $('#fullname-patron').val(data.name);
+				 $('#identificationnum-patron').val(data.nric);
+				 $('#email-patron').val(data.email);
+				 $('#mobilenum-patron').val(data.phone);
+				 $('#smsnotification-patron').prop('checked', data.sendSms);
+				 $('#emailnotification-patron').prop('checked', data.sendEmail);
 			});
 		}
 	});

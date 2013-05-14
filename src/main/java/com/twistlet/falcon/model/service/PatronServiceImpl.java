@@ -100,4 +100,70 @@ public class PatronServiceImpl implements PatronService {
 		return uniqeFalconPatron;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconPatron> listPatronByAdminNameLike(FalconUser admin, String name) {
+		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserNameLike(admin, name);
+		List<FalconPatron> validPatrons = new ArrayList<>();
+		for(FalconPatron falconPatron : falconPatrons){
+			if(StringUtils.equals(falconPatron.getFalconUserByAdmin().getUsername(), admin.getUsername())){
+				validPatrons.add(falconPatron);
+			}
+		}
+		return validPatrons;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconPatron> listPatronByAdminNricLike(FalconUser admin, String nric) {
+		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserNricLike(admin, nric);
+		List<FalconPatron> validPatrons = new ArrayList<>();
+		for(FalconPatron falconPatron : falconPatrons){
+			if(StringUtils.equals(falconPatron.getFalconUserByAdmin().getUsername(), admin.getUsername())){
+				validPatrons.add(falconPatron);
+			}
+		}
+		return validPatrons;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconPatron> listPatronByAdminEmailLike(FalconUser admin, String email) {
+		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserEmailLike(admin, email);
+		List<FalconPatron> validPatrons = new ArrayList<>();
+		for(FalconPatron falconPatron : falconPatrons){
+			if(StringUtils.equals(falconPatron.getFalconUserByAdmin().getUsername(), admin.getUsername())){
+				validPatrons.add(falconPatron);
+			}
+		}
+		return validPatrons;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconPatron> listPatronByAdminMobileLike(FalconUser admin,
+			String mobile) {
+		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserHpTelLike(admin, mobile);
+		List<FalconPatron> validPatrons = new ArrayList<>();
+		for(FalconPatron falconPatron : falconPatrons){
+			if(StringUtils.equals(falconPatron.getFalconUserByAdmin().getUsername(), admin.getUsername())){
+				validPatrons.add(falconPatron);
+			}
+		}
+		return validPatrons;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconPatron> listPatronByAdminPatronLike(FalconUser admin, FalconUser patron) {
+		List<FalconPatron> patrons = falconPatronRepository.findByFalconUserPatronLike(admin, patron);
+		for(FalconPatron falconPatron : patrons){
+			falconPatron.getFalconUserByPatron().getName();
+		}
+		return patrons;
+	}
+	
+	
+	
+
 }

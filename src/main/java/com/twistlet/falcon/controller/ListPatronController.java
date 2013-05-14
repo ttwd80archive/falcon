@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.twistlet.falcon.controller.bean.User;
+import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.PatronService;
 import com.twistlet.falcon.model.service.StaffService;
@@ -80,5 +82,88 @@ public class ListPatronController {
 			e.printStackTrace();
 		}
 		return patients;
+	}
+	
+	@RequestMapping("/list-patron-name/{admin}")
+	@ResponseBody
+	public List<String> listPatronNames(@PathVariable("admin") String username,
+			@RequestParam("term") String name) {
+		FalconUser admin = new FalconUser();
+		admin.setUsername(username);
+		List<FalconPatron> patrons = patronService.listPatronByAdminNameLike(admin, name);
+		List<String> names = new ArrayList<>();
+		for (FalconPatron patron : patrons) {
+			names.add(patron.getFalconUserByPatron().getName() + " (" + patron.getFalconUserByPatron().getPhone() + ")");
+		}
+		return names;
+	}
+	
+	@RequestMapping("/list-patron-nric/{admin}")
+	@ResponseBody
+	public List<String> listPatronNric(@PathVariable("admin") String username, @RequestParam("term") String name) {
+		FalconUser admin = new FalconUser();
+		admin.setUsername(username);
+		List<FalconPatron> patrons = patronService.listPatronByAdminNricLike(admin, name);
+		List<String> names = new ArrayList<>();
+		for (FalconPatron patron : patrons) {
+			names.add(patron.getFalconUserByPatron().getNric());
+		}
+		return names;
+	}
+	
+	@RequestMapping("/list-patron-phone/{admin}")
+	@ResponseBody
+	public List<String> listPatronPhone(@PathVariable("admin") String username, @RequestParam("term") String name) {
+		FalconUser admin = new FalconUser();
+		admin.setUsername(username);
+		List<FalconPatron> patrons = patronService.listPatronByAdminMobileLike(admin, name);
+		List<String> names = new ArrayList<>();
+		for (FalconPatron patron : patrons) {
+			names.add(patron.getFalconUserByPatron().getPhone());
+		}
+		return names;
+	}
+	
+	@RequestMapping("/list-patron-email/{admin}")
+	@ResponseBody
+	public List<String> listPatronEmail(@PathVariable("admin") String username, @RequestParam("term") String name) {
+		FalconUser admin = new FalconUser();
+		admin.setUsername(username);
+		List<FalconPatron> patrons = patronService.listPatronByAdminEmailLike(admin, name);
+		List<String> names = new ArrayList<>();
+		for (FalconPatron patron : patrons) {
+			names.add(patron.getFalconUserByPatron().getEmail());
+		}
+		return names;
+	}
+	
+	
+	@RequestMapping("/search-patron/{admin}")
+	@ResponseBody
+	public FalconUser searchPatron(@PathVariable("admin") String username,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "mobile", required = false) String mobile,
+			@RequestParam(value = "nric", required = false) String nric,
+			@RequestParam(value = "email", required = false) String email) {
+		FalconUser admin = new FalconUser();
+		admin.setUsername(username);
+		FalconUser patron = new FalconUser();
+		patron.setEmail(email);
+		patron.setName(name);
+		patron.setPhone(mobile);
+		patron.setNric(nric);
+		List<FalconPatron> patrons = patronService.listPatronByAdminPatronLike(admin, patron); 
+		FalconUser matchingUser = null;
+		if (CollectionUtils.size(patrons) == 1) {
+			matchingUser = patrons.get(0).getFalconUserByPatron();
+			matchingUser.setFalconLocations(null);
+			matchingUser.setFalconPatronsForAdmin(null);
+			matchingUser.setFalconPatronsForPatron(null);
+			matchingUser.setFalconPatronsForPatron(null);
+			matchingUser.setFalconServices(null);
+			matchingUser.setFalconStaffs(null);
+			matchingUser.setFalconUserRoles(null);
+		}
+		return matchingUser;
 	}
 }
