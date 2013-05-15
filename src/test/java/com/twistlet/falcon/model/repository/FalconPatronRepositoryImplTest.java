@@ -79,6 +79,7 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 		falconUser.setEmail(email);
 		falconUser.setNric(nric);
 		falconUser.setPhone(phone);
+		falconUser.setValid(true);
 		return falconUser;
 	}
 
