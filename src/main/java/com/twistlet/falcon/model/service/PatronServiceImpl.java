@@ -60,11 +60,20 @@ public class PatronServiceImpl implements PatronService {
 	public void savePatron(FalconPatron patron) {
 		FalconUser user = patron.getFalconUserByPatron();
 		String[] names = StringUtils.split(patron.getFalconUserByPatron().getName(), " ");
-		user.setUsername(names[0]);
-		user.setPassword(passwordEncoder.encodePassword(names[0], names[0]));
+		boolean newUser = false;
+		if(StringUtils.isBlank(user.getUsername())){
+			user.setUsername(names[0]);
+			user.setValid(true);
+			newUser = true; 
+		}
+		if(StringUtils.isBlank(user.getPassword())){
+			user.setPassword(passwordEncoder.encodePassword(names[0], names[0]));
+		}
 		patron.setFalconUserByPatron(user);
 		falconUserRepository.save(user);
-		falconPatronRepository.save(patron);
+		if(newUser){
+			falconPatronRepository.save(patron);
+		}
 	}
 
 	@Override
@@ -161,6 +170,23 @@ public class PatronServiceImpl implements PatronService {
 			falconPatron.getFalconUserByPatron().getName();
 		}
 		return patrons;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void deletePatron(FalconPatron patron) {
+		List<FalconPatron> patrons = listPatronByAdminPatronLike(patron.getFalconUserByAdmin(), patron.getFalconUserByPatron());
+		FalconPatron uniquePatron = null;
+		for(FalconPatron record : patrons){
+			if(StringUtils.equals(record.getFalconUserByAdmin().getUsername(), patron.getFalconUserByAdmin().getUsername())){
+				uniquePatron = record;
+				break;
+			}
+		}
+		if(uniquePatron != null){
+			falconPatronRepository.delete(uniquePatron);
+			falconUserRepository.delete(uniquePatron.getFalconUserByPatron());
+		}
 	}
 	
 	

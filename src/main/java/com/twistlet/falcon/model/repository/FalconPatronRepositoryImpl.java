@@ -60,9 +60,10 @@ public class FalconPatronRepositoryImpl implements FalconPatronRepositoryCustom 
 		query.join(falconPatron.falconUserByPatron, falconUserByPatron).fetch();
 		//query.join(falconPatron.falconUserByAdmin, falconUserByAdmin).fetch();
 		final BooleanExpression conditionNameLike = falconUserByPatron.name.containsIgnoreCase(name);
+		final BooleanExpression conditionValidPatron = falconUserByPatron.valid.eq(true);
 		//final BooleanExpression conditionFalconUser = falconUserByAdmin.username.eq(admin.getUsername());
 		//query.where(conditionNameLike.and(conditionFalconUser));
-		query.where(conditionNameLike);
+		query.where(conditionNameLike.and(conditionValidPatron));
 		query.orderBy(falconUserByPatron.name.asc());
 		return query.list(falconPatron);
 	}
@@ -78,9 +79,10 @@ public class FalconPatronRepositoryImpl implements FalconPatronRepositoryCustom 
 		query.join(falconPatron.falconUserByPatron, falconUserByPatron).fetch();
 		//query.join(falconPatron.falconUserByAdmin, falconUserByAdmin).fetch();
 		final BooleanExpression conditionNameLike = falconUserByPatron.nric.containsIgnoreCase(nric);
+		final BooleanExpression conditionValidPatron = falconUserByPatron.valid.eq(true);
 		//final BooleanExpression conditionFalconUser = falconUserByAdmin.username.eq(admin.getUsername());
 		//query.where(conditionNameLike.and(conditionFalconUser));
-		query.where(conditionNameLike);
+		query.where(conditionNameLike.and(conditionValidPatron));
 		query.orderBy(falconUserByPatron.name.asc());
 		return query.list(falconPatron);
 	}
@@ -96,9 +98,10 @@ public class FalconPatronRepositoryImpl implements FalconPatronRepositoryCustom 
 		query.join(falconPatron.falconUserByPatron, falconUserByPatron).fetch();
 		//query.join(falconPatron.falconUserByAdmin, falconUserByAdmin).fetch();
 		final BooleanExpression conditionNameLike = falconUserByPatron.email.containsIgnoreCase(email);
+		final BooleanExpression conditionValidPatron = falconUserByPatron.valid.eq(true);
 		//final BooleanExpression conditionFalconUser = falconUserByAdmin.username.eq(admin.getUsername());
 		//query.where(conditionNameLike.and(conditionFalconUser));
-		query.where(conditionNameLike);
+		query.where(conditionNameLike.and(conditionValidPatron));
 		query.orderBy(falconUserByPatron.name.asc());
 		return query.list(falconPatron);
 	}
@@ -114,9 +117,10 @@ public class FalconPatronRepositoryImpl implements FalconPatronRepositoryCustom 
 		query.join(falconPatron.falconUserByPatron, falconUserByPatron).fetch();
 		//query.join(falconPatron.falconUserByAdmin, falconUserByAdmin).fetch();
 		final BooleanExpression conditionNameLike = falconUserByPatron.phone.containsIgnoreCase(hpTel);
+		final BooleanExpression conditionValidPatron = falconUserByPatron.valid.eq(true);
 		//final BooleanExpression conditionFalconUser = falconUserByAdmin.username.eq(admin.getUsername());
 		//query.where(conditionNameLike.and(conditionFalconUser));
-		query.where(conditionNameLike);
+		query.where(conditionNameLike.and(conditionValidPatron));
 		query.orderBy(falconUserByPatron.name.asc());
 		return query.list(falconPatron);
 	}
@@ -138,8 +142,11 @@ public class FalconPatronRepositoryImpl implements FalconPatronRepositoryCustom 
 			conditionPatronLike = falconUserByPatron.email.eq(patron.getEmail());
 		} else if(StringUtils.isNotBlank(patron.getNric())){
 			conditionPatronLike = falconUserByPatron.nric.eq(patron.getNric());
+		} else if(StringUtils.isNotBlank(patron.getUsername())){
+			conditionPatronLike = falconUserByPatron.username.eq(patron.getUsername());
 		}
-		query.where(conditionPatronLike);
+		final BooleanExpression conditionValidPatron = falconUserByPatron.valid.eq(true);
+		query.where(conditionPatronLike.and(conditionValidPatron));
 		query.orderBy(falconUserByPatron.name.asc());
 		return query.list(falconPatron);
 	}

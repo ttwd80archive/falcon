@@ -30,5 +30,7 @@ public interface PatronService {
 	List<FalconPatron> listPatronByAdminMobileLike(FalconUser admin, String mobile);
 
 	List<FalconPatron> listPatronByAdminPatronLike(FalconUser admin, FalconUser patron);
+	
+	void deletePatron(FalconPatron patron);
 
 }

@@ -185,13 +185,19 @@ $(function() {
 			url = '../search-patron/' + currentuser + '?';
 			url = url + 'mobile=' + theNo;
 			$.getJSON(url, function(data){
-				 $('#id-patron').val(data.id);
+				$('#username-patron').val(data.username);
 				 $('#fullname-patron').val(data.name);
 				 $('#identificationnum-patron').val(data.nric);
 				 $('#email-patron').val(data.email);
 				 $('#mobilenum-patron').val(data.phone);
 				 $('#smsnotification-patron').prop('checked', data.sendSms);
 				 $('#emailnotification-patron').prop('checked', data.sendEmail);
+				 if(data.valid){
+					 $('#valid-patron').val(1);
+				 }else{
+					 $('#valid-patron').val(0);
+				 }
+				 console.log('this user validty is:' + data.valid);
 			});
 		}
 	});
@@ -205,7 +211,7 @@ $(function() {
 			var url = '../search-patron/' + currentuser + '?';
 			url = url + 'nric=' + ui.item.value;
 			$.getJSON(url, function(data){
-				$('#id-patron').val(data.id);
+				$('#username-patron').val(data.username);
 				 $('#fullname-patron').val(data.name);
 				 $('#identificationnum-patron').val(data.nric);
 				 $('#email-patron').val(data.email);
@@ -225,7 +231,7 @@ $(function() {
 			var url = '../search-patron/' + currentuser + '?';
 			url = url + 'mobile=' + ui.item.value;
 			$.getJSON(url, function(data){
-				$('#id-patron').val(data.id);
+				$('#username-patron').val(data.username);
 				 $('#fullname-patron').val(data.name);
 				 $('#identificationnum-patron').val(data.nric);
 				 $('#email-patron').val(data.email);
@@ -245,18 +251,29 @@ $(function() {
 			var url = '../search-patron/' + currentuser + '?';
 			url = url + 'email=' + ui.item.value;
 			$.getJSON(url, function(data){
-				$('#id-patron').val(data.id);
-				 $('#fullname-patron').val(data.name);
-				 $('#identificationnum-patron').val(data.nric);
-				 $('#email-patron').val(data.email);
-				 $('#mobilenum-patron').val(data.phone);
-				 $('#smsnotification-patron').prop('checked', data.sendSms);
-				 $('#emailnotification-patron').prop('checked', data.sendEmail);
+				$('#username-patron').val(data.username);
+				$('#fullname-patron').val(data.name);
+				$('#identificationnum-patron').val(data.nric);
+				$('#email-patron').val(data.email);
+				$('#mobilenum-patron').val(data.phone);
+				$('#smsnotification-patron').prop('checked', data.sendSms);
+				$('#emailnotification-patron').prop('checked', data.sendEmail);
 			});
 		}
 	});
 	
+	$('#savePatron').click(function(){
+		if($('#email-patron').val() != ''){
+			$('#patronform').submit();
+		}
+	});
 	
+	$('#deletePatron').click(function(){
+		if($('#username-patron').val() != null && $('#username-patron').val() != ''){
+			$('#valid-patron').val('0');
+			$('#patronform').submit();
+		}
+	});
 });
 
 function hideAllTabs(){

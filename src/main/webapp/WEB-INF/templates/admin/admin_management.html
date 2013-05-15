@@ -95,7 +95,7 @@
 							</li>
 							<li>
 								<input type="hidden" th:field="*{id}" id="id-staff" />
-								<input type="hidden" th:field="*{valid}" id="valid" />
+								<input type="hidden" th:field="*{valid}" id="valid-staff" />
 								<input class="button" type="button" value="SEARCH" id="searchStaff" />&nbsp;&nbsp;&nbsp;
 								<a href="#" id="saveStaff">save</a>
 								<a href="#" id="deleteStaff">delete</a>
@@ -128,7 +128,8 @@
 								<input type="checkbox" id="emailnotification-patron" value="Email" th:field="*{falconUserByPatron.sendEmail}" /> Email
 							</li>
 							<li>
-								<input type="hidden" th:field="*{id}" id="id-patron" />
+								<input type="hidden" th:field="*{falconUserByPatron.username}" id="username-patron" />
+								<input type="hidden" th:field="*{falconUserByPatron.valid}" id="valid-patron" />
 								<input class="button" type="button" value="SEARCH" id="searchPatron" />&nbsp;&nbsp;&nbsp;
 								<a href="#" id="savePatron">save</a>
 								<a href="#" id="deletePatron">delete</a>

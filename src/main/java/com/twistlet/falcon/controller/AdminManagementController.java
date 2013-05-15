@@ -115,4 +115,17 @@ protected final Logger logger = LoggerFactory.getLogger(getClass());
 		return new ModelAndView("redirect:manageusers?f=1");
 	}
 	
+	@RequestMapping(value = "/admin/delete-patron/{username}/{admin}", method = RequestMethod.GET)
+	public ModelAndView deletePatron(@PathVariable("username") String username, @PathVariable("admin") String admin) {
+		FalconPatron patron = new FalconPatron();
+		FalconUser falconAdmin = new FalconUser();
+		falconAdmin.setUsername(admin);
+		FalconUser falconPatron = new FalconUser();
+		falconPatron.setUsername(username);
+		patron.setFalconUserByAdmin(falconAdmin);
+		patron.setFalconUserByPatron(falconPatron);
+		patronService.deletePatron(patron);
+		return new ModelAndView("redirect:manageusers?f=1");
+	}
+	
 }
