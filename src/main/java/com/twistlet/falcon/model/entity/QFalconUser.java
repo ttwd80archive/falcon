@@ -48,6 +48,8 @@ public class QFalconUser extends EntityPathBase<FalconUser> {
 
     public final StringPath username = createString("username");
 
+    public final BooleanPath valid = createBoolean("valid");
+
     public QFalconUser(String variable) {
         super(FalconUser.class, forVariable(variable));
     }

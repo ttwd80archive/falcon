@@ -29,6 +29,7 @@ public class FalconUser  implements java.io.Serializable {
      private String nric;
      private Boolean sendSms;
      private Boolean sendEmail;
+     private Boolean valid;
      private Set<FalconPatron> falconPatronsForPatron = new HashSet<FalconPatron>(0);
      private Set<FalconPatron> falconPatronsForAdmin = new HashSet<FalconPatron>(0);
      private Set<FalconUserRole> falconUserRoles = new HashSet<FalconUserRole>(0);
@@ -48,7 +49,7 @@ public class FalconUser  implements java.io.Serializable {
         this.phone = phone;
         this.nric = nric;
     }
-    public FalconUser(String username, String password, String name, String email, String phone, String nric, Boolean sendSms, Boolean sendEmail, Set<FalconPatron> falconPatronsForPatron, Set<FalconPatron> falconPatronsForAdmin, Set<FalconUserRole> falconUserRoles, Set<FalconService> falconServices, Set<FalconStaff> falconStaffs, Set<FalconLocation> falconLocations) {
+    public FalconUser(String username, String password, String name, String email, String phone, String nric, Boolean sendSms, Boolean sendEmail, Boolean valid, Set<FalconPatron> falconPatronsForPatron, Set<FalconPatron> falconPatronsForAdmin, Set<FalconUserRole> falconUserRoles, Set<FalconService> falconServices, Set<FalconStaff> falconStaffs, Set<FalconLocation> falconLocations) {
        this.username = username;
        this.password = password;
        this.name = name;
@@ -57,6 +58,7 @@ public class FalconUser  implements java.io.Serializable {
        this.nric = nric;
        this.sendSms = sendSms;
        this.sendEmail = sendEmail;
+       this.valid = valid;
        this.falconPatronsForPatron = falconPatronsForPatron;
        this.falconPatronsForAdmin = falconPatronsForAdmin;
        this.falconUserRoles = falconUserRoles;
@@ -145,6 +147,16 @@ public class FalconUser  implements java.io.Serializable {
     
     public void setSendEmail(Boolean sendEmail) {
         this.sendEmail = sendEmail;
+    }
+
+    
+    @Column(name="valid")
+    public Boolean getValid() {
+        return this.valid;
+    }
+    
+    public void setValid(Boolean valid) {
+        this.valid = valid;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="falconUserByPatron")
