@@ -166,8 +166,8 @@ $(function() {
 	});
 	
 	$('#deleteStaff').click(function(){
-		if($('#id').val() != null && $('#id').val() != ''){
-			$('#valid').val('0');
+		if($('#id-staff').val() != null && $('#id-staff').val() != ''){
+			$('#valid-staff').val('0');
 			$('#staffform').submit();
 		}
 	});
