@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.20)
 # Database: falcon
-# Generation Time: 2013-05-12 13:20:04 +0000
+# Generation Time: 2013-05-15 18:42:56 +0000
 # ************************************************************
 
 
@@ -181,6 +181,7 @@ CREATE TABLE `falcon_user` (
   `nric` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT '',
   `send_sms` tinyint(1) unsigned DEFAULT NULL,
   `send_email` tinyint(1) unsigned DEFAULT NULL,
+  `valid` tinyint(1) unsigned DEFAULT NULL,
   PRIMARY KEY (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `phone` (`phone`),
