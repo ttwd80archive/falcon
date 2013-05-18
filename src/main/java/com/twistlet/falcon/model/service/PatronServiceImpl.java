@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -16,26 +18,34 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.twistlet.falcon.controller.bean.User;
 import com.twistlet.falcon.model.entity.FalconPatron;
+import com.twistlet.falcon.model.entity.FalconRole;
 import com.twistlet.falcon.model.entity.FalconUser;
+import com.twistlet.falcon.model.entity.FalconUserRole;
 import com.twistlet.falcon.model.repository.FalconPatronRepository;
 import com.twistlet.falcon.model.repository.FalconUserRepository;
+import com.twistlet.falcon.model.repository.FalconUserRoleRepository;
 
 @Service
 public class PatronServiceImpl implements PatronService {
+	
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private final FalconPatronRepository falconPatronRepository;
 	
 	private final FalconUserRepository falconUserRepository;
 	
-	private final PasswordEncoder passwordEncoder;
+	private final FalconUserRoleRepository falconUserRoleRepository;
 	
+	private final PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	public PatronServiceImpl(FalconPatronRepository falconPatronRepository,
 			FalconUserRepository falconUserRepository,
+			FalconUserRoleRepository falconUserRoleRepository,
 			PasswordEncoder passwordEncoder) {
 		this.falconPatronRepository = falconPatronRepository;
 		this.falconUserRepository = falconUserRepository;
+		this.falconUserRoleRepository = falconUserRoleRepository;
 		this.passwordEncoder = passwordEncoder;
 	}
 
@@ -58,22 +68,30 @@ public class PatronServiceImpl implements PatronService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void savePatron(FalconPatron patron) {
+		
 		FalconUser user = patron.getFalconUserByPatron();
 		String[] names = StringUtils.split(patron.getFalconUserByPatron().getName(), " ");
 		boolean newUser = false;
 		if(StringUtils.isBlank(user.getUsername())){
-			user.setUsername(names[0]);
+			user.setUsername(user.getEmail());
 			user.setValid(true);
 			newUser = true; 
 		}
 		if(StringUtils.isBlank(user.getPassword())){
-			user.setPassword(passwordEncoder.encodePassword(names[0], names[0]));
+			logger.info("password: " + names[0] + " salt:" + user.getUsername());
+			user.setPassword(passwordEncoder.encodePassword(names[0], user.getUsername()));
 		}
 		patron.setFalconUserByPatron(user);
 		falconUserRepository.save(user);
 		if(newUser){
 			falconPatronRepository.save(patron);
 		}
+		FalconRole falconRole = new FalconRole();
+		falconRole.setRoleName("ROLE_USER");
+		FalconUserRole falconUserRole = new FalconUserRole();
+		falconUserRole.setFalconUser(user);
+		falconUserRole.setFalconRole(falconRole);
+		falconUserRoleRepository.save(falconUserRole);
 	}
 
 	@Override
