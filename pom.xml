@@ -16,6 +16,16 @@
 		<slf4j.version>1.7.5</slf4j.version>
 		<querydsl.version>3.1.1</querydsl.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>enonic</id>
+			<url>http://repo.enonic.com/artifactory/public</url>
+		</repository>
+		<repository>
+			<id>central</id>
+			<url>http://repo.maven.apache.org/maven2</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<!-- Test -->
 		<dependency>
@@ -286,9 +296,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>net.tanesha.recaptcha4j</groupId>
-			<artifactId>recaptcha4j</artifactId>
-			<version>0.0.7</version>
+			<groupId>nl.captcha</groupId>
+			<artifactId>simplecaptcha</artifactId>
+			<version>1.2.1</version>
 		</dependency>
 	</dependencies>
 
