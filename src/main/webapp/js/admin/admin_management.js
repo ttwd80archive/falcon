@@ -1,5 +1,6 @@
 $(function() {
 	$('#staffform').validationEngine();
+	$('#patronform').validationEngine();
 	console.log('url: '+ document.location);
 	var urlParams = $.url(document.location).param();
 	var from  = urlParams.f;
@@ -161,9 +162,10 @@ $(function() {
 	});
 	
 	$('#saveStaff').click(function(){
-		if($('#email-staff').val() != ''){
+		if($('#formID').validationEngine('validate')){
 			$('#staffform').submit();
 		}
+		return false;
 	});
 	
 	$('#deleteStaff').click(function(){
@@ -264,9 +266,10 @@ $(function() {
 	});
 	
 	$('#savePatron').click(function(){
-		if($('#email-patron').val() != ''){
+		if($('#patronform').validationEngine('validate')){
 			$('#patronform').submit();
 		}
+		return false;
 	});
 	
 	$('#deletePatron').click(function(){
