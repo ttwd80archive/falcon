@@ -78,20 +78,20 @@
 							<select id="patrons" th:field="*{patronId}" />
 						</li>
 						<li>
-							<span>Date</span> 
-							<input type="text" id="appointmentdate" th:field="*{searchDate}" style="width: 130px;"/>
-						</li>
-						<li>
-							<span>Time</span> 
-							<input type="text" id="appointmenttime" th:field="*{searchTime}" />
-						</li>
-						<li>
 							<span>Venue</span> 
 							<select id="locations" th:field="*{locationId}" style="width: 137px;"></select>
 						</li>
 						<li>
 							<span>Service</span> 
 							<select id="services" th:field="*{serviceId}"></select>
+						</li>
+						<li>
+							<span>Date</span> 
+							<input type="text" id="appointmentdate" th:field="*{searchDate}" style="width: 130px;"/>
+						</li>
+						<li>
+							<span>&nbsp;</span> 
+							<input type="hidden" id="appointmenttime" th:field="*{searchTime}" />
 						</li>
 					</ul>
 					</form>

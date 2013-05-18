@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Repository;
 
 import com.mysema.query.jpa.JPQLQuery;
@@ -48,6 +49,10 @@ public class FalconAppointmentRepositoryImpl implements
 	public List<FalconAppointment> listAppointmentsByParam(Integer staffId,
 			String patronId, Integer serviceId, Integer locationId,
 			Date searchDate) {
+		Date maxDate = null;
+		if(searchDate != null){
+			maxDate = DateUtils.addSeconds(DateUtils.addDays(searchDate, 1), -1);
+		}
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconAppointment falconAppointment = QFalconAppointment.falconAppointment;
 		final QFalconLocation falconLocation = QFalconLocation.falconLocation;
@@ -58,9 +63,10 @@ public class FalconAppointmentRepositoryImpl implements
 		query.from(falconAppointment);
 		List<BooleanExpression> expressions = new ArrayList<>();
 		if (searchDate != null) {
-			BooleanExpression t1 = falconAppointment.appointmentDate.loe(searchDate);
-			BooleanExpression t2 = falconAppointment.appointmentDateEnd.goe(searchDate);
-			BooleanExpression x = t1.and(t2);
+//			BooleanExpression t1 = falconAppointment.appointmentDate.loe(searchDate);
+//			BooleanExpression t2 = falconAppointment.appointmentDateEnd.goe(searchDate);
+//			BooleanExpression x = t1.and(t2);
+			BooleanExpression x = falconAppointment.appointmentDate.between(searchDate, maxDate);
 			expressions.add(x);
 		}
 		if (staffId != null) {
