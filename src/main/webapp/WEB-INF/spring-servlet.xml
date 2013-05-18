@@ -48,7 +48,7 @@
 			<util:map id="welcomePageMap">
 				<!-- Order is important, first match will be used -->
 				<entry key="ROLE_ADMIN" value="redirect:/admin/admin_landing" />
-				<entry key="ROLE_USER" value="redirect:/manage_appointments" />
+				<entry key="ROLE_USER" value="redirect:/patron/patron_landing" />
 			</util:map>
 		</constructor-arg>
 	</bean>

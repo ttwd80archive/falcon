@@ -25,7 +25,7 @@ import com.twistlet.falcon.model.service.StaffService;
 @Controller
 public class AdminManagementController {
 
-protected final Logger logger = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private final StaffService staffService;
 	
