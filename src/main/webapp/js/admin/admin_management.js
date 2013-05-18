@@ -1,4 +1,5 @@
 $(function() {
+	$('#staffform').validationEngine();
 	console.log('url: '+ document.location);
 	var urlParams = $.url(document.location).param();
 	var from  = urlParams.f;
