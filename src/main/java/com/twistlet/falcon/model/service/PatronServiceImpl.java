@@ -38,6 +38,7 @@ public class PatronServiceImpl implements PatronService {
 	
 	private final PasswordEncoder passwordEncoder;
 	
+	
 	@Autowired
 	public PatronServiceImpl(FalconPatronRepository falconPatronRepository,
 			FalconUserRepository falconUserRepository,
@@ -77,21 +78,29 @@ public class PatronServiceImpl implements PatronService {
 			user.setValid(true);
 			newUser = true; 
 		}
-		if(StringUtils.isBlank(user.getPassword())){
-			logger.info("password: " + names[0] + " salt:" + user.getUsername());
-			user.setPassword(passwordEncoder.encodePassword(names[0], user.getUsername()));
-		}
-		patron.setFalconUserByPatron(user);
-		falconUserRepository.save(user);
 		if(newUser){
+			if(StringUtils.isBlank(user.getPassword())){
+				logger.info("password: " + names[0] + " salt:" + user.getUsername());
+				user.setPassword(passwordEncoder.encodePassword(names[0], user.getUsername()));
+			}
+			patron.setFalconUserByPatron(user);
+			falconUserRepository.save(user);
+			FalconRole falconRole = new FalconRole();
+			falconRole.setRoleName("ROLE_USER");
+			FalconUserRole falconUserRole = new FalconUserRole();
+			falconUserRole.setFalconUser(user);
+			falconUserRole.setFalconRole(falconRole);
+			falconUserRoleRepository.save(falconUserRole);
 			falconPatronRepository.save(patron);
+		}else{
+			FalconUser updateUser = falconUserRepository.findOne(user.getUsername());
+			updateUser.setName(user.getName());
+			updateUser.setNric(user.getNric());
+			updateUser.setEmail(user.getEmail());
+			updateUser.setSendEmail(user.getSendEmail());
+			updateUser.setSendSms(user.getSendSms());
+			falconUserRepository.save(updateUser);
 		}
-		FalconRole falconRole = new FalconRole();
-		falconRole.setRoleName("ROLE_USER");
-		FalconUserRole falconUserRole = new FalconUserRole();
-		falconUserRole.setFalconUser(user);
-		falconUserRole.setFalconRole(falconRole);
-		falconUserRoleRepository.save(falconUserRole);
 	}
 
 	@Override
