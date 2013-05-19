@@ -206,6 +206,24 @@ public class PatronServiceImpl implements PatronService {
 			falconUserRepository.delete(uniquePatron.getFalconUserByPatron());
 		}
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public FalconPatron findPatron(String patron) {
+		FalconUser falconPatron = new FalconUser();
+		falconPatron.setUsername(patron);
+		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserByPatron(falconPatron);
+		FalconPatron uniqeFalconPatron = DataAccessUtils.uniqueResult(falconPatrons);
+		FalconUser falconUser = uniqeFalconPatron.getFalconUserByPatron();
+		FalconUser falconAdmin = uniqeFalconPatron.getFalconUserByAdmin();
+		logger.info("name: " + falconUser.getName());
+		logger.info("admin: " + falconAdmin.getName());
+		FalconPatron theFalconPatron = new FalconPatron();
+		theFalconPatron.setFalconUserByPatron(falconUser);
+		theFalconPatron.setFalconUserByAdmin(falconAdmin);
+		theFalconPatron.setId(uniqeFalconPatron.getId());
+		return theFalconPatron;
+	}
 	
 	
 	
