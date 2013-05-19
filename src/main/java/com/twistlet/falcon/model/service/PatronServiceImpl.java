@@ -79,19 +79,19 @@ public class PatronServiceImpl implements PatronService {
 			newUser = true; 
 		}
 		if(newUser){
-			patron.setFalconUserByPatron(user);
-			falconUserRepository.save(user);
-			falconPatronRepository.save(patron);
 			if(StringUtils.isBlank(user.getPassword())){
 				logger.info("password: " + names[0] + " salt:" + user.getUsername());
 				user.setPassword(passwordEncoder.encodePassword(names[0], user.getUsername()));
-				FalconRole falconRole = new FalconRole();
-				falconRole.setRoleName("ROLE_USER");
-				FalconUserRole falconUserRole = new FalconUserRole();
-				falconUserRole.setFalconUser(user);
-				falconUserRole.setFalconRole(falconRole);
-				falconUserRoleRepository.save(falconUserRole);
 			}
+			patron.setFalconUserByPatron(user);
+			falconUserRepository.save(user);
+			FalconRole falconRole = new FalconRole();
+			falconRole.setRoleName("ROLE_USER");
+			FalconUserRole falconUserRole = new FalconUserRole();
+			falconUserRole.setFalconUser(user);
+			falconUserRole.setFalconRole(falconRole);
+			falconUserRoleRepository.save(falconUserRole);
+			falconPatronRepository.save(patron);
 		}else{
 			FalconUser updateUser = falconUserRepository.findOne(user.getUsername());
 			updateUser.setName(user.getName());
