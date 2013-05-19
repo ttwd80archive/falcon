@@ -28,6 +28,7 @@
 					alt="Image failed to load" height="60px" width="150px" />
 			</div>
 			<div id="header-inf">
+				<span id="admin" style="visibility: hidden;" th:text="${patron.falconUserByAdmin.username}" />
 				<a href="customersupport.html" id="custsupportlink">CONTACT
 					CUSTOMER SUPPORT</a>
 			</div>
@@ -216,11 +217,6 @@
 						<input type="text" id="appointmenttimeend" />
 					</li>
 					<li>
-						<span>Select Patron</span>
-						<select id="patrons" th:field="*{falconAppointmentPatrons}" multiple="multiple" 
-							style="width:350px;" class="chzn-select" ></select>
-					</li>
-					<li>
 						<span>Select Service</span>
 						<select id="services" th:field="*{falconService.id}"></select>
 					</li>
@@ -232,6 +228,7 @@
 					<li>
 						<span>Select Venue</span>
 						<select id="locations" th:field="*{falconLocation.id}"></select>
+						<input id="patrons" th:field="*{falconAppointmentPatrons}" type="hidden"></input>
 					</li>
 					<li><input class="button" type="submit" value="SUBMIT" id="submit" /></li>
 					<li class="notes" style="font-size: 12px">Note&#58; To edit

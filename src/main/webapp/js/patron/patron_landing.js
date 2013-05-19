@@ -29,7 +29,7 @@ $(function() {
 		$('#appointmentdatetimeend').val(date + " " + timeend);
 	});
 	
-	var currentuser = $('#username').html();
+	var currentuser = $('#admin').html();
 	console.log(currentuser);
 	$.getJSON('../list-patient/' + currentuser, function(data) {
 		setSelectOptions($('#patrons'), data, 'username', 'name', '');
@@ -176,7 +176,7 @@ function renderSelectedMonth(month, year) {
 						return hours + ':' + min + ' ' + ampm;
 					}
 				});
-				var currentuser = $('#username').html();
+				var currentuser = $('#admin').html();
 				$('#appointmenttimeend').timepicker({
 					controlType: 'select',
 					timeOnly: true,

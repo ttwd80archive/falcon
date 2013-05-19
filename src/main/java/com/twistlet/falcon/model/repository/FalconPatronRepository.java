@@ -12,5 +12,7 @@ public interface FalconPatronRepository extends JpaRepository<FalconPatron, Inte
 	List<FalconPatron> findByFalconUserByAdmin(FalconUser admin);
 	
 	List<FalconPatron> findByFalconUserByAdminAndFalconUserByPatron(FalconUser admin, FalconUser patron);
+	
+	List<FalconPatron> findByFalconUserByPatron(FalconUser patron);
 
 }

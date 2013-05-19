@@ -2,6 +2,7 @@ package com.twistlet.falcon.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
@@ -49,6 +50,10 @@ public class PatronLandingController {
 		ModelAndView mav = new ModelAndView("patron/patron_landing");
 		FalconAppointment appointment = new FalconAppointment();
 		appointment.setAppointmentDate(new Date());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String loggedInUser = auth.getName();
+		FalconPatron falconPatron = patronService.findPatron(loggedInUser);
+		mav.addObject("patron", falconPatron);
 		mav.addObject("appointment", appointment);
 		return mav;
 	}
@@ -56,6 +61,14 @@ public class PatronLandingController {
 	@RequestMapping(value = "/create-appointment", method = RequestMethod.POST)
 	public ModelAndView createNewAppointment(
 			@ModelAttribute("appointment") FalconAppointment appointment) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String loggedInUser = auth.getName();
+		FalconPatron falconPatron = patronService.findPatron(loggedInUser);
+		FalconAppointmentPatron falconAppointmentPatron = new FalconAppointmentPatron();
+		Set<FalconAppointmentPatron> patrons = new HashSet<>();
+		falconAppointmentPatron.setFalconPatron(falconPatron);
+		patrons.add(falconAppointmentPatron);
+		appointment.setFalconAppointmentPatrons(patrons);
 		appointmentService.createAppointment(appointment);
 		return new ModelAndView("redirect:patron_landing");
 	}
