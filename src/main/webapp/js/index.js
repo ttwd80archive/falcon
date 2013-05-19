@@ -1,5 +1,6 @@
 $(function() {
 	$("#signupbutton").click(function() {
-		alert('xxx');
+		var location = $("#registration-link").attr("href");
+		window.location = location;
 	});
 });
