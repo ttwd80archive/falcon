@@ -82,15 +82,15 @@
 							</li>
 							<li>
 								<span>I&#47;C No&#46;</span> 
-								<input type="text" th:field="*{nric}" id="identificationnum-staff" size="30" class="validate[required] text-input"/>
+								<input type="text" th:field="*{nric}" id="identificationnum-staff" size="30" class="validate[required, ajax[validate-staff-nric]] text-input"/>
 							</li>
 							<li>
 								<span>H&#47;P No&#46;</span> 
-								<input type="text" th:field="*{hpTel}" id="mobilenum-staff" size="30" class="validate[required, custom[phone]] text-input"/>
+								<input type="text" th:field="*{hpTel}" id="mobilenum-staff" size="30" class="validate[required, custom[phone], ajax[validate-staff-phone]] text-input"/>
 							</li>
 							<li>
 								<span>Email</span> 
-								<input type="text" th:field="*{email}"  id="email-staff" size="30" class="validate[required, custom[email]] text-input"/>
+								<input type="text" th:field="*{email}"  id="email-staff" size="30" class="validate[required, custom[email], ajax[validate-staff-email]] text-input"/>
 							</li>
 							<li>Notification Preference 
 								<input type="checkbox" id="smsnotification-staff" value="SMS" th:field="*{sendSms}" />SMS

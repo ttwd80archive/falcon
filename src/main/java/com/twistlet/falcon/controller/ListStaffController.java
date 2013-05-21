@@ -5,8 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,5 +154,29 @@ public class ListStaffController {
 		}
 		return matchingStaff;
 
+	}
+	
+	
+	@RequestMapping("/validate-staff")
+	@ResponseBody
+	public String validateStaff(final HttpServletRequest request) {
+		final String stringId = request.getParameter("fieldId");
+		final String value = request.getParameter("fieldValue");
+		FalconStaff staff = new FalconStaff();
+		FalconUser admin = new FalconUser();
+		if("identificationnum-staff".equals(stringId)){
+			staff.setNric(value);
+		}else if("mobilenum-staff".equals(stringId)){
+			staff.setHpTel(value);
+		}else if("email-staff".equals(stringId)){
+			staff.setEmail(value);
+		}
+		boolean isValid = true;
+		List<FalconStaff> staffs = staffService.listStaffByAdminStaffLike(admin, staff);
+		if(CollectionUtils.isNotEmpty(staffs)){
+			isValid = false;
+		}
+		
+		return "[\""+ stringId + "\", " + isValid +"]";
 	}
 }

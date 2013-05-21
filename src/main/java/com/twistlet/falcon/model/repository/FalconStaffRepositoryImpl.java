@@ -80,7 +80,6 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 			FalconStaff staff) {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconStaff falconStaff = QFalconStaff.falconStaff;
-		final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
 		query.from(falconStaff);
 		BooleanExpression conditionStaff = null;
 		if(StringUtils.isNotBlank(staff.getEmail())){
@@ -107,7 +106,12 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 				conditionStaff.and(falconStaff.nric.eq(staff.getNric()));
 			}
 		}
-		query.where(conditionFalconUser.and(conditionStaff).and(falconStaff.valid.eq(true)));
+		if(admin.getUsername() == null){
+			query.where(conditionStaff);
+		}else{
+			final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
+			query.where(conditionFalconUser.and(conditionStaff).and(falconStaff.valid.eq(true)));
+		}
 		query.orderBy(falconStaff.name.asc());
 		return query.list(falconStaff);
 	}

@@ -158,6 +158,36 @@
                     // speaks by itself
                     "alertTextLoad": "* Validating, please wait"
                 },
+                "validate-staff-nric": {
+                    // remote json service location
+                    "url": "../validate-staff",
+                    // error
+                    "alertText": "* This nric is already registered",
+                    // if you provide an "alertTextOk", it will show as a green prompt when the field validates
+                    "alertTextOk": "* This nric is valid",
+                    // speaks by itself
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                "validate-staff-phone": {
+                    // remote json service location
+                    "url": "../validate-staff",
+                    // error
+                    "alertText": "* This H/P is already registered",
+                    // if you provide an "alertTextOk", it will show as a green prompt when the field validates
+                    "alertTextOk": "* This H/P is valid",
+                    // speaks by itself
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                "validate-staff-email": {
+                    // remote json service location
+                    "url": "../validate-staff",
+                    // error
+                    "alertText": "* This email is already registered",
+                    // if you provide an "alertTextOk", it will show as a green prompt when the field validates
+                    "alertTextOk": "* This email is valid",
+                    // speaks by itself
+                    "alertTextLoad": "* Validating, please wait"
+                },
 				 "ajaxNameCallPhp": {
 	                    // remote json service location
 	                    "url": "phpajax/ajaxValidateFieldName.php",
