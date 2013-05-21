@@ -30,9 +30,9 @@ public class ListStaffController {
 		this.staffService = staffService;
 	}
 
-	@RequestMapping("/list-staff/{admin}")
+	@RequestMapping("/list-staff/{admin}/{date}")
 	@ResponseBody
-	public List<FalconStaff> listStaffs(@PathVariable String admin) {
+	public List<FalconStaff> listStaffs(@PathVariable String admin, @PathVariable(value="date") String date) {
 		List<FalconStaff> staffs = staffService.listStaffByAdmin(admin);
 		for (FalconStaff staff : staffs) {
 			staff.setFalconUser(null);
@@ -68,9 +68,9 @@ public class ListStaffController {
 	
 	
 
-	@RequestMapping("/list-staff-name/{admin}")
+	@RequestMapping("/list-staff-name/{admin}/{date}")
 	@ResponseBody
-	public List<String> listStaffNames(@PathVariable("admin") String username,
+	public List<String> listStaffNames(@PathVariable("admin") String username, @PathVariable("date") String date,
 			@RequestParam("term") String name) {
 		FalconUser admin = new FalconUser();
 		admin.setUsername(username);
@@ -83,9 +83,9 @@ public class ListStaffController {
 		return names;
 	}
 
-	@RequestMapping("/list-staff-nric/{admin}")
+	@RequestMapping("/list-staff-nric/{admin}/{date}")
 	@ResponseBody
-	public List<String> listStaffNric(@PathVariable("admin") String username,
+	public List<String> listStaffNric(@PathVariable("admin") String username, @PathVariable("date") String date,
 			@RequestParam("term") String nric) {
 		FalconUser admin = new FalconUser();
 		admin.setUsername(username);
@@ -98,9 +98,9 @@ public class ListStaffController {
 		return nrics;
 	}
 
-	@RequestMapping("/list-staff-email/{admin}")
+	@RequestMapping("/list-staff-email/{admin}/{date}")
 	@ResponseBody
-	public List<String> listStaffEmail(@PathVariable("admin") String username,
+	public List<String> listStaffEmail(@PathVariable("admin") String username, @PathVariable("date") String date,
 			@RequestParam("term") String email) {
 		FalconUser admin = new FalconUser();
 		admin.setUsername(username);
@@ -113,9 +113,9 @@ public class ListStaffController {
 		return emails;
 	}
 	
-	@RequestMapping("/list-staff-mobile/{admin}")
+	@RequestMapping("/list-staff-mobile/{admin}/{date}")
 	@ResponseBody
-	public List<String> listStaffMobile(@PathVariable("admin") String username,
+	public List<String> listStaffMobile(@PathVariable("admin") String username, @PathVariable("date") String date,
 			@RequestParam("term") String mobile) {
 		FalconUser admin = new FalconUser();
 		admin.setUsername(username);
@@ -127,9 +127,9 @@ public class ListStaffController {
 		return mobiles;
 	}
 
-	@RequestMapping("/search-staff/{admin}")
+	@RequestMapping("/search-staff/{admin}/{date}")
 	@ResponseBody
-	public FalconStaff searchStaff(@PathVariable("admin") String username,
+	public FalconStaff searchStaff(@PathVariable("admin") String username, @PathVariable("date") String date,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "mobile", required = false) String mobile,
 			@RequestParam(value = "nric", required = false) String nric,

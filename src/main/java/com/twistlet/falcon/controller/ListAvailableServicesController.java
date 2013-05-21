@@ -24,9 +24,9 @@ public class ListAvailableServicesController {
 	}
 	
 	
-	@RequestMapping("/list-services/{admin}")
+	@RequestMapping("/list-services/{admin}/{date}")
 	@ResponseBody
-	public List<FalconService> listServices(@PathVariable String admin){
+	public List<FalconService> listServices(@PathVariable String admin, @PathVariable(value="date") String date){
 		FalconUser falconUser = new FalconUser();
 		falconUser.setUsername(admin);
 		List<FalconService> services = servicesTypeService.listAvailableServiceByAdmin(falconUser);

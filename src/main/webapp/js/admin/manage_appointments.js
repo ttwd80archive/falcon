@@ -1,5 +1,6 @@
 $(function() {
 	var currentuser = $('#username').html();
+	currentuser = encodeURIComponent(currentuser).replace(/[!'().]/g, escape).replace(/\*/g, "%2A");
 	$('.remove').click(function(){
 		var url = '../apppointment_fetch/' + $(this).attr('id');
 		console.log(url);
@@ -140,7 +141,7 @@ $(function() {
 			});
 		});
 		console.log(currentuser);
-		$.getJSON('../list-location/' + currentuser, function(data) {
+		$.getJSON('../list-location/' + currentuser + '/99999999', function(data) {
 			setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', '');
 		});
 		$('#update').click(function(){
@@ -153,19 +154,19 @@ $(function() {
 			});
 		});
 	});
-	$.getJSON('../list-staff/'+ currentuser, function(data) {
+	$.getJSON('../list-staff/'+ currentuser + '/99999999', function(data) {
 		console.log('in here');
 		setSelectOptions($('#staffs'), data, 'id', 'name', '');
 	});
-	$.getJSON('../list-patient/' + currentuser, function(data) {
+	$.getJSON('../list-patient/' + currentuser + '/99999999', function(data) {
 		setSelectOptions($('#patrons'), data, 'username', 'name', '');
 	});
 
-	$.getJSON('../list-location/' + currentuser, function(data) {
+	$.getJSON('../list-location/' + currentuser + '/99999999', function(data) {
 		setSelectOptions($('#locations'), data, 'id', 'name', '');
 	});
 	
-	$.getJSON('../list-services/' + currentuser, function(data) {
+	$.getJSON('../list-services/' + currentuser + '/99999999', function(data) {
 		setSelectOptions($('#services'), data, 'id', 'name', '');
 	});
 	$("#appointmentdate").datepicker({

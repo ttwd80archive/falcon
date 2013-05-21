@@ -27,9 +27,9 @@ public class ListLocationController {
 		this.locationService = locationService;
 	}
 	
-	@RequestMapping("/list-location/{admin}")
+	@RequestMapping("/list-location/{admin}/{date}")
 	@ResponseBody
-	public List<FalconLocation> listLocation(@PathVariable String admin){
+	public List<FalconLocation> listLocation(@PathVariable String admin, @PathVariable(value="date") String date){
 		FalconUser falconUser = new FalconUser();
 		falconUser.setUsername(admin);
 		List<FalconLocation> locations = locationService.listAdminLocations(falconUser);

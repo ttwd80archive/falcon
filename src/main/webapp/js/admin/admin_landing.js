@@ -30,22 +30,23 @@ $(function() {
 	});
 	
 	var currentuser = $('#username').html();
+	currentuser = encodeURIComponent(currentuser).replace(/[!'().]/g, escape).replace(/\*/g, "%2A");
 	console.log(currentuser);
-	$.getJSON('../list-patient/' + currentuser, function(data) {
+	$.getJSON('../list-patient/' + currentuser + '/99999999', function(data) {
 		setSelectOptions($('#patrons'), data, 'username', 'name', '');
 		$(".chzn-select").chosen();
 		$(".chzn-select").trigger("liszt:updated");
 	});
 	
-	$.getJSON('../list-staff/'+ currentuser, function(data) {
+	$.getJSON('../list-staff/'+ currentuser + '/99999999', function(data) {
 		setSelectOptions($('#staffs'), data, 'id', 'name', '');
 	});
 	
-	$.getJSON('../list-location/' + currentuser, function(data) {
+	$.getJSON('../list-location/' + currentuser + '/99999999', function(data) {
 		setSelectOptions($('#locations'), data, 'id', 'name', '');
 	});
 	
-	$.getJSON('../list-services/' + currentuser, function(data) {
+	$.getJSON('../list-services/' + currentuser + '/99999999', function(data) {
 		setSelectOptions($('#services'), data, 'id', 'name', '');
 	});
 });
@@ -177,6 +178,8 @@ function renderSelectedMonth(month, year) {
 					}
 				});
 				var currentuser = $('#username').html();
+				currentuser = encodeURIComponent(currentuser).replace(/[!'().]/g, escape).replace(/\*/g, "%2A");
+				console.log(currentuser);
 				$('#appointmenttimeend').timepicker({
 					controlType: 'select',
 					timeOnly: true,

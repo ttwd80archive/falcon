@@ -55,9 +55,9 @@ public class ListPatronController {
 		return list;
 	}
 
-	@RequestMapping("/list-patient/{admin}")
+	@RequestMapping("/list-patient/{admin}/{date}")
 	@ResponseBody
-	public List<User> listAllPatrons(@PathVariable("admin") String admin) {
+	public List<User> listAllPatrons(@PathVariable("admin") String admin, @PathVariable(value="date") String date) {
 		FalconUser falconUser = new FalconUser();
 		falconUser.setUsername(admin);
 		List<User> patients = patronService.listRegisteredPatrons(falconUser);
@@ -84,9 +84,9 @@ public class ListPatronController {
 		return patients;
 	}
 	
-	@RequestMapping("/list-patron-name/{admin}")
+	@RequestMapping("/list-patron-name/{admin}/{date}")
 	@ResponseBody
-	public List<String> listPatronNames(@PathVariable("admin") String username,
+	public List<String> listPatronNames(@PathVariable("admin") String username, @PathVariable(value="date") String date,
 			@RequestParam("term") String name) {
 		FalconUser admin = new FalconUser();
 		admin.setUsername(username);
@@ -98,9 +98,10 @@ public class ListPatronController {
 		return names;
 	}
 	
-	@RequestMapping("/list-patron-nric/{admin}")
+	@RequestMapping("/list-patron-nric/{admin}/{date}")
 	@ResponseBody
-	public List<String> listPatronNric(@PathVariable("admin") String username, @RequestParam("term") String name) {
+	public List<String> listPatronNric(@PathVariable("admin") String username, @PathVariable(value="date") String date, 
+			@RequestParam("term") String name) {
 		FalconUser admin = new FalconUser();
 		admin.setUsername(username);
 		List<FalconPatron> patrons = patronService.listPatronByAdminNricLike(admin, name);
@@ -111,9 +112,10 @@ public class ListPatronController {
 		return names;
 	}
 	
-	@RequestMapping("/list-patron-phone/{admin}")
+	@RequestMapping("/list-patron-phone/{admin}/{date}")
 	@ResponseBody
-	public List<String> listPatronPhone(@PathVariable("admin") String username, @RequestParam("term") String name) {
+	public List<String> listPatronPhone(@PathVariable("admin") String username, @PathVariable(value="date") String date,
+			@RequestParam("term") String name) {
 		FalconUser admin = new FalconUser();
 		admin.setUsername(username);
 		List<FalconPatron> patrons = patronService.listPatronByAdminMobileLike(admin, name);
@@ -124,9 +126,10 @@ public class ListPatronController {
 		return names;
 	}
 	
-	@RequestMapping("/list-patron-email/{admin}")
+	@RequestMapping("/list-patron-email/{admin}/{date}")
 	@ResponseBody
-	public List<String> listPatronEmail(@PathVariable("admin") String username, @RequestParam("term") String name) {
+	public List<String> listPatronEmail(@PathVariable("admin") String username, @PathVariable(value="date") String date,
+			@RequestParam("term") String name) {
 		FalconUser admin = new FalconUser();
 		admin.setUsername(username);
 		List<FalconPatron> patrons = patronService.listPatronByAdminEmailLike(admin, name);
@@ -138,9 +141,9 @@ public class ListPatronController {
 	}
 	
 	
-	@RequestMapping("/search-patron/{admin}")
+	@RequestMapping("/search-patron/{admin}/{date}")
 	@ResponseBody
-	public FalconUser searchPatron(@PathVariable("admin") String username,
+	public FalconUser searchPatron(@PathVariable("admin") String username, @PathVariable(value="date") String date,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "mobile", required = false) String mobile,
 			@RequestParam(value = "nric", required = false) String nric,

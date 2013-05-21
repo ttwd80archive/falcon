@@ -47,16 +47,16 @@ $(function() {
 	
 	var url = '';
 	var currentuser = $('#username').html();
-	
+	currentuser = encodeURIComponent(currentuser).replace(/[!'().]/g, escape).replace(/\*/g, "%2A");
 	/** for staff **/
 	
-	url = '../list-staff-name/'+ currentuser;
+	url = '../list-staff-name/'+ currentuser + '/99999999';
 	$("#fullname-staff").autocomplete({
 		source: url,
 		minLength: 4,
 		select: function(event, ui){
 			console.log(ui.item.value);
-			var url = '../search-staff/' + currentuser + '?';
+			var url = '../search-staff/' + currentuser + '/99999999' + '?';
 			var index = ui.item.value.indexOf("(");
 			var theName = ui.item.value.substring(0, index);
 			url = url + 'name=' + theName;
@@ -72,13 +72,13 @@ $(function() {
 		}
 	});
 	
-	url = '../list-staff-nric/'+ currentuser;
+	url = '../list-staff-nric/'+ currentuser + '/99999999';
 	$("#identificationnum-staff").autocomplete({
 		source: url,
 		minLength: 4,
 		select: function(event, ui){
 			console.log(ui.item.value);
-			var url = '../search-staff/' + currentuser + '?';
+			var url = '../search-staff/' + currentuser + '/99999999' + '?';
 			url = url + 'nric=' + ui.item.value;
 			$.getJSON(url, function(data){
 				 $('#id-staff').val(data.id);
@@ -92,13 +92,13 @@ $(function() {
 		}
 	});
 	
-	url = '../list-staff-email/'+ currentuser;
+	url = '../list-staff-email/'+ currentuser + '/99999999';
 	$("#email-staff").autocomplete({
 		source: url,
 		minLength: 4,
 		select: function(event, ui){
 			console.log(ui.item.value);
-			var url = '../search-staff/' + currentuser + '?';
+			var url = '../search-staff/' + currentuser + '/99999999' + '?';
 			url = url + 'email=' + ui.item.value;
 			$.getJSON(url, function(data){
 				 $('#id-staff').val(data.id);
@@ -112,13 +112,13 @@ $(function() {
 		}
 	});
 	
-	url = '../list-staff-mobile/'+ currentuser;
+	url = '../list-staff-mobile/'+ currentuser + '/99999999';
 	$("#mobilenum-staff").autocomplete({
 		source: url,
 		minLength: 4,
 		select: function(event, ui){
 			console.log(ui.item.value);
-			var url = '../search-staff/' + currentuser + '?';
+			var url = '../search-staff/' + currentuser + '/99999999' + '?';
 			url = url + 'mobile=' + ui.item.value;
 			$.getJSON(url, function(data){
 				 $('#id-staff').val(data.id);
@@ -137,7 +137,7 @@ $(function() {
 		var hpTel = $('#mobilenum-staff').val();
 		var nric = $('#identificationnum-staff').val();
 		var email = $('#email-staff').val();
-		var url = '../search-staff/' + currentuser + '?';
+		var url = '../search-staff/' + currentuser + '/99999999' + '/?';
 		if(email != ''){
 			url = url + 'email=' + email;
 		}
@@ -178,14 +178,14 @@ $(function() {
 	
 	/** For Patron **/
 	
-	url = '../list-patron-name/'+ currentuser;
+	url = '../list-patron-name/'+ currentuser + '/99999999';
 	$("#fullname-patron").autocomplete({
 		source: url,
 		minLength: 4,
 		select: function(event, ui){
 			var index = ui.item.value.indexOf("(");
 			var theNo = ui.item.value.substring(index + 1, ui.item.value.length - 1);
-			url = '../search-patron/' + currentuser + '?';
+			url = '../search-patron/' + currentuser + '/99999999' + '?';
 			url = url + 'mobile=' + theNo;
 			$.getJSON(url, function(data){
 				$('#username-patron').val(data.username);
@@ -205,13 +205,13 @@ $(function() {
 		}
 	});
 	
-	url = '../list-patron-nric/'+ currentuser;
+	url = '../list-patron-nric/'+ currentuser + '/99999999';
 	$("#identificationnum-patron").autocomplete({
 		source: url,
 		minLength: 4,
 		select: function(event, ui){
 			console.log(ui.item.value);
-			var url = '../search-patron/' + currentuser + '?';
+			var url = '../search-patron/' + currentuser + '/99999999' + '?';
 			url = url + 'nric=' + ui.item.value;
 			$.getJSON(url, function(data){
 				$('#username-patron').val(data.username);
@@ -225,13 +225,13 @@ $(function() {
 		}
 	});
 	
-	url = '../list-patron-phone/'+ currentuser;
+	url = '../list-patron-phone/'+ currentuser + '/99999999';
 	$("#mobilenum-patron").autocomplete({
 		source: url,
 		minLength: 4,
 		select: function(event, ui){
 			console.log(ui.item.value);
-			var url = '../search-patron/' + currentuser + '?';
+			var url = '../search-patron/' + currentuser + '/99999999' + '?';
 			url = url + 'mobile=' + ui.item.value;
 			$.getJSON(url, function(data){
 				$('#username-patron').val(data.username);
@@ -245,13 +245,13 @@ $(function() {
 		}
 	});
 	
-	url = '../list-patron-email/'+ currentuser;
+	url = '../list-patron-email/'+ currentuser + '/99999999';
 	$("#email-patron").autocomplete({
 		source: url,
 		minLength: 4,
 		select: function(event, ui){
 			console.log(ui.item.value);
-			var url = '../search-patron/' + currentuser + '?';
+			var url = '../search-patron/' + currentuser  + '/99999999' + '?';
 			url = url + 'email=' + ui.item.value;
 			$.getJSON(url, function(data){
 				$('#username-patron').val(data.username);
