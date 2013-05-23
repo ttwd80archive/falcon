@@ -161,6 +161,7 @@
                 "validate-staff-nric": {
                     // remote json service location
                     "url": "../validate-staff",
+                    "extraDataDynamic":['#id-staff'],
                     // error
                     "alertText": "* This nric is already registered",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates
@@ -171,6 +172,7 @@
                 "validate-staff-phone": {
                     // remote json service location
                     "url": "../validate-staff",
+                    "extraDataDynamic":['#id-staff'],
                     // error
                     "alertText": "* This H/P is already registered",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates
@@ -181,6 +183,7 @@
                 "validate-staff-email": {
                     // remote json service location
                     "url": "../validate-staff",
+                    "extraDataDynamic":['#id-staff'],
                     // error
                     "alertText": "* This email is already registered",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates

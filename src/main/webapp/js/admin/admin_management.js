@@ -1,29 +1,5 @@
-function beforeCall(form, options){
-	if (console) 
-	console.log("Right before the AJAX form validation call");
-	return true;
-}
-
-function ajaxValidationCallback(status, form, json, options){
-	if (console) 
-	console.log(status);
-        
-	if (status === true) {
-		alert(json);
-		return false;
-		// uncomment these lines to submit the form to form.action
-		// form.validationEngine('detach');
-		// form.submit();
-		// or you may use AJAX again to submit the data
-	}
-}
-	
 $(function() {
-	$('#staffform').validationEngine({
-		ajaxFormValidation: true,
-		onAjaxFormComplete: ajaxValidationCallback,
-		onBeforeAjaxFormValidation: beforeCall
-	});
+	$('#staffform').validationEngine();
 	$('#patronform').validationEngine();
 	console.log('url: '+ document.location);
 	var urlParams = $.url(document.location).param();

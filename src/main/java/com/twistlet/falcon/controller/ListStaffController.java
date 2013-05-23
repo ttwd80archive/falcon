@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -162,6 +163,7 @@ public class ListStaffController {
 	public String validateStaff(final HttpServletRequest request) {
 		final String stringId = request.getParameter("fieldId");
 		final String value = request.getParameter("fieldValue");
+		final String id = request.getParameter("id-staff");
 		FalconStaff staff = new FalconStaff();
 		FalconUser admin = new FalconUser();
 		if("identificationnum-staff".equals(stringId)){
@@ -174,9 +176,16 @@ public class ListStaffController {
 		boolean isValid = true;
 		List<FalconStaff> staffs = staffService.listStaffByAdminStaffLike(admin, staff);
 		if(CollectionUtils.isNotEmpty(staffs)){
-			isValid = false;
+			//check if current id passed is equal to retrieved id. Valid is id is equal
+			for(FalconStaff theStaff : staffs){
+				if(StringUtils.isNotBlank(id)){
+					if(theStaff.getId().equals(Integer.valueOf(id))){
+						break;
+					}
+				}
+				isValid = false;
+			}
 		}
-		
 		return "[\""+ stringId + "\", " + isValid +"]";
 	}
 }
