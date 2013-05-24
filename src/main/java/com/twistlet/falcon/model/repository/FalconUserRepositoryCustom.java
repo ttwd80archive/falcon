@@ -7,4 +7,6 @@ import com.twistlet.falcon.model.entity.FalconUser;
 public interface FalconUserRepositoryCustom {
 	List<FalconUser> findByRolenameAndNameLike(String rolename,
 			String partialName);
+	
+	List<FalconUser> findByCriteria(FalconUser falconUser);
 }

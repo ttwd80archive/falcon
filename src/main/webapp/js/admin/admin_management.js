@@ -162,9 +162,7 @@ $(function() {
 	});
 	
 	$('#saveStaff').click(function(){
-		if($('#formID').validationEngine('validate')){
-			$('#staffform').submit();
-		}
+		$('#staffform').submit();
 		return false;
 	});
 	
@@ -266,9 +264,7 @@ $(function() {
 	});
 	
 	$('#savePatron').click(function(){
-		if($('#patronform').validationEngine('validate')){
-			$('#patronform').submit();
-		}
+		$('#patronform').submit();
 		return false;
 	});
 	

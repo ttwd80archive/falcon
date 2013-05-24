@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.mysema.query.jpa.JPQLQuery;
@@ -37,6 +38,27 @@ public class FalconUserRepositoryImpl implements FalconUserRepositoryCustom {
 				.containsIgnoreCase(partialName);
 		query.orderBy(falconUser.name.asc());
 		query.where(conditionRolename.and(conditionNameLike));
+		return query.list(falconUser);
+	}
+
+	@Override
+	public List<FalconUser> findByCriteria(FalconUser user) {
+		final JPQLQuery query = new JPAQuery(entityManager);
+		final QFalconUser falconUser = QFalconUser.falconUser;
+		query.from(falconUser);
+		BooleanExpression conditionPatronLike = null;
+		if(StringUtils.isNotBlank(user.getPhone())){
+			conditionPatronLike = falconUser.phone.eq(user.getPhone());
+		} else if(StringUtils.isNotBlank(user.getEmail())){
+			conditionPatronLike = falconUser.email.eq(user.getEmail());
+		} else if(StringUtils.isNotBlank(user.getNric())){
+			conditionPatronLike = falconUser.nric.eq(user.getNric());
+		} else if(StringUtils.isNotBlank(user.getUsername())){
+			conditionPatronLike = falconUser.username.eq(user.getUsername());
+		}
+		final BooleanExpression conditionValidPatron = falconUser.valid.eq(true);
+		query.where(conditionPatronLike.and(conditionValidPatron));
+		query.orderBy(falconUser.name.asc());
 		return query.list(falconUser);
 	}
 }

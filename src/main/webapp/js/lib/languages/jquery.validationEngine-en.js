@@ -169,6 +169,17 @@
                     // speaks by itself
                     "alertTextLoad": "* Validating, please wait"
                 },
+                "validate-patron-nric": {
+                    // remote json service location
+                    "url": "../validate-patron",
+                    "extraDataDynamic":['#username-patron'],
+                    // error
+                    "alertText": "* This nric is already registered",
+                    // if you provide an "alertTextOk", it will show as a green prompt when the field validates
+                    "alertTextOk": "* This nric is valid",
+                    // speaks by itself
+                    "alertTextLoad": "* Validating, please wait"
+                },
                 "validate-staff-phone": {
                     // remote json service location
                     "url": "../validate-staff",
@@ -180,10 +191,32 @@
                     // speaks by itself
                     "alertTextLoad": "* Validating, please wait"
                 },
+                "validate-patron-phone": {
+                    // remote json service location
+                    "url": "../validate-patron",
+                    "extraDataDynamic":['#username-patron'],
+                    // error
+                    "alertText": "* This H/P is already registered",
+                    // if you provide an "alertTextOk", it will show as a green prompt when the field validates
+                    "alertTextOk": "* This H/P is valid",
+                    // speaks by itself
+                    "alertTextLoad": "* Validating, please wait"
+                },
                 "validate-staff-email": {
                     // remote json service location
                     "url": "../validate-staff",
                     "extraDataDynamic":['#id-staff'],
+                    // error
+                    "alertText": "* This email is already registered",
+                    // if you provide an "alertTextOk", it will show as a green prompt when the field validates
+                    "alertTextOk": "* This email is valid",
+                    // speaks by itself
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                "validate-patron-email": {
+                    // remote json service location
+                    "url": "../validate-patron",
+                    "extraDataDynamic":['#username-patron'],
                     // error
                     "alertText": "* This email is already registered",
                     // if you provide an "alertTextOk", it will show as a green prompt when the field validates

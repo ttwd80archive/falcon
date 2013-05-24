@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.twistlet.falcon.controller.bean.User;
 import com.twistlet.falcon.model.entity.FalconPatron;
+import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.PatronService;
 import com.twistlet.falcon.model.service.StaffService;
@@ -168,5 +171,35 @@ public class ListPatronController {
 			matchingUser.setFalconUserRoles(null);
 		}
 		return matchingUser;
+	}
+	
+	@RequestMapping("/validate-patron")
+	@ResponseBody
+	public String validateStaff(final HttpServletRequest request) {
+		final String stringId = request.getParameter("fieldId");
+		final String value = request.getParameter("fieldValue");
+		final String username = request.getParameter("username-patron");
+		FalconUser user = new FalconUser();
+		if("identificationnum-patron".equals(stringId)){
+			user.setNric(value);
+		}else if("mobilenum-patron".equals(stringId)){
+			user.setPhone(stringId);
+		}else if("email-patron".equals(stringId)){
+			user.setEmail(value);
+		}
+		boolean isValid = true;
+		List<FalconUser> users = patronService.listUserByCriteria(user);
+		if(CollectionUtils.isNotEmpty(users)){
+			//check if current id passed is equal to retrieved id. Valid is id is equal
+			for(FalconUser theUser : users){
+				if(StringUtils.isNotBlank(username)){
+					if(username.equals(theUser.getUsername())){
+						break;
+					}
+				}
+				isValid = false;
+			}
+		}
+		return "[\""+ stringId + "\", " + isValid +"]";
 	}
 }

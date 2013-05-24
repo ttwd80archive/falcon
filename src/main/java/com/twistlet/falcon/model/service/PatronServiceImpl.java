@@ -233,6 +233,13 @@ public class PatronServiceImpl implements PatronService {
 		theFalconPatron.setId(uniqeFalconPatron.getId());
 		return theFalconPatron;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconUser> listUserByCriteria(FalconUser user) {
+		List<FalconUser> users = falconUserRepository.findByCriteria(user);
+		return users;
+	}
 	
 	
 	
