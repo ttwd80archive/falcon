@@ -5,9 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +35,7 @@ public class ListStaffController {
 
 	@RequestMapping("/list-staff/{admin}/{date}")
 	@ResponseBody
-	public List<FalconStaff> listStaffs(@PathVariable String admin, @PathVariable(value="date") String date) {
+	public List<FalconStaff> listStaffs(@PathVariable String admin, @PathVariable(value = "date") String date) {
 		List<FalconStaff> staffs = staffService.listStaffByAdmin(admin);
 		for (FalconStaff staff : staffs) {
 			staff.setFalconUser(null);
@@ -45,14 +43,11 @@ public class ListStaffController {
 		}
 		return staffs;
 	}
-	
-	
+
 	@RequestMapping("/list-staff/{admin}/{date}/{startTime}/{endTime}")
 	@ResponseBody
-	public Set<FalconStaff> listAvailableStaffs(@PathVariable String admin,
-			@PathVariable(value="date") String date,
-			@PathVariable("startTime") String start,
-			@PathVariable("endTime") String end) {
+	public Set<FalconStaff> listAvailableStaffs(@PathVariable String admin, @PathVariable(value = "date") String date,
+			@PathVariable("startTime") String start, @PathVariable("endTime") String end) {
 		final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy HHmm");
 		FalconUser falconUser = new FalconUser();
 		falconUser.setUsername(admin);
@@ -70,8 +65,6 @@ public class ListStaffController {
 		}
 		return staffs;
 	}
-	
-	
 
 	@RequestMapping("/list-staff-name/{admin}/{date}")
 	@ResponseBody
@@ -79,8 +72,7 @@ public class ListStaffController {
 			@RequestParam("term") String name) {
 		FalconUser admin = new FalconUser();
 		admin.setUsername(username);
-		List<FalconStaff> staffs = staffService.listStaffByAdminNameLike(admin,
-				name);
+		List<FalconStaff> staffs = staffService.listStaffByAdminNameLike(admin, name);
 		List<String> names = new ArrayList<>();
 		for (FalconStaff staff : staffs) {
 			names.add(staff.getName() + " (" + staff.getHpTel() + ")");
@@ -94,8 +86,7 @@ public class ListStaffController {
 			@RequestParam("term") String nric) {
 		FalconUser admin = new FalconUser();
 		admin.setUsername(username);
-		List<FalconStaff> staffs = staffService.listStaffByAdminNricLike(admin,
-				nric);
+		List<FalconStaff> staffs = staffService.listStaffByAdminNricLike(admin, nric);
 		List<String> nrics = new ArrayList<>();
 		for (FalconStaff staff : staffs) {
 			nrics.add(staff.getNric());
@@ -109,15 +100,14 @@ public class ListStaffController {
 			@RequestParam("term") String email) {
 		FalconUser admin = new FalconUser();
 		admin.setUsername(username);
-		List<FalconStaff> staffs = staffService.listStaffByAdminEmailLike(
-				admin, email);
+		List<FalconStaff> staffs = staffService.listStaffByAdminEmailLike(admin, email);
 		List<String> emails = new ArrayList<>();
 		for (FalconStaff staff : staffs) {
 			emails.add(staff.getEmail());
 		}
 		return emails;
 	}
-	
+
 	@RequestMapping("/list-staff-mobile/{admin}/{date}")
 	@ResponseBody
 	public List<String> listStaffMobile(@PathVariable("admin") String username, @PathVariable("date") String date,
@@ -156,8 +146,7 @@ public class ListStaffController {
 		return matchingStaff;
 
 	}
-	
-	
+
 	@RequestMapping("/validate-staff")
 	@ResponseBody
 	public String validateStaff(final HttpServletRequest request) {
@@ -166,26 +155,27 @@ public class ListStaffController {
 		final String id = request.getParameter("id-staff");
 		FalconStaff staff = new FalconStaff();
 		FalconUser admin = new FalconUser();
-		if("identificationnum-staff".equals(stringId)){
+		if ("identificationnum-staff".equals(stringId)) {
 			staff.setNric(value);
-		}else if("mobilenum-staff".equals(stringId)){
+		} else if ("mobilenum-staff".equals(stringId)) {
 			staff.setHpTel(value);
-		}else if("email-staff".equals(stringId)){
+		} else if ("email-staff".equals(stringId)) {
 			staff.setEmail(value);
 		}
 		boolean isValid = true;
 		List<FalconStaff> staffs = staffService.listStaffByAdminStaffLike(admin, staff);
-		if(CollectionUtils.isNotEmpty(staffs)){
-			//check if current id passed is equal to retrieved id. Valid is id is equal
-			for(FalconStaff theStaff : staffs){
-				if(StringUtils.isNotBlank(id)){
-					if(theStaff.getId().equals(Integer.valueOf(id))){
+		if (CollectionUtils.isNotEmpty(staffs)) {
+			// check if current id passed is equal to retrieved id. Valid is id
+			// is equal
+			for (FalconStaff theStaff : staffs) {
+				if (StringUtils.isNotBlank(id)) {
+					if (theStaff.getId().equals(Integer.valueOf(id))) {
 						break;
 					}
 				}
 				isValid = false;
 			}
 		}
-		return "[\""+ stringId + "\", " + isValid +"]";
+		return "[\"" + stringId + "\", " + isValid + "]";
 	}
 }

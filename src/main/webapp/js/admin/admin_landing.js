@@ -162,6 +162,7 @@ function renderSelectedMonth(month, year) {
 			console.log('Helmy:' + dateValue);
 			var dateInt = parseInt(dateValue);
 			if (dateInt >= 1 && dateInt <= 31) {
+				/*
 				$('#appointmenttime').timepicker({
 					controlType: 'select',
 					timeOnly: true,
@@ -177,9 +178,11 @@ function renderSelectedMonth(month, year) {
 						return hours + ':' + min + ' ' + ampm;
 					}
 				});
+				*/
 				var currentuser = $('#username').html();
 				currentuser = encodeURIComponent(currentuser).replace(/[!'().]/g, escape).replace(/\*/g, "%2A");
 				console.log(currentuser);
+				/*
 				$('#appointmenttimeend').timepicker({
 					controlType: 'select',
 					timeOnly: true,
@@ -197,6 +200,7 @@ function renderSelectedMonth(month, year) {
 						return hours + ':' + min + ' ' + ampm;
 					}
 				});
+				*/
 				$('#appointmenttimeend').change(function(){
 					if($.trim($('#appointmenttime').val()) != ""){
 						var date = $("#appointmentdate").val().replace(/-/g, '');
@@ -259,4 +263,128 @@ function renderSelectedMonth(month, year) {
 		}
 	});
 	
+	$("#dialog").dialog({
+		autoOpen: false,
+		width: 175,
+		buttons: [ { text: "Ok", click: function(){
+			var id = $("#source-id").text();
+			var value = $("#hh").val() + ":" + $("#mm").val() + " " + $("#ampm").val(); 
+			$(id).val(value);
+			if (id = "appointmenttime"){
+				$("#appointmenttimeend").val(value);
+			}
+			$(this).dialog("close");
+		}}]
+	});
+	
+	$("#appointmenttime").click(function(){
+		$("#source-id").text("#appointmenttime");
+		parse_picker($(this).val());
+		$("#dialog").dialog("open");
+		$("#ui-id-1").parent().parent().css("zIndex", 5000);
+	});
+
+	$("#appointmenttimeend").click(function(){
+		$("#source-id").text("#appointmenttimeend");
+		parse_picker($(this).val());
+		$("#dialog").dialog("open");
+		$("#ui-id-1").parent().parent().css("zIndex", 5000);
+	});
+
+	$("#button-down-hh").click(function(){
+		var hh = $("#hh").val();
+		try{
+			hh = parseInt(hh);
+			hh--;
+			if (hh <= 0) hh = 12;
+			hh = (hh < 10 ? "0" + hh:"" + hh);
+		}catch(e){
+			hh = "12";
+		}
+		$("#hh").val(hh);
+	});
+	
+	$("#button-up-hh").click(function(){
+		var hh = $("#hh").val();
+		try{
+			hh = parseInt(hh);
+			hh++;
+			if (hh > 12) hh = 1;
+			hh = (hh < 10 ? "0" + hh:"" + hh);
+		}catch(e){
+			hh = "12";
+		}
+		$("#hh").val(hh);
+	});
+	
+	$("#button-up-mm").click(function(){
+		var mm = $("#mm").val();
+		try{
+			mm = parseInt(mm);
+			mm = mm + 15;
+			if (mm >= 60) mm = 0;
+			mm = (mm < 10 ? "0" + mm:"" + mm);
+		}catch(e){
+			mm = "00";
+		}
+		$("#mm").val(mm);
+	});
+	
+	$("#button-down-mm").click(function(){
+		var mm = $("#mm").val();
+		try{
+			mm = parseInt(mm);
+			mm = mm - 15;
+			if (mm < 0) mm = 45;
+			mm = (mm < 10 ? "0" + mm:"" + mm);
+		}catch(e){
+			mm = "00";
+		}
+		$("#mm").val(mm);
+	});
+	
+	$("#button-down-ampm, #button-up-ampm").click(function(){
+		var ampm = $("#ampm").val();
+		if (ampm == "AM"){
+			ampm = "PM";
+		}else{
+			ampm = "AM";
+		}
+		$("#ampm").val(ampm);
+	});
+	
+	function parse_picker(text){
+		if (text.length == 8){
+			var hh;
+			var mm;
+			var ampm;
+			var thh = text.substring(0, 2);
+			var tmm = text.substring(3, 5);
+			var tampm = text.substring(6, 8);
+			try{
+				hh = parseInt(thh);
+			}catch(e){
+				hh = 12;
+			}
+			hh = (hh < 10 ? "0" + hh:"" + hh);
+			$("#hh").val(hh);
+			try{
+				mm = parseInt(tmm);
+			}catch(e){
+				mm = 12;
+			}
+			mm = (mm < 10 ? "0" + mm:"" + mm);
+			$("#mm").val(mm);
+			if (tampm == "PM"){
+				ampm = "PM";
+			}else{
+				ampm = "AM";
+			}
+			$("#ampm").val(ampm);
+		}else{
+			$("#hh").val("12");
+			$("#mm").val("00");
+			$("#ampm").val("AM");
+		}
+	}
 };
