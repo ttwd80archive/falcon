@@ -184,7 +184,7 @@ $(function() {
 			var index = ui.item.value.indexOf("(");
 			var theNo = ui.item.value.substring(index + 1, ui.item.value.length - 1);
 			url = '../search-patron/' + currentuser + '/99999999' + '?';
-			url = url + 'mobile=' + theNo;
+			url = url + 'nric=' + theNo;
 			$.getJSON(url, function(data){
 				$('#username-patron').val(data.username);
 				 $('#fullname-patron').val(data.name);

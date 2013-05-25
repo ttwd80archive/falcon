@@ -98,7 +98,7 @@ public class ListPatronController {
 		List<FalconPatron> patrons = patronService.listPatronByAdminNameLike(admin, name);
 		List<String> names = new ArrayList<>();
 		for (FalconPatron patron : patrons) {
-			names.add(patron.getFalconUserByPatron().getName() + " (" + patron.getFalconUserByPatron().getPhone() + ")");
+			names.add(patron.getFalconUserByPatron().getName() + " (" + patron.getFalconUserByPatron().getNric() + ")");
 		}
 		return names;
 	}

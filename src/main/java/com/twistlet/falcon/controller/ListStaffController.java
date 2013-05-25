@@ -75,7 +75,7 @@ public class ListStaffController {
 		List<FalconStaff> staffs = staffService.listStaffByAdminNameLike(admin, name);
 		List<String> names = new ArrayList<>();
 		for (FalconStaff staff : staffs) {
-			names.add(staff.getName() + " (" + staff.getHpTel() + ")");
+			names.add(staff.getName() + " (" + staff.getNric() + ")");
 		}
 		return names;
 	}
