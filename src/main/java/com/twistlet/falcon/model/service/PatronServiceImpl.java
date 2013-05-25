@@ -69,7 +69,6 @@ public class PatronServiceImpl implements PatronService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void savePatron(FalconPatron patron) {
-		
 		FalconUser user = patron.getFalconUserByPatron();
 		String[] names = StringUtils.split(patron.getFalconUserByPatron().getName(), " ");
 		boolean newUser = false;
@@ -84,13 +83,32 @@ public class PatronServiceImpl implements PatronService {
 				user.setPassword(passwordEncoder.encodePassword(names[0], user.getUsername()));
 			}
 			patron.setFalconUserByPatron(user);
-			falconUserRepository.save(user);
 			FalconRole falconRole = new FalconRole();
 			falconRole.setRoleName("ROLE_USER");
 			FalconUserRole falconUserRole = new FalconUserRole();
 			falconUserRole.setFalconUser(user);
 			falconUserRole.setFalconRole(falconRole);
-			falconUserRoleRepository.save(falconUserRole);
+			/**
+			 * check if user already exist
+			 */
+			FalconUser registeredUser = falconUserRepository.findOne(user.getUsername());
+			if(registeredUser == null){
+				/**
+				 * user does not exist. save user and user_role. We do not validete duplicate hp, nric etc already validated in view
+				 */
+				falconUserRepository.save(user);
+				falconUserRoleRepository.save(falconUserRole);
+			}else{
+				/**
+				 * update user to use latest info. comment this if we dont want to update user details
+				 */
+				registeredUser.setNric(user.getNric());
+				registeredUser.setPhone(user.getPhone());
+				registeredUser.setName(user.getName());
+				registeredUser.setSendEmail(user.getSendEmail());
+				registeredUser.setSendSms(user.getSendSms());
+				falconUserRepository.save(registeredUser);
+			}
 			falconPatronRepository.save(patron);
 		}else{
 			FalconUser updateUser = falconUserRepository.findOne(user.getUsername());
@@ -193,8 +211,15 @@ public class PatronServiceImpl implements PatronService {
 	@Transactional(readOnly = true)
 	public List<FalconPatron> listPatronByAdminPatronLike(FalconUser admin, FalconUser patron) {
 		List<FalconPatron> patrons = falconPatronRepository.findByFalconUserPatronLike(admin, patron);
+		List<FalconPatron> matchingPatrons = new ArrayList<>();
 		for(FalconPatron falconPatron : patrons){
 			falconPatron.getFalconUserByPatron().getName();
+			if(StringUtils.equals(falconPatron.getFalconUserByAdmin().getUsername(), admin.getUsername())){
+				matchingPatrons.add(falconPatron);
+			}
+		}
+		if(StringUtils.isNotEmpty(admin.getUsername())){
+			patrons = matchingPatrons;
 		}
 		return patrons;
 	}
@@ -238,6 +263,18 @@ public class PatronServiceImpl implements PatronService {
 	@Transactional(readOnly = true)
 	public List<FalconUser> listUserByCriteria(FalconUser user) {
 		List<FalconUser> users = falconUserRepository.findByCriteria(user);
+		for(FalconUser falconUser : users){
+			Set<FalconPatron> registeredPatrons = falconUser.getFalconPatronsForAdmin();
+			for(FalconPatron patron : registeredPatrons){
+				patron.getFalconUserByAdmin().getUsername();
+			}
+		}
+		for(FalconUser falconUser : users){
+			Set<FalconPatron> registeredPatrons = falconUser.getFalconPatronsForPatron();
+			for(FalconPatron patron : registeredPatrons){
+				patron.getFalconUserByAdmin().getUsername();
+			}
+		}
 		return users;
 	}
 	

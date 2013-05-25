@@ -126,7 +126,7 @@ public class FalconPatronRepositoryImpl implements FalconPatronRepositoryCustom 
 	}
 
 	@Override
-	public List<FalconPatron> findByFalconUserPatronLike(FalconUser falconUser,
+	public List<FalconPatron> findByFalconUserPatronLike(FalconUser admin,
 			FalconUser patron) {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconPatron falconPatron = QFalconPatron.falconPatron;

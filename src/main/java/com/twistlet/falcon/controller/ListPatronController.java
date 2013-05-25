@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -179,6 +181,8 @@ public class ListPatronController {
 		final String stringId = request.getParameter("fieldId");
 		final String value = request.getParameter("fieldValue");
 		final String username = request.getParameter("username-patron");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String name = auth.getName();
 		FalconUser user = new FalconUser();
 		if("identificationnum-patron".equals(stringId)){
 			user.setNric(value);
@@ -193,11 +197,24 @@ public class ListPatronController {
 			//check if current id passed is equal to retrieved id. Valid is id is equal
 			for(FalconUser theUser : users){
 				if(StringUtils.isNotBlank(username)){
+					/**
+					 * updating user
+					 */
 					if(username.equals(theUser.getUsername())){
 						break;
 					}
+				}else{
+					/**
+					 * check if different admin is trying to add same user
+					 */
+					Set<FalconPatron> registeredAdmins = theUser.getFalconPatronsForPatron();
+					for(FalconPatron patron : registeredAdmins){
+						if(name.equals(patron.getFalconUserByAdmin().getUsername())){
+							isValid = false;
+							break;
+						}
+					}
 				}
-				isValid = false;
 			}
 		}
 		return "[\""+ stringId + "\", " + isValid +"]";
