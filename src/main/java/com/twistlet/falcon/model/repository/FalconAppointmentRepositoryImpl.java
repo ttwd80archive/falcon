@@ -62,9 +62,6 @@ public class FalconAppointmentRepositoryImpl implements
 		final QFalconPatron falconPatron = QFalconPatron.falconPatron;
 		query.from(falconAppointment);
 		List<BooleanExpression> expressions = new ArrayList<>();
-		query.join(falconAppointment.falconAppointmentPatrons, falconAppointmentPatron).fetch();
-		query.join(falconAppointmentPatron.falconPatron, falconPatron).fetch();
-		query.orderBy(falconPatron.falconUserByPatron.name.asc());
 		if (searchDate != null) {
 			BooleanExpression x = falconAppointment.appointmentDate.between(searchDate, maxDate);
 			expressions.add(x);
@@ -75,6 +72,9 @@ public class FalconAppointmentRepositoryImpl implements
 			expressions.add(x);
 		}
 		if (patronId != null) {
+			query.join(falconAppointment.falconAppointmentPatrons, falconAppointmentPatron).fetch();
+			query.join(falconAppointmentPatron.falconPatron, falconPatron).fetch();
+			query.orderBy(falconPatron.falconUserByPatron.name.asc());
 			BooleanExpression x = falconPatron.falconUserByPatron.username.eq(patronId);
 			expressions.add(x);
 		}
