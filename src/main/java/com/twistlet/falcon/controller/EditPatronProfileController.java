@@ -1,5 +1,8 @@
 package com.twistlet.falcon.controller;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.twistlet.falcon.model.entity.FalconPatron;
+import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.PatronService;
 
 @Controller
@@ -32,9 +36,18 @@ public class EditPatronProfileController {
 	public ModelAndView displayPatronProfile(){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String loggedInUser = auth.getName();
+		FalconUser thisUser = new FalconUser();
+		thisUser.setUsername(loggedInUser);
+		List<FalconPatron> registeredAdmins = patronService.listAllPatronsAdmin(thisUser);
+		int totalAdmin = 0;
+		if(CollectionUtils.isNotEmpty(registeredAdmins)){
+			totalAdmin = registeredAdmins.size();
+		}
 		FalconPatron falconPatron = patronService.findPatron(loggedInUser);
 		ModelAndView mav = new ModelAndView("patron/editprofile");
 		mav.addObject("patron", falconPatron);
+		mav.addObject("admins", registeredAdmins);
+		mav.addObject("totalAdmin", totalAdmin);
 		return mav;
 	}
 	

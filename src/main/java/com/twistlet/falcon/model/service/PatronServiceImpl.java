@@ -6,10 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -247,7 +249,17 @@ public class PatronServiceImpl implements PatronService {
 		FalconUser falconPatron = new FalconUser();
 		falconPatron.setUsername(patron);
 		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserByPatron(falconPatron);
-		FalconPatron uniqeFalconPatron = DataAccessUtils.uniqueResult(falconPatrons);
+		FalconPatron uniqeFalconPatron = null;
+		try {
+			uniqeFalconPatron = DataAccessUtils.uniqueResult(falconPatrons);
+		} catch (IncorrectResultSizeDataAccessException e) {
+			/**
+			 * user is registered with multiple or no admin
+			 */
+			if(CollectionUtils.isNotEmpty(falconPatrons)){
+				uniqeFalconPatron = falconPatrons.get(0);
+			}
+		}
 		FalconUser falconUser = uniqeFalconPatron.getFalconUserByPatron();
 		FalconUser falconAdmin = uniqeFalconPatron.getFalconUserByAdmin();
 		logger.info("name: " + falconUser.getName());
@@ -276,6 +288,16 @@ public class PatronServiceImpl implements PatronService {
 			}
 		}
 		return users;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconPatron> listAllPatronsAdmin(FalconUser patron) {
+		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserByPatron(patron);
+		for(FalconPatron registeredAdmins : falconPatrons){
+			registeredAdmins.getFalconUserByAdmin().getName();
+		}
+		return falconPatrons;
 	}
 	
 	

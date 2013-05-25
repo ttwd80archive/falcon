@@ -108,10 +108,9 @@
 				<div id="org-list">
 					<div id="editprofile-split" class="subcontent-split"></div>
 					<div style="font-style: underline">You are currently a patron
-						of 2 organisations&#58;</div>
+						of <span th:text="${totalAdmin}"></span> organisations&#58;</div>
 					<ol id="org-members">
-						<li>Jatumi</li>
-						<li>SWFD</li>
+						<li th:each="item : ${admins}" th:text="${item.falconUserByAdmin.name}"></li>
 					</ol>
 				</div>
 			</div>
