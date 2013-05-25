@@ -19,10 +19,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twistlet.falcon.controller.bean.User;
+import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconRole;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.entity.FalconUserRole;
+import com.twistlet.falcon.model.repository.FalconAppointmentPatronRepository;
 import com.twistlet.falcon.model.repository.FalconPatronRepository;
 import com.twistlet.falcon.model.repository.FalconUserRepository;
 import com.twistlet.falcon.model.repository.FalconUserRoleRepository;
@@ -38,6 +40,8 @@ public class PatronServiceImpl implements PatronService {
 	
 	private final FalconUserRoleRepository falconUserRoleRepository;
 	
+	private final FalconAppointmentPatronRepository falconAppointmentPatronRepository;
+	
 	private final PasswordEncoder passwordEncoder;
 	
 	
@@ -45,10 +49,12 @@ public class PatronServiceImpl implements PatronService {
 	public PatronServiceImpl(FalconPatronRepository falconPatronRepository,
 			FalconUserRepository falconUserRepository,
 			FalconUserRoleRepository falconUserRoleRepository,
+			FalconAppointmentPatronRepository falconAppointmentPatronRepository,
 			PasswordEncoder passwordEncoder) {
 		this.falconPatronRepository = falconPatronRepository;
 		this.falconUserRepository = falconUserRepository;
 		this.falconUserRoleRepository = falconUserRoleRepository;
+		this.falconAppointmentPatronRepository = falconAppointmentPatronRepository;
 		this.passwordEncoder = passwordEncoder;
 	}
 
@@ -72,6 +78,7 @@ public class PatronServiceImpl implements PatronService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void savePatron(FalconPatron patron) {
 		FalconUser user = patron.getFalconUserByPatron();
+		FalconUser admin = patron.getFalconUserByAdmin();
 		String[] names = StringUtils.split(patron.getFalconUserByPatron().getName(), " ");
 		boolean newUser = false;
 		if(StringUtils.isBlank(user.getUsername())){
@@ -109,11 +116,32 @@ public class PatronServiceImpl implements PatronService {
 				registeredUser.setName(user.getName());
 				registeredUser.setSendEmail(user.getSendEmail());
 				registeredUser.setSendSms(user.getSendSms());
+				registeredUser.setValid(true);
 				falconUserRepository.save(registeredUser);
 			}
 			falconPatronRepository.save(patron);
 		}else{
 			FalconUser updateUser = falconUserRepository.findOne(user.getUsername());
+			if(user.getValid() == false){
+				/**
+				 * user trying to delete
+				 */
+				Set<FalconPatron> patrons = updateUser.getFalconPatronsForPatron();
+				List<FalconPatron> toDeletePatrons = new ArrayList<>();
+				List<FalconAppointmentPatron> toDeleteAppointments = new ArrayList<>();
+				for(FalconPatron registeredPatron : patrons){
+					if(registeredPatron.getFalconUserByAdmin().getUsername().equals(admin.getUsername())){
+						toDeletePatrons.add(registeredPatron);
+					}
+					List<FalconAppointmentPatron> registeredAppointment = falconAppointmentPatronRepository.findByFalconPatron(registeredPatron);
+					toDeleteAppointments.addAll(registeredAppointment);
+				}
+				if(CollectionUtils.size(toDeletePatrons) < 2){
+					updateUser.setValid(user.getValid());
+				}
+				falconAppointmentPatronRepository.delete(toDeleteAppointments);
+				falconPatronRepository.delete(toDeletePatrons);
+			}
 			updateUser.setName(user.getName());
 			updateUser.setNric(user.getNric());
 			updateUser.setEmail(user.getEmail());
@@ -239,7 +267,9 @@ public class PatronServiceImpl implements PatronService {
 		}
 		if(uniquePatron != null){
 			falconPatronRepository.delete(uniquePatron);
-			falconUserRepository.delete(uniquePatron.getFalconUserByPatron());
+			if(CollectionUtils.size(patrons) < 2){
+				falconUserRepository.delete(uniquePatron.getFalconUserByPatron());
+			}
 		}
 	}
 
