@@ -106,6 +106,7 @@ public class FalconAppointmentRepositoryImplTest extends AbstractFalconRepositor
 		FalconLocation falconLocation = new FalconLocation();
 		falconLocation.setName(location);
 		falconLocation.setFalconUser(admin);
+		falconLocation.setValid(true);
 		return falconLocation;
 	}
 	
@@ -164,6 +165,7 @@ public class FalconAppointmentRepositoryImplTest extends AbstractFalconRepositor
 		List<FalconAppointment> appointments  = falconAppointmentRepository.listAppointmentsByParam(null, null, null, null, searchDate);
 		assertEquals(1, appointments.size());
 	}
+	
 	
 	@Test
 	public void testListAppointmentsByLocation(){

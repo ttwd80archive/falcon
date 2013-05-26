@@ -147,10 +147,12 @@
 							<li>
 								<span>Venue</span> 
 								<input type="text" th:field="*{name}" id="venue" size="30" />
+								<input type="hidden" th:field="*{id}" id="venue-id"/>
+								<input type="hidden" th:field="*{valid}" id="venue-valid" />
 							</li>
 							<li>
 								<input class="button" type="submit" value="SAVE" />&nbsp;&nbsp;&nbsp;
-								<a href="#">delete venue</a></li>
+								<a href="#" id="delete-venue">delete venue</a></li>
 						</ul>
 						</form>
 					</div>

@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.20)
 # Database: falcon
-# Generation Time: 2013-05-19 14:35:07 +0000
+# Generation Time: 2013-05-26 08:32:24 +0000
 # ************************************************************
 
 
@@ -74,6 +74,7 @@ CREATE TABLE `falcon_location` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8 DEFAULT '',
   `admin` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `valid` tinyint(1) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_location_ibfk_1` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
@@ -138,6 +139,7 @@ CREATE TABLE `falcon_service` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `admin` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `valid` tinyint(1) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_service_ibfk_1` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)

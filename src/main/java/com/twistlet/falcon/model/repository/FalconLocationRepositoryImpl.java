@@ -17,6 +17,8 @@ import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconLocation;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.entity.QFalconAppointment;
+import com.twistlet.falcon.model.entity.QFalconLocation;
+import com.twistlet.falcon.model.entity.QFalconUser;
 
 @Repository
 public class FalconLocationRepositoryImpl implements FalconLocationRepositoryCustom {
@@ -41,6 +43,20 @@ public class FalconLocationRepositoryImpl implements FalconLocationRepositoryCus
 			locations.add(appointment.getFalconLocation());
 		}
 		return locations;
+	}
+
+	@Override
+	public List<FalconLocation> findByFalconUserLike(FalconLocation location) {
+		final JPQLQuery query = new JPAQuery(entityManager);
+		final QFalconLocation falconLocation = QFalconLocation.falconLocation;
+		final QFalconUser falconUser = QFalconUser.falconUser;
+		query.from(falconLocation);
+		query.join(falconLocation.falconUser, falconUser).fetch();
+		BooleanExpression conditionValid = falconLocation.valid.isTrue();
+		BooleanExpression conditionAdmin = falconUser.username.eq(location.getFalconUser().getUsername());
+		BooleanExpression conditionNameLike = falconLocation.name.containsIgnoreCase(location.getName());
+		query.where(conditionValid.and(conditionAdmin.and(conditionNameLike)));
+		return query.list(falconLocation);
 	}
 
 }

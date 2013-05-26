@@ -11,8 +11,12 @@ public interface LocationService {
 	
 	List<FalconLocation> listAdminLocations(FalconUser admin);
 	
+	List<FalconLocation> listAdminLocationLike(FalconLocation location);
+	
 	Set<FalconLocation> listAvailableLocations(FalconUser admin, Date start, Date end);
 	
 	void saveLocation(FalconLocation falcLocation);
+	
+	void deleteLocation(FalconLocation falconLocation);
 
 }

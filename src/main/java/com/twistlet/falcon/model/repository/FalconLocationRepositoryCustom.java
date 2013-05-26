@@ -1,6 +1,7 @@
 package com.twistlet.falcon.model.repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import com.twistlet.falcon.model.entity.FalconLocation;
@@ -10,4 +11,5 @@ public interface FalconLocationRepositoryCustom {
 	
 	Set<FalconLocation> findLocationDateRange(FalconUser admin, Date start, Date end);
 
+	List<FalconLocation> findByFalconUserLike(FalconLocation location);
 }

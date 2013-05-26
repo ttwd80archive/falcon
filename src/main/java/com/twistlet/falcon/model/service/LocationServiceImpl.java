@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,10 +57,26 @@ public class LocationServiceImpl implements LocationService {
 				}
 			}
 			if(!found){
-				availableLocations.add(location);
+				if(location.getValid()){
+					availableLocations.add(location);
+				}
 			}
 		}
 		return availableLocations;
+	}
+
+	@Override
+	@Transactional
+	public List<FalconLocation> listAdminLocationLike(FalconLocation location) {
+		List<FalconLocation> locations = falconLocationRepository.findByFalconUserLike(location);
+		return locations;
+	}
+
+	@Override
+	public void deleteLocation(FalconLocation falconLocation) {
+		List<FalconLocation> locations = falconLocationRepository.findByFalconUserLike(falconLocation);
+		DataAccessUtils.singleResult(locations);
+		
 	}
 
 }

@@ -263,6 +263,28 @@ $(function() {
 		}
 	});
 	
+	url = '../list-vanues/'+ currentuser + '/99999999';
+	$('#venue').autocomplete({
+		source: url,
+		minLength: 4,
+		select: function(event, ui){
+			$('#venue').val(ui.item.name);
+			$('#venue-id').val(ui.item.id);
+			console.log('venue:' + ui.item.name + ' id:' +  ui.item.id);
+			return false;
+		}
+	}).data("ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li></li>" )
+		.data( "item.autocomplete", item )
+		.append('<a>' + item.name + '</a>')
+		.appendTo( ul );
+	};
+	
+	$('#delete-venue').click(function(){
+		$('#venue-valid').val(false);
+		$('#venueform').submit();
+	});
+	
 	$('#savePatron').click(function(){
 		$('#patronform').submit();
 		return false;

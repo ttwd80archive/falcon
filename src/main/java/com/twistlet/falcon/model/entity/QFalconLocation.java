@@ -30,6 +30,8 @@ public class QFalconLocation extends EntityPathBase<FalconLocation> {
 
     public final StringPath name = createString("name");
 
+    public final BooleanPath valid = createBoolean("valid");
+
     public QFalconLocation(String variable) {
         this(FalconLocation.class, forVariable(variable), INITS);
     }

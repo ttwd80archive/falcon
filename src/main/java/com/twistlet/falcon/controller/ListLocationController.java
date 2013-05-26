@@ -2,6 +2,7 @@ package com.twistlet.falcon.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -11,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.twistlet.falcon.controller.bean.Location;
 import com.twistlet.falcon.model.entity.FalconLocation;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.LocationService;
@@ -54,6 +57,26 @@ public class ListLocationController {
 			e.printStackTrace();
 		}
 		return locations;
+	}
+	
+	@RequestMapping("/list-vanues/{admin}/{date}")
+	@ResponseBody
+	public List<Location> listAdminsLocations(@PathVariable("admin") String username, @RequestParam("term") String name){
+		FalconUser admin = new FalconUser();
+		admin.setUsername(username);
+		FalconLocation location = new FalconLocation();
+		location.setFalconUser(admin);
+		location.setName(name);
+		List<FalconLocation> locations = locationService.listAdminLocationLike(location);
+		List<Location> availLocations = new ArrayList<>();
+		Location loc = null;
+		for(FalconLocation falconLocation : locations){
+			loc = new Location();
+			loc.setId(falconLocation.getId());
+			loc.setName(falconLocation.getName());
+			availLocations.add(loc);
+		}
+		return availLocations;
 	}
 	
 }

@@ -26,6 +26,7 @@ public class FalconLocation  implements java.io.Serializable {
      private Integer id;
      private FalconUser falconUser;
      private String name;
+     private Boolean valid;
      private Set<FalconAppointment> falconAppointments = new HashSet<FalconAppointment>(0);
 
     public FalconLocation() {
@@ -35,9 +36,10 @@ public class FalconLocation  implements java.io.Serializable {
     public FalconLocation(FalconUser falconUser) {
         this.falconUser = falconUser;
     }
-    public FalconLocation(FalconUser falconUser, String name, Set<FalconAppointment> falconAppointments) {
+    public FalconLocation(FalconUser falconUser, String name, Boolean valid, Set<FalconAppointment> falconAppointments) {
        this.falconUser = falconUser;
        this.name = name;
+       this.valid = valid;
        this.falconAppointments = falconAppointments;
     }
    
@@ -71,6 +73,16 @@ public class FalconLocation  implements java.io.Serializable {
     
     public void setName(String name) {
         this.name = name;
+    }
+
+    
+    @Column(name="valid")
+    public Boolean getValid() {
+        return this.valid;
+    }
+    
+    public void setValid(Boolean valid) {
+        this.valid = valid;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="falconLocation")
