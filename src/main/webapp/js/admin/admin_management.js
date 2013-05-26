@@ -284,7 +284,10 @@ $(function() {
 		$('#venue-valid').val(false);
 		$('#venueform').submit();
 	});
-	
+	$('#save-venue').click(function(){
+		$('#venue-valid').val(true);
+		$('#venueform').submit();
+	});
 	$('#savePatron').click(function(){
 		$('#patronform').submit();
 		return false;
