@@ -275,7 +275,7 @@ public class PatronServiceImpl implements PatronService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public FalconPatron findPatron(String patron) {
+	public FalconPatron findPatron(String patron, boolean isAdmin) {
 		FalconUser falconPatron = new FalconUser();
 		falconPatron.setUsername(patron);
 		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserByPatron(falconPatron);

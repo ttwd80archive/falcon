@@ -18,7 +18,7 @@ public interface PatronService {
 
 	FalconPatron findPatron(String patron, String admin);
 	
-	FalconPatron findPatron(String patron);
+	FalconPatron findPatron(String patron, boolean isAdmin);
 
 	List<FalconPatron> listPatronByAdminNameLike(FalconUser admin, String name);
 

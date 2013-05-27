@@ -52,7 +52,7 @@ public class PatronLandingController {
 		appointment.setAppointmentDate(new Date());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String loggedInUser = auth.getName();
-		FalconPatron falconPatron = patronService.findPatron(loggedInUser);
+		FalconPatron falconPatron = patronService.findPatron(loggedInUser, false);
 		mav.addObject("patron", falconPatron);
 		mav.addObject("appointment", appointment);
 		return mav;
@@ -63,7 +63,7 @@ public class PatronLandingController {
 			@ModelAttribute("appointment") FalconAppointment appointment) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String loggedInUser = auth.getName();
-		FalconPatron falconPatron = patronService.findPatron(loggedInUser);
+		FalconPatron falconPatron = patronService.findPatron(loggedInUser, false);
 		FalconAppointmentPatron falconAppointmentPatron = new FalconAppointmentPatron();
 		Set<FalconAppointmentPatron> patrons = new HashSet<>();
 		falconAppointmentPatron.setFalconPatron(falconPatron);
