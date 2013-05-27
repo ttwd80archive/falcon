@@ -41,4 +41,12 @@ public class ServicesTypeServiceImpl implements ServicesTypeService {
 		falconServiceRepository.save(service);
 	}
 
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconService> listAvailableServiceByAdminLike(
+			FalconService service) {
+		return falconServiceRepository.findByFalconUserLike(service);
+	}
+
 }

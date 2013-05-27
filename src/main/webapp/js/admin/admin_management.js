@@ -280,6 +280,23 @@ $(function() {
 		.appendTo( ul );
 	};
 	
+	url = '../list-service/'+ currentuser + '/99999999';
+	$('#service').autocomplete({
+		source: url,
+		minLength: 4,
+		select: function(event, ui){
+			$('#service').val(ui.item.name);
+			$('#service-id').val(ui.item.id);
+			console.log('service:' + ui.item.name + ' id:' +  ui.item.id);
+			return false;
+		}
+	}).data("ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li></li>" )
+		.data( "item.autocomplete", item )
+		.append('<a>' + item.name + '</a>')
+		.appendTo( ul );
+	};
+	
 	$('#delete-venue').click(function(){
 		$('#venue-valid').val(false);
 		$('#venueform').submit();
@@ -288,6 +305,18 @@ $(function() {
 		$('#venue-valid').val(true);
 		$('#venueform').submit();
 	});
+	
+	
+	$('#delete-service').click(function(){
+		$('#service-valid').val(false);
+		$('#serviceform').submit();
+	});
+	$('#save-service').click(function(){
+		$('#service-valid').val(true);
+		$('#serviceform').submit();
+	});
+	
+	
 	$('#savePatron').click(function(){
 		$('#patronform').submit();
 		return false;

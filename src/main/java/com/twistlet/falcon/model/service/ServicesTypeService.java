@@ -9,6 +9,8 @@ public interface ServicesTypeService {
 	
 	List<FalconService> listAvailableServiceByAdmin(FalconUser admin);
 	
+	List<FalconService> listAvailableServiceByAdminLike(FalconService service);
+	
 	void saveService(FalconService service);
 
 }

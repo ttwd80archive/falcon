@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.twistlet.falcon.model.entity.FalconService;
 import com.twistlet.falcon.model.entity.FalconUser;
 
-public interface FalconServiceRepository extends JpaRepository<FalconService, Integer> {
+public interface FalconServiceRepository extends JpaRepository<FalconService, Integer>, FalconServiceRepositoryCustom {
 
 	List<FalconService> findByFalconUser(FalconUser admin);
 }
