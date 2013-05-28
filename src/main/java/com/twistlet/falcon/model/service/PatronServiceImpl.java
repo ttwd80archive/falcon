@@ -67,7 +67,7 @@ public class PatronServiceImpl implements PatronService {
 		for(FalconPatron falconPatron : falconPatrons){
 			FalconUser falconUser = falconPatron.getFalconUserByPatron();
 			user = new User();
-			user.setName(falconUser.getName());
+			user.setName(falconUser.getName() + " (" + falconUser.getNric() + ")");
 			user.setUsername(falconUser.getUsername());
 			patrons.add(user);
 		}
