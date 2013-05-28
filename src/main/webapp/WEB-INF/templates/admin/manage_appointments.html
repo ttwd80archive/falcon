@@ -120,7 +120,7 @@
 												<tr th:each="appointment : ${appointments}">
 													<td class="td1-ext" th:text="${appointment.falconStaff.name}"></td>
 													<td class="td2-ext" >
-														<a href="#" th:href="@{patron_group_list(id=${appointment.id})}" th:if="${#lists.size(appointment.falconAppointmentPatrons) > 1}">Patient Group</a>
+														<a href="#" th:href="@{patron_group_list(id=${appointment.id})}" th:if="${#lists.size(appointment.falconAppointmentPatrons) > 1}">Patron Group</a>
 														<div th:unless="${#lists.size(appointment.falconAppointmentPatrons) > 1}">
 															<span th:each="patron : ${appointment.falconAppointmentPatrons}">
 																<span th:text="${patron.falconPatron.falconUserByPatron.name}"></span>
