@@ -122,6 +122,9 @@ public class PatronServiceImpl implements PatronService {
 			falconPatronRepository.save(patron);
 		}else{
 			FalconUser updateUser = falconUserRepository.findOne(user.getUsername());
+			if(user.getValid() == null){
+				user.setValid(false);
+			}
 			if(user.getValid() == false){
 				/**
 				 * user trying to delete
