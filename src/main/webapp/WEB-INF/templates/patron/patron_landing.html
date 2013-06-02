@@ -17,6 +17,8 @@
 	href="css/layout.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" th:href="@{/css/chosen.css}"
 	href="css/chosen.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" th:href="@{/css/validationEngine.jquery.css}"
+	href="css/validationEngine.jquery.css" type="text/css" media="screen" charset="utf-8" />
 <style>
 .ui-widget {
 	font-size: x-small;
@@ -68,14 +70,14 @@
 								value="SEARCH" class="button" id="querybutton" />
 						</h3>
 						<ul id="query-items">
-							<li><span>Staff</span> <select id="search_staffs"
+							<li><span>Staff</span> <select id="search_staffs" class="validate[groupRequired[search]"
 								th:field="*{staffId}" style="width: 137px;" /></li>
-							<li><span>Venue</span> <select id="search_locations"
+							<li><span>Venue</span> <select id="search_locations" class="validate[groupRequired[search]"
 								th:field="*{locationId}" style="width: 137px;"></select></li>
-							<li><span>Service</span> <select id="search_services" style="width: 137px;"
+							<li><span>Service</span> <select id="search_services" style="width: 137px;" class="validate[groupRequired[search]"
 								th:field="*{serviceId}"></select></li>
 							<li><span>Date</span> <input type="text"
-								id="search_appointmentdate" th:field="*{searchDate}"
+								id="search_appointmentdate" th:field="*{searchDate}" class="validate[groupRequired[search]"
 								style="width: 130px;" /></li>
 							<li><span>&nbsp;</span> <input type="hidden"
 								id="search_appointmenttime" th:field="*{searchTime}" /></li>
@@ -201,7 +203,7 @@
 				<ul id="addorgfilter" class="nopadding">
 					<li>
 						<span>Select Org&#46;</span>
-						<select id="organization" th:field="*{falconUserByAdmin.username}" style="width: 137px;"/>
+						<select id="organization" th:field="*{falconUserByAdmin.username}" style="width: 137px;" class="validate[required]"/>
 					</li>
 					<li>
 						<input type="hidden" th:field="*{falconUserByPatron.username}"  />
@@ -225,27 +227,27 @@
 				<ul id="createapptfilter" class="nopadding">
 					<li>
 						<span>Select Date</span>
-						<input type="text" id="appointmentdate" />
+						<input type="text" id="appointmentdate" class="validate[required]"/>
 					</li>
 					<li>
 						<span>Start Time</span>
-						<input type="text" id="appointmenttime" />
+						<input type="text" id="appointmenttime" class="validate[required]"/>
 					</li>
 					<li>
 						<span>End Time</span>
-						<input type="text" id="appointmenttimeend" />
+						<input type="text" id="appointmenttimeend" class="validate[required]"/>
 					</li>
 					<li>
 						<span>Select Staff</span>
-						<select id="staffs" th:field="*{falconStaff.id}" style="width: 137px;"></select>
+						<select id="staffs" th:field="*{falconStaff.id}" style="width: 137px;" class="validate[required]"></select>
 					</li>
 					<li>
 						<span>Select Service</span>
-						<select id="services" th:field="*{falconService.id}" style="width: 137px;"></select>
+						<select id="services" th:field="*{falconService.id}" style="width: 137px;" class="validate[required]"></select>
 					</li>
 					<li>
 						<span>Select Venue</span>
-						<select id="locations" th:field="*{falconLocation.id}" style="width: 137px;"></select>
+						<select id="locations" th:field="*{falconLocation.id}" style="width: 137px;" class="validate[required]"></select>
 						<input id="patrons" th:field="*{falconAppointmentPatrons}" type="hidden"></input>
 					</li>
 					<li><input class="button" type="submit" value="SUBMIT" id="submit" /></li>
@@ -288,6 +290,10 @@
 	<script type="text/javascript"
 		th:src="@{/js/lib/jquery-ui-1.10.2.custom.min.js}"
 		src="js/lib/jquery-ui-1.10.2.custom.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.validationEngine.js}"
+		src="js/lib/jquery.validationEngine.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/languages/jquery.validationEngine-en.js}"
+		src="js/lib/jquery.validationEngine.js"></script>
 	<script type="text/javascript" th:src="@{/js/patron/patron_landing.js}"
 		src="js/patron/patron_landing.js"></script>
 </body>

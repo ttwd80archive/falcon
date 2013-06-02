@@ -1,4 +1,10 @@
 $(function() {
+	
+	$('#appointmentform').validationEngine();
+	$('#searchform').validationEngine();
+	$('#organizationform').validationEngine();
+	
+	
 	var currentuser = $('#username').html();
 	currentuser = encodeURIComponent(currentuser).replace(/[!'().]/g, escape).replace(/\*/g, "%2A");
 	$.getJSON('../list-staff-patron/'+ currentuser + '/99999999', function(data) {
@@ -99,6 +105,7 @@ $(function() {
 	$('#querybutton').click(function(){
 		$('#searchform').submit();
 	});
+
 });
 
 function setSelectOptions(selectElement, values, valueKey, textKey, defaultValue) {
