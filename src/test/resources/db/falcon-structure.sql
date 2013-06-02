@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.20)
 # Database: falcon
-# Generation Time: 2013-05-26 08:32:24 +0000
+# Generation Time: 2013-06-02 08:19:15 +0000
 # ************************************************************
 
 
@@ -62,6 +62,21 @@ CREATE TABLE `falcon_appointment_patron` (
   CONSTRAINT `falcon_appointment_patron_ibfk_1` FOREIGN KEY (`patron`) REFERENCES `falcon_patron` (`id`),
   CONSTRAINT `FK_falcon_patron_falcon_appointment` FOREIGN KEY (`appointment`) REFERENCES `falcon_appointment` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table falcon_feedback
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `falcon_feedback`;
+
+CREATE TABLE `falcon_feedback` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `feedback_type` varchar(15) DEFAULT NULL,
+  `content` varchar(1000) DEFAULT NULL,
+  `email_from` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 
