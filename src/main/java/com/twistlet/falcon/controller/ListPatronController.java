@@ -186,7 +186,7 @@ public class ListPatronController {
 		if("identificationnum-patron".equals(stringId)){
 			user.setNric(value);
 		}else if("mobilenum-patron".equals(stringId)){
-			user.setPhone(stringId);
+			user.setPhone(value);
 		}else if("email-patron".equals(stringId)){
 			user.setEmail(value);
 		}
