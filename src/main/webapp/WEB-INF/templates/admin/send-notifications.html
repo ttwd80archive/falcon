@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Create Appointments</title>
+<link rel="stylesheet"
+	th:href="@{/css/smoothness/jquery-ui-1.10.2.custom.min.css}"
+	href="css/smoothness/jquery-ui-1.10.2.custom.min.css" type="text/css"
+	media="screen" charset="utf-8" />
+<link rel="stylesheet" th:href="@{/css/styles.css}"
+	href="css/styles.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" th:href="@{/css/layout.css}"
+	href="css/layout.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" th:href="@{/css/chosen.css}"
+	href="css/chosen.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" th:href="@{/css/validationEngine.jquery.css}"
+	href="css/validationEngine.jquery.css" type="text/css" media="screen"
+	charset="utf-8" />
+<style>
+.ui-widget {
+	font-size: x-small;
+}
+</style>
+</head>
+<body>
+	<div id="header-wrapper">
+		<div id="header">
+			<div id="logo">
+				<img th:src="@{/images/butter-bun-logo.png}"
+					src="./images/butter-bun-logo.png" alt="Image failed to load"
+					height="60px" width="150px" />
+			</div>
+			<div id="header-inf">
+				<a href="feedback" id="custsupportlink">CONTACT CUSTOMER SUPPORT</a>
+			</div>
+			<div class="account-inf">
+				<ul>
+					<li><a href="../logout" id="signout">SIGN OUT</a></li>
+					<li class="editprofile">
+						<div id="editprofile">
+							Hi&#44; <span id="username" th:text="${#authentication.name}">Inban</span><span
+								class="drop-arrow-white"></span> &#124;
+							<div class="drop-menu">
+								<ul class="menu-lvl-1">
+									<li><a href="editprofile">Edit Profile</a></li>
+								</ul>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div id="content-wrapper">
+		<div id="nav-wrapper">
+			<ul id="navlist">
+				<li><a href="admin_landing">Create Appointments</a></li>
+				<li><a href="manage-appointments">Manage Appointments</a></li>
+				<li><a href="manageusers">Manage Staff &amp; Patrons</a></li>
+				<li class="bold">Send Notifications<span class="navarrow"></span></li>
+			</ul>
+		</div>
+		<div id="subcontent-wrapper">
+
+			<div id="subcontent">
+				<div>content from hell</div>
+			</div>
+
+		</div>
+
+		<div id="sidebar-wrapper">
+			<div id="sidebar" class="bold">
+				<div id="ad-banner">ADVERTISING</div>
+			</div>
+		</div>
+		<div id="bg"></div>
+	</div>
+	<div class="clear"></div>
+	<div id="footer-wrapper">
+		<div id="footer">Apris Solutions &#169; 2013 All Rights Reserved
+		</div>
+	</div>
+	<script type="text/javascript" th:src="@{/js/lib/jquery-1.9.1.min.js}"
+		src="js/lib/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript"
+		th:src="@{/js/lib/jquery-ui-1.10.2.custom.min.js}"
+		src="js/lib/jquery-ui-1.10.2.custom.min.js"></script>
+	<script type="text/javascript"
+		th:src="@{/js/lib/jquery-ui-sliderAccess.js}"
+		src="js/lib/jquery-ui-sliderAccess.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/chosen.jquery.min.js}"
+		src="js/lib/chosen.jquery.min.js"></script>
+	<script type="text/javascript"
+		th:src="@{/js/lib/jquery.validationEngine.js}"
+		src="js/lib/jquery.validationEngine.js"></script>
+	<script type="text/javascript"
+		th:src="@{/js/lib/languages/jquery.validationEngine-en.js}"
+		src="js/lib/jquery.validationEngine.js"></script>
+	<script type="text/javascript" th:src="@{/js/admin/admin_landing.js}"
+		src="js/admin/admin_landing.js"></script>
+</body>
+</html>
