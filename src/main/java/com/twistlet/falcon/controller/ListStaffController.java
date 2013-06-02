@@ -19,18 +19,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
+import com.twistlet.falcon.model.service.PatronService;
 import com.twistlet.falcon.model.service.StaffService;
 
 @Controller
 public class ListStaffController {
 
 	private final StaffService staffService;
-
+	
+	private final PatronService patronService;
+	
 	@Autowired
-	public ListStaffController(StaffService staffService) {
+	public ListStaffController(StaffService staffService,
+			PatronService patronService) {
 		this.staffService = staffService;
+		this.patronService = patronService;
 	}
 
 	@RequestMapping("/list-staff/{admin}/{date}")
@@ -43,6 +49,23 @@ public class ListStaffController {
 		}
 		return staffs;
 	}
+	
+	@RequestMapping("/list-staff-patron/{admin}/{date}")
+	@ResponseBody
+	public List<FalconStaff> listPatronStaffs(@PathVariable String admin, @PathVariable(value = "date") String date) {
+		FalconUser user = new FalconUser();
+		List<FalconStaff> falconStaffs = new ArrayList<>();
+		user.setUsername(admin);
+		List<FalconPatron> patronsAdmin = patronService.listAllPatronsAdmin(user);
+		for(FalconPatron thisUser : patronsAdmin){
+			Set<FalconStaff> staffs  = thisUser.getFalconUserByAdmin().getFalconStaffs();
+			for(FalconStaff staff : staffs){
+				falconStaffs.add(staff);
+			}
+		}
+		return falconStaffs;
+	}
+	
 
 	@RequestMapping("/list-staff/{admin}/{date}/{startTime}/{endTime}")
 	@ResponseBody

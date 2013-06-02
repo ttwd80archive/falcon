@@ -179,4 +179,12 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 		List<FalconPatron> patrons = falconPatronRepository.findByFalconUserNameLike(admin, name);
 		assertEquals(1, patrons.size());
 	}
+	
+	@Test
+	public void testBooleanNull(){
+		FalconUser falconUser = new FalconUser();
+		if(falconUser.getValid() == null){
+			System.out.print("ok");
+		}
+	}
 }

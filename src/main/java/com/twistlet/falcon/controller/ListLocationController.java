@@ -17,18 +17,42 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.twistlet.falcon.controller.bean.Location;
 import com.twistlet.falcon.model.entity.FalconLocation;
+import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.LocationService;
+import com.twistlet.falcon.model.service.PatronService;
 
 @Controller
 public class ListLocationController {
 
 	private final LocationService locationService;
-
+	
+	private final PatronService patronService;
+	
 	@Autowired
-	public ListLocationController(LocationService locationService) {
+	public ListLocationController(LocationService locationService,
+			PatronService patronService) {
 		this.locationService = locationService;
+		this.patronService = patronService;
 	}
+
+
+	@RequestMapping("/list-location-patron/{admin}/{date}")
+	@ResponseBody
+	public List<FalconLocation> listPatronsLocation(@PathVariable String admin, @PathVariable(value="date") String date){
+		FalconUser falconUser = new FalconUser();
+		List<FalconLocation> falconLocations = new ArrayList<>();
+		falconUser.setUsername(admin);
+		List<FalconPatron> patronsAdmin = patronService.listAllPatronsAdmin(falconUser);
+		for(FalconPatron thisUser : patronsAdmin){
+			Set<FalconLocation> locations  = thisUser.getFalconUserByAdmin().getFalconLocations();
+			for(FalconLocation location : locations){
+				falconLocations.add(location);
+			}
+		}
+		return falconLocations;
+	}
+	
 	
 	@RequestMapping("/list-location/{admin}/{date}")
 	@ResponseBody

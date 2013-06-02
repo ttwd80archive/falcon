@@ -1,5 +1,6 @@
 package com.twistlet.falcon.model.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,16 @@ public class UserAdminServiceImpl implements UserAdminService {
 		FalconUser admin = falconUserRepository.findOne(username);
 		Set<FalconPatron> patronForPatron = admin.getFalconPatronsForPatron();
 		for(FalconPatron patron : patronForPatron){
+			patron.getFalconUserByPatron().getUsername();
 			patron.getFalconUserByPatron().getName();
+			patron.getFalconUserByAdmin().getUsername();
 			patron.getFalconUserByAdmin().getName();
 		}
 		Set<FalconPatron>  patronForAdmin = admin.getFalconPatronsForAdmin();
 		for(FalconPatron patron : patronForAdmin){
+			patron.getFalconUserByPatron().getUsername();
 			patron.getFalconUserByPatron().getName();
+			patron.getFalconUserByAdmin().getUsername();
 			patron.getFalconUserByAdmin().getName();
 		}
 		return admin;
@@ -42,6 +47,13 @@ public class UserAdminServiceImpl implements UserAdminService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void updateAdmin(FalconUser admin) {
 		falconUserRepository.save(admin);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<FalconUser> findAllAdmins() {
+		List<FalconUser> organizations = falconUserRepository.findByRolename("ROLE_ADMIN");
+		return organizations;
 	}
 
 }

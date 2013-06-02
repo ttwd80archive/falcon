@@ -5,6 +5,8 @@ public class Patron {
 	private String key;
 	
 	private String name;
+	
+	private Integer patronAppointmentId;
 
 	public String getKey() {
 		return key;
@@ -21,7 +23,13 @@ public class Patron {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
+	public Integer getPatronAppointmentId() {
+		return patronAppointmentId;
+	}
+
+	public void setPatronAppointmentId(Integer patronAppointmentId) {
+		this.patronAppointmentId = patronAppointmentId;
+	}
 
 }

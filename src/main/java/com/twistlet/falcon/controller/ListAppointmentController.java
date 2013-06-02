@@ -5,9 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,6 +71,36 @@ public class ListAppointmentController {
 			patron.setKey(falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getUsername());
 			patron.setName(falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName());
 			appointment.getPatrons().add(patron);
+		}
+		return appointment;
+	}
+	
+	@RequestMapping("/apppointment_patron/{id}")
+	@ResponseBody
+	public Appointment getPatronAppointment(@PathVariable Integer id) {
+		FalconAppointment falconAppointment = appointmentService.findAppointment(id);
+		final SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy");
+		final SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm aaa");
+		Appointment appointment = new Appointment();
+		appointment.setId(falconAppointment.getId());
+		appointment.setStaff(falconAppointment.getFalconStaff().getName());
+		appointment.setLocation(falconAppointment.getFalconLocation().getName());
+		appointment.setLocationId(falconAppointment.getFalconLocation().getId());
+		appointment.setAppointmentDate(sdfDate.format(falconAppointment.getAppointmentDate()));
+		appointment.setAppointmentTime(sdfTime.format(falconAppointment.getAppointmentDate()));
+		appointment.setAppointmentTimeEnd(sdfTime.format(falconAppointment.getAppointmentDateEnd()));
+		appointment.setPatrons(new ArrayList<Patron>());
+		Patron patron = null;
+		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final String thePatron = auth.getName();
+		for(FalconAppointmentPatron falconAppointmentPatron : falconAppointment.getFalconAppointmentPatrons()){
+			patron = new Patron();
+			if(StringUtils.equals(thePatron, falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getUsername())){
+				patron.setKey(falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getUsername());
+				patron.setName(falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName());
+				patron.setPatronAppointmentId(falconAppointmentPatron.getId());
+				appointment.getPatrons().add(patron);
+			}
 		}
 		return appointment;
 	}

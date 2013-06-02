@@ -61,4 +61,20 @@ public class FalconUserRepositoryImpl implements FalconUserRepositoryCustom {
 		query.orderBy(falconUser.name.asc());
 		return query.list(falconUser);
 	}
+
+	@Override
+	public List<FalconUser> findByRolename(String roleName) {
+		final JPQLQuery query = new JPAQuery(entityManager);
+		final QFalconUser falconUser = QFalconUser.falconUser;
+		final QFalconRole falconRole = QFalconRole.falconRole;
+		final QFalconUserRole falconUserRole = QFalconUserRole.falconUserRole;
+		query.from(falconUser);
+		query.join(falconUser.falconUserRoles, falconUserRole);
+		query.join(falconUserRole.falconRole, falconRole);
+		final BooleanExpression conditionRolename = falconRole.roleName
+				.eq(roleName);
+		query.orderBy(falconUser.name.asc());
+		query.where(conditionRolename);
+		return query.list(falconUser);
+	}
 }

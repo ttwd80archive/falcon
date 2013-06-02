@@ -37,8 +37,6 @@ public class AppointmentManagementController {
 
 	private final AppointmentService appointmentService;
 	
-	final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
-	
 	private final PatronService patronService;
 	
 	@Autowired
@@ -85,6 +83,7 @@ public class AppointmentManagementController {
 	
 	@RequestMapping(value="/admin/search-appointments", method =  RequestMethod.POST)
 	public ModelAndView searchAppointments(@ModelAttribute("search") SearchAppointment searchAppointment){
+		final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
 		Date searchDate = null;
 		if(StringUtils.isNotBlank(searchAppointment.getSearchDate())){
 			String date = searchAppointment.getSearchDate();
@@ -125,8 +124,16 @@ public class AppointmentManagementController {
 		return new ModelAndView("redirect:/admin/manage-appointments");
 	}
 	
+	@RequestMapping("/admin/delete_patron_appointment/{id}")
+	public ModelAndView deletePatronAppointment(@PathVariable Integer id){
+		appointmentService.deleteAppointmentPatron(id);
+		return new ModelAndView("redirect:/admin/manage-appointments");
+	}
+	
+	
 	@RequestMapping("/admin/reschedule_appointment/{id}/{date}/{start}/{end}/{location}")
 	public ModelAndView rescheduleAppointment(@PathVariable Integer id, @PathVariable String date, @PathVariable String start, @PathVariable String end, @PathVariable Integer location){	
+		final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
 		try {
 			final Date startDate = sdf.parse(date + " " + start);
 			final Date endDate = sdf.parse(date + " " + end);

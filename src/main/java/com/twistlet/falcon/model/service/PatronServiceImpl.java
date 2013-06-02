@@ -20,8 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.twistlet.falcon.controller.bean.User;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
+import com.twistlet.falcon.model.entity.FalconLocation;
 import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconRole;
+import com.twistlet.falcon.model.entity.FalconService;
+import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.entity.FalconUserRole;
 import com.twistlet.falcon.model.repository.FalconAppointmentPatronRepository;
@@ -119,7 +122,6 @@ public class PatronServiceImpl implements PatronService {
 				registeredUser.setValid(true);
 				falconUserRepository.save(registeredUser);
 			}
-			falconPatronRepository.save(patron);
 		}else{
 			FalconUser updateUser = falconUserRepository.findOne(user.getUsername());
 			if(user.getValid() == null){
@@ -151,6 +153,10 @@ public class PatronServiceImpl implements PatronService {
 			updateUser.setSendEmail(user.getSendEmail());
 			updateUser.setSendSms(user.getSendSms());
 			falconUserRepository.save(updateUser);
+		}
+		List<FalconPatron> patrons = falconPatronRepository.findByFalconUserByAdminAndFalconUserByPatron(patron.getFalconUserByAdmin(), patron.getFalconUserByPatron());
+		if(CollectionUtils.isEmpty(patrons)){
+			falconPatronRepository.save(patron);
 		}
 	}
 
@@ -329,6 +335,31 @@ public class PatronServiceImpl implements PatronService {
 		List<FalconPatron> falconPatrons = falconPatronRepository.findByFalconUserByPatron(patron);
 		for(FalconPatron registeredAdmins : falconPatrons){
 			registeredAdmins.getFalconUserByAdmin().getName();
+			registeredAdmins.getFalconUserByPatron().getName();
+			if(CollectionUtils.isNotEmpty(registeredAdmins.getFalconUserByAdmin().getFalconStaffs())){
+				for(FalconStaff staff : registeredAdmins.getFalconUserByAdmin().getFalconStaffs()){
+					staff.getName();
+					staff.getId();
+					staff.setFalconAppointments(null);
+					staff.setFalconUser(null);
+				}
+			}
+			if(CollectionUtils.isNotEmpty(registeredAdmins.getFalconUserByAdmin().getFalconLocations())){
+				for(FalconLocation location : registeredAdmins.getFalconUserByAdmin().getFalconLocations()){
+					location.getName();
+					location.getId();
+					location.setFalconAppointments(null);
+					location.setFalconUser(null);
+				}
+			}
+			if(CollectionUtils.isNotEmpty(registeredAdmins.getFalconUserByAdmin().getFalconServices())){
+				for(FalconService service : registeredAdmins.getFalconUserByAdmin().getFalconServices()){
+					service.getName();
+					service.getId();
+					service.setFalconAppointments(null);
+					service.setFalconUser(null);
+				}
+			}
 		}
 		return falconPatrons;
 	}

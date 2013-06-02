@@ -1,8 +1,10 @@
 package com.twistlet.falcon.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -18,15 +20,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.twistlet.falcon.controller.bean.SearchAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconPatron;
+import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.AppointmentService;
 import com.twistlet.falcon.model.service.PatronService;
+import com.twistlet.falcon.model.service.UserAdminService;
 
 @Controller
 @RequestMapping("/patron")
@@ -37,24 +43,55 @@ public class PatronLandingController {
 	private final AppointmentService appointmentService;
 	
 	private final PatronService patronService;
-
+	
+	private final UserAdminService userAdminService;
+	
 	@Autowired
 	public PatronLandingController(AppointmentService appointmentService,
-			PatronService patronService) {
+			PatronService patronService, UserAdminService userAdminService) {
 		this.appointmentService = appointmentService;
 		this.patronService = patronService;
+		this.userAdminService = userAdminService;
 	}
+
+
+	@RequestMapping(value = "/create-patron", method = RequestMethod.POST)
+	public ModelAndView createPatron(
+			@ModelAttribute("patron") FalconPatron patron) {
+		FalconUser user = userAdminService.getFalconUser(patron.getFalconUserByPatron().getUsername());
+		patron.setFalconUserByPatron(user);
+		patronService.savePatron(patron);
+		return new ModelAndView("redirect:patron_landing");
+	}
+	
 	
 	@RequestMapping("/patron_landing")
 	public ModelAndView listAllPatient() {
 		ModelAndView mav = new ModelAndView("patron/patron_landing");
-		FalconAppointment appointment = new FalconAppointment();
-		appointment.setAppointmentDate(new Date());
+		FalconAppointment newAppointment = new FalconAppointment();
+		newAppointment.setAppointmentDate(new Date());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String loggedInUser = auth.getName();
-		FalconPatron falconPatron = patronService.findPatron(loggedInUser, false);
-		mav.addObject("patron", falconPatron);
-		mav.addObject("appointment", appointment);
+		FalconPatron patron = new FalconPatron();
+		FalconUser theUser = new FalconUser();
+		theUser.setUsername(loggedInUser);
+		patron.setFalconUserByPatron(theUser);
+		SearchAppointment search = new SearchAppointment();
+		List<FalconAppointment> falconAppointments = appointmentService.listMonthlySchedule(new Date(), loggedInUser);
+		Set<FalconAppointmentPatron> appointmentPatrons = null;
+		for(FalconAppointment appointment : falconAppointments){
+			appointmentPatrons = new HashSet<>();
+			for(FalconAppointmentPatron appointmentPatron : appointment.getFalconAppointmentPatrons()){
+				if(StringUtils.equals(appointmentPatron.getFalconPatron().getFalconUserByPatron().getUsername(), loggedInUser)){
+					appointmentPatrons.add(appointmentPatron);
+				}
+			}
+			appointment.setFalconAppointmentPatrons(appointmentPatrons);
+		}
+		mav.addObject("search", search);
+		mav.addObject("patron", patron);
+		mav.addObject("appointments", falconAppointments);
+		mav.addObject("appointment", newAppointment);
 		return mav;
 	}
 
@@ -73,6 +110,54 @@ public class PatronLandingController {
 		return new ModelAndView("redirect:patron_landing");
 	}
 	
+	@RequestMapping("/delete_appointment/{id}")
+	public ModelAndView deleteAppointment(@PathVariable Integer id){
+		appointmentService.deleteAppointmentPatron(id);
+		return new ModelAndView("redirect:/patron/patron_landing");
+	}
+	
+	@RequestMapping(value="/search-appointments", method =  RequestMethod.GET)
+	public ModelAndView searchAppointmentsGet(@ModelAttribute("search") SearchAppointment searchAppointment){
+		return listAllPatient();
+	}
+	
+	@RequestMapping(value="/search-appointments", method =  RequestMethod.POST)
+	public ModelAndView searchAppointments(@ModelAttribute("search") SearchAppointment searchAppointment){
+		ModelAndView mav = new ModelAndView("patron/patron_landing");
+		final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
+		Date searchDate = null;
+		if(StringUtils.isNotBlank(searchAppointment.getSearchDate())){
+			String date = searchAppointment.getSearchDate();
+			String time = "00:00 am";
+			if(StringUtils.isNotBlank(searchAppointment.getSearchTime())){
+				time = searchAppointment.getSearchTime();
+			}
+			try {
+				searchDate = sdf.parse(date + " " + time);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final String patronId = auth.getName();
+		List<FalconAppointment> falconAppointments = appointmentService.findAppointmentsByParameter(searchAppointment.getStaffId(), patronId, searchAppointment.getServiceId(), searchAppointment.getLocationId(), searchDate);
+		mav.addObject("appointments", falconAppointments);
+		/**
+		 * 
+		 */
+		FalconAppointment newAppointment = new FalconAppointment();
+		newAppointment.setAppointmentDate(new Date());
+		String loggedInUser = auth.getName();
+		FalconPatron patron = new FalconPatron();
+		FalconUser theUser = new FalconUser();
+		theUser.setUsername(loggedInUser);
+		patron.setFalconUserByPatron(theUser);
+		SearchAppointment search = searchAppointment;
+		mav.addObject("search", search);
+		mav.addObject("patron", patron);
+		mav.addObject("appointment", newAppointment);
+		return mav; 
+	}
 	
 	@InitBinder
 	public void initDateBinder(final WebDataBinder dataBinder, final Locale locale) {

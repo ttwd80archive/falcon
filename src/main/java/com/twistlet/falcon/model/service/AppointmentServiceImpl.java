@@ -99,6 +99,28 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		return appointments;
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconAppointment> listMonthlySchedule(Date date, String patron) {
+		final Date start = DateUtils.truncate(date, Calendar.MONTH);
+		final Date end = DateUtils.addSeconds(DateUtils.ceiling(date, Calendar.MONTH), -1);
+		List<FalconAppointment> appointments = falconAppointmentRepository.listFullByAppointmentDateBetween(start, end);
+		List<FalconAppointment> patronsAppointment = new ArrayList<>();
+		for(FalconAppointment appointment : appointments){
+			appointment.getFalconStaff().getName();
+			appointment.getFalconStaff().getFalconUser().getName();
+			appointment.getFalconLocation().getName();
+			appointment.getFalconService().getName();
+			for(FalconAppointmentPatron falconAppointmentPatron : appointment.getFalconAppointmentPatrons()){
+				if(StringUtils.equals(patron, falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getUsername())){
+					falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName();
+					patronsAppointment.add(appointment);
+				}
+			}
+		}
+		return patronsAppointment;
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -169,6 +191,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 				falconAppointment.getFalconLocation().getName();
 				falconAppointment.getFalconService().getName();
 				falconAppointment.getFalconStaff().getName();
+				falconAppointment.getFalconStaff().getFalconUser().getName();
 			}
 		}
 		return appointments;
