@@ -14,6 +14,8 @@
 	href="css/layout.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" th:href="@{/css/chosen.css}"
 	href="css/chosen.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" th:href="@{/css/validationEngine.jquery.css}"
+	href="css/validationEngine.jquery.css" type="text/css" media="screen" charset="utf-8" />
 <style>
 	.ui-widget {
 		font-size: x-small;
@@ -71,23 +73,23 @@
 					<ul id="query-items">
 						<li>
 							<span>Staff</span> 
-							<select id="staffs" th:field="*{staffId}" style="width: 137px;"/>
+							<select id="staffs" th:field="*{staffId}" style="width: 137px;" class="validate[groupRequired[search]"/>
 						</li>
 						<li>
 							<span>Patron</span> 
-							<select id="patrons" th:field="*{patronId}" />
+							<select id="patrons" th:field="*{patronId}" style="width: 137px;" class="validate[groupRequired[search]"/>
 						</li>
 						<li>
 							<span>Venue</span> 
-							<select id="locations" th:field="*{locationId}" style="width: 137px;"></select>
+							<select id="locations" th:field="*{locationId}" style="width: 137px;" class="validate[groupRequired[search]" />
 						</li>
 						<li>
 							<span>Service</span> 
-							<select id="services" th:field="*{serviceId}"></select>
+							<select id="services" th:field="*{serviceId}" style="width: 137px;" class="validate[groupRequired[search]" />
 						</li>
 						<li>
 							<span>Date</span> 
-							<input type="text" id="appointmentdate" th:field="*{searchDate}" style="width: 130px;"/>
+							<input type="text" id="appointmentdate" th:field="*{searchDate}" style="width: 137px;" class="validate[groupRequired[search]"/>
 						</li>
 						<li>
 							<span>&nbsp;</span> 
@@ -242,6 +244,10 @@
 		src="js/lib/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" th:src="@{/js/lib/jquery-ui-sliderAccess.js}"
 		src="js/lib/jquery-ui-sliderAccess.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.validationEngine.js}"
+		src="js/lib/jquery.validationEngine.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/languages/jquery.validationEngine-en.js}"
+		src="js/lib/jquery.validationEngine.js"></script>
 	<script type="text/javascript" th:src="@{/js/admin/manage_appointments.js}"
 		src="js/admin/manage_appointments.js"></script>
 	<script type="text/javascript" th:src="@{/js/lib/chosen.jquery.min.js}"

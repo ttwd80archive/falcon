@@ -187,6 +187,7 @@ $(function() {
 			return hours + ':' + min + ' ' + ampm;
 		}
 	});
+	$('#searchform').validationEngine();
 	$('#querybutton').click(function(){
 		$('#searchform').submit();
 	});

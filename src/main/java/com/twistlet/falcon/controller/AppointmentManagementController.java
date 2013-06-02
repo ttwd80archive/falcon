@@ -81,6 +81,11 @@ public class AppointmentManagementController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/admin/search-appointments", method =  RequestMethod.GET)
+	public ModelAndView searchAppointmentsGet(){
+		return viewAppointments();
+	}
+	
 	@RequestMapping(value="/admin/search-appointments", method =  RequestMethod.POST)
 	public ModelAndView searchAppointments(@ModelAttribute("search") SearchAppointment searchAppointment){
 		final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
