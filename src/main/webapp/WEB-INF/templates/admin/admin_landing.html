@@ -14,6 +14,8 @@
 	href="css/layout.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" th:href="@{/css/chosen.css}"
 	href="css/chosen.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" th:href="@{/css/validationEngine.jquery.css}"
+	href="css/validationEngine.jquery.css" type="text/css" media="screen" charset="utf-8" />
 <style>
 .ui-widget {
 	font-size: x-small;
@@ -205,24 +207,38 @@
 				<div id="createappt" class="relativeleftcenter">
 					<h2>Schedule Appointment</h2>
 					<ul id="createapptfilter" class="nopadding">
-						<li><span>Select Date</span> <input type="text"
-							id="appointmentdate" /></li>
-						<li><span>Start Time</span> <input type="text"
-							id="appointmenttime" /></li>
-						<li><span>End Time</span> <input type="text"
-							id="appointmenttimeend" /></li>
-						<li><span>Select Patron</span> <select id="patrons"
-							th:field="*{falconAppointmentPatrons}" multiple="multiple"
-							style="width: 350px;" class="chzn-select"></select></li>
-						<li><span>Select Service</span> <select id="services"
-							th:field="*{falconService.id}"></select></li>
-						<li><span>Select Staff</span> <select id="staffs"
-							th:field="*{falconStaff.id}"></select></li>
-
-						<li><span>Select Venue</span> <select id="locations"
-							th:field="*{falconLocation.id}"></select></li>
-						<li><input class="button" type="submit" value="SUBMIT"
-							id="submit" /></li>
+						<li>
+							<span>Select Date</span> 
+							<input type="text" id="appointmentdate" class="validate[required]"/>
+						</li>
+						<li>
+							<span>Start Time</span> 
+							<input type="text" id="appointmenttime" class="validate[required]"/>
+						</li>
+						<li>
+							<span>End Time</span> 
+							<input type="text" id="appointmenttimeend" class="validate[required]"/>
+						</li>
+						<li>
+							<span>Select Patron</span> 
+							<select id="patrons" th:field="*{falconAppointmentPatrons}" multiple="multiple"
+								style="width: 350px;" class="validate[required]" />
+						</li>
+						<li>
+							<span>Select Service</span> 
+							<select id="services" style="width: 137px;" th:field="*{falconService.id}" class="validate[required]"/>
+						</li>
+						<li>
+							<span>Select Staff</span> 
+							<select id="staffs" style="width: 137px;" th:field="*{falconStaff.id}" class="validate[required]"/>
+						</li>
+						<li>
+							<span>Select Venue</span> 
+							<select id="locations" style="width: 137px;" th:field="*{falconLocation.id}" class="validate[required]" />
+						</li>
+						<li>
+							<input class="button" type="submit" value="SUBMIT" id="submit" />
+						</li>
 						<li class="notes" style="font-size: 12px">Note&#58; To edit
 							existing appointments, please use <a
 							href="manageappointments.html">Manage Appointments</a>
@@ -277,6 +293,10 @@
 		src="js/lib/jquery-ui-sliderAccess.js"></script>
 	<script type="text/javascript" th:src="@{/js/lib/chosen.jquery.min.js}"
 		src="js/lib/chosen.jquery.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.validationEngine.js}"
+		src="js/lib/jquery.validationEngine.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/languages/jquery.validationEngine-en.js}"
+		src="js/lib/jquery.validationEngine.js"></script>
 	<script type="text/javascript" th:src="@{/js/admin/admin_landing.js}"
 		src="js/admin/admin_landing.js"></script>
 </body>

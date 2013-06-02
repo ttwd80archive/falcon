@@ -1,5 +1,5 @@
 $(function() {
-	$(".chzn-select").chosen();
+	$("#patrons").chosen();
 	var NO_OF_YEARS = 2;
 	var date = new Date();
 	var options = "";
@@ -21,6 +21,10 @@ $(function() {
 		var year = $(this).val();
 		renderSelectedMonth(month, year);
 	});
+	$('#appointmentform').validationEngine({
+		prettySelect : true,
+		useSuffix: "_chzn"
+	});
 	$('#appointmentform').submit(function(){
 		var date = $('#appointmentdate').val();
 		var time = $('#appointmenttime').val();
@@ -34,8 +38,8 @@ $(function() {
 	console.log(currentuser);
 	$.getJSON('../list-patient/' + currentuser + '/99999999', function(data) {
 		setSelectOptions($('#patrons'), data, 'username', 'name', '');
-		$(".chzn-select").chosen();
-		$(".chzn-select").trigger("liszt:updated");
+		$("#patrons").chosen();
+		$("#patrons").trigger("liszt:updated");
 	});
 	
 	$.getJSON('../list-staff/'+ currentuser + '/99999999', function(data) {
