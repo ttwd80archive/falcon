@@ -43,6 +43,7 @@ public class UserDetailsServiceImplTest {
 		EasyMock.verify(falconUserRepository, falconUserRoleRepository);
 	}
 
+	
 	@Test(expected = UsernameNotFoundException.class)
 	public void testLoadUserByUsernameNotFound() {
 		EasyMock.expect(
@@ -55,7 +56,7 @@ public class UserDetailsServiceImplTest {
 
 	@Test
 	public void testLoadUserByUsernameNoRoles() {
-		final FalconUser falconUser = new FalconUser("user100", "xxx", "Nobody","nobody@nowhere.com","60111111111","831111123532");
+		final FalconUser falconUser = new FalconUser("user100", "xxx", "Nobody","nobody@nowhere.com","60111111111","831111123532", true, true, true, null, null, null, null, null, null);
 		EasyMock.expect(
 				falconUserRepository.findOne(EasyMock.anyObject(String.class)))
 				.andReturn(falconUser);
@@ -72,7 +73,7 @@ public class UserDetailsServiceImplTest {
 
 	@Test
 	public void testLoadUserByUsernameRoleAdminCountOne() {
-		final FalconUser falconUser = new FalconUser("user100", "xxx", "Nobody","nobody@nowhere.com","60111111111","831111123532");
+		final FalconUser falconUser = new FalconUser("user100", "xxx", "Nobody","nobody@nowhere.com","60111111111","831111123532", true, true, true, null, null, null, null, null, null);
 		final FalconRole falconRole = new FalconRole("ROLE_ADMIN");
 		final List<FalconUserRole> falconUserRoles = new ArrayList<>();
 		final FalconUserRole falconUserRole = new FalconUserRole();
@@ -95,7 +96,7 @@ public class UserDetailsServiceImplTest {
 
 	@Test
 	public void testLoadUserByUsernameRoleAdminValue() {
-		final FalconUser falconUser = new FalconUser("user100", "xxx", "Nobody","nobody@nowhere.com","60111111111","831111123532");
+		final FalconUser falconUser = new FalconUser("user100", "xxx", "Nobody","nobody@nowhere.com","60111111111","831111123532", true, true, true, null, null, null, null, null, null);
 		final FalconRole falconRole = new FalconRole("ROLE_ADMIN");
 		final List<FalconUserRole> falconUserRoles = new ArrayList<>();
 		final FalconUserRole falconUserRole = new FalconUserRole();
@@ -120,7 +121,7 @@ public class UserDetailsServiceImplTest {
 
 	@Test
 	public void testLoadUserByUsernameRoleAdminCountTwo() {
-		final FalconUser falconUser = new FalconUser("user100", "xxx", "Nobody","nobody@nowhere.com","60111111111","831111123532");
+		final FalconUser falconUser = new FalconUser("user100", "xxx", "Nobody","nobody@nowhere.com","60111111111","831111123532", true, true, true, null, null, null, null, null, null);
 		final List<FalconUserRole> falconUserRoles = new ArrayList<>();
 		{
 			final FalconRole falconRole = new FalconRole("ROLE_ADMIN");
@@ -153,7 +154,7 @@ public class UserDetailsServiceImplTest {
 
 	@Test
 	public void testLoadUserByUsernameRoleAdminCountTwoValue() {
-		final FalconUser falconUser = new FalconUser("user100", "xxx", "Nobody","nobody@nowhere.com","60111111111","831111123532");
+		final FalconUser falconUser = new FalconUser("user100", "xxx", "Nobody","nobody@nowhere.com","60111111111","831111123532", true, true, true, null, null, null, null, null, null);
 		final List<FalconUserRole> falconUserRoles = new ArrayList<>();
 		{
 			final FalconRole falconRole = new FalconRole("ROLE_ADMIN");
