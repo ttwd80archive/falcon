@@ -77,6 +77,7 @@ public class PatronServiceImpl implements PatronService {
 		return patrons;
 	}
 
+	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void savePatron(FalconPatron patron) {
@@ -155,7 +156,7 @@ public class PatronServiceImpl implements PatronService {
 			falconUserRepository.save(updateUser);
 		}
 		List<FalconPatron> patrons = falconPatronRepository.findByFalconUserByAdminAndFalconUserByPatron(patron.getFalconUserByAdmin(), patron.getFalconUserByPatron());
-		if(CollectionUtils.isEmpty(patrons)){
+		if(CollectionUtils.isEmpty(patrons) && patron.getFalconUserByAdmin() != null && StringUtils.isNotBlank(patron.getFalconUserByAdmin().getUsername())){
 			falconPatronRepository.save(patron);
 		}
 	}
