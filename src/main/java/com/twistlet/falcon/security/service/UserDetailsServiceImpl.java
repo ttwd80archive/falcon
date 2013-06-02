@@ -36,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(final String username)
 			throws UsernameNotFoundException {
 		final FalconUser falconUser = falconUserRepository.findOne(username);
-		if (falconUser == null) {
+		if (falconUser == null || falconUser.getValid() == null  || falconUser.getValid() == false) {
 			throw new UsernameNotFoundException("Username " + username
 					+ " not found");
 		}
