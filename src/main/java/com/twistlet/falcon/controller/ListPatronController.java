@@ -203,6 +203,7 @@ public class ListPatronController {
 						break;
 					}else{
 						isValid = false;
+						break;
 					}
 				}else{
 					/**
