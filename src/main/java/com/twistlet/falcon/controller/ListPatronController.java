@@ -201,6 +201,8 @@ public class ListPatronController {
 					 */
 					if(username.equals(theUser.getUsername())){
 						break;
+					}else{
+						isValid = false;
 					}
 				}else{
 					/**
