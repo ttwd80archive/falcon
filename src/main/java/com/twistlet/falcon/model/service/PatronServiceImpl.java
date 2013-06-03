@@ -77,6 +77,43 @@ public class PatronServiceImpl implements PatronService {
 		return patrons;
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void saveNewPatron(FalconPatron patron) {
+		FalconUser newUser = patron.getFalconUserByPatron();
+		newUser.setUsername(newUser.getEmail());
+		final String encodedPassword = passwordEncoder.encodePassword(newUser.getPassword(), newUser.getUsername());
+		newUser.setPassword(encodedPassword);
+		newUser.setValid(true);
+		FalconRole falconRole = new FalconRole();
+		falconRole.setRoleName("ROLE_USER");
+		FalconUserRole falconUserRole = new FalconUserRole();
+		falconUserRole.setFalconUser(newUser);
+		falconUserRole.setFalconRole(falconRole);
+		FalconUser registeredUser = falconUserRepository.findOne(newUser.getUsername());
+		if(registeredUser == null){
+			/**
+			 * user does not exist. save user and user_role. We do not validete duplicate hp, nric etc already validated in view
+			 */
+			falconUserRepository.save(newUser);
+			falconUserRoleRepository.save(falconUserRole);
+		}else{
+			/**
+			 * update user to use latest info. comment this if we dont want to update user details
+			 */
+			registeredUser.setNric(newUser.getNric());
+			registeredUser.setPhone(newUser.getPhone());
+			registeredUser.setName(newUser.getName());
+			registeredUser.setSendEmail(newUser.getSendEmail());
+			registeredUser.setSendSms(newUser.getSendSms());
+			registeredUser.setValid(true);
+			falconUserRepository.save(registeredUser);
+		}
+		List<FalconPatron> patrons = falconPatronRepository.findByFalconUserByAdminAndFalconUserByPatron(patron.getFalconUserByAdmin(), patron.getFalconUserByPatron());
+		if(CollectionUtils.isEmpty(patrons) && patron.getFalconUserByAdmin() != null && StringUtils.isNotBlank(patron.getFalconUserByAdmin().getUsername())){
+			falconPatronRepository.save(patron);
+		}
+	}
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -364,6 +401,8 @@ public class PatronServiceImpl implements PatronService {
 		}
 		return falconPatrons;
 	}
+
+	
 	
 	
 	

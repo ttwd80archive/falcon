@@ -176,7 +176,7 @@ public class ListPatronController {
 	
 	@RequestMapping("/validate-patron")
 	@ResponseBody
-	public String validateStaff(final HttpServletRequest request) {
+	public String validatePatron(final HttpServletRequest request) {
 		final String stringId = request.getParameter("fieldId");
 		final String value = request.getParameter("fieldValue");
 		final String username = request.getParameter("username-patron");
@@ -215,6 +215,27 @@ public class ListPatronController {
 					}
 				}
 			}
+		}
+		return "[\""+ stringId + "\", " + isValid +"]";
+	}
+	
+	@RequestMapping("/registration/validate-patron")
+	@ResponseBody
+	public String validateNewUser(final HttpServletRequest request) {
+		final String stringId = request.getParameter("fieldId");
+		final String value = request.getParameter("fieldValue");
+		FalconUser user = new FalconUser();
+		if("identificationnum-patron".equals(stringId)){
+			user.setNric(value);
+		}else if("mobilenum-patron".equals(stringId)){
+			user.setPhone(value);
+		}else if("email-patron".equals(stringId)){
+			user.setEmail(value);
+		}
+		boolean isValid = true;
+		List<FalconUser> users = patronService.listUserByCriteria(user);
+		if(CollectionUtils.isNotEmpty(users)){
+			isValid = false;
 		}
 		return "[\""+ stringId + "\", " + isValid +"]";
 	}

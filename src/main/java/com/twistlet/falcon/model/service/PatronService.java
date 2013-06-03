@@ -15,6 +15,8 @@ public interface PatronService {
 	Set<User> listAvailablePatrons(FalconUser admin, Date start, Date end);
 
 	void savePatron(FalconPatron patron);
+	
+	void saveNewPatron(FalconPatron patron);
 
 	FalconPatron findPatron(String patron, String admin);
 	

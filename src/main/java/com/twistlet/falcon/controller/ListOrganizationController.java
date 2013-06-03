@@ -62,4 +62,18 @@ public class ListOrganizationController {
 		return toDisplay;
 	}
 	
+	@RequestMapping("/registration/list-organizations")
+	@ResponseBody
+	public List<FalconUser> listRegistrationOrganisations(){
+		List<FalconUser> admins = userAdminService.findAllAdmins();
+		List<FalconUser> toDisplay = new ArrayList<>();
+		for(FalconUser admin : admins){
+			FalconUser display = new FalconUser();
+			display.setUsername(admin.getUsername());
+			display.setName(admin.getName());
+			toDisplay.add(display);
+		}
+		return toDisplay;
+	}
+	
 }
