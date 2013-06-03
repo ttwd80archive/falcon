@@ -40,6 +40,13 @@ public class FalconFeedbackController {
 		return prepareForm();
 	}
 	
+	@RequestMapping(value = "/registration/feedback", method = RequestMethod.GET)
+	public ModelAndView feedback() {
+		ModelAndView mav = new ModelAndView("registration/customersupport");
+		FalconFeedback feedback = new FalconFeedback();
+		mav.addObject("feedback", feedback);
+		return mav;
+	}
 	
 	public ModelAndView prepareForm(){
 		ModelAndView mav = new ModelAndView("customersupport");
@@ -66,6 +73,12 @@ public class FalconFeedbackController {
 		falconFeedback.setEmailFrom(user.getEmail());
 		saveFeedback(falconFeedback);
 		return new ModelAndView("redirect:patron_landing");
+	}
+	
+	@RequestMapping(value = "/registration/send-feedback", method = RequestMethod.POST)
+	public ModelAndView feedbackSubmit(@ModelAttribute("feedback") FalconFeedback falconFeedback) {
+		saveFeedback(falconFeedback);
+		return new ModelAndView("redirect:../index");
 	}
 	
 	void saveFeedback(FalconFeedback feedback){

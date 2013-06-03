@@ -23,22 +23,6 @@
 				<a href="feedback" id="custsupportlink">CONTACT
 					CUSTOMER SUPPORT</a>
 			</div>
-			<div class="account-inf">
-				<ul>
-					<li><a href="../logout" id="signout">SIGN OUT</a></li>
-					<li class="editprofile">
-						<div id="editprofile">
-							Hi&#44; <span id="username" th:text="${#authentication.name}"></span><span
-								class="drop-arrow-white"></span> &#124;
-							<div class="drop-menu">
-								<ul class="menu-lvl-1">
-									<li><a href="editprofile">Edit Profile</a></li>
-								</ul>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
 		</div>
 	</div>
 	<div class="clear"></div>
@@ -67,6 +51,10 @@
 				<h3>Customer Support</h3>
 				<form action="#" th:object="${feedback}" th:action="@{send-feedback}" method="post" id="feedbackform">
 					<ul id="cust-support-items" class="nopadding">
+						<li>
+							<span>Email:</span>
+							<input type="text" th:field="*{emailFrom}" class="validate[required, custom[email]]"/>
+						</li>
 						<li>Feedback Category
 							<div>
 								<select id="type" th:field="*{feedbackType}">
