@@ -32,12 +32,18 @@ public class FalconFeedbackController {
 
 	@RequestMapping(value = "/admin/feedback", method = RequestMethod.GET)
 	public ModelAndView adminFeedback() {
-		return prepareForm();
+		ModelAndView mav = new ModelAndView("/admin/customersupport");
+		FalconFeedback feedback = new FalconFeedback();
+		mav.addObject("feedback", feedback);
+		return mav; 
 	}
 	
 	@RequestMapping(value = "/patron/feedback", method = RequestMethod.GET)
 	public ModelAndView patronFeedback() {
-		return prepareForm();
+		ModelAndView mav = new ModelAndView("/patron/customersupport");
+		FalconFeedback feedback = new FalconFeedback();
+		mav.addObject("feedback", feedback);
+		return mav; 
 	}
 	
 	@RequestMapping(value = "/registration/feedback", method = RequestMethod.GET)
