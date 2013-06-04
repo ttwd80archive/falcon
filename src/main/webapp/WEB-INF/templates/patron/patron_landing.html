@@ -123,7 +123,6 @@
 												<tr th:each="appointment : ${appointments}">
 													<td class="td1-ext"
 														th:text="${appointment.falconStaff.name}"></td>
-													<td class="td4" th:text="${appointment.falconLocation.name}"></td>
 													<td class="td2-ext"><a href="#"
 														th:href="@{patron_group_list(id=${appointment.id})}"
 														th:if="${#lists.size(appointment.falconAppointmentPatrons) > 1}">Patron
@@ -135,7 +134,9 @@
 																<span
 																th:text="${patron.falconPatron.falconUserByPatron.name}"></span>
 															</span>
-														</div></td>
+														</div>
+													</td>
+													<td class="td4" th:text="${appointment.falconLocation.name}"></td>
 													<td class="td3-ext" th:text="${appointment.falconStaff.falconUser.name}"></td>
 													<td class="td5" th:text="${appointment.falconService.name}"></td>
 													<td class="td6" th:text="${#dates.format(appointment.appointmentDate, 'dd/MM/yyyy')}"></td>
