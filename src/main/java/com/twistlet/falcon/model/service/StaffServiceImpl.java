@@ -23,10 +23,8 @@ public class StaffServiceImpl implements StaffService {
 	private final MailSenderService mailSenderService;
 	private final SmsService smsService;
 
-	
 	@Autowired
-	public StaffServiceImpl(FalconUserRepository falconUserRepository,
-			FalconStaffRepository falconStaffRepository,
+	public StaffServiceImpl(FalconUserRepository falconUserRepository, FalconStaffRepository falconStaffRepository,
 			MailSenderService mailSenderService, SmsService smsService) {
 		this.falconUserRepository = falconUserRepository;
 		this.falconStaffRepository = falconStaffRepository;
@@ -37,13 +35,11 @@ public class StaffServiceImpl implements StaffService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<FalconUser> listPatients(final String partialName) {
-		return falconUserRepository.findByRolenameAndNameLike("ROLE_PATRON",
-				partialName);
+		return falconUserRepository.findByRolenameAndNameLike("ROLE_PATRON", partialName);
 	}
-	
+
 	@Override
-	public boolean sendEmail(final String name, final String address,
-			final String message) {
+	public boolean sendEmail(final String name, final String address, final String message) {
 		final String sendTo = "\"" + name + "\"" + " <" + address + ">";
 		try {
 			mailSenderService.send(sendTo, message);
@@ -88,36 +84,31 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconStaff> listStaffByAdminNameLike(FalconUser admin,
-			String username) {
+	public List<FalconStaff> listStaffByAdminNameLike(FalconUser admin, String username) {
 		return falconStaffRepository.findByFalconUserNameLike(admin, username);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconStaff> listStaffByAdminNricLike(FalconUser admin,
-			String nric) {
+	public List<FalconStaff> listStaffByAdminNricLike(FalconUser admin, String nric) {
 		return falconStaffRepository.findByFalconUserNricLike(admin, nric);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconStaff> listStaffByAdminEmailLike(FalconUser admin,
-			String email) {
+	public List<FalconStaff> listStaffByAdminEmailLike(FalconUser admin, String email) {
 		return falconStaffRepository.findByFalconUserEmailLike(admin, email);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconStaff> listStaffByAdminStaffLike(FalconUser admin,
-			FalconStaff staff) {
+	public List<FalconStaff> listStaffByAdminStaffLike(FalconUser admin, FalconStaff staff) {
 		return falconStaffRepository.findByFalconUserStaffLike(admin, staff);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconStaff> listStaffByAdminMobileLike(FalconUser admin,
-			String mobile) {
+	public List<FalconStaff> listStaffByAdminMobileLike(FalconUser admin, String mobile) {
 		return falconStaffRepository.findByFalconUserHpTelLike(admin, mobile);
 	}
 
@@ -133,19 +124,25 @@ public class StaffServiceImpl implements StaffService {
 		List<FalconStaff> staffs = falconStaffRepository.findByFalconUserAndValid(admin, true);
 		Set<FalconStaff> busyStaffs = falconStaffRepository.findStaffDateRange(admin, start, end);
 		Set<FalconStaff> availableStaffs = new HashSet<>();
-		for(FalconStaff staff : staffs){
+		for (FalconStaff staff : staffs) {
 			boolean found = false;
-			for(FalconStaff busyStaff : busyStaffs){
-				if(staff.getId().equals(busyStaff.getId())){
+			for (FalconStaff busyStaff : busyStaffs) {
+				if (staff.getId().equals(busyStaff.getId())) {
 					found = true;
 					break;
 				}
 			}
-			if(!found){
+			if (!found) {
 				availableStaffs.add(staff);
 			}
 		}
 		return availableStaffs;
 	}
-	
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconUser> listPatronByAdminId(String adminId) {
+		return falconUserRepository.findByAdmin(adminId);
+	}
+
 }

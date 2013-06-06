@@ -1,7 +1,9 @@
 package com.twistlet.falcon.controller;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.SecurityService;
 import com.twistlet.falcon.model.service.StaffService;
 
@@ -31,14 +34,18 @@ public class SendNotificationToPatientController {
 
 	@RequestMapping("/notification/list-patrons")
 	@ResponseBody
-	public List<String> listPatrons() {
-		System.out.println(securityService.getCurrentUserId());
+	public Map<String, String> listPatrons() {
 		if (securityService.isCurrentUserInRole("ROLE_ADMIN")) {
-			System.out.println("ADMIN");
+			String adminId = securityService.getCurrentUserId();
+			List<FalconUser> list = staffService.listPatronByAdminId(adminId);
+			Map<String, String> map = new LinkedHashMap<>();
+			for (FalconUser falconUser : list) {
+				map.put(falconUser.getUsername(), falconUser.getName());
+			}
+			return map;
 		} else {
-			System.out.println("NOT ADMIN");
+			return Collections.emptyMap();
 		}
-		return Collections.emptyList();
 	}
 
 	@RequestMapping("/notification/send-to-patient")
