@@ -96,8 +96,7 @@
 						</li>
 					</ul>
 					<div>
-						<input type="submit" value="SUBMIT" class="button"
-							onclick="document.getElementById('confirmreg-box').style.display='block'; document.getElementById('bg').style.display='block';" />
+						<input type="button" value="SUBMIT" class="button" id="savePatron" />
 					</div>
 				</form>
 			</div>
@@ -116,12 +115,11 @@
 			<div id="confirmreg" class="relativeleftcenter">
 				<h2>Please confirm your details&#58;</h2>
 				<ul id="getregistration" class="nopadding">
-					<li><span>Full Name&#58;</span>Dr&#46; Dre</li>
-					<li><span>I&#47;C No&#46;&#58;</span>123456790</li>
-					<li><span>H&#47;P No&#46;&#58;</span>012-3456789</li>
-					<li><span>Email&#58;</span>Dr&#46; Dre&#64;dre.com</li>
-					<li><span>Organization&#58;</span>SWFD</li>
-					<li><input class="button" type="submit" value="YES" /><input
+					<li><span>Full Name&#58;</span><div id="confirm-patron-name">Dr&#46; Dre</div></li>
+					<li><span>I&#47;C No&#46;&#58;</span><div id="confirm-patron-nric" >123456790</div></li>
+					<li><span>H&#47;P No&#46;&#58;</span><div id="confirm-patron-hptel" >012-3456789</div></li>
+					<li><span>Email&#58;</span><div id="confirm-patron-email">Dr&#46; Dre&#64;dre.com</div></li>
+					<li><input class="button" type="submit" value="YES" id="confirm-patron-yes"/><input
 						class="button" type="button" value="NO"
 						onclick="document.getElementById('confirmreg-box').style.display='none'; document.getElementById('bg').style.display='none';" /></li>
 				</ul>

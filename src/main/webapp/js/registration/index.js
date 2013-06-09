@@ -1,7 +1,38 @@
 $(function() {
-	$("#registrationform").validationEngine();
+	$("#registrationform").validationEngine({
+		ajaxFormValidation: true,
+		onBeforeAjaxFormValidation: function(){
+			$("#confirmreg-box").css("display","block");
+			$("#bg").css("display","block");
+			$("#confirm-patron-name").html($('#fullname').val());
+			$("#confirm-patron-nric").html($('#identificationnum-patron').val());
+			$("#confirm-patron-hptel").html($('#mobilenum-patron').val());
+			$("#confirm-patron-email").html($('#email-patron').val());
+			$("#confirm-patron-yes").click(function(){
+				$('#registrationform').validationEngine('detach');
+				$('#registrationform').submit();
+				$("#confirmreg-box").css("display","none");
+				$("#bg").css("display","none");
+				return true;
+			});
+			return false;
+		},
+        onAjaxFormComplete: function(status,form) {
+        	console.log('ALOOO!');
+            if (status === true) {
+                console.log('ok!');
+            }else{
+            	console.log('Tak ok!');
+            }
+        }
+	});
 	$.getJSON('list-organizations/', function(data) {
 		setSelectOptions($('#organization'), data, 'username', 'name', '');
+	});
+	
+	$('#savePatron').click(function(){
+		$('#registrationform').submit();
+		return false;
 	});
 });
 
