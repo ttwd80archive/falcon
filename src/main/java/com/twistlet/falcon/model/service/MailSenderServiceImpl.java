@@ -20,9 +20,9 @@ public class MailSenderServiceImpl implements MailSenderService {
 
 	@Autowired
 	public MailSenderServiceImpl(
-			@Value("${smtp.name}") final String senderName,
-			@Value("${smtp.address}") final String senderAddress,
-			@Value("${smtp.subject}") final String subject,
+			@Value("${smtp.notifications.name}") final String senderName,
+			@Value("${smtp.notifications.address}") final String senderAddress,
+			@Value("${smtp.notifications.subject}") final String subject,
 			final JavaMailSender javaMailSender,
 			final DatabaseLoggingService databaseLoggingService) {
 		this.senderName = senderName;
