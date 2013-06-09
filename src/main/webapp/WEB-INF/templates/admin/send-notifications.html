@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Create Appointments</title>
+<title>Send Notifications</title>
 <link rel="stylesheet"
 	th:href="@{/css/smoothness/jquery-ui-1.10.2.custom.min.css}"
 	href="css/smoothness/jquery-ui-1.10.2.custom.min.css" type="text/css"
@@ -65,10 +65,39 @@
 		<div id="subcontent-wrapper">
 
 			<div id="subcontent">
-				<div>
-					<div>Recipient</div>
-					<div><select></select></div>
-				</div>
+				<form id="form-send-notification" action=""
+					th:action="@{/admin/notification/send-to-patient}">
+					<div>
+						<div>Recipient</div>
+						<div>
+							<select id="notification-send-target" name="username"></select>
+						</div>
+					</div>
+					<div>
+						<div>Type</div>
+						<div>
+							<div>
+								<input id="check-sms" name="sms" type="checkbox" /><span>SMS
+									Notification</span>
+							</div>
+							<div>
+								<input id="check-mail" name="mail" type="checkbox" /><span>Email
+									Notification</span>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div>Content</div>
+						<div>
+							<textarea name="message" rows="6" cols="53"></textarea>
+						</div>
+						<div>text limit: 160 characters</div>
+					</div>
+					<div>
+						<input id="button-submit" type="button" class="button"
+							value="SUBMIT" />
+					</div>
+				</form>
 			</div>
 
 		</div>
@@ -85,31 +114,25 @@
 		<div id="footer">Apris Solutions &#169; 2013 All Rights Reserved
 		</div>
 	</div>
-	<div style="display: none;">
-		<a id="link-list-patient" href="/invalid" th:href="@{/list-patient}">Ajax
-			Datasource Location</a>
-		<div>
-			<form id="form-send-notification" action="." method="post"
-				th:action="@{/send-notification-to-patient}">
-				<div>
-					<input id="send-name" name="name" type="hidden" />
-				</div>
-				<div>
-					<input id="send-mail" name="mail" type="hidden" />
-				</div>
-				<div>
-					<input id="send-phone" name="phone" type="hidden" />
-				</div>
-				<div>
-					<input id="send-message" name="message" type="hidden" />
-				</div>
-			</form>
+	<div id="section-hidden" style="display: none;">
+		<div id="section-link-list-patrons">
+			<a id="link-list-patrons" href="/admin/notification/list-patrons"
+				th:href="@{/admin/notification/list-patrons}">Hidden Link</a>
+		</div>
+		<div id="section-link-patron-info">
+			<a id="link-user-info" href="/admin/notification/user-info"
+				th:href="@{/admin/notification/user-info}">Hidden Link</a>
 		</div>
 	</div>
 	<script type="text/javascript" th:src="@{/js/lib/jquery-1.9.1.min.js}"
 		src="js/lib/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/lib/jquery.form.min.js}"
+		src="js/lib/jquery.form.min.js"></script>
 	<script type="text/javascript"
 		th:src="@{/js/lib/jquery-ui-1.10.2.custom.min.js}"
 		src="js/lib/jquery-ui-1.10.2.custom.min.js"></script>
+	<script type="text/javascript"
+		th:src="@{/js/admin/send-notifications.js}"
+		src="js/admin/send-notifications.js"></script>
 </body>
 </html>
