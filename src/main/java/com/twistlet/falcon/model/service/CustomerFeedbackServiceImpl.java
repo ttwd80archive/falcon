@@ -12,16 +12,26 @@ import com.twistlet.falcon.model.repository.FalconFeedbackRepository;
 public class CustomerFeedbackServiceImpl implements CustomerFeedbackService {
 
 	private final FalconFeedbackRepository falconFeedbackRepository;
-	
-	@Autowired	
-	public CustomerFeedbackServiceImpl(
-			FalconFeedbackRepository falconFeedbackRepository) {
+	private final SupportMailSenderService supportMailSenderService;
+
+	@Autowired
+	public CustomerFeedbackServiceImpl(final FalconFeedbackRepository falconFeedbackRepository,
+			final SupportMailSenderService supportMailSenderService) {
 		this.falconFeedbackRepository = falconFeedbackRepository;
+		this.supportMailSenderService = supportMailSenderService;
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void sendFeedback(FalconFeedback feedback) {
+	public void sendFeedback(final FalconFeedback feedback) {
+		try {
+			final String feedbackType = feedback.getFeedbackType();
+			final String content = feedback.getContent();
+			final String cc = feedback.getEmailFrom();
+			supportMailSenderService.send(feedbackType, cc, content);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
 		falconFeedbackRepository.save(feedback);
 	}
 
