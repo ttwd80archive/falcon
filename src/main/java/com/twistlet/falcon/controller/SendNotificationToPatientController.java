@@ -64,7 +64,7 @@ public class SendNotificationToPatientController {
 		if (falconUser != null) {
 			String name = falconUser.getName();
 			String mail = falconUser.getEmail();
-			String phone = falconUser.getPhone();
+			String phone = sanitizePhone(falconUser.getPhone());
 			logger.debug("sending message {}, to {}/{}/{}", new Object[] {
 					message, name, mail, phone });
 			if (!StringUtils.isEmpty(sendMail)) {
@@ -80,6 +80,22 @@ public class SendNotificationToPatientController {
 			}
 		}
 		return StringUtils.EMPTY;
+	}
+
+	private String sanitizePhone(String phone) {
+		if (phone == null) {
+			return StringUtils.EMPTY;
+		}
+		if (phone.startsWith("60")) {
+			return phone;
+		}
+		if (phone.startsWith("01")) {
+			return "6" + phone;
+		}
+		if (phone.startsWith("+")) {
+			return phone.substring(1);
+		}
+		return phone;
 	}
 
 }
