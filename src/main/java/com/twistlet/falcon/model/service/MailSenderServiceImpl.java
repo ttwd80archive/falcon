@@ -3,6 +3,7 @@ package com.twistlet.falcon.model.service;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,7 +24,7 @@ public class MailSenderServiceImpl implements MailSenderService {
 			@Value("${smtp.notifications.name}") final String senderName,
 			@Value("${smtp.notifications.address}") final String senderAddress,
 			@Value("${smtp.notifications.subject}") final String subject,
-			final JavaMailSender javaMailSender,
+			@Qualifier("notificationsMailSender") final JavaMailSender javaMailSender,
 			final DatabaseLoggingService databaseLoggingService) {
 		this.senderName = senderName;
 		this.senderAddress = senderAddress;
