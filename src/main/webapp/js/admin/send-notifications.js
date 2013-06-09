@@ -1,6 +1,7 @@
 $(function() {
 	populate_patron_list();
 	handle_submit();
+	$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
 	function populate_patron_list() {
 
