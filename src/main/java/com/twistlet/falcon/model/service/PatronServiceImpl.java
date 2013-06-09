@@ -125,7 +125,10 @@ public class PatronServiceImpl implements PatronService {
 		if(StringUtils.isBlank(user.getUsername())){
 			user.setUsername(user.getEmail());
 			user.setValid(true);
-			newUser = true; 
+		}
+		FalconUser registeredUser = falconUserRepository.findOne(user.getUsername());
+		if(registeredUser == null){
+			newUser = true;
 		}
 		if(newUser){
 			if(StringUtils.isBlank(user.getPassword())){
@@ -141,7 +144,6 @@ public class PatronServiceImpl implements PatronService {
 			/**
 			 * check if user already exist
 			 */
-			FalconUser registeredUser = falconUserRepository.findOne(user.getUsername());
 			if(registeredUser == null){
 				/**
 				 * user does not exist. save user and user_role. We do not validete duplicate hp, nric etc already validated in view
@@ -187,6 +189,7 @@ public class PatronServiceImpl implements PatronService {
 			}
 			updateUser.setName(user.getName());
 			updateUser.setNric(user.getNric());
+			updateUser.setPhone(user.getPhone());
 			updateUser.setEmail(user.getEmail());
 			updateUser.setSendEmail(user.getSendEmail());
 			updateUser.setSendSms(user.getSendSms());
