@@ -1,6 +1,106 @@
 $(function() {
-	$('#staffform').validationEngine();
-	$('#patronform').validationEngine();
+	$("#staffform").validationEngine({
+		ajaxFormValidation: true,
+		onBeforeAjaxFormValidation: function(){
+			$("#confirmreg-box-staff").css("display","block");
+			$("#bg").css("display","block");
+			$("#confirm-staff-name").html($('#fullname-staff').val());
+			$("#confirm-staff-nric").html($('#identificationnum-staff').val());
+			$("#confirm-staff-hptel").html($('#mobilenum-staff').val());
+			$("#confirm-staff-email").html($('#email-staff').val());
+			$("#confirm-staff-yes").click(function(){
+				$('#staffform').validationEngine('detach');
+				$('#staffform').submit();
+				$("#confirmreg-box-staff").css("display","none");
+				$("#bg").css("display","none");
+				return true;
+			});
+			return false;
+		},
+        onAjaxFormComplete: function(status,form) {
+        	console.log('ALOOO!');
+            if (status === true) {
+                console.log('ok!');
+            }else{
+            	console.log('Tak ok!');
+            }
+        }
+    });
+	$('#patronform').validationEngine({
+		ajaxFormValidation: true,
+		onBeforeAjaxFormValidation: function(){
+			$("#confirmreg-box-patron").css("display","block");
+			$("#bg").css("display","block");
+			$("#confirm-patron-name").html($('#fullname-patron').val());
+			$("#confirm-patron-nric").html($('#identificationnum-patron').val());
+			$("#confirm-patron-hptel").html($('#mobilenum-patron').val());
+			$("#confirm-patron-email").html($('#email-patron').val());
+			$("#confirm-patron-yes").click(function(){
+				$('#patronform').validationEngine('detach');
+				$('#patronform').submit();
+				$("#confirmreg-box-patron").css("display","none");
+				$("#bg").css("display","none");
+				return true;
+			});
+			return false;
+		},
+        onAjaxFormComplete: function(status,form) {
+        	console.log('ALOOO!');
+            if (status === true) {
+                console.log('ok!');
+            }else{
+            	console.log('Tak ok!');
+            }
+        }
+	});
+	$('#venueform').validationEngine({
+		ajaxFormValidation: true,
+		onBeforeAjaxFormValidation: function(){
+			$("#confirmreg-box-venue").css("display","block");
+			$("#bg").css("display","block");
+			$("#confirm-venue-name").html($('#venue').val());
+			$("#confirm-venue-yes").click(function(){
+				$('#venueform').validationEngine('detach');
+				$('#venueform').submit();
+				$("#confirmreg-box-venue").css("display","none");
+				$("#bg").css("display","none");
+				return true;
+			});
+			return false;
+		},
+        onAjaxFormComplete: function(status,form) {
+        	console.log('ALOOO!');
+            if (status === true) {
+                console.log('ok!');
+            }else{
+            	console.log('Tak ok!');
+            }
+        }
+	});
+	$('#serviceform').validationEngine({
+		ajaxFormValidation: true,
+		onBeforeAjaxFormValidation: function(){
+			$("#confirmreg-box-service").css("display","block");
+			$("#bg").css("display","block");
+			$("#confirm-service-name").html($('#service').val());
+			$("#confirm-service-yes").click(function(){
+				$('#serviceform').validationEngine('detach');
+				$('#serviceform').submit();
+				$("#confirmreg-box-service").css("display","none");
+				$("#bg").css("display","none");
+				return true;
+			});
+			return false;
+		},
+        onAjaxFormComplete: function(status,form) {
+        	console.log('ALOOO!');
+            if (status === true) {
+                console.log('ok!');
+            }else{
+            	console.log('Tak ok!');
+            }
+        }
+	});
 	console.log('url: '+ document.location);
 	var urlParams = $.url(document.location).param();
 	var from  = urlParams.f;
@@ -169,7 +269,19 @@ $(function() {
 	$('#deleteStaff').click(function(){
 		if($('#id-staff').val() != null && $('#id-staff').val() != ''){
 			$('#valid-staff').val('0');
-			$('#staffform').submit();
+			$("#confirmreg-box-staff").css("display","block");
+			$("#bg").css("display","block");
+			$("#confirm-staff-name").html($('#fullname-staff').val());
+			$("#confirm-staff-nric").html($('#identificationnum-staff').val());
+			$("#confirm-staff-hptel").html($('#mobilenum-staff').val());
+			$("#confirm-staff-email").html($('#email-staff').val());
+			$("#confirm-staff-yes").click(function(){
+				$('#staffform').validationEngine('detach');
+				$('#staffform').submit();
+				$("#confirmreg-box-staff").css("display","none");
+				$("#bg").css("display","none");
+				return true;
+			});
 		}
 	});
 	
@@ -298,17 +410,18 @@ $(function() {
 	};
 	
 	$('#delete-venue').click(function(){
-		$('#venue-valid').val(false);
+		$('#venue-valid').val('0');
 		$('#venueform').submit();
 	});
 	$('#save-venue').click(function(){
-		$('#venue-valid').val(true);
+		$('#venue-valid').val('1');
 		$('#venueform').submit();
+		return true;
 	});
 	
 	
 	$('#delete-service').click(function(){
-		$('#service-valid').val(false);
+		$('#service-valid').val('0');
 		$('#serviceform').submit();
 	});
 	$('#save-service').click(function(){
@@ -329,6 +442,25 @@ $(function() {
 		}
 	});
 });
+
+function beforeCall(form, options){
+	if (console) 
+	console.log("Right before the AJAX form validation call");
+	return true;
+}
+
+function ajaxValidationCallback(status, form, json, options){
+	if (console) 
+	console.log(status);
+        
+	if (status === true) {
+		alert("the form is valid!");
+		// uncomment these lines to submit the form to form.action
+		// form.validationEngine('detach');
+		// form.submit();
+		// or you may use AJAX again to submit the data
+	}
+}
 
 function hideAllTabs(){
 	console.log('hiding');

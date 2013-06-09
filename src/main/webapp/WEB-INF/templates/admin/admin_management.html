@@ -105,8 +105,8 @@
 								<li><input type="hidden" th:field="*{id}" id="id-staff" />
 									<input type="hidden" th:field="*{valid}" id="valid-staff" /> <input
 									class="button" type="button" value="SEARCH" id="searchStaff" />&nbsp;&nbsp;&nbsp;
-									<a href="#" id="saveStaff">save</a> <a href="#"
-									id="deleteStaff">delete</a></li>
+									<a href="#" id="saveStaff">save</a> 
+									<a href="#" id="deleteStaff">delete</a></li>
 							</ul>
 						</form>
 					</div>
@@ -154,7 +154,7 @@
 							method="post" id="venueform">
 							<ul id="venue-info" class="hidden">
 								<li><span>Venue</span> <input type="text"
-									th:field="*{name}" id="venue" size="30" /> <input
+									th:field="*{name}" id="venue" size="30" class="validate[required]"/> <input
 									type="hidden" th:field="*{id}" id="venue-id" /> <input
 									type="hidden" th:field="*{valid}" id="venue-valid" /></li>
 								<li>
@@ -188,29 +188,74 @@
 				<div id="ad-banner">ADVERTISING</div>
 			</div>
 		</div>
-	</div>
-	<div id="removeappt-box" class="absoluteleftcenter hidden">
-		<a class="close-box"
-			onclick="document.getElementById('removeappt-box').style.display='none'; document.getElementById('bg').style.display='none';"><img
-			class="whitecross" src="./images/whitecross.png"
-			th:src="@{/images/whitecross.png}" alt="Image failed to load" /><img
-			class="blackcross" src="./images/blackcross.png"
-			th:src="@{/images/blackcross.png}" alt="Image failed to load" /></a>
-		<div id="removeappt" class="relativeleftcenter">
-			<h2 id="prompt">Confirm delete this appointment?</h2>
-			<ul id="getappointment" class="nopadding">
-				<li><span id="labelitem1">test&#58;</span><span id="item1">test2</span></li>
-				<li><span>Time&#58;</span>10&#58;30 a&#46;m&#46;</li>
-				<li><span>Venue&#58;</span>Room 1</li>
-				<li><span>Staff&#58;</span>Dr&#46; Dre</li>
-				<li><span>Patron&#58;</span>Patient Zero</li>
-				<li><input class="button" type="submit" value="YES" /><input
-					class="button" type="button" value="NO"
-					onclick="document.getElementById('removeappt-box').style.display='none'; document.getElementById('bg').style.display='none';" /></li>
-			</ul>
+		<div id="confirmreg-box-staff" class="absoluteleftcenter hidden">
+			<a class="close-box" onclick="document.getElementById('confirmreg-box-staff').style.display='none'; document.getElementById('bg').style.display='none';">
+				<img class="whitecross" src="./images/whitecross.png" th:src="@{/images/whitecross.png}" 
+				alt="Image failed to load" /><img class="blackcross"
+				src="./images/blackcross.png" th:src="@{/images/blackcross.png}" alt="Image failed to load" /></a>
+			<div id="confirmreg" class="relativeleftcenter">
+				<h2>Please confirm your details&#58;</h2>
+				<ul id="getregistration" class="nopadding">
+					<li><span>Full Name&#58;</span><div id="confirm-staff-name">Dr&#46; Dre</div></li>
+					<li><span>I&#47;C No&#46;&#58;</span><div id="confirm-staff-nric" >123456790</div></li>
+					<li><span>H&#47;P No&#46;&#58;</span><div id="confirm-staff-hptel" >012-3456789</div></li>
+					<li><span>Email&#58;</span><div id="confirm-staff-email">Dr&#46; Dre&#64;dre.com</div></li>
+					<li><input class="button" type="submit" value="YES"  id="confirm-staff-yes"/><input
+						class="button" type="button" value="NO"
+						onclick="document.getElementById('confirmreg-box-staff').style.display='none'; document.getElementById('bg').style.display='none';" /></li>
+				</ul>
+			</div>
 		</div>
+		<div id="confirmreg-box-patron" class="absoluteleftcenter hidden" style="width: 500px;">
+			<a class="close-box" onclick="document.getElementById('confirmreg-box-patron').style.display='none'; document.getElementById('bg').style.display='none';">
+				<img class="whitecross" src="./images/whitecross.png" th:src="@{/images/whitecross.png}" 
+				alt="Image failed to load" /><img class="blackcross"
+				src="./images/blackcross.png" th:src="@{/images/blackcross.png}" alt="Image failed to load" /></a>
+			<div id="confirmreg" class="relativeleftcenter">
+				<h2>Please confirm your details&#58;</h2>
+				<ul id="getregistration" class="nopadding">
+					<li><span>Full Name&#58;</span><div id="confirm-patron-name">Dr&#46; Dre</div></li>
+					<li><span>I&#47;C No&#46;&#58;</span><div id="confirm-patron-nric" >123456790</div></li>
+					<li><span>H&#47;P No&#46;&#58;</span><div id="confirm-patron-hptel" >012-3456789</div></li>
+					<li><span>Email&#58;</span><div id="confirm-patron-email">Dr&#46; Dre&#64;dre.com</div></li>
+					<li><input class="button" type="submit" value="YES"  id="confirm-patron-yes"/><input
+						class="button" type="button" value="NO"
+						onclick="document.getElementById('confirmreg-box-patron').style.display='none'; document.getElementById('bg').style.display='none';" /></li>
+				</ul>
+			</div>
+		</div>
+		<div id="confirmreg-box-venue" class="absoluteleftcenter hidden">
+			<a class="close-box" onclick="document.getElementById('confirmreg-box-venue').style.display='none'; document.getElementById('bg').style.display='none';">
+				<img class="whitecross" src="./images/whitecross.png" th:src="@{/images/whitecross.png}" 
+				alt="Image failed to load" /><img class="blackcross"
+				src="./images/blackcross.png" th:src="@{/images/blackcross.png}" alt="Image failed to load" /></a>
+			<div id="confirmreg" class="relativeleftcenter">
+				<h2>Please confirm your details&#58;</h2>
+				<ul id="getregistration" class="nopadding">
+					<li><span>Name&#58;</span><div id="confirm-venue-name">Dr&#46; Dre</div></li>
+					<li><input class="button" type="submit" value="YES"  id="confirm-venue-yes"/><input
+						class="button" type="button" value="NO"
+						onclick="document.getElementById('confirmreg-box-venue').style.display='none'; document.getElementById('bg').style.display='none';" /></li>
+				</ul>
+			</div>
+		</div>
+		<div id="confirmreg-box-service" class="absoluteleftcenter hidden">
+			<a class="close-box" onclick="document.getElementById('confirmreg-box-service').style.display='none'; document.getElementById('bg').style.display='none';">
+				<img class="whitecross" src="./images/whitecross.png" th:src="@{/images/whitecross.png}" 
+				alt="Image failed to load" /><img class="blackcross"
+				src="./images/blackcross.png" th:src="@{/images/blackcross.png}" alt="Image failed to load" /></a>
+			<div id="confirmreg" class="relativeleftcenter">
+				<h2>Please confirm your details&#58;</h2>
+				<ul id="getregistration" class="nopadding">
+					<li><span>Name&#58;</span><div id="confirm-service-name">Dr&#46; Dre</div></li>
+					<li><input class="button" type="submit" value="YES"  id="confirm-service-yes"/><input
+						class="button" type="button" value="NO"
+						onclick="document.getElementById('confirmreg-box-service').style.display='none'; document.getElementById('bg').style.display='none';" /></li>
+				</ul>
+			</div>
+		</div>
+		<div id="bg"></div>
 	</div>
-	<div id="bg"></div>
 	<div class="clear"></div>
 	<div id="footer-wrapper">
 		<div id="footer">Apris Solutions &#169; 2013 All Rights Reserved

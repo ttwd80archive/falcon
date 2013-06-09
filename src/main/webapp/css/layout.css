@@ -160,7 +160,7 @@
 .account-inf ul li                               {float: right; height: 32px;}
 .account-inf ul li a                             {margin: 0 2px;}
 .blackcross                                      {display: none; z-index: 1800; position: relative;}
-.close-box                                       {top: 90px; left: 47%; z-index: 1500; position: relative;}
+.close-box                                       {top: 90px; left: 50%; z-index: 1500; position: relative;}
 .col-content                                     {margin:10px; position: relative; top: -10px;}
 .col-head                                        {margin:10px;}
 .col-left                                        {background: none repeat scroll 0 0 #FFFFFF; width: 220px; height: 270px; margin: 16px 0 0 16px; float: left;}
