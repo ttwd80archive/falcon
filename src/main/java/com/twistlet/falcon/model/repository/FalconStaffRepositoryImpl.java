@@ -19,6 +19,7 @@ import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.entity.QFalconAppointment;
 import com.twistlet.falcon.model.entity.QFalconStaff;
+import com.twistlet.falcon.model.entity.QFalconUser;
 
 @Repository
 public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
@@ -31,9 +32,11 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 	public List<FalconStaff> findByFalconUserNameLike(FalconUser admin, String name) {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconStaff falconStaff = QFalconStaff.falconStaff;
+		final QFalconUser falconUser = QFalconUser.falconUser;
+		query.from(falconStaff);
+		query.join(falconStaff.falconUser, falconUser).fetch();
 		final BooleanExpression conditionNameLike = falconStaff.name.containsIgnoreCase(name);
 		final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
-		query.from(falconStaff);
 		query.where(conditionFalconUser.and(conditionNameLike).and(falconStaff.valid.eq(true)));
 		query.orderBy(falconStaff.name.asc());
 		return query.list(falconStaff);
@@ -43,21 +46,26 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 	public List<FalconStaff> findByFalconUserNricLike(FalconUser admin, String nric) {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconStaff falconStaff = QFalconStaff.falconStaff;
+		final QFalconUser falconUser = QFalconUser.falconUser;
+		query.from(falconStaff);
+		query.join(falconStaff.falconUser, falconUser).fetch();
 		final BooleanExpression conditionNricLike = falconStaff.nric.containsIgnoreCase(nric);
 		final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
-		query.from(falconStaff);
 		query.where(conditionFalconUser.and(conditionNricLike).and(falconStaff.valid.eq(true)));
 		query.orderBy(falconStaff.name.asc());
-		return query.list(falconStaff);
+		List<FalconStaff> staffs = query.list(falconStaff);
+		return staffs;
 	}
 
 	@Override
 	public List<FalconStaff> findByFalconUserEmailLike(FalconUser admin, String email) {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconStaff falconStaff = QFalconStaff.falconStaff;
+		final QFalconUser falconUser = QFalconUser.falconUser;
+		query.from(falconStaff);
+		query.join(falconStaff.falconUser, falconUser).fetch();
 		final BooleanExpression conditionNricLike = falconStaff.email.containsIgnoreCase(email);
 		final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
-		query.from(falconStaff);
 		query.where(conditionFalconUser.and(conditionNricLike).and(falconStaff.valid.eq(true)));
 		query.orderBy(falconStaff.name.asc());
 		return query.list(falconStaff);
@@ -67,9 +75,11 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 	public List<FalconStaff> findByFalconUserHpTelLike(FalconUser admin, String hpTel) {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconStaff falconStaff = QFalconStaff.falconStaff;
+		final QFalconUser falconUser = QFalconUser.falconUser;
+		query.from(falconStaff);
+		query.join(falconStaff.falconUser, falconUser).fetch();
 		final BooleanExpression conditionMobileLike = falconStaff.hpTel.containsIgnoreCase(hpTel);
 		final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
-		query.from(falconStaff);
 		query.where(conditionFalconUser.and(conditionMobileLike).and(falconStaff.valid.eq(true)));
 		query.orderBy(falconStaff.name.asc());
 		return query.list(falconStaff);
@@ -80,7 +90,9 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 			FalconStaff staff) {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconStaff falconStaff = QFalconStaff.falconStaff;
+		final QFalconUser falconUser = QFalconUser.falconUser;
 		query.from(falconStaff);
+		query.join(falconStaff.falconUser, falconUser).fetch();
 		BooleanExpression conditionStaff = null;
 		if(StringUtils.isNotBlank(staff.getEmail())){
 			conditionStaff = falconStaff.email.eq(staff.getEmail());
@@ -107,7 +119,7 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 			}
 		}
 		if(admin.getUsername() == null){
-			query.where(conditionStaff);
+			query.where(conditionStaff.and(falconStaff.valid.eq(true)));
 		}else{
 			final BooleanExpression conditionFalconUser = falconStaff.falconUser.username.eq(admin.getUsername());
 			query.where(conditionFalconUser.and(conditionStaff).and(falconStaff.valid.eq(true)));
