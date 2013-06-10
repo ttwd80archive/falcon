@@ -8,6 +8,7 @@ $(function() {
 			$("#confirm-patron-nric").html($('#identificationnum-patron').val());
 			$("#confirm-patron-hptel").html($('#mobilenum-patron').val());
 			$("#confirm-patron-email").html($('#email-patron').val());
+			$("#confirm-patron-org").html($('#organization option:selected').text());
 			$("#confirm-patron-yes").click(function(){
 				$('#registrationform').validationEngine('detach');
 				$('#registrationform').submit();
