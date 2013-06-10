@@ -104,9 +104,8 @@
 								</li>
 								<li><input type="hidden" th:field="*{id}" id="id-staff" />
 									<input type="hidden" th:field="*{valid}" id="valid-staff" /> <input
-									class="button" type="button" value="SEARCH" id="searchStaff" />&nbsp;&nbsp;&nbsp;
-									<a href="#" id="saveStaff">save</a> 
-									<a href="#" id="deleteStaff">delete</a></li>
+									class="button" type="button" value="SAVE" id="saveStaff" />&nbsp;&nbsp;&nbsp;
+									<a href="#" id="deleteStaff" style="visibility: hidden;">delete</a></li>
 							</ul>
 						</form>
 					</div>
@@ -143,8 +142,8 @@
 									th:field="*{falconUserByPatron.username}" id="username-patron" />
 									<input type="hidden" th:field="*{falconUserByPatron.valid}"
 									id="valid-patron" /> <input class="button" type="button"
-									value="SEARCH" id="searchPatron" />&nbsp;&nbsp;&nbsp; <a
-									href="#" id="savePatron">save</a> <a href="#" id="deletePatron">delete</a>
+									value="SAVE" id="savePatron" />&nbsp;&nbsp;&nbsp;  
+									<a href="#" id="deletePatron" style="visibility: hidden;">delete</a>
 								</li>
 							</ul>
 						</form>
@@ -158,9 +157,8 @@
 									type="hidden" th:field="*{id}" id="venue-id" /> <input
 									type="hidden" th:field="*{valid}" id="venue-valid" /></li>
 								<li>
-									<input class="button" type="button" value="SEARCH" id="search-venue" />&nbsp;&nbsp;&nbsp; 
-									<a href="#" id="save-venue">save</a>
-									<a href="#" id="delete-venue">delete</a></li>
+									<input class="button" type="button" value="SAVE" id="save-venue" />&nbsp;&nbsp;&nbsp;
+									<a href="#" id="delete-venue" style="visibility: hidden;">delete</a></li>
 							</ul>
 						</form>
 					</div>
@@ -172,11 +170,10 @@
 									th:field="*{name}" id="service" size="30" /> <input
 									type="hidden" th:field="*{id}" id="service-id" /> <input
 									type="hidden" th:field="*{valid}" id="service-valid" /></li>
-								<li><input class="button" type="button" value="SEARCH"
-									id="search-service" />&nbsp;&nbsp;&nbsp; 
-									<a href="#" id="save-service">save</a>
+								<li><input class="button" type="button" value="SAVE"
+									id="save-service" />&nbsp;&nbsp;&nbsp; 
 									<a href="#"
-									id="delete-service">delete</a></li>
+									id="delete-service" style="visibility: hidden;">delete</a></li>
 							</ul>
 						</form>
 					</div>
