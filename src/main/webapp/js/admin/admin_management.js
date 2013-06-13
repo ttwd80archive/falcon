@@ -27,31 +27,77 @@ $(function() {
         }
     });
 	$('#patronform').validationEngine({
+		ajaxFormValidationURL: "../validatenricphone",
 		ajaxFormValidation: true,
 		onBeforeAjaxFormValidation: function(){
-			$("#confirmreg-box-patron").css("display","block");
-			$("#bg").css("display","block");
-			$("#confirm-patron-name").html($('#fullname-patron').val());
-			$("#confirm-patron-nric").html($('#identificationnum-patron').val());
-			$("#confirm-patron-hptel").html($('#mobilenum-patron').val());
-			$("#confirm-patron-email").html($('#email-patron').val());
-			$("#confirm-patron-yes").click(function(){
-				$('#patronform').validationEngine('detach');
-				$('#patronform').submit();
-				$("#confirmreg-box-patron").css("display","none");
-				$("#bg").css("display","none");
-				return true;
-			});
-			return false;
+//			$("#confirmreg-box-patron").css("display","block");
+//			$("#bg").css("display","block");
+//			$("#confirm-patron-name").html($('#fullname-patron').val());
+//			$("#confirm-patron-nric").html($('#identificationnum-patron').val());
+//			$("#confirm-patron-hptel").html($('#mobilenum-patron').val());
+//			$("#confirm-patron-email").html($('#email-patron').val());
+//			$("#confirm-patron-yes").click(function(){
+//				$('#patronform').validationEngine('detach');
+//				$('#patronform').submit();
+//				$("#confirmreg-box-patron").css("display","none");
+//				$("#bg").css("display","none");
+//				return true;
+//			});
+//			return false;
+			$("#patron-error").html("");
+			console.log("validating first ajax");
 		},
-        onAjaxFormComplete: function(status,form) {
-        	console.log('ALOOO!');
-            if (status === true) {
-                console.log('ok!');
-            }else{
-            	console.log('Tak ok!');
-            }
+        onAjaxFormComplete: function(status, form, json, options) {
+        	console.log('status:' + status);
+        	console.log('form:' + form);
+        	console.log('json:' + json);
+        	var valid = true;
+        	for(var i = 0; i < json.length; i++){
+        		var content = json[i];
+        		if(content[1] == false){
+        			$("#patron-error").html("There was a duplicate user with the same nric / phone details"); 
+        			valid = false;
+        			return false;
+        		}
+        	}
+        	if(valid){
+        		$("#confirmreg-box-patron").css("display","block");
+				$("#bg").css("display","block");
+				$("#confirm-patron-name").html($('#fullname-patron').val());
+				$("#confirm-patron-nric").html($('#identificationnum-patron').val());
+				$("#confirm-patron-hptel").html($('#mobilenum-patron').val());
+				$("#confirm-patron-email").html($('#email-patron').val());
+				$("#confirm-patron-yes").click(function(){
+					$('#patronform').validationEngine('detach');
+					$('#patronform').submit();
+					$("#confirmreg-box-patron").css("display","none");
+					$("#bg").css("display","none");
+					return true;
+				});
+        	}
         }
+//		onValidationComplete:function(form, status){
+//			 alert("The form status is: " +status+", it will never submit")
+//			if(status === true){
+//				alert('im here!');
+//				$("#confirmreg-box-patron").css("display","block");
+//				$("#bg").css("display","block");
+//				$("#confirm-patron-name").html($('#fullname-patron').val());
+//				$("#confirm-patron-nric").html($('#identificationnum-patron').val());
+//				$("#confirm-patron-hptel").html($('#mobilenum-patron').val());
+//				$("#confirm-patron-email").html($('#email-patron').val());
+//				$("#confirm-patron-yes").click(function(){
+//					$('#patronform').validationEngine('detach');
+//					$('#patronform').submit();
+//					$("#confirmreg-box-patron").css("display","none");
+//					$("#bg").css("display","none");
+//					return true;
+//				});
+//			}else{
+//				$("#patron-error").html("There was a duplicate user with the same nric / phone details");
+//				return false;
+//			}			
+//		}
 	});
 	$('#venueform').validationEngine({
 		ajaxFormValidation: true,

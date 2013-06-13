@@ -163,5 +163,12 @@ public class FalconUserRepositoryImplTest extends AbstractFalconRepositoryTest {
 		FalconUser patron = list.get(0);
 		assertEquals("email3@add.com", patron.getEmail());
 	}
+	
+	@Test
+	public void testFindPhone() {
+		List<FalconUser> list = falconUserRepository.findByPhone("3");
+		FalconUser patron = list.get(0);
+		assertEquals("3", patron.getNric());
+	}
 
 }

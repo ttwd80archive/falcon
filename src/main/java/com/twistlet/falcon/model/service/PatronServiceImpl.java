@@ -405,6 +405,20 @@ public class PatronServiceImpl implements PatronService {
 		return falconPatrons;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconUser> listUserByNric(FalconUser user) {
+		List<FalconUser> users = falconUserRepository.findByNric(user.getNric());
+		return users;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<FalconUser> listUserByPhone(FalconUser user) {
+		List<FalconUser> users = falconUserRepository.findByPhone(user.getPhone());
+		return users;
+	}
+
 	
 	
 	

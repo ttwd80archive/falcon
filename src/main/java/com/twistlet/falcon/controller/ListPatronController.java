@@ -222,6 +222,58 @@ public class ListPatronController {
 		return "[\""+ stringId + "\", " + isValid +"]";
 	}
 	
+	@RequestMapping("/validatenricphone")
+	@ResponseBody
+	public List<List<Object>> validateNricAndPhone(final HttpServletRequest request){
+		List<Object> item = new ArrayList<>();
+		List<List<Object>> response = new ArrayList<>();
+		String responseString = "";
+		String theNric = request.getParameter("falconUserByPatron.nric");
+		String thePhone = request.getParameter("falconUserByPatron.phone");;
+		FalconUser user = new FalconUser();
+		user.setNric(theNric);
+		user.setPhone(thePhone);
+		String registeredEmail = StringUtils.EMPTY;
+		List<FalconUser> users = patronService.listUserByNric(user);
+		if(CollectionUtils.isNotEmpty(users)){
+			FalconUser registeredUser = users.get(0);
+			registeredEmail = registeredUser.getEmail();
+			item.add("falconUserByPatron.nric");
+			item.add(false);
+			//item.add("A duplicate nric is already registered by " + registeredEmail);
+			//responseString = "['" + item.get(0) + "'," + item.get(1) + ",'" + item.get(2) + "']";
+			responseString = "['" + item.get(0) + "'," + item.get(1) + "]";
+			response.add(item);
+		}else{
+			item.add("falconUserByPatron.nric");
+			item.add(true);
+			//item.add("valid");
+			responseString = "['" + item.get(0) + "'," + item.get(1) + "]";
+			response.add(item);
+		}
+		users = patronService.listUserByPhone(user);
+		item = new ArrayList<>();
+		if(CollectionUtils.isNotEmpty(users)){
+			FalconUser registeredUser = users.get(0);
+			registeredEmail = registeredUser.getEmail();
+			item.add("falconUserByPatron.phone");
+			item.add(false);
+			item.add("A duplicate phone is already registered by " + registeredEmail);
+			//responseString = responseString + ",['" + item.get(0) + "'," + item.get(1) + ",'" + item.get(2) + "']";
+			responseString = responseString + ",['" + item.get(0) + "'," + item.get(1) + "]";
+			response.add(item);
+		}else{
+			item.add("falconUserByPatron.phone");
+			item.add(true);	
+			//item.add("valid");
+			response.add(item);
+			//responseString = responseString + ",['" + item.get(0) + "'," + item.get(1) + ",'" + item.get(2) + "']";
+			responseString = responseString + ",['" + item.get(0) + "'," + item.get(1) + "]";
+		}
+		responseString = "[" + responseString + "]";
+		return response;
+	}
+	
 	@RequestMapping("/registration/validate-patron")
 	@ResponseBody
 	public String validateNewUser(final HttpServletRequest request) {

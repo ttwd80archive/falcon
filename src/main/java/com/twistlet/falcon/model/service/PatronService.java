@@ -35,6 +35,10 @@ public interface PatronService {
 	List<FalconPatron> listAllPatronsAdmin(FalconUser patron);
 	
 	List<FalconUser> listUserByCriteria(FalconUser user);
+	
+	List<FalconUser> listUserByNric(FalconUser user);
+	
+	List<FalconUser> listUserByPhone(FalconUser user);
 
 	void deletePatron(FalconPatron patron);
 
