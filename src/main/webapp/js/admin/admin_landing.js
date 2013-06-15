@@ -216,13 +216,13 @@ function renderSelectedMonth(month, year) {
 						}
 						var starttime = $('#appointmenttime').val().replace(/:/g, '');
 						var endtime =  $('#appointmenttimeend').val().replace(/:/g, '');
-						if(starttime.substring(5,7) == 'pm'){
+						if(starttime.substring(5,7).toLowerCase() == 'pm' ){
 							starttime = starttime.substring(0,4);
 							starttime = parseInt(starttime) + 1200;
 						}else{
 							starttime = starttime.substring(0,4);
 						}
-						if(endtime.substring(5,7) == 'pm'){
+						if(endtime.substring(5,7).toLowerCase() == 'pm'){
 							endtime = endtime.substring(0,4);
 							console.log(parseInt(endtime));
 							if(parseInt(endtime) <= 1200 ){
@@ -274,10 +274,13 @@ function renderSelectedMonth(month, year) {
 			var id = $("#source-id").text();
 			var value = $("#hh").val() + ":" + $("#mm").val() + " " + $("#ampm").val(); 
 			$(id).val(value);
-			if (id = "appointmenttime"){
+			$(id).change();
+			if (id == "#appointmenttime"){
 				$("#appointmenttimeend").val(value);
+				$("#appointmenttimeend").change();
 			}
 			$(this).dialog("close");
+			$("#appointmenttimeend").change();
 		}}]
 	});
 	
