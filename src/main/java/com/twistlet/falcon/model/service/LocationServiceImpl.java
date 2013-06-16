@@ -57,7 +57,7 @@ public class LocationServiceImpl implements LocationService {
 				}
 			}
 			if(!found){
-				if(location.getValid()){
+				if(location.getValid() != null && location.getValid() == true){
 					availableLocations.add(location);
 				}
 			}
