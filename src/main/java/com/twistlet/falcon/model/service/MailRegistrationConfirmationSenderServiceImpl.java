@@ -41,10 +41,11 @@ public class MailRegistrationConfirmationSenderServiceImpl implements MailRegist
 		lines.add("Warm Regards");
 		lines.add("Apris Solutions");
 		lines.add("");
+		simpleMessage.setFrom("signup@butter-bun.com");
 		simpleMessage.setTo(MessageFormat.format("{0} <{1}>", new Object[] { fullName, mail }));
 		simpleMessage.setSubject("Butter-Bun Sign-Up");
 		String unformattedText = StringUtils.join(lines, "\n");
-		Object[] arguments = { fullName, ic, hp, mail, patronOf };
+		Object[] arguments = { fullName, ic, hp, patronOf };
 		String text = MessageFormat.format(unformattedText, arguments);
 		simpleMessage.setText(text);
 		mailSender.send(simpleMessage);
