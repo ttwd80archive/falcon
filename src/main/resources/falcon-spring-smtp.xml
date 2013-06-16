@@ -29,6 +29,17 @@
 		</property>
 	</bean>
 
-	<bean id="" class="org.springframework.mail.SimpleMailMessage"></bean>
+	<bean id="signupMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${smtp.signup.host}" />
+		<property name="port" value="${smtp.signup.port}" />
+		<property name="username" value="${smtp.signup.username}" />
+		<property name="password" value="${smtp.signup.password}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">false</prop>
+			</props>
+		</property>
+	</bean>
 
 </beans>
