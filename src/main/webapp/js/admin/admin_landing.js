@@ -236,10 +236,13 @@ function renderSelectedMonth(month, year) {
 						console.log("date:" + date);
 						console.log("start:" + starttime + " end: "+ endtime );
 						var url = '../list-patient/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime;
+						console.log('url to list avail patron:' + url);
 						$.getJSON(url, function(data) {
 							console.log(data);
 							setSelectOptions($('#patrons'), data, 'username', 'name', '');
-							$(".chzn-select").trigger("liszt:updated");
+							console.log('updating choosen');
+							$("#patrons").trigger("liszt:updated");
+							console.log('done updating choosen');
 						});
 						$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime, function(data) {
 							setSelectOptions($('#locations'), data, 'id', 'name', '');
@@ -403,4 +406,24 @@ function reset_createappt(){
 	$('#appointmentform').trigger("reset");
 	 $("#patrons").val('').trigger("liszt:updated");
 	console.log("resetting form again");
+	var currentuser = $('#username').html();
+	currentuser = encodeURIComponent(currentuser).replace(/[!'().]/g, escape).replace(/\*/g, "%2A");
+	console.log(currentuser);
+	$.getJSON('../list-patient/' + currentuser + '/99999999', function(data) {
+		setSelectOptions($('#patrons'), data, 'username', 'name', '');
+		$("#patrons").chosen();
+		$("#patrons").trigger("liszt:updated");
+	});
+	
+	$.getJSON('../list-staff/'+ currentuser + '/99999999', function(data) {
+		setSelectOptions($('#staffs'), data, 'id', 'name', '');
+	});
+	
+	$.getJSON('../list-location/' + currentuser + '/99999999', function(data) {
+		setSelectOptions($('#locations'), data, 'id', 'name', '');
+	});
+	
+	$.getJSON('../list-services/' + currentuser + '/99999999', function(data) {
+		setSelectOptions($('#services'), data, 'id', 'name', '');
+	});
 }
