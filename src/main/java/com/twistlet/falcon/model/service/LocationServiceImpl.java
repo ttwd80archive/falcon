@@ -58,6 +58,9 @@ public class LocationServiceImpl implements LocationService {
 			}
 			if(!found){
 				if(location.getValid() != null && location.getValid() == true){
+					location.setFalconUser(null);
+					location.setFalconAppointments(null);
+					location.getName();
 					availableLocations.add(location);
 				}
 			}

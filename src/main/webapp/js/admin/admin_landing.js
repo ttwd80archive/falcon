@@ -395,3 +395,12 @@ function renderSelectedMonth(month, year) {
 		}
 	}
 };
+
+function reset_createappt(){
+	document.getElementById('createappt-box').style.display='none'; 
+	document.getElementById('bg').style.display='none'; 
+	console.log("resetting form");
+	$('#appointmentform').trigger("reset");
+	 $("#patrons").val('').trigger("liszt:updated");
+	console.log("resetting form again");
+}
