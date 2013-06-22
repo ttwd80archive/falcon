@@ -1,6 +1,7 @@
 $(function() {
 	populate_patron_list();
 	handle_submit();
+	handle_text_limitation();
 	$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
 	function populate_patron_list() {
@@ -36,5 +37,26 @@ $(function() {
 		function handle_ajax_success(data) {
 			alert("message sent");
 		}
+	}
+
+	function handle_text_limitation() {
+		function truncate_text(event) {
+			var m = parseInt($("#limit-message-size").text());
+			var content = $("#message").val();
+			if (content.length > m) {
+				var truncated = content.substr(0, m);
+				$("#message").val(truncated);
+				$("#limit-message-remaining").text('0');
+			} else {
+				$("#limit-message-remaining").text(m - content.length);
+
+			}
+		}
+		$("#message").change(function(event) {
+			truncate_text(event);
+		});
+		$("#message").keyup(function(event) {
+			truncate_text(event);
+		});
 	}
 });
