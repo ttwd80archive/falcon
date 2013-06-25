@@ -77,7 +77,7 @@ public class PatronLandingController {
 		theUser.setUsername(loggedInUser);
 		patron.setFalconUserByPatron(theUser);
 		SearchAppointment search = new SearchAppointment();
-		List<FalconAppointment> falconAppointments = appointmentService.listMonthlySchedule(new Date(), loggedInUser);
+		List<FalconAppointment> falconAppointments = appointmentService.listMonthlySchedulePatron(new Date(), loggedInUser);
 		Set<FalconAppointmentPatron> appointmentPatrons = null;
 		for(FalconAppointment appointment : falconAppointments){
 			appointmentPatrons = new HashSet<>();

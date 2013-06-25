@@ -85,24 +85,30 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconAppointment> listMonthlySchedule(Date date) {
+	public List<FalconAppointment> listMonthlyScheduleAdmin(Date date, String admin) {
 		final Date start = DateUtils.truncate(date, Calendar.MONTH);
 		final Date end = DateUtils.addSeconds(DateUtils.ceiling(date, Calendar.MONTH), -1);
 		List<FalconAppointment> appointments = falconAppointmentRepository.listFullByAppointmentDateBetween(start, end);
+		List<FalconAppointment> adminsAppointments = new ArrayList<>();
 		for(FalconAppointment appointment : appointments){
-			appointment.getFalconStaff().getName();
-			appointment.getFalconLocation().getName();
-			appointment.getFalconService().getName();
-			for(FalconAppointmentPatron falconAppointmentPatron : appointment.getFalconAppointmentPatrons()){
-				falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName();
+			String staffAdmin = appointment.getFalconStaff().getFalconUser().getUsername();
+			if(StringUtils.equals(admin, staffAdmin)){
+				appointment.getFalconStaff().getName();
+				appointment.getFalconLocation().getName();
+				appointment.getFalconService().getName();
+				for(FalconAppointmentPatron falconAppointmentPatron : appointment.getFalconAppointmentPatrons()){
+					falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName();
+				}
+				adminsAppointments.add(appointment);
 			}
+			
 		}
-		return appointments;
+		return adminsAppointments;
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconAppointment> listMonthlySchedule(Date date, String patron) {
+	public List<FalconAppointment> listMonthlySchedulePatron(Date date, String patron) {
 		final Date start = DateUtils.truncate(date, Calendar.MONTH);
 		final Date end = DateUtils.addSeconds(DateUtils.ceiling(date, Calendar.MONTH), -1);
 		List<FalconAppointment> appointments = falconAppointmentRepository.listFullByAppointmentDateBetween(start, end);
@@ -207,6 +213,38 @@ public class AppointmentServiceImpl implements AppointmentService {
 			falconAppointmentPatron.setFalconAppointment(appointment);
 			falconAppointmentPatronRepository.save(falconAppointmentPatron);
 		}
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Schedule> getMonthlySchedule(Date date, String admin) {
+		final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		final Date start = DateUtils.truncate(date, Calendar.MONTH);
+		final Date end = DateUtils.addSeconds(DateUtils.ceiling(date, Calendar.MONTH), -1);
+		List<FalconAppointment> appointments = falconAppointmentRepository.findByAppointmentDateBetween(start, end);
+		HashMap<String, Integer> organiser = new LinkedHashMap<>();
+		String key = StringUtils.EMPTY;
+		Integer total = 0;
+		for(FalconAppointment appointment : appointments){
+			String staffAdmin = appointment.getFalconStaff().getFalconUser().getUsername();
+			if(StringUtils.equals(staffAdmin, admin)){
+				key = sdf.format(appointment.getAppointmentDate());
+				total = organiser.get(key);
+				if(total == null){
+					total = 0;
+				}
+				organiser.put(key, total + 1);
+			}
+		}
+		List<Schedule> schedules = new ArrayList<>();
+		Schedule schedule;
+		for(String id : organiser.keySet()){
+			schedule = new Schedule();
+			schedule.setDay(Integer.parseInt(id.substring(6)));
+			schedule.setTotalAppointment(organiser.get(id));
+			schedules.add(schedule);
+		}
+		return schedules;	
 	}
 	
 

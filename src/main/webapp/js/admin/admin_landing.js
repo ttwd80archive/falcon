@@ -124,10 +124,10 @@ function renderSelectedMonth(month, year) {
 			
 		});
 	});
-
+	var currentuser = $('#username').html();
 	var dateString = '' + date.getFullYear() + monthDigits[date.getMonth()] + '01';
 	console.log(dateString);
-	$.getJSON('../list-appointment/' + dateString, function(data){
+	$.getJSON('../list-appointment/' + currentuser + '/'+ dateString, function(data){
 		$.each(data, function(i, obj){
 			var day = obj.day;
 			var SLOTS = 99999;

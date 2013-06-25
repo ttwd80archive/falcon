@@ -15,9 +15,11 @@ public interface AppointmentService {
 	
 	List<Schedule> getMonthlySchedule(Date date);
 	
-	List<FalconAppointment> listMonthlySchedule(Date date);
+	List<Schedule> getMonthlySchedule(Date date, String admin);
 	
-	List<FalconAppointment> listMonthlySchedule(Date date, String patron);
+	List<FalconAppointment> listMonthlyScheduleAdmin(Date date, String admin);
+	
+	List<FalconAppointment> listMonthlySchedulePatron(Date date, String patron);
 	
 	FalconAppointment findAppointment(Integer id);
 	

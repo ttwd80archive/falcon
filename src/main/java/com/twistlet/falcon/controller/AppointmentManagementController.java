@@ -70,8 +70,10 @@ public class AppointmentManagementController {
 
 	@RequestMapping("/admin/manage-appointments")
 	public ModelAndView viewAppointments(){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String adminUsername = auth.getName();
 		Date now = new Date();
-		List<FalconAppointment> falconAppointments = appointmentService.listMonthlySchedule(now);
+		List<FalconAppointment> falconAppointments = appointmentService.listMonthlyScheduleAdmin(now, adminUsername);
 		SearchAppointment search = new SearchAppointment();
 		ModelAndView mav = new ModelAndView("admin/manage_appointments");
 		FalconAppointment appointment = new FalconAppointment();
