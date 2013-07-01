@@ -37,13 +37,13 @@ public class ListAppointmentController {
 		this.appointmentService = appointmentService;
 	}
 	
-	@RequestMapping("/list-appointment/{date}")
+	@RequestMapping("/list-appointment/{userId}/{date}")
 	@ResponseBody
-	public List<Schedule> listAppointments(@PathVariable String date) {
+	public List<Schedule> listAppointments(@PathVariable String userId, @PathVariable String date) {
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		List<Schedule> schedules = null;
 		try {
-			schedules = appointmentService.getMonthlySchedule(sdf.parse(date));
+			schedules = appointmentService.getMonthlySchedule(sdf.parse(date), userId);
 		} catch (ParseException e) {
 			logger.error(e.getMessage());
 		}
