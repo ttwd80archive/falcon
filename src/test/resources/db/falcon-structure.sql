@@ -1,30 +1,27 @@
-# ************************************************************
-# Sequel Pro SQL dump
-# Version 4096
-#
-# http://www.sequelpro.com/
-# http://code.google.com/p/sequel-pro/
-#
-# Host: 127.0.0.1 (MySQL 5.5.20)
-# Database: falcon
-# Generation Time: 2013-06-02 08:19:15 +0000
-# ************************************************************
-
+-- MySQL dump 10.13  Distrib 5.6.10, for Win64 (x86_64)
+--
+-- Host: localhost    Database: falcon
+-- ------------------------------------------------------
+-- Server version	5.6.10
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
-# Dump of table falcon_appointment
-# ------------------------------------------------------------
+--
+-- Table structure for table `falcon_appointment`
+--
 
 DROP TABLE IF EXISTS `falcon_appointment`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_appointment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `service` int(11) unsigned DEFAULT NULL,
@@ -36,6 +33,7 @@ CREATE TABLE `falcon_appointment` (
   `location` int(11) unsigned DEFAULT NULL,
   `staff` int(11) unsigned DEFAULT NULL,
   `appointment_date_end` datetime DEFAULT NULL,
+  `notified` char(1) DEFAULT 'N',
   PRIMARY KEY (`id`),
   KEY `FK_falcon_appointment_falcon_location` (`location`),
   KEY `staff` (`staff`),
@@ -44,14 +42,15 @@ CREATE TABLE `falcon_appointment` (
   CONSTRAINT `falcon_appointment_ibfk_2` FOREIGN KEY (`service`) REFERENCES `falcon_service` (`id`),
   CONSTRAINT `FK_falcon_appointment_falcon_location` FOREIGN KEY (`location`) REFERENCES `falcon_location` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-
-
-# Dump of table falcon_appointment_patron
-# ------------------------------------------------------------
+--
+-- Table structure for table `falcon_appointment_patron`
+--
 
 DROP TABLE IF EXISTS `falcon_appointment_patron`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_appointment_patron` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `appointment` int(11) unsigned NOT NULL,
@@ -62,14 +61,15 @@ CREATE TABLE `falcon_appointment_patron` (
   CONSTRAINT `falcon_appointment_patron_ibfk_1` FOREIGN KEY (`patron`) REFERENCES `falcon_patron` (`id`),
   CONSTRAINT `FK_falcon_patron_falcon_appointment` FOREIGN KEY (`appointment`) REFERENCES `falcon_appointment` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-
-
-# Dump of table falcon_feedback
-# ------------------------------------------------------------
+--
+-- Table structure for table `falcon_feedback`
+--
 
 DROP TABLE IF EXISTS `falcon_feedback`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_feedback` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `feedback_type` varchar(15) DEFAULT NULL,
@@ -77,14 +77,15 @@ CREATE TABLE `falcon_feedback` (
   `email_from` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-
-
-# Dump of table falcon_location
-# ------------------------------------------------------------
+--
+-- Table structure for table `falcon_location`
+--
 
 DROP TABLE IF EXISTS `falcon_location`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_location` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8 DEFAULT '',
@@ -94,14 +95,15 @@ CREATE TABLE `falcon_location` (
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_location_ibfk_1` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-
-
-# Dump of table falcon_message_log
-# ------------------------------------------------------------
+--
+-- Table structure for table `falcon_message_log`
+--
 
 DROP TABLE IF EXISTS `falcon_message_log`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_message_log` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `sender` varchar(100) COLLATE utf8_bin NOT NULL,
@@ -111,15 +113,16 @@ CREATE TABLE `falcon_message_log` (
   `sent_time` datetime NOT NULL,
   `error_message` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-
-
-# Dump of table falcon_patron
-# ------------------------------------------------------------
+--
+-- Table structure for table `falcon_patron`
+--
 
 DROP TABLE IF EXISTS `falcon_patron`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_patron` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `patron` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -130,26 +133,28 @@ CREATE TABLE `falcon_patron` (
   CONSTRAINT `falcon_patron_ibfk_2` FOREIGN KEY (`patron`) REFERENCES `falcon_user` (`username`),
   CONSTRAINT `falcon_patron_ibfk_3` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-
-
-# Dump of table falcon_role
-# ------------------------------------------------------------
+--
+-- Table structure for table `falcon_role`
+--
 
 DROP TABLE IF EXISTS `falcon_role`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_role` (
   `role_name` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '',
   PRIMARY KEY (`role_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-
-
-# Dump of table falcon_service
-# ------------------------------------------------------------
+--
+-- Table structure for table `falcon_service`
+--
 
 DROP TABLE IF EXISTS `falcon_service`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_service` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -159,14 +164,15 @@ CREATE TABLE `falcon_service` (
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_service_ibfk_1` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-
-
-# Dump of table falcon_staff
-# ------------------------------------------------------------
+--
+-- Table structure for table `falcon_staff`
+--
 
 DROP TABLE IF EXISTS `falcon_staff`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_staff` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -181,14 +187,15 @@ CREATE TABLE `falcon_staff` (
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_staff_ibfk_1` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-
-
-# Dump of table falcon_user
-# ------------------------------------------------------------
+--
+-- Table structure for table `falcon_user`
+--
 
 DROP TABLE IF EXISTS `falcon_user`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_user` (
   `username` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '',
   `password` char(64) COLLATE utf8_bin NOT NULL,
@@ -204,14 +211,15 @@ CREATE TABLE `falcon_user` (
   UNIQUE KEY `phone` (`phone`),
   UNIQUE KEY `nric` (`nric`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-
-
-# Dump of table falcon_user_role
-# ------------------------------------------------------------
+--
+-- Table structure for table `falcon_user_role`
+--
 
 DROP TABLE IF EXISTS `falcon_user_role`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `falcon_user_role` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) COLLATE utf8_bin NOT NULL,
@@ -222,14 +230,15 @@ CREATE TABLE `falcon_user_role` (
   KEY `rolename` (`rolename`),
   CONSTRAINT `FK_falcon_user_role_falcon_role` FOREIGN KEY (`rolename`) REFERENCES `falcon_role` (`role_name`),
   CONSTRAINT `FK_falcon_user_role_falcon_user` FOREIGN KEY (`username`) REFERENCES `falcon_user` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-
-
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
