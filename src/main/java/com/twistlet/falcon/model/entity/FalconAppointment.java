@@ -36,12 +36,13 @@ public class FalconAppointment  implements java.io.Serializable {
      private String createBy;
      private String updateBy;
      private Date appointmentDateEnd;
+     private Character notified;
      private Set<FalconAppointmentPatron> falconAppointmentPatrons = new HashSet<FalconAppointmentPatron>(0);
 
     public FalconAppointment() {
     }
 
-    public FalconAppointment(FalconStaff falconStaff, FalconLocation falconLocation, FalconService falconService, Date appointmentDate, Date createDate, Date updateDate, String createBy, String updateBy, Date appointmentDateEnd, Set<FalconAppointmentPatron> falconAppointmentPatrons) {
+    public FalconAppointment(FalconStaff falconStaff, FalconLocation falconLocation, FalconService falconService, Date appointmentDate, Date createDate, Date updateDate, String createBy, String updateBy, Date appointmentDateEnd, Character notified, Set<FalconAppointmentPatron> falconAppointmentPatrons) {
        this.falconStaff = falconStaff;
        this.falconLocation = falconLocation;
        this.falconService = falconService;
@@ -51,6 +52,7 @@ public class FalconAppointment  implements java.io.Serializable {
        this.createBy = createBy;
        this.updateBy = updateBy;
        this.appointmentDateEnd = appointmentDateEnd;
+       this.notified = notified;
        this.falconAppointmentPatrons = falconAppointmentPatrons;
     }
    
@@ -154,6 +156,16 @@ public class FalconAppointment  implements java.io.Serializable {
     
     public void setAppointmentDateEnd(Date appointmentDateEnd) {
         this.appointmentDateEnd = appointmentDateEnd;
+    }
+
+    
+    @Column(name="notified", length=1)
+    public Character getNotified() {
+        return this.notified;
+    }
+    
+    public void setNotified(Character notified) {
+        this.notified = notified;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="falconAppointment")

@@ -40,6 +40,8 @@ public class QFalconAppointment extends EntityPathBase<FalconAppointment> {
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
+    public final ComparablePath<Character> notified = createComparable("notified", Character.class);
+
     public final StringPath updateBy = createString("updateBy");
 
     public final DateTimePath<java.util.Date> updateDate = createDateTime("updateDate", java.util.Date.class);
