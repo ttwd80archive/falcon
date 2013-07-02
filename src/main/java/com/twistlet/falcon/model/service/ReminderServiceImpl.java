@@ -1,12 +1,17 @@
 package com.twistlet.falcon.model.service;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,11 +29,18 @@ public class ReminderServiceImpl implements ReminderService {
 
 	private final FalconAppointmentRepository falconAppointmentRepository;
 	private final SmsService smsService;
+	private final String message;
 
 	@Autowired
-	public ReminderServiceImpl(final SmsService smsService, final FalconAppointmentRepository falconAppointmentRepository) {
+	public ReminderServiceImpl(final SmsService smsService, final FalconAppointmentRepository falconAppointmentRepository,
+			@Value("${mail.content.reminder}") final String messageLocation) {
 		this.smsService = smsService;
 		this.falconAppointmentRepository = falconAppointmentRepository;
+		try {
+			message = StringUtils.join(FileUtils.readLines(new ClassPathResource(messageLocation).getFile()), "\n");
+		} catch (final IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
