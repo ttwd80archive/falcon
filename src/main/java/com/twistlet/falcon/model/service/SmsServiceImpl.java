@@ -33,7 +33,7 @@ public class SmsServiceImpl implements SmsService {
 		final WebClient webClient = new WebClient();
 		String errorMessage = "";
 		try {
-			final String urlEncodedMessage = URLEncoder.encode(message, "UTF-8");
+			final String urlEncodedMessage = URLEncoder.encode("RM0.00 " + message, "UTF-8");
 			final String location = MessageFormat.format(smsGatewayLocation, sendTo, urlEncodedMessage);
 			logger.info("Invoking: {}", location);
 			final HtmlPage htmlPage = webClient.getPage(location);
