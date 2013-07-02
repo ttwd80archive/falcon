@@ -1,6 +1,7 @@
 package com.twistlet.falcon.model.service;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -28,12 +29,15 @@ import com.twistlet.falcon.model.repository.FalconAppointmentRepository;
 public class ReminderServiceImpl implements ReminderService {
 
 	private final FalconAppointmentRepository falconAppointmentRepository;
+	private final MailSenderService mailSenderService;
 	private final SmsService smsService;
 	private final String message;
 
 	@Autowired
-	public ReminderServiceImpl(final SmsService smsService, final FalconAppointmentRepository falconAppointmentRepository,
+	public ReminderServiceImpl(final MailSenderService mailSenderService, final SmsService smsService,
+			final FalconAppointmentRepository falconAppointmentRepository,
 			@Value("${mail.content.reminder}") final String messageLocation) {
+		this.mailSenderService = mailSenderService;
 		this.smsService = smsService;
 		this.falconAppointmentRepository = falconAppointmentRepository;
 		try {
@@ -66,10 +70,19 @@ public class ReminderServiceImpl implements ReminderService {
 		final String staff = falconStaff.getName();
 		final String venue = falconLocation.getName();
 		final String service = falconService.getName();
+		final String subject = "Your scheduled appointment is due soon";
+		final String smsFormat = "Appointment due soon! {0} {1} {2} {3} {4} {5}";
 		for (final FalconAppointmentPatron falconAppointmentPatron : falconPatrons) {
 			final FalconPatron falconPatron = falconAppointmentPatron.getFalconPatron();
 			final FalconUser thePatron = falconPatron.getFalconUserByPatron();
-
+			final FalconUser theAdmin = falconPatron.getFalconUserByAdmin();
+			final String sender = theAdmin.getUsername();
+			final String patron = thePatron.getName();
+			final Object[] arguments = { date, time, staff, patron, venue, service };
+			final String mailContent = MessageFormat.format(message, arguments);
+			final String smsContent = MessageFormat.format(smsFormat, arguments);
+			mailSenderService.send(sender, thePatron.getEmail(), mailContent, subject);
+			smsService.send(sender, thePatron.getPhone(), smsContent);
 		}
 		falconAppointment.setNotified(new Character('Y'));
 		falconAppointmentRepository.save(falconAppointment);
