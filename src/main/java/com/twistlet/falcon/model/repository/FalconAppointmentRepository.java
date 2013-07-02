@@ -11,6 +11,6 @@ public interface FalconAppointmentRepository extends JpaRepository<FalconAppoint
 
 	List<FalconAppointment> findByAppointmentDateBetween(Date start, Date end);
 
-	List<FalconAppointment> findByAppointmentDateBetweenAndNotified(Date start, Date end, String notified);
+	List<FalconAppointment> findByAppointmentDateBetweenAndNotified(Date start, Date end, Character notified);
 
 }

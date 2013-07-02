@@ -20,8 +20,7 @@ public class MailSenderServiceImpl implements MailSenderService {
 	private final DatabaseLoggingService databaseLoggingService;
 
 	@Autowired
-	public MailSenderServiceImpl(
-			@Value("${smtp.notifications.name}") final String senderName,
+	public MailSenderServiceImpl(@Value("${smtp.notifications.name}") final String senderName,
 			@Value("${smtp.notifications.address}") final String senderAddress,
 			@Value("${smtp.notifications.subject}") final String subject,
 			@Qualifier("notificationsMailSender") final JavaMailSender javaMailSender,
@@ -34,7 +33,7 @@ public class MailSenderServiceImpl implements MailSenderService {
 	}
 
 	@Override
-	public void send(final String sendTo, final String message) {
+	public void send(final String fromUserId, final String sendTo, final String message) {
 		final SimpleMailMessage mailMessage = new SimpleMailMessage();
 		final String from = "\"" + senderName + "\" <" + senderAddress + ">";
 		mailMessage.setFrom(from);

@@ -21,22 +21,20 @@ public class SmsServiceImpl implements SmsService {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	public SmsServiceImpl(
-			@Value("${sms.location}") final String smsGatewayLocation,
+	public SmsServiceImpl(@Value("${sms.location}") final String smsGatewayLocation,
 			final DatabaseLoggingService databaseLoggingService) {
 		this.smsGatewayLocation = smsGatewayLocation;
 		this.databaseLoggingService = databaseLoggingService;
 	}
 
 	@Override
-	public void send(final String sendTo, final String message) {
+	public void send(final String from, final String sendTo, final String message) {
+		// TODO check for count validity, can the from user send the sms
 		final WebClient webClient = new WebClient();
 		String errorMessage = "";
 		try {
-			final String urlEncodedMessage = URLEncoder
-					.encode(message, "UTF-8");
-			final String location = MessageFormat.format(smsGatewayLocation,
-					sendTo, urlEncodedMessage);
+			final String urlEncodedMessage = URLEncoder.encode(message, "UTF-8");
+			final String location = MessageFormat.format(smsGatewayLocation, sendTo, urlEncodedMessage);
 			logger.info("Invoking: {}", location);
 			final HtmlPage htmlPage = webClient.getPage(location);
 			final String content = htmlPage.asText();

@@ -2,5 +2,5 @@ package com.twistlet.falcon.model.service;
 
 public interface MessageSenderService {
 
-	void send(String sendTo, String message);
+	void send(String from, String sendTo, String message);
 }

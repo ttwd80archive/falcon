@@ -24,8 +24,8 @@ public class StaffServiceImpl implements StaffService {
 	private final SmsService smsService;
 
 	@Autowired
-	public StaffServiceImpl(FalconUserRepository falconUserRepository, FalconStaffRepository falconStaffRepository,
-			MailSenderService mailSenderService, SmsService smsService) {
+	public StaffServiceImpl(final FalconUserRepository falconUserRepository, final FalconStaffRepository falconStaffRepository,
+			final MailSenderService mailSenderService, final SmsService smsService) {
 		this.falconUserRepository = falconUserRepository;
 		this.falconStaffRepository = falconStaffRepository;
 		this.mailSenderService = mailSenderService;
@@ -39,10 +39,10 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public boolean sendEmail(final String name, final String address, final String message) {
+	public boolean sendEmail(final String from, final String name, final String address, final String message) {
 		final String sendTo = "\"" + name + "\"" + " <" + address + ">";
 		try {
-			mailSenderService.send(sendTo, message);
+			mailSenderService.send(from, sendTo, message);
 			return true;
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -51,9 +51,9 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public boolean sendSms(final String phone, final String message) {
+	public boolean sendSms(final String from, final String phone, final String message) {
 		try {
-			smsService.send(phone, message);
+			smsService.send(from, phone, message);
 			return true;
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -69,64 +69,64 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconStaff> listStaffByAdmin(String admin) {
-		FalconUser user = new FalconUser();
+	public List<FalconStaff> listStaffByAdmin(final String admin) {
+		final FalconUser user = new FalconUser();
 		user.setUsername(admin);
-		List<FalconStaff> staffs = falconStaffRepository.findByFalconUserAndValid(user, true);
+		final List<FalconStaff> staffs = falconStaffRepository.findByFalconUserAndValid(user, true);
 		return staffs;
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void saveStaff(FalconStaff staff) {
+	public void saveStaff(final FalconStaff staff) {
 		falconStaffRepository.save(staff);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconStaff> listStaffByAdminNameLike(FalconUser admin, String username) {
+	public List<FalconStaff> listStaffByAdminNameLike(final FalconUser admin, final String username) {
 		return falconStaffRepository.findByFalconUserNameLike(admin, username);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconStaff> listStaffByAdminNricLike(FalconUser admin, String nric) {
+	public List<FalconStaff> listStaffByAdminNricLike(final FalconUser admin, final String nric) {
 		return falconStaffRepository.findByFalconUserNricLike(admin, nric);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconStaff> listStaffByAdminEmailLike(FalconUser admin, String email) {
+	public List<FalconStaff> listStaffByAdminEmailLike(final FalconUser admin, final String email) {
 		return falconStaffRepository.findByFalconUserEmailLike(admin, email);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconStaff> listStaffByAdminStaffLike(FalconUser admin, FalconStaff staff) {
+	public List<FalconStaff> listStaffByAdminStaffLike(final FalconUser admin, final FalconStaff staff) {
 		return falconStaffRepository.findByFalconUserStaffLike(admin, staff);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconStaff> listStaffByAdminMobileLike(FalconUser admin, String mobile) {
+	public List<FalconStaff> listStaffByAdminMobileLike(final FalconUser admin, final String mobile) {
 		return falconStaffRepository.findByFalconUserHpTelLike(admin, mobile);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void deleteStaff(FalconStaff staff) {
+	public void deleteStaff(final FalconStaff staff) {
 		falconStaffRepository.delete(staff);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Set<FalconStaff> listAvailableStaff(FalconUser admin, Date start, Date end) {
-		List<FalconStaff> staffs = falconStaffRepository.findByFalconUserAndValid(admin, true);
-		Set<FalconStaff> busyStaffs = falconStaffRepository.findStaffDateRange(admin, start, end);
-		Set<FalconStaff> availableStaffs = new HashSet<>();
-		for (FalconStaff staff : staffs) {
+	public Set<FalconStaff> listAvailableStaff(final FalconUser admin, final Date start, final Date end) {
+		final List<FalconStaff> staffs = falconStaffRepository.findByFalconUserAndValid(admin, true);
+		final Set<FalconStaff> busyStaffs = falconStaffRepository.findStaffDateRange(admin, start, end);
+		final Set<FalconStaff> availableStaffs = new HashSet<>();
+		for (final FalconStaff staff : staffs) {
 			boolean found = false;
-			for (FalconStaff busyStaff : busyStaffs) {
+			for (final FalconStaff busyStaff : busyStaffs) {
 				if (staff.getId().equals(busyStaff.getId())) {
 					found = true;
 					break;
@@ -141,7 +141,7 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconUser> listPatronByAdminId(String adminId) {
+	public List<FalconUser> listPatronByAdminId(final String adminId) {
 		return falconUserRepository.findByAdmin(adminId);
 	}
 

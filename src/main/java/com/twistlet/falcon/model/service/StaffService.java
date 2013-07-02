@@ -33,7 +33,7 @@ public interface StaffService {
 
 	List<FalconUser> listPatronByAdminId(String adminId);
 
-	boolean sendEmail(String name, String address, String message);
+	boolean sendEmail(String from, String name, String address, String message);
 
-	boolean sendSms(String phone, String message);
+	boolean sendSms(String from, String phone, String message);
 }
