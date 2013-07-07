@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
@@ -77,28 +78,41 @@ public class ReminderServiceImpl implements ReminderService {
 		final String subject = "Your scheduled appointment is due soon";
 		final String smsFormat = "Appointment due soon! {0} {1} {2} {3} {4} {5}";
 		for (final FalconAppointmentPatron falconAppointmentPatron : falconPatrons) {
-			final FalconPatron falconPatron = falconAppointmentPatron.getFalconPatron();
-			final FalconUser thePatron = falconPatron.getFalconUserByPatron();
-			final FalconUser theAdmin = falconPatron.getFalconUserByAdmin();
-			final String sender = theAdmin.getUsername();
-			final String patron = thePatron.getName();
-			final Object[] arguments = { date, time, staff, patron, venue, service };
-			final String mailContent = MessageFormat.format(message, arguments);
-			final String smsContent = MessageFormat.format(smsFormat, arguments);
-			if (thePatron.getSendEmail()) {
-				mailSenderService.send(sender, thePatron.getEmail(), mailContent, subject);
-			} else {
-				logger.info("{}, {} mail not sent. The patron settings is no mail.", falconAppointment.getId(),
-						thePatron.getUsername());
-			}
-			if (thePatron.getSendSms()) {
-				smsService.send(sender, thePatron.getPhone(), smsContent);
-			} else {
-				logger.info("{}, {} sms not sent. The patron settings is no sms.", falconAppointment.getId(),
-						thePatron.getUsername());
-			}
+			sendToPatron(falconAppointment, date, time, staff, venue, service, subject, smsFormat, falconAppointmentPatron);
 		}
 		falconAppointment.setNotified('Y');
 		falconAppointmentRepository.save(falconAppointment);
+	}
+
+	private void sendToPatron(final FalconAppointment falconAppointment, final String date, final String time, final String staff,
+			final String venue, final String service, final String subject, final String smsFormat,
+			final FalconAppointmentPatron falconAppointmentPatron) {
+		final FalconPatron falconPatron = falconAppointmentPatron.getFalconPatron();
+		final FalconUser thePatron = falconPatron.getFalconUserByPatron();
+		final FalconUser theAdmin = falconPatron.getFalconUserByAdmin();
+		final String sender = theAdmin.getUsername();
+		final String patron = thePatron.getName();
+		final Object[] arguments = { date, time, staff, patron, venue, service };
+		final String mailContent = MessageFormat.format(message, arguments);
+		final String smsContent = MessageFormat.format(smsFormat, arguments);
+		if (BooleanUtils.toBoolean(thePatron.getSendEmail())) {
+			mailSenderService.send(sender, thePatron.getEmail(), mailContent, subject);
+		} else {
+			logger.info("{}, {} mail not sent. The patron settings is no mail.", falconAppointment.getId(), thePatron.getUsername());
+		}
+		if (BooleanUtils.toBoolean(thePatron.getSendSms())) {
+			final int smsRemaining = theAdmin.getSmsRemaining();
+			if (smsRemaining > 0) {
+				smsService.send(sender, thePatron.getPhone(), smsContent);
+				theAdmin.setSmsRemaining(smsRemaining - 1);
+				final int smsSent = theAdmin.getSmsSentLifetime();
+				theAdmin.setSmsSentLifetime(smsSent + 1);
+			} else {
+				logger.warn("{}, {} mail not sent. The admin '{}' ran out of sms credits.", falconAppointment.getId(),
+						thePatron.getUsername(), theAdmin.getUsername());
+			}
+		} else {
+			logger.info("{}, {} sms not sent. The patron settings is no sms.", falconAppointment.getId(), thePatron.getUsername());
+		}
 	}
 }
