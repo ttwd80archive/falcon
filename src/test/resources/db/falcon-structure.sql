@@ -38,6 +38,7 @@ CREATE TABLE `falcon_appointment` (
   KEY `FK_falcon_appointment_falcon_location` (`location`),
   KEY `staff` (`staff`),
   KEY `service` (`service`),
+  KEY `notified` (`notified`),
   CONSTRAINT `falcon_appointment_ibfk_1` FOREIGN KEY (`staff`) REFERENCES `falcon_staff` (`id`),
   CONSTRAINT `falcon_appointment_ibfk_2` FOREIGN KEY (`service`) REFERENCES `falcon_service` (`id`),
   CONSTRAINT `FK_falcon_appointment_falcon_location` FOREIGN KEY (`location`) REFERENCES `falcon_location` (`id`)
@@ -206,6 +207,8 @@ CREATE TABLE `falcon_user` (
   `send_sms` tinyint(1) unsigned DEFAULT NULL,
   `send_email` tinyint(1) unsigned DEFAULT NULL,
   `valid` tinyint(1) unsigned DEFAULT NULL,
+  `sms_remaining` int(10) DEFAULT '0',
+  `sms_sent_lifetime` int(10) DEFAULT '0',
   PRIMARY KEY (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `phone` (`phone`),

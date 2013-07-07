@@ -113,8 +113,8 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_user` WRITE;
 /*!40000 ALTER TABLE `falcon_user` DISABLE KEYS */;
-INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `send_sms`, `send_email`, `valid`) VALUES ('sarawakshank@gmail.com','bf0d746d6cc8cd17d6683ffd4626c64988706a3312266e8fc3b37c4bf6b72304','shankar','sarawakshank@gmail.com','0222222222','999999999999',1,1,1);
-INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `send_sms`, `send_email`, `valid`) VALUES ('titiwangsa','bb1338008e7180b5b8246884e8c37eec9ac8869fccd3340a31e9cf67b375fd6e','Titi Wangsa bin Damhore','titi.wangsa.damhore@tabuk-tech.com','60193012624','800110125087',NULL,NULL,1);
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `send_sms`, `send_email`, `valid`, `sms_remaining`, `sms_sent_lifetime`) VALUES ('sarawakshank@gmail.com','bf0d746d6cc8cd17d6683ffd4626c64988706a3312266e8fc3b37c4bf6b72304','shankar','sarawakshank@gmail.com','0222222222','999999999999',1,1,1,0,0);
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `send_sms`, `send_email`, `valid`, `sms_remaining`, `sms_sent_lifetime`) VALUES ('titiwangsa','bb1338008e7180b5b8246884e8c37eec9ac8869fccd3340a31e9cf67b375fd6e','Titi Wangsa bin Damhore','titi.wangsa.damhore@tabuk-tech.com','60193012624','800110125087',NULL,NULL,1,0,0);
 /*!40000 ALTER TABLE `falcon_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
