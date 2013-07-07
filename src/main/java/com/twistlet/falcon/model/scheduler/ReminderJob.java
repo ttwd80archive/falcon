@@ -25,7 +25,7 @@ public class ReminderJob extends QuartzJobBean {
 	@Override
 	protected void executeInternal(final JobExecutionContext context) throws JobExecutionException {
 		logger.info("Starting up...");
-		final List<FalconAppointment> list = reminderService.listAppointmentsNeedingReminders(TimeUnit.DAYS.toSeconds(2));
+		final List<FalconAppointment> list = reminderService.listAppointmentsNeedingReminders(TimeUnit.HOURS.toSeconds(2));
 		logger.info("{} items found", list.size());
 		for (final FalconAppointment falconAppointment : list) {
 			logger.info("Processing #{}", falconAppointment.getId());
