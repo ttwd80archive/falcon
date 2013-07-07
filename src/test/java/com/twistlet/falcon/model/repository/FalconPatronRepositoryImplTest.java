@@ -24,14 +24,14 @@ import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.entity.FalconUserRole;
 
-public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest{
-	
+public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest {
+
 	@Autowired
 	FalconPatronRepository falconPatronRepository;
 
 	@PersistenceContext
 	EntityManager entityManager;
-	
+
 	@Before
 	public void init() {
 		FalconRole role1, role3;
@@ -58,19 +58,23 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 		entityManager.persist(location1 = createNewLocation("LOCATION_1", admin1));
 		entityManager.persist(service1 = createNewService("SERVICE_1", admin1));
 		entityManager.persist(staff1 = createNewStaff("STAFF_1", admin1));
-		Date now = new Date();
-		entityManager.persist(appointment1 = createNewAppointment(now, DateUtils.addHours(now , 4), staff1, service1, location1));
-		entityManager.persist(appointment2 = createNewAppointment(DateUtils.addHours(now, 3), DateUtils.addHours(now , 5), staff1, service1, location1));
+		final Date now = new Date();
+		entityManager.persist(appointment1 = createNewAppointment(now, DateUtils.addHours(now, 4), staff1, service1, location1));
+		entityManager.persist(appointment2 = createNewAppointment(DateUtils.addHours(now, 3), DateUtils.addHours(now, 5), staff1,
+				service1, location1));
 		entityManager.persist(createNewFalconAppointmentPatron(patron1, appointment1));
-		//entityManager.persist(createNewFalconAppointmentPatron(patron2, appointment1));
+		// entityManager.persist(createNewFalconAppointmentPatron(patron2,
+		// appointment1));
 		entityManager.persist(createNewFalconAppointmentPatron(patron3, appointment1));
-		//entityManager.persist(createNewFalconAppointmentPatron(patron1, appointment2));
+		// entityManager.persist(createNewFalconAppointmentPatron(patron1,
+		// appointment2));
 		entityManager.persist(createNewFalconAppointmentPatron(patron2, appointment2));
-		//entityManager.persist(createNewFalconAppointmentPatron(patron3, appointment2));
+		// entityManager.persist(createNewFalconAppointmentPatron(patron3,
+		// appointment2));
 		entityManager.flush();
 		entityManager.clear();
 	}
-	
+
 	private FalconUser createNewUser(final String username, final String email, final String nric, final String phone) {
 		final FalconUser falconUser = new FalconUser();
 		falconUser.setUsername(username);
@@ -89,101 +93,103 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 		return falconRole;
 	}
 
-	private FalconPatron createNewPatron(final FalconUser patron, final FalconUser admin){
+	private FalconPatron createNewPatron(final FalconUser patron, final FalconUser admin) {
 		final FalconPatron falconPatron = new FalconPatron();
 		falconPatron.setFalconUserByPatron(patron);
 		falconPatron.setFalconUserByAdmin(admin);
 		return falconPatron;
 	}
-	
-	private FalconLocation createNewLocation(final String location, final FalconUser admin){
-		FalconLocation falconLocation = new FalconLocation();
+
+	private FalconLocation createNewLocation(final String location, final FalconUser admin) {
+		final FalconLocation falconLocation = new FalconLocation();
 		falconLocation.setName(location);
 		falconLocation.setFalconUser(admin);
 		return falconLocation;
 	}
-	
-	private FalconService createNewService(final String service, final FalconUser admin){
-		FalconService falconService = new FalconService();
+
+	private FalconService createNewService(final String service, final FalconUser admin) {
+		final FalconService falconService = new FalconService();
 		falconService.setName(service);
 		falconService.setFalconUser(admin);
 		return falconService;
 	}
-	
-	private FalconStaff createNewStaff(final String name, final FalconUser admin){
-		FalconStaff falconStaff = new FalconStaff();
+
+	private FalconStaff createNewStaff(final String name, final FalconUser admin) {
+		final FalconStaff falconStaff = new FalconStaff();
 		falconStaff.setName(name);
 		falconStaff.setFalconUser(admin);
 		falconStaff.setNric("XXX");
 		return falconStaff;
 	}
-	
-	private FalconAppointmentPatron createNewFalconAppointmentPatron(final FalconPatron patron, final FalconAppointment appointment){
-		FalconAppointmentPatron appointmentPatron = new FalconAppointmentPatron();
+
+	private FalconAppointmentPatron createNewFalconAppointmentPatron(final FalconPatron patron, final FalconAppointment appointment) {
+		final FalconAppointmentPatron appointmentPatron = new FalconAppointmentPatron();
 		appointmentPatron.setFalconPatron(patron);
 		appointmentPatron.setFalconAppointment(appointment);
 		return appointmentPatron;
 	}
-	
-	private FalconAppointment createNewAppointment(final Date start, final Date end, final FalconStaff staff, final FalconService service, final FalconLocation location){
-		FalconAppointment appointment = new FalconAppointment();
+
+	private FalconAppointment createNewAppointment(final Date start, final Date end, final FalconStaff staff,
+			final FalconService service, final FalconLocation location) {
+		final FalconAppointment appointment = new FalconAppointment();
 		appointment.setAppointmentDate(start);
 		appointment.setAppointmentDateEnd(end);
 		appointment.setFalconLocation(location);
 		appointment.setFalconService(service);
 		appointment.setFalconStaff(staff);
+		appointment.setNotified('N');
 		return appointment;
-		
+
 	}
-	
+
 	@Test
 	public void testPatronsOverlapStart() {
-		Date end = new Date();
-		Date start = DateUtils.addHours(end, -1);
-		FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
-		Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
+		final Date end = new Date();
+		final Date start = DateUtils.addHours(end, -1);
+		final FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
+		final Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
 		assertEquals(2, patrons.size());
 	}
-	
+
 	@Test
 	public void testPatronsOverlapEnd() {
-		Date start = DateUtils.addHours(new Date(), 3);
-		Date end = DateUtils.addHours(new Date(), 6);
-		FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
-		Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
+		final Date start = DateUtils.addHours(new Date(), 3);
+		final Date end = DateUtils.addHours(new Date(), 6);
+		final FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
+		final Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
 		assertEquals(3, patrons.size());
 	}
-	
+
 	@Test
 	public void testPatronsOverlapMiddle() {
-		Date start = DateUtils.addHours(new Date(), 1);
-		Date end = DateUtils.addHours(new Date(), 2);
-		FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
-		Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
+		final Date start = DateUtils.addHours(new Date(), 1);
+		final Date end = DateUtils.addHours(new Date(), 2);
+		final FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
+		final Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
 		assertEquals(2, patrons.size());
 	}
-	
+
 	@Test
 	public void testPatronsNoOverlap() {
-		Date start = DateUtils.addHours(new Date(), -4);
-		Date end = DateUtils.addHours(new Date(), -2);
-		FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
-		Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
+		final Date start = DateUtils.addHours(new Date(), -4);
+		final Date end = DateUtils.addHours(new Date(), -2);
+		final FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
+		final Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);
 		assertEquals(0, patrons.size());
 	}
-	
+
 	@Test
-	public void testFindByFalconUserNameLike(){
-		FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
-		String name = "USER_1";
-		List<FalconPatron> patrons = falconPatronRepository.findByFalconUserNameLike(admin, name);
+	public void testFindByFalconUserNameLike() {
+		final FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
+		final String name = "USER_1";
+		final List<FalconPatron> patrons = falconPatronRepository.findByFalconUserNameLike(admin, name);
 		assertEquals(1, patrons.size());
 	}
-	
+
 	@Test
-	public void testBooleanNull(){
-		FalconUser falconUser = new FalconUser();
-		if(falconUser.getValid() == null){
+	public void testBooleanNull() {
+		final FalconUser falconUser = new FalconUser();
+		if (falconUser.getValid() == null) {
 			System.out.print("ok");
 		}
 	}
