@@ -56,16 +56,12 @@ public class ReminderServiceImpl implements ReminderService {
 		}
 	}
 
-	@Override
-	@Transactional(readOnly = true)
 	public List<FalconAppointment> listAppointmentsNeedingReminders(final long seconds) {
 		final Date now = new Date();
-		final Date minumumDate = DateUtils.addSeconds(now, new Long(seconds).intValue() * -1);
-		return falconAppointmentRepository.findByAppointmentDateBetweenAndNotified(minumumDate, now, 'N');
+		final Date maxDate = DateUtils.addSeconds(now, new Long(seconds).intValue());
+		return falconAppointmentRepository.findByAppointmentDateBetweenAndNotified(now, maxDate, 'N');
 	}
 
-	@Override
-	@Transactional
 	public void sendNotification(final FalconAppointment falconAppointment) {
 		final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
 		final SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm:ss aa");
@@ -108,7 +104,11 @@ public class ReminderServiceImpl implements ReminderService {
 		final Object[] arguments = { date, time, staff, patron, venue, service };
 		if (BooleanUtils.toBoolean(falconStaff.getSendEmail())) {
 			final String mailContent = MessageFormat.format(message, arguments);
-			mailSenderService.send(sender, target, mailContent, subject);
+			try {
+				mailSenderService.send(sender, target, mailContent, subject);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
 		} else {
 			logger.info("{}, {} mail not sent. The staff settings is no mail.", falconAppointment.getId(), target);
 		}
@@ -142,7 +142,11 @@ public class ReminderServiceImpl implements ReminderService {
 		final String mailContent = MessageFormat.format(message, arguments);
 		final String smsContent = MessageFormat.format(smsFormat, arguments);
 		if (BooleanUtils.toBoolean(thePatron.getSendEmail())) {
-			mailSenderService.send(sender, thePatron.getEmail(), mailContent, subject);
+			try {
+				mailSenderService.send(sender, thePatron.getEmail(), mailContent, subject);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
 		} else {
 			logger.info("{}, {} mail not sent. The patron settings is no mail.", falconAppointment.getId(), thePatron.getUsername());
 		}
@@ -160,6 +164,15 @@ public class ReminderServiceImpl implements ReminderService {
 			}
 		} else {
 			logger.info("{}, {} sms not sent. The patron settings is no sms.", falconAppointment.getId(), thePatron.getUsername());
+		}
+	}
+
+	@Override
+	@Transactional
+	public void sendNotificationToAppointmentsInTheFuture(final long seconds) {
+		final List<FalconAppointment> list = listAppointmentsNeedingReminders(seconds);
+		for (final FalconAppointment falconAppointment : list) {
+			sendNotification(falconAppointment);
 		}
 	}
 }

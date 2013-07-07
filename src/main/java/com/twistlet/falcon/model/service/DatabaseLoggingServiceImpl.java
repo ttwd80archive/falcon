@@ -19,8 +19,7 @@ public class DatabaseLoggingServiceImpl implements DatabaseLoggingService {
 	private final SecurityContextService securityContextService;
 
 	@Autowired
-	public DatabaseLoggingServiceImpl(
-			final FalconMessageLogRepository falconMessageLogRepository,
+	public DatabaseLoggingServiceImpl(final FalconMessageLogRepository falconMessageLogRepository,
 			final SecurityContextService securityContextService) {
 		this.falconMessageLogRepository = falconMessageLogRepository;
 		this.securityContextService = securityContextService;
@@ -28,24 +27,26 @@ public class DatabaseLoggingServiceImpl implements DatabaseLoggingService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void logEmailSent(final String address, final String message,
-			final String errorMessage) {
+	public void logEmailSent(final String address, final String message, final String errorMessage) {
 		logMessageSent(address, message, errorMessage, "mail");
 
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void logSmsSent(final String phone, final String message,
-			final String errorMessage) {
+	public void logSmsSent(final String phone, final String message, final String errorMessage) {
 		logMessageSent(phone, message, errorMessage, "sms");
 
 	}
 
-	private void logMessageSent(final String address, final String message,
-			final String errorMessage, final String messageType) {
+	private void logMessageSent(final String address, final String message, final String errorMessage, final String messageType) {
 		final Authentication auth = securityContextService.getAuthentication();
-		final String name = auth.getName();
+		final String name;
+		if (auth != null) {
+			name = auth.getName();
+		} else {
+			name = "scheduler";
+		}
 		final FalconMessageLog item = new FalconMessageLog();
 		item.setDestination(address);
 		item.setErrorMessage(errorMessage);

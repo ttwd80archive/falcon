@@ -34,12 +34,11 @@ public class AdminLandingController {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private final AppointmentService appointmentService;
-	
+
 	private final PatronService patronService;
-	
+
 	@Autowired
-	public AdminLandingController(AppointmentService appointmentService,
-			PatronService patronService) {
+	public AdminLandingController(final AppointmentService appointmentService, final PatronService patronService) {
 		this.appointmentService = appointmentService;
 		this.patronService = patronService;
 	}
@@ -51,41 +50,40 @@ public class AdminLandingController {
 		sdf.setLenient(false);
 		dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, false));
 	}
-	
+
 	@InitBinder
-	public void initFalconPatronsBinder(final WebDataBinder dataBinder){
-		dataBinder.registerCustomEditor(Set.class, "falconAppointmentPatrons", new CustomCollectionEditor(Set.class){
-			 @Override
-	         protected Object convertElement(Object element){
-				 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			     String adminUsername = auth.getName();
-				 String username = StringUtils.EMPTY;
-				 if(element instanceof String && !((String)element).equals("")){
-					 username = (String) element;
-				 }
-				 else{
-					 return null;
-				 }
-				 FalconAppointmentPatron falconAppointmentPatron = new FalconAppointmentPatron();
-				 FalconPatron falconPatron = patronService.findPatron(username, adminUsername);
-				 falconAppointmentPatron.setFalconPatron(falconPatron);
-				 return falconAppointmentPatron;
-			 }
+	public void initFalconPatronsBinder(final WebDataBinder dataBinder) {
+		dataBinder.registerCustomEditor(Set.class, "falconAppointmentPatrons", new CustomCollectionEditor(Set.class) {
+			@Override
+			protected Object convertElement(final Object element) {
+				final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				final String adminUsername = auth.getName();
+				String username = StringUtils.EMPTY;
+				if (element instanceof String && !((String) element).equals("")) {
+					username = (String) element;
+				} else {
+					return null;
+				}
+				final FalconAppointmentPatron falconAppointmentPatron = new FalconAppointmentPatron();
+				final FalconPatron falconPatron = patronService.findPatron(username, adminUsername);
+				falconAppointmentPatron.setFalconPatron(falconPatron);
+				return falconAppointmentPatron;
+			}
 		});
 	}
 
 	@RequestMapping("/admin_landing")
 	public ModelAndView listAllPatient() {
-		ModelAndView mav = new ModelAndView("admin/admin_landing");
-		FalconAppointment appointment = new FalconAppointment();
+		final ModelAndView mav = new ModelAndView("admin/admin_landing");
+		final FalconAppointment appointment = new FalconAppointment();
 		appointment.setAppointmentDate(new Date());
 		mav.addObject("appointment", appointment);
 		return mav;
 	}
 
 	@RequestMapping(value = "/create-appointment", method = RequestMethod.POST)
-	public ModelAndView createNewAppointment(
-			@ModelAttribute("appointment") FalconAppointment appointment) {
+	public ModelAndView createNewAppointment(@ModelAttribute("appointment") final FalconAppointment appointment) {
+		appointment.setNotified('N');
 		appointmentService.createAppointment(appointment);
 		return new ModelAndView("redirect:admin_landing");
 	}
