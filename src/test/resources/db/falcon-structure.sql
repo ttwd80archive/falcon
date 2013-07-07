@@ -95,7 +95,7 @@ CREATE TABLE `falcon_location` (
   PRIMARY KEY (`id`),
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_location_ibfk_1` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,7 +114,7 @@ CREATE TABLE `falcon_message_log` (
   `sent_time` datetime NOT NULL,
   `error_message` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,7 +133,7 @@ CREATE TABLE `falcon_patron` (
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_patron_ibfk_2` FOREIGN KEY (`patron`) REFERENCES `falcon_user` (`username`),
   CONSTRAINT `falcon_patron_ibfk_3` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +164,7 @@ CREATE TABLE `falcon_service` (
   PRIMARY KEY (`id`),
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_service_ibfk_1` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +187,7 @@ CREATE TABLE `falcon_staff` (
   PRIMARY KEY (`id`),
   KEY `admin` (`admin`),
   CONSTRAINT `falcon_staff_ibfk_1` FOREIGN KEY (`admin`) REFERENCES `falcon_user` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +233,7 @@ CREATE TABLE `falcon_user_role` (
   KEY `rolename` (`rolename`),
   CONSTRAINT `FK_falcon_user_role_falcon_role` FOREIGN KEY (`rolename`) REFERENCES `falcon_role` (`role_name`),
   CONSTRAINT `FK_falcon_user_role_falcon_user` FOREIGN KEY (`username`) REFERENCES `falcon_user` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

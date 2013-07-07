@@ -48,6 +48,9 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_location` WRITE;
 /*!40000 ALTER TABLE `falcon_location` DISABLE KEYS */;
+INSERT INTO `falcon_location` (`id`, `name`, `admin`, `valid`) VALUES (1,'Room 1','sarawakshank@gmail.com',1);
+INSERT INTO `falcon_location` (`id`, `name`, `admin`, `valid`) VALUES (2,'Room 2','sarawakshank@gmail.com',1);
+INSERT INTO `falcon_location` (`id`, `name`, `admin`, `valid`) VALUES (3,'Room 3','sarawakshank@gmail.com',1);
 /*!40000 ALTER TABLE `falcon_location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,15 +60,6 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_message_log` WRITE;
 /*!40000 ALTER TABLE `falcon_message_log` DISABLE KEYS */;
-INSERT INTO `falcon_message_log` (`id`, `sender`, `destination`, `message_type`, `message`, `sent_time`, `error_message`) VALUES (1,'inban','Titi Wangsa bin Damhore <titi.wangsa.damhore@tabuk-tech.com>','mail','test abc 123','2013-02-18 21:41:28','org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Could not connect to SMTP host: email-smtp.us-east-1.amazonaws.com, port: 587;\n  nested exception is:\n	javax.net.ssl.SSLException: Unrecognized SSL message, plaintext connection?. Failed messages: javax.mail.MessagingException: Could not connect to SMTP host: email-smtp.us-east-1.amazonaws.com, port: 587;\n  nested exception is:\n	javax.net.ssl.SSLException: Unrecognized SSL message, plaintext connection?; message exceptions (1) are:\nFailed message 1: javax.mail.MessagingException: Could not connect to SMTP host: email-smtp.us-east-1.amazonaws.com, port: 587;\n  nested exception is:\n	javax.net.ssl.SSLException: Unrecognized SSL message, plaintext connection?');
-INSERT INTO `falcon_message_log` (`id`, `sender`, `destination`, `message_type`, `message`, `sent_time`, `error_message`) VALUES (2,'inban','Titi Wangsa bin Damhore <titi.wangsa.damhore@tabuk-tech.com>','mail','aabbcc','2013-02-18 21:46:54','org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Could not connect to SMTP host: email-smtp.us-east-1.amazonaws.com, port: 587;\n  nested exception is:\n	javax.net.ssl.SSLException: Unrecognized SSL message, plaintext connection?. Failed messages: javax.mail.MessagingException: Could not connect to SMTP host: email-smtp.us-east-1.amazonaws.com, port: 587;\n  nested exception is:\n	javax.net.ssl.SSLException: Unrecognized SSL message, plaintext connection?; message exceptions (1) are:\nFailed message 1: javax.mail.MessagingException: Could not connect to SMTP host: email-smtp.us-east-1.amazonaws.com, port: 587;\n  nested exception is:\n	javax.net.ssl.SSLException: Unrecognized SSL message, plaintext connection?');
-INSERT INTO `falcon_message_log` (`id`, `sender`, `destination`, `message_type`, `message`, `sent_time`, `error_message`) VALUES (3,'inban','Titi Wangsa bin Damhore <titi.wangsa.damhore@tabuk-tech.com>','mail','aabbcc','2013-02-18 21:48:28','org.springframework.mail.MailSendException: Mail server connection failed; nested exception is javax.mail.MessagingException: Could not connect to SMTP host: email-smtp.us-east-1.amazonaws.com, port: 587;\n  nested exception is:\n	javax.net.ssl.SSLException: Unrecognized SSL message, plaintext connection?. Failed messages: javax.mail.MessagingException: Could not connect to SMTP host: email-smtp.us-east-1.amazonaws.com, port: 587;\n  nested exception is:\n	javax.net.ssl.SSLException: Unrecognized SSL message, plaintext connection?; message exceptions (1) are:\nFailed message 1: javax.mail.MessagingException: Could not connect to SMTP host: email-smtp.us-east-1.amazonaws.com, port: 587;\n  nested exception is:\n	javax.net.ssl.SSLException: Unrecognized SSL message, plaintext connection?');
-INSERT INTO `falcon_message_log` (`id`, `sender`, `destination`, `message_type`, `message`, `sent_time`, `error_message`) VALUES (4,'inban','Titi Wangsa bin Damhore <titi.wangsa.damhore@tabuk-tech.com>','mail','aa bb cc','2013-02-18 21:50:15','org.springframework.mail.MailSendException: Failed messages: com.sun.mail.smtp.SMTPSendFailedException: 554 Transaction failed: Missing final \'@domain\'\n; message exceptions (1) are:\nFailed message 1: com.sun.mail.smtp.SMTPSendFailedException: 554 Transaction failed: Missing final \'@domain\'\n');
-INSERT INTO `falcon_message_log` (`id`, `sender`, `destination`, `message_type`, `message`, `sent_time`, `error_message`) VALUES (5,'inban','\"Titi Wangsa bin Damhore\" <titi.wangsa.damhore@tabuk-tech.com>','mail','aa bb cc','2013-02-18 21:54:44','org.springframework.mail.MailSendException: Failed messages: com.sun.mail.smtp.SMTPSendFailedException: 554 Transaction failed: Missing final \'@domain\'\n; message exceptions (1) are:\nFailed message 1: com.sun.mail.smtp.SMTPSendFailedException: 554 Transaction failed: Missing final \'@domain\'\n');
-INSERT INTO `falcon_message_log` (`id`, `sender`, `destination`, `message_type`, `message`, `sent_time`, `error_message`) VALUES (6,'inban','\"Titi Wangsa bin Damhore\" <titi.wangsa.damhore@tabuk-tech.com>','mail','aa bb cc','2013-02-18 21:56:56','org.springframework.mail.MailSendException: Failed messages: com.sun.mail.smtp.SMTPSendFailedException: 554 Transaction failed: Missing final \'@domain\'\n; message exceptions (1) are:\nFailed message 1: com.sun.mail.smtp.SMTPSendFailedException: 554 Transaction failed: Missing final \'@domain\'\n');
-INSERT INTO `falcon_message_log` (`id`, `sender`, `destination`, `message_type`, `message`, `sent_time`, `error_message`) VALUES (7,'inban','\"Titi Wangsa bin Damhore\" <titi.wangsa.damhore@tabuk-tech.com>','mail','aa bb cc','2013-02-18 22:01:18','org.springframework.mail.MailSendException: Failed to close server connection after message failures; nested exception is javax.mail.MessagingException: Can\'t send command to SMTP host;\n  nested exception is:\n	java.net.SocketException: Connection closed by remote host. Failed messages: com.sun.mail.smtp.SMTPSendFailedException: 421 Timeout waiting for data from client.\n; message exceptions (1) are:\nFailed message 1: com.sun.mail.smtp.SMTPSendFailedException: 421 Timeout waiting for data from client.\n');
-INSERT INTO `falcon_message_log` (`id`, `sender`, `destination`, `message_type`, `message`, `sent_time`, `error_message`) VALUES (8,'inban','\"Titi Wangsa bin Damhore\" <titi.wangsa.damhore@tabuk-tech.com>','mail','aa bb cc','2013-02-18 22:01:48',NULL);
-INSERT INTO `falcon_message_log` (`id`, `sender`, `destination`, `message_type`, `message`, `sent_time`, `error_message`) VALUES (9,'inban','\"Titi Wangsa bin Damhore\" <titi.wangsa.damhore@tabuk-tech.com>','mail','aa bb cc dd','2013-02-18 22:02:08',NULL);
 /*!40000 ALTER TABLE `falcon_message_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,6 +69,8 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_patron` WRITE;
 /*!40000 ALTER TABLE `falcon_patron` DISABLE KEYS */;
+INSERT INTO `falcon_patron` (`id`, `patron`, `admin`) VALUES (1,'blacksnow666@gmail.com','sarawakshank@gmail.com');
+INSERT INTO `falcon_patron` (`id`, `patron`, `admin`) VALUES (2,'helmy@tabuk-tech.com','sarawakshank@gmail.com');
 /*!40000 ALTER TABLE `falcon_patron` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,6 +91,8 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_service` WRITE;
 /*!40000 ALTER TABLE `falcon_service` DISABLE KEYS */;
+INSERT INTO `falcon_service` (`id`, `name`, `admin`, `valid`) VALUES (1,'Normal Appointment','sarawakshank@gmail.com',1);
+INSERT INTO `falcon_service` (`id`, `name`, `admin`, `valid`) VALUES (2,'Minor Surgery','sarawakshank@gmail.com',1);
 /*!40000 ALTER TABLE `falcon_service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,6 +102,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_staff` WRITE;
 /*!40000 ALTER TABLE `falcon_staff` DISABLE KEYS */;
+INSERT INTO `falcon_staff` (`id`, `name`, `nric`, `admin`, `hp_tel`, `email`, `send_sms`, `send_email`, `valid`) VALUES (1,'Aeris','100100','sarawakshank@gmail.com','100100','aeris@ff7.com',0,0,1);
 /*!40000 ALTER TABLE `falcon_staff` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,8 +112,9 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_user` WRITE;
 /*!40000 ALTER TABLE `falcon_user` DISABLE KEYS */;
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `send_sms`, `send_email`, `valid`, `sms_remaining`, `sms_sent_lifetime`) VALUES ('blacksnow666@gmail.com','2cfbd4aacfa9375ab4d81849fdfd1abc26a8119b85a51f8b4d7bb85b788a57b0','Titi Wangsa bin Damhore','blacksnow666@gmail.com','0193012624','800121146053',1,1,1,NULL,NULL);
+INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `send_sms`, `send_email`, `valid`, `sms_remaining`, `sms_sent_lifetime`) VALUES ('helmy@tabuk-tech.com','a6789888b1c8e62d48915c0af43523c9202a73480c2992e492c7c32a10895f00','Helmy Iqbal Ambotang','helmy@tabuk-tech.com','0123900958','79',0,1,1,NULL,NULL);
 INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `send_sms`, `send_email`, `valid`, `sms_remaining`, `sms_sent_lifetime`) VALUES ('sarawakshank@gmail.com','bf0d746d6cc8cd17d6683ffd4626c64988706a3312266e8fc3b37c4bf6b72304','shankar','sarawakshank@gmail.com','0222222222','999999999999',1,1,1,0,0);
-INSERT INTO `falcon_user` (`username`, `password`, `name`, `email`, `phone`, `nric`, `send_sms`, `send_email`, `valid`, `sms_remaining`, `sms_sent_lifetime`) VALUES ('titiwangsa','bb1338008e7180b5b8246884e8c37eec9ac8869fccd3340a31e9cf67b375fd6e','Titi Wangsa bin Damhore','titi.wangsa.damhore@tabuk-tech.com','60193012624','800110125087',NULL,NULL,1,0,0);
 /*!40000 ALTER TABLE `falcon_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,8 +124,9 @@ UNLOCK TABLES;
 
 LOCK TABLES `falcon_user_role` WRITE;
 /*!40000 ALTER TABLE `falcon_user_role` DISABLE KEYS */;
+INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (4,'blacksnow666@gmail.com','ROLE_USER');
+INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (5,'helmy@tabuk-tech.com','ROLE_USER');
 INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (3,'sarawakshank@gmail.com','ROLE_ADMIN');
-INSERT INTO `falcon_user_role` (`id`, `username`, `rolename`) VALUES (2,'titiwangsa','ROLE_ADMIN');
 /*!40000 ALTER TABLE `falcon_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
