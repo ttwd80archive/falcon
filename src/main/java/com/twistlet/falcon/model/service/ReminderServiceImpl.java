@@ -30,7 +30,7 @@ import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.repository.FalconAppointmentRepository;
 import com.twistlet.falcon.model.repository.FalconUserRepository;
 
-@Service
+@Service("reminderService")
 public class ReminderServiceImpl implements ReminderService {
 
 	private final FalconAppointmentRepository falconAppointmentRepository;
