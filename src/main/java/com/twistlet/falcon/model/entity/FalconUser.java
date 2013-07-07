@@ -30,6 +30,8 @@ public class FalconUser  implements java.io.Serializable {
      private Boolean sendSms;
      private Boolean sendEmail;
      private Boolean valid;
+     private Integer smsRemaining;
+     private Integer smsSentLifetime;
      private Set<FalconPatron> falconPatronsForPatron = new HashSet<FalconPatron>(0);
      private Set<FalconPatron> falconPatronsForAdmin = new HashSet<FalconPatron>(0);
      private Set<FalconUserRole> falconUserRoles = new HashSet<FalconUserRole>(0);
@@ -49,7 +51,7 @@ public class FalconUser  implements java.io.Serializable {
         this.phone = phone;
         this.nric = nric;
     }
-    public FalconUser(String username, String password, String name, String email, String phone, String nric, Boolean sendSms, Boolean sendEmail, Boolean valid, Set<FalconPatron> falconPatronsForPatron, Set<FalconPatron> falconPatronsForAdmin, Set<FalconUserRole> falconUserRoles, Set<FalconService> falconServices, Set<FalconStaff> falconStaffs, Set<FalconLocation> falconLocations) {
+    public FalconUser(String username, String password, String name, String email, String phone, String nric, Boolean sendSms, Boolean sendEmail, Boolean valid, Integer smsRemaining, Integer smsSentLifetime, Set<FalconPatron> falconPatronsForPatron, Set<FalconPatron> falconPatronsForAdmin, Set<FalconUserRole> falconUserRoles, Set<FalconService> falconServices, Set<FalconStaff> falconStaffs, Set<FalconLocation> falconLocations) {
        this.username = username;
        this.password = password;
        this.name = name;
@@ -59,6 +61,8 @@ public class FalconUser  implements java.io.Serializable {
        this.sendSms = sendSms;
        this.sendEmail = sendEmail;
        this.valid = valid;
+       this.smsRemaining = smsRemaining;
+       this.smsSentLifetime = smsSentLifetime;
        this.falconPatronsForPatron = falconPatronsForPatron;
        this.falconPatronsForAdmin = falconPatronsForAdmin;
        this.falconUserRoles = falconUserRoles;
@@ -157,6 +161,26 @@ public class FalconUser  implements java.io.Serializable {
     
     public void setValid(Boolean valid) {
         this.valid = valid;
+    }
+
+    
+    @Column(name="sms_remaining")
+    public Integer getSmsRemaining() {
+        return this.smsRemaining;
+    }
+    
+    public void setSmsRemaining(Integer smsRemaining) {
+        this.smsRemaining = smsRemaining;
+    }
+
+    
+    @Column(name="sms_sent_lifetime")
+    public Integer getSmsSentLifetime() {
+        return this.smsSentLifetime;
+    }
+    
+    public void setSmsSentLifetime(Integer smsSentLifetime) {
+        this.smsSentLifetime = smsSentLifetime;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="falconUserByPatron")

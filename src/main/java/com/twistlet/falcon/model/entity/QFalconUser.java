@@ -46,6 +46,10 @@ public class QFalconUser extends EntityPathBase<FalconUser> {
 
     public final BooleanPath sendSms = createBoolean("sendSms");
 
+    public final NumberPath<Integer> smsRemaining = createNumber("smsRemaining", Integer.class);
+
+    public final NumberPath<Integer> smsSentLifetime = createNumber("smsSentLifetime", Integer.class);
+
     public final StringPath username = createString("username");
 
     public final BooleanPath valid = createBoolean("valid");
