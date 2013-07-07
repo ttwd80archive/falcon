@@ -110,7 +110,7 @@ public class ReminderServiceImpl implements ReminderService {
 			final String mailContent = MessageFormat.format(message, arguments);
 			mailSenderService.send(sender, target, mailContent, subject);
 		} else {
-			logger.info("{}, {} mail not sent. The patron settings is no mail.", falconAppointment.getId(), target);
+			logger.info("{}, {} mail not sent. The staff settings is no mail.", falconAppointment.getId(), target);
 		}
 		if (BooleanUtils.toBoolean(falconStaff.getSendSms())) {
 			final String smsContent = MessageFormat.format(smsFormat, arguments);
@@ -120,12 +120,13 @@ public class ReminderServiceImpl implements ReminderService {
 				falconAdmin.setSmsRemaining(smsRemaining - 1);
 				final int smsSent = falconAdmin.getSmsSentLifetime();
 				falconAdmin.setSmsSentLifetime(smsSent + 1);
+				falconUserRepository.save(falconAdmin);
 			} else {
 				logger.warn("{}, {} sms not sent. The admin '{}' ran out of sms credits.", falconAppointment.getId(),
 						falconStaff.getEmail(), falconAdmin.getUsername());
 			}
 		} else {
-			logger.info("{}, {} sms not sent. The patron settings is no sms.", falconAppointment.getId(), falconStaff.getEmail());
+			logger.info("{}, {} sms not sent. The staff settings is no sms.", falconAppointment.getId(), falconStaff.getEmail());
 		}
 	}
 
@@ -152,6 +153,7 @@ public class ReminderServiceImpl implements ReminderService {
 				theAdmin.setSmsRemaining(smsRemaining - 1);
 				final int smsSent = theAdmin.getSmsSentLifetime();
 				theAdmin.setSmsSentLifetime(smsSent + 1);
+				falconUserRepository.save(theAdmin);
 			} else {
 				logger.warn("{}, {} sms not sent. The admin '{}' ran out of sms credits.", falconAppointment.getId(),
 						thePatron.getUsername(), theAdmin.getUsername());
