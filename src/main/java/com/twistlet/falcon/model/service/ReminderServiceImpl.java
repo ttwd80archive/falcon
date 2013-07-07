@@ -3,6 +3,7 @@ package com.twistlet.falcon.model.service;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -27,11 +28,13 @@ import com.twistlet.falcon.model.entity.FalconService;
 import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.repository.FalconAppointmentRepository;
+import com.twistlet.falcon.model.repository.FalconUserRepository;
 
 @Service
 public class ReminderServiceImpl implements ReminderService {
 
 	private final FalconAppointmentRepository falconAppointmentRepository;
+	private final FalconUserRepository falconUserRepository;
 	private final MailSenderService mailSenderService;
 	private final SmsService smsService;
 	private final String message;
@@ -39,12 +42,13 @@ public class ReminderServiceImpl implements ReminderService {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	public ReminderServiceImpl(final MailSenderService mailSenderService, final SmsService smsService,
-			final FalconAppointmentRepository falconAppointmentRepository,
-			@Value("${mail.content.reminder}") final String messageLocation) {
+	public ReminderServiceImpl(final FalconUserRepository falconUserRepository,
+			final FalconAppointmentRepository falconAppointmentRepository, final MailSenderService mailSenderService,
+			final SmsService smsService, @Value("${mail.content.reminder}") final String messageLocation) {
+		this.falconUserRepository = falconUserRepository;
+		this.falconAppointmentRepository = falconAppointmentRepository;
 		this.mailSenderService = mailSenderService;
 		this.smsService = smsService;
-		this.falconAppointmentRepository = falconAppointmentRepository;
 		try {
 			message = StringUtils.join(FileUtils.readLines(new ClassPathResource(messageLocation).getFile()), "\n");
 		} catch (final IOException e) {
@@ -80,8 +84,49 @@ public class ReminderServiceImpl implements ReminderService {
 		for (final FalconAppointmentPatron falconAppointmentPatron : falconPatrons) {
 			sendToPatron(falconAppointment, date, time, staff, venue, service, subject, smsFormat, falconAppointmentPatron);
 		}
+		sendToStaff(date, time, staff, venue, service, smsFormat, subject, falconStaff, falconAppointment);
 		falconAppointment.setNotified('Y');
 		falconAppointmentRepository.save(falconAppointment);
+	}
+
+	private void sendToStaff(final String date, final String time, final String staff, final String venue, final String service,
+			final String smsFormat, final String subject, final FalconStaff falconStaff, final FalconAppointment falconAppointment) {
+		final FalconUser falconAdmin = falconStaff.getFalconUser();
+		final String sender = falconAdmin.getEmail();
+		final String target = falconStaff.getEmail();
+		final Set<FalconAppointmentPatron> set = falconAppointment.getFalconAppointmentPatrons();
+		final String patron;
+		if (set.size() == 1) {
+			final ArrayList<FalconAppointmentPatron> list = new ArrayList<>(set);
+			final FalconAppointmentPatron item = list.get(0);
+			final FalconPatron falconPatron = item.getFalconPatron();
+			final FalconUser falconUser = falconPatron.getFalconUserByPatron();
+			patron = falconUser.getName();
+		} else {
+			patron = "Patron Group #" + falconAppointment.getId();
+		}
+		final Object[] arguments = { date, time, staff, patron, venue, service };
+		if (BooleanUtils.toBoolean(falconStaff.getSendEmail())) {
+			final String mailContent = MessageFormat.format(message, arguments);
+			mailSenderService.send(sender, target, mailContent, subject);
+		} else {
+			logger.info("{}, {} mail not sent. The patron settings is no mail.", falconAppointment.getId(), target);
+		}
+		if (BooleanUtils.toBoolean(falconStaff.getSendSms())) {
+			final String smsContent = MessageFormat.format(smsFormat, arguments);
+			final int smsRemaining = falconAdmin.getSmsRemaining();
+			if (smsRemaining > 0) {
+				smsService.send(sender, falconStaff.getHpTel(), smsContent);
+				falconAdmin.setSmsRemaining(smsRemaining - 1);
+				final int smsSent = falconAdmin.getSmsSentLifetime();
+				falconAdmin.setSmsSentLifetime(smsSent + 1);
+			} else {
+				logger.warn("{}, {} sms not sent. The admin '{}' ran out of sms credits.", falconAppointment.getId(),
+						falconStaff.getEmail(), falconAdmin.getUsername());
+			}
+		} else {
+			logger.info("{}, {} sms not sent. The patron settings is no sms.", falconAppointment.getId(), falconStaff.getEmail());
+		}
 	}
 
 	private void sendToPatron(final FalconAppointment falconAppointment, final String date, final String time, final String staff,
@@ -108,7 +153,7 @@ public class ReminderServiceImpl implements ReminderService {
 				final int smsSent = theAdmin.getSmsSentLifetime();
 				theAdmin.setSmsSentLifetime(smsSent + 1);
 			} else {
-				logger.warn("{}, {} mail not sent. The admin '{}' ran out of sms credits.", falconAppointment.getId(),
+				logger.warn("{}, {} sms not sent. The admin '{}' ran out of sms credits.", falconAppointment.getId(),
 						thePatron.getUsername(), theAdmin.getUsername());
 			}
 		} else {
