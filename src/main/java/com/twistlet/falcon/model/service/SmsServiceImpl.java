@@ -29,12 +29,18 @@ public class SmsServiceImpl implements SmsService {
 
 	@Override
 	public void send(final String from, final String sendTo, final String message) {
+		final String internationalSendTo;
+		if (sendTo.startsWith("01")) {
+			internationalSendTo = "6" + sendTo;
+		} else {
+			internationalSendTo = sendTo;
+		}
 		// TODO check for count validity, can the from user send the sms
 		final WebClient webClient = new WebClient();
 		String errorMessage = "";
 		try {
 			final String urlEncodedMessage = URLEncoder.encode("RM0.00 " + message, "UTF-8");
-			final String location = MessageFormat.format(smsGatewayLocation, sendTo, urlEncodedMessage);
+			final String location = MessageFormat.format(smsGatewayLocation, internationalSendTo, urlEncodedMessage);
 			logger.info("Invoking: {}", location);
 			final HtmlPage htmlPage = webClient.getPage(location);
 			final String content = htmlPage.asText();
