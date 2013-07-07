@@ -33,7 +33,7 @@ CREATE TABLE `falcon_appointment` (
   `location` int(11) unsigned DEFAULT NULL,
   `staff` int(11) unsigned DEFAULT NULL,
   `appointment_date_end` datetime DEFAULT NULL,
-  `notified` char(1) DEFAULT 'N',
+  `notified` char(1) NOT NULL DEFAULT 'N',
   PRIMARY KEY (`id`),
   KEY `FK_falcon_appointment_falcon_location` (`location`),
   KEY `staff` (`staff`),
