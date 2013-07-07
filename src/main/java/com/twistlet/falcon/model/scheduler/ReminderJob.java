@@ -16,9 +16,9 @@ public class ReminderJob extends QuartzJobBean {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	private final ReminderService reminderService;
+	private ReminderService reminderService;
 
-	public ReminderJob(final ReminderService reminderService) {
+	public void setReminderService(final ReminderService reminderService) {
 		this.reminderService = reminderService;
 	}
 
