@@ -10,6 +10,8 @@ import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -33,6 +35,8 @@ public class ReminderServiceImpl implements ReminderService {
 	private final SmsService smsService;
 	private final String message;
 
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
+
 	@Autowired
 	public ReminderServiceImpl(final MailSenderService mailSenderService, final SmsService smsService,
 			final FalconAppointmentRepository falconAppointmentRepository,
@@ -49,9 +53,9 @@ public class ReminderServiceImpl implements ReminderService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<FalconAppointment> listAppointmentsNeedingReminders(final int seconds) {
+	public List<FalconAppointment> listAppointmentsNeedingReminders(final long seconds) {
 		final Date now = new Date();
-		final Date minumumDate = DateUtils.addSeconds(now, -seconds);
+		final Date minumumDate = DateUtils.addSeconds(now, new Long(seconds).intValue() * -1);
 		return falconAppointmentRepository.findByAppointmentDateBetweenAndNotified(minumumDate, now, 'N');
 	}
 
@@ -81,10 +85,20 @@ public class ReminderServiceImpl implements ReminderService {
 			final Object[] arguments = { date, time, staff, patron, venue, service };
 			final String mailContent = MessageFormat.format(message, arguments);
 			final String smsContent = MessageFormat.format(smsFormat, arguments);
-			mailSenderService.send(sender, thePatron.getEmail(), mailContent, subject);
-			smsService.send(sender, thePatron.getPhone(), smsContent);
+			if (thePatron.getSendEmail()) {
+				mailSenderService.send(sender, thePatron.getEmail(), mailContent, subject);
+			} else {
+				logger.info("{}, {} mail not sent. The patron settings is no mail.", falconAppointment.getId(),
+						thePatron.getUsername());
+			}
+			if (thePatron.getSendSms()) {
+				smsService.send(sender, thePatron.getPhone(), smsContent);
+			} else {
+				logger.info("{}, {} sms not sent. The patron settings is no sms.", falconAppointment.getId(),
+						thePatron.getUsername());
+			}
 		}
-		falconAppointment.setNotified(new Character('Y'));
+		falconAppointment.setNotified('Y');
 		falconAppointmentRepository.save(falconAppointment);
 	}
 }
