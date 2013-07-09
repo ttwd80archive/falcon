@@ -24,8 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.twistlet.falcon.controller.bean.User;
+import com.twistlet.falcon.model.entity.FalconAppointment;
+import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconUser;
+import com.twistlet.falcon.model.service.AppointmentService;
 import com.twistlet.falcon.model.service.PatronService;
 import com.twistlet.falcon.model.service.StaffService;
 
@@ -35,12 +38,15 @@ public class ListPatronController {
 	private final StaffService staffService;
 
 	private final PatronService patronService;
+	
+	private final AppointmentService appointmentService;
 
 	@Autowired
 	public ListPatronController(StaffService staffService,
-			PatronService patronService) {
+			PatronService patronService, AppointmentService appointmentService) {
 		this.staffService = staffService;
 		this.patronService = patronService;
+		this.appointmentService = appointmentService;
 	}
 
 	@RequestMapping("/list-patient")
@@ -82,6 +88,35 @@ public class ListPatronController {
 			final Date endDate = sdf.parse(date + " " + end);
 			falconUser.setUsername(admin);
 			patients = patronService.listAvailablePatrons(falconUser, startDate, endDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return patients;
+	}
+	
+	@RequestMapping("/list-patient/{admin}/{date}/{startTime}/{endTime}/{appointmentId}")
+	@ResponseBody
+	public Set<User> listAvailablePatronsAdd(@PathVariable("admin") String admin,
+			@PathVariable(value="date") String date,
+			@PathVariable("startTime") String start,
+			@PathVariable("endTime") String end,
+			@PathVariable("appointmentId") Integer appointmentId) {
+		FalconUser falconUser = new FalconUser();
+		final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy HHmm");
+		Set<User> patients = new HashSet<>();
+		try {
+			final Date startDate = sdf.parse(date + " " + start);
+			final Date endDate = sdf.parse(date + " " + end);
+			falconUser.setUsername(admin);
+			patients = patronService.listAvailablePatrons(falconUser, startDate, endDate);
+			FalconAppointment falconAppointment = appointmentService.findAppointment(appointmentId);
+			User user = null;
+			for(FalconAppointmentPatron patron : falconAppointment.getFalconAppointmentPatrons()){
+				user = new User();
+				user.setUsername(patron.getFalconPatron().getFalconUserByPatron().getUsername());
+				user.setName(patron.getFalconPatron().getFalconUserByPatron().getName());
+				patients.add(user);
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

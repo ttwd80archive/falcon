@@ -83,6 +83,27 @@ public class ListLocationController {
 		return locations;
 	}
 	
+	@RequestMapping("/list-location/{admin}/{date}/{startTime}/{endTime}/{currentLocation}")
+	@ResponseBody
+	public Set<FalconLocation> listAvailableLocationReschedule(@PathVariable String admin,
+			@PathVariable(value="date") String date,
+			@PathVariable("startTime") String start,
+			@PathVariable("endTime") String end,
+			@PathVariable("currentLocation") Integer locationId) {
+		final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy HHmm");
+		FalconUser falconUser = new FalconUser();
+		falconUser.setUsername(admin);
+		Set<FalconLocation> locations = new HashSet<>();
+		try {
+			final Date startDate = sdf.parse(date + " " + start);
+			final Date endDate = sdf.parse(date + " " + end);
+			locations = locationService.listAvailableLocations(falconUser, startDate, endDate, locationId);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return locations;
+	}
+	
 	@RequestMapping("/list-vanues/{admin}/{date}")
 	@ResponseBody
 	public List<Location> listAdminsLocations(@PathVariable("admin") String username, @RequestParam("term") String name){

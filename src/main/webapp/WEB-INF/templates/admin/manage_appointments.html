@@ -261,6 +261,27 @@
 		<div id="footer">Apris Solutions &#169; 2013 All Rights Reserved
 		</div>
 	</div>
+	<div id="dialog">
+		<div>Please pick a time</div>
+		<table>
+			<tr>
+				<td><span class="ui-icon ui-icon-circle-triangle-n" id="button-up-hh"/></td>
+				<td><span class="ui-icon ui-icon-circle-triangle-n" id="button-up-mm"/></td>
+				<td><span class="ui-icon ui-icon-circle-triangle-n" id="button-up-ampm"/></td>
+			</tr>
+			<tr>
+				<td><input id="hh" type="text" size="2" /></td>
+				<td><input id="mm" type="text" size="2" /></td>
+				<td><input id="ampm" type="text" size="2" /></td>
+			</tr>
+			<tr>
+				<td><span class="ui-icon ui-icon-circle-triangle-s" id="button-down-hh"/></td>
+				<td><span class="ui-icon ui-icon-circle-triangle-s" id="button-down-mm"/></td>
+				<td><span class="ui-icon ui-icon-circle-triangle-s" id="button-down-ampm"/></td>
+			</tr>
+		</table>
+		<div style="display: none;" id="source-id"></div>
+	</div>
 	<script type="text/javascript" th:src="@{/js/lib/jquery-1.9.1.min.js}"
 		src="js/lib/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript"

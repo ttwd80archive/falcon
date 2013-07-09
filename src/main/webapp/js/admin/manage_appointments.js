@@ -34,7 +34,8 @@ $(function() {
 		});
 	});
 	$('.addPatron').click(function(){
-		var url = '../apppointment_fetch/' + $(this).attr('id');
+		var appoitmentId = $(this).attr('id');
+		var url = '../apppointment_fetch/' + appoitmentId;
 		$.getJSON(url, function(data){
 			var selectedKeys = new Array();
 			for(var i = 0; i < data.patrons.length ; i++){
@@ -50,14 +51,14 @@ $(function() {
 			$("#managePatronStaff").html(data.staff);
 			var date = data.appointmentDate.replace(/-/g, '');
 			var starttime = data.appointmentTime.replace(/:/g, '');
-			var endtime =  data.appointmentTime.replace(/:/g, '');
-			if(starttime.substring(5,7) == 'pm'){
+			var endtime =  data.appointmentTimeEnd.replace(/:/g, '');
+			if(starttime.substring(5,7) == 'pm' || starttime.substring(5,7) == 'PM'){
 				starttime = starttime.substring(0,4);
 				starttime = parseInt(starttime) + 1200;
 			}else{
 				starttime = starttime.substring(0,4);
 			}
-			if(endtime.substring(5,7) == 'pm'){
+			if(endtime.substring(5,7) == 'pm' || endtime.substring(5,7) == 'PM'){
 				endtime = endtime.substring(0,4);
 				console.log(parseInt(endtime));
 				if(parseInt(endtime) <= 1200 ){
@@ -68,9 +69,10 @@ $(function() {
 			}else{
 				endtime = endtime.substring(0,4);
 			}
+			console.log("current user:" + currentuser);
 			console.log("date:" + date);
 			console.log("start:" + starttime + " end: "+ endtime );
-			var url = '../list-patient/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime;
+			var url = '../list-patient/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + appoitmentId;
 			$.getJSON(url, function(data) {
 				setSelectOptions($('#managePatronPatrons'), data, 'username', 'name', selectedKeys);
 				$(".chzn-select").chosen();
@@ -84,15 +86,51 @@ $(function() {
 		});
 	});
 	$('.reschedule').click(function(){
+		var initialLocationId = 0;
 		console.log('clicked');
 		var url = '../apppointment_fetch/' + $(this).attr('id');
 		$.getJSON(url, function(data){
 			console.log(data);
 			$("#rescheduleappt-box").css("display","block");
 			$("#bg").css("display","block");
+			
 			$("#rescheduleDate").val(data.appointmentDate);
+			var date = $("#rescheduleDate").val().replace(/-/g, '');
+			console.log(date + ':' + date.length);
+			if(date.length == 7 ){
+				console.log('add padding 0');
+				date = "0".concat(date);
+				console.log('DATE:' + date);
+			}
+
 			$("#rescheduleTime").val(data.appointmentTime);
+			var starttime = $('#rescheduleTime').val().replace(/:/g, '');
+			if(starttime.substring(5,7).toLowerCase() == 'pm' ){
+				starttime = starttime.substring(0,4);
+				starttime = parseInt(starttime) + 1200;
+			}else{
+				starttime = starttime.substring(0,4);
+			}
+
 			$("#rescheduleTimeEnd").val(data.appointmentTimeEnd);
+			var endtime =  $('#rescheduleTimeEnd').val().replace(/:/g, '');
+			if(endtime.substring(5,7).toLowerCase() == 'pm'){
+				endtime = endtime.substring(0,4);
+				console.log(parseInt(endtime));
+				if(parseInt(endtime) <= 1200 ){
+					console.log("adding to pm");
+					endtime = parseInt(endtime) + 1200;
+					console.log(endtime);
+				}
+			}else{
+				endtime = endtime.substring(0,4);
+			}
+			initialLocationId = data.locationId;
+			console.log("on select row location id is:" + initialLocationId );
+			$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + initialLocationId, function(data) {
+				setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
+			});
+			
 			$("#rescheduleVenue").val(data.locationId);
 			$("#rescheduleStaff").html(data.staff);
 			var list = "";
@@ -107,43 +145,82 @@ $(function() {
 			$("#rescheduleDate").datepicker({
 				dateFormat: 'dd-mm-yy'
 			});
-			$('#rescheduleTime').timepicker({
-				controlType: 'select',
-				timeOnly: true,
-				timeFormat: 'hh:mm tt',
-				defaultValue:	function(){
-					var now = new Date();
-					var hours = now.getHours();
-					var hour = hours % 12;
-					var min = now.getMinutes();
-					var ampm = hours >= 12 ? 'pm' : 'am';
-					min = min < 10 ? '0' + min : min;
-					console.log(hour + ':' + min + ' ' + ampm);
-					return hours + ':' + min + ' ' + ampm;
-				}
-			});
-			$('#rescheduleTimeEnd').timepicker({
-				controlType: 'select',
-				timeOnly: true,
-				timeFormat: 'hh:mm tt',
-				minTime: $('#appointmenttime').val(),
-				maxTime: '12:00pm',
-				defaultValue:	function(){
-					var now = new Date();
-					var hours = now.getHours();
-					var hour = hours % 12;
-					var min = now.getMinutes();
-					var ampm = hours >= 12 ? 'pm' : 'am';
-					min = min < 10 ? '0' + min : min;
-					console.log(hour + ':' + min + ' ' + ampm);
-					return hours + ':' + min + ' ' + ampm;
+//			$('#rescheduleTime').timepicker({
+//				controlType: 'select',
+//				timeOnly: true,
+//				timeFormat: 'hh:mm tt',
+//				defaultValue:	function(){
+//					var now = new Date();
+//					var hours = now.getHours();
+//					var hour = hours % 12;
+//					var min = now.getMinutes();
+//					var ampm = hours >= 12 ? 'pm' : 'am';
+//					min = min < 10 ? '0' + min : min;
+//					console.log(hour + ':' + min + ' ' + ampm);
+//					return hours + ':' + min + ' ' + ampm;
+//				}
+//			});
+//			$('#rescheduleTimeEnd').timepicker({
+//				controlType: 'select',
+//				timeOnly: true,
+//				timeFormat: 'hh:mm tt',
+//				minTime: $('#appointmenttime').val(),
+//				maxTime: '12:00pm',
+//				defaultValue:	function(){
+//					var now = new Date();
+//					var hours = now.getHours();
+//					var hour = hours % 12;
+//					var min = now.getMinutes();
+//					var ampm = hours >= 12 ? 'pm' : 'am';
+//					min = min < 10 ? '0' + min : min;
+//					console.log(hour + ':' + min + ' ' + ampm);
+//					return hours + ':' + min + ' ' + ampm;
+//				}
+//			});
+			
+			$('#rescheduleTimeEnd').change(function(){
+				if($.trim($('#rescheduleTime').val()) != ""){
+					console.log('the current location id:' + initialLocationId);
+					var date = $("#rescheduleDate").val().replace(/-/g, '');
+					console.log(date + ':' + date.length);
+					if(date.length == 7 ){
+						console.log('add padding 0');
+						date = "0".concat(date);
+						console.log('DATE:' + date);
+					}
+					var starttime = $('#rescheduleTime').val().replace(/:/g, '');
+					var endtime =  $('#rescheduleTimeEnd').val().replace(/:/g, '');
+					if(starttime.substring(5,7).toLowerCase() == 'pm' ){
+						starttime = starttime.substring(0,4);
+						starttime = parseInt(starttime) + 1200;
+					}else{
+						starttime = starttime.substring(0,4);
+					}
+					if(endtime.substring(5,7).toLowerCase() == 'pm'){
+						endtime = endtime.substring(0,4);
+						console.log(parseInt(endtime));
+						if(parseInt(endtime) <= 1200 ){
+							console.log("adding to pm");
+							endtime = parseInt(endtime) + 1200;
+							console.log(endtime);
+						}
+					}else{
+						endtime = endtime.substring(0,4);
+					}
+					console.log("date:" + date);
+					console.log("start:" + starttime + " end: "+ endtime );
+					console.log("on click location id is:" + initialLocationId );
+					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + initialLocationId, function(data) {
+						setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
+					});
 				}
 			});
 		});
 		console.log(currentuser);
-		$.getJSON('../list-location/' + currentuser + '/99999999', function(data) {
-			setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', '');
-		});
+//		$.getJSON('../list-location/' + currentuser + '/99999999', function(data) {
+//			setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', '');
+//		});
+		
 		$('#update').click(function(){
 			var url = "reschedule_appointment/" + $("#rescheduleId").html() + "/" + $("#rescheduleDate").val() + "/" + $("#rescheduleTime").val() + "/" + $("#rescheduleTimeEnd").val() + "/" + $("#rescheduleVenue").val() + "/";
 			console.log(url);
@@ -191,6 +268,134 @@ $(function() {
 	$('#querybutton').click(function(){
 		$('#searchform').submit();
 	});
+	
+	$("#dialog").dialog({
+		autoOpen: false,
+		width: 175,
+		buttons: [ { text: "Ok", click: function(){
+			var id = $("#source-id").text();
+			var value = $("#hh").val() + ":" + $("#mm").val() + " " + $("#ampm").val(); 
+			$(id).val(value);
+			$(id).change();
+			if (id == "#rescheduleTime"){
+				$("#rescheduleTimeEnd").val(value);
+				$("#rescheduleTimeEnd").change();
+			}
+			$(this).dialog("close");
+			$("#rescheduleTimeEnd").change();
+		}}]
+	});
+	
+	$("#rescheduleTime").click(function(){
+		$("#source-id").text("#rescheduleTime");
+		parse_picker($(this).val());
+		$("#dialog").dialog("open");
+		$("#ui-id-1").parent().parent().css("zIndex", 5000);
+	});
+
+	$("#rescheduleTimeEnd").click(function(){
+		$("#source-id").text("#rescheduleTimeEnd");
+		parse_picker($(this).val());
+		$("#dialog").dialog("open");
+		$("#ui-id-1").parent().parent().css("zIndex", 5000);
+	});
+
+	$("#button-down-hh").click(function(){
+		var hh = $("#hh").val();
+		try{
+			hh = parseInt(hh);
+			hh--;
+			if (hh <= 0) hh = 12;
+			hh = (hh < 10 ? "0" + hh:"" + hh);
+		}catch(e){
+			hh = "12";
+		}
+		$("#hh").val(hh);
+	});
+	
+	$("#button-up-hh").click(function(){
+		var hh = $("#hh").val();
+		try{
+			hh = parseInt(hh);
+			hh++;
+			if (hh > 12) hh = 1;
+			hh = (hh < 10 ? "0" + hh:"" + hh);
+		}catch(e){
+			hh = "12";
+		}
+		$("#hh").val(hh);
+	});
+	
+	$("#button-up-mm").click(function(){
+		var mm = $("#mm").val();
+		try{
+			mm = parseInt(mm);
+			mm = mm + 15;
+			if (mm >= 60) mm = 0;
+			mm = (mm < 10 ? "0" + mm:"" + mm);
+		}catch(e){
+			mm = "00";
+		}
+		$("#mm").val(mm);
+	});
+	
+	$("#button-down-mm").click(function(){
+		var mm = $("#mm").val();
+		try{
+			mm = parseInt(mm);
+			mm = mm - 15;
+			if (mm < 0) mm = 45;
+			mm = (mm < 10 ? "0" + mm:"" + mm);
+		}catch(e){
+			mm = "00";
+		}
+		$("#mm").val(mm);
+	});
+	
+	$("#button-down-ampm, #button-up-ampm").click(function(){
+		var ampm = $("#ampm").val();
+		if (ampm == "AM"){
+			ampm = "PM";
+		}else{
+			ampm = "AM";
+		}
+		$("#ampm").val(ampm);
+	});
+	
+	function parse_picker(text){
+		if (text.length == 8){
+			var hh;
+			var mm;
+			var ampm;
+			var thh = text.substring(0, 2);
+			var tmm = text.substring(3, 5);
+			var tampm = text.substring(6, 8);
+			try{
+				hh = parseInt(thh);
+			}catch(e){
+				hh = 12;
+			}
+			hh = (hh < 10 ? "0" + hh:"" + hh);
+			$("#hh").val(hh);
+			try{
+				mm = parseInt(tmm);
+			}catch(e){
+				mm = 12;
+			}
+			mm = (mm < 10 ? "0" + mm:"" + mm);
+			$("#mm").val(mm);
+			if (tampm == "PM"){
+				ampm = "PM";
+			}else{
+				ampm = "AM";
+			}
+			$("#ampm").val(ampm);
+		}else{
+			$("#hh").val("12");
+			$("#mm").val("00");
+			$("#ampm").val("AM");
+		}
+	}
 });
 
 
@@ -222,6 +427,7 @@ function setSelectOptions(selectElement, values, valueKey, textKey, defaultValue
         // select the defaultValue is one was passed in
         console.log('default: ' +defaultValue);
         if (typeof defaultValue != 'undefined') {
+        	console.log('default value length:' + defaultValue.length);
         	for(var i = 0; i < defaultValue.length ; i++){
 				var key = defaultValue[i];
 				selectElement.children('option[value="' + key + '"]').attr('selected', 'selected');

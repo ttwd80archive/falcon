@@ -137,6 +137,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 			falconAppointmentPatron.getFalconAppointment().getFalconLocation().getName();
 			falconAppointmentPatron.getFalconAppointment().getFalconService().getName();
 			falconAppointmentPatron.getFalconAppointment().getFalconStaff().getName();
+			falconAppointmentPatron.getFalconAppointment().getFalconStaff().getFalconUser().getEmail();
 		}
 		return falconAppointment;
 	}

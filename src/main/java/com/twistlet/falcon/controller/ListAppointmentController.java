@@ -23,6 +23,7 @@ import com.twistlet.falcon.controller.bean.Schedule;
 import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.service.AppointmentService;
+import com.twistlet.falcon.model.service.PatronService;
 
 @Controller
 public class ListAppointmentController {
@@ -31,12 +32,15 @@ public class ListAppointmentController {
 	
 	private final AppointmentService appointmentService;
 	
-	@Autowired
-	public ListAppointmentController(
-			AppointmentService appointmentService) {
-		this.appointmentService = appointmentService;
-	}
+	private final PatronService patronService;
 	
+	@Autowired
+	public ListAppointmentController(AppointmentService appointmentService,
+			PatronService patronService) {
+		this.appointmentService = appointmentService;
+		this.patronService = patronService;
+	}
+
 	@RequestMapping("/list-appointment/{userId}/{date}")
 	@ResponseBody
 	public List<Schedule> listAppointments(@PathVariable String userId, @PathVariable String date) {
