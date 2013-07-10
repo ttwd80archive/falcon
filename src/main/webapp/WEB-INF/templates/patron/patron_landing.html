@@ -86,10 +86,10 @@
 				</div>
 				<div id="patron-controls">
 					<ul class="nomargin nopadding">
-						<li><a href="#"
+						<li class="hidden"><a href="#"
 							onclick="document.getElementById('createappt-box').style.display='block'; document.getElementById('bg').style.display='block';">Create
 								Appointment</a></li>
-						<li id="addorg-inf"><a href="#"
+						<li class="hidden" id="addorg-inf"><a href="#"
 							onclick="document.getElementById('addorg-box').style.display='block'; document.getElementById('bg').style.display='block';">Add
 								Organization</a>
 							<div id="addorg-inf-msg">
@@ -143,7 +143,7 @@
 													<td class="td7" th:text="${#dates.format(appointment.appointmentDate, 'hh:mm aaa')}"></td>
 													<td class="td8">
 														<ul class="schedule-action">
-															<li><a class="remove" href="#"
+															<li class="hidden"><a class="remove" href="#"
 																th:id="${appointment.id}">Remove</a></li>
 														</ul>
 													</td>
