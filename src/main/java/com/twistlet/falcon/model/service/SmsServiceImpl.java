@@ -52,7 +52,7 @@ public class SmsServiceImpl implements SmsService {
 			errorMessage = errorMessage + delimiter + e.toString();
 			e.printStackTrace();
 		} finally {
-			databaseLoggingService.logSmsSent(sendTo, message, errorMessage);
+			databaseLoggingService.logSmsSent(internationalSendTo, message, errorMessage);
 			webClient.closeAllWindows();
 		}
 	}
