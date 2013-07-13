@@ -192,7 +192,7 @@
 		</div>
 		<div id="rescheduleappt-box" class="absoluteleftcenter hidden">
 			<a class="close-box"
-				onclick="document.getElementById('rescheduleappt-box').style.display='none'; document.getElementById('bg').style.display='none';"><img
+				onclick="javascript: closeDialog();"><img
 				class="whitecross" src="./images/whitecross.png"
 				th:src="@{/images/whitecross.png}" alt="Image failed to load" /><img
 				class="blackcross" src="./images/blackcross.png"
@@ -221,7 +221,7 @@
 		</div>
 		<div id="createappt-box" class="absoluteleftcenter hidden">
 			<a class="close-box"
-				onclick="document.getElementById('createappt-box').style.display='none'; document.getElementById('bg').style.display='none';">
+				onclick="javascript: closeDialog();">
 				<img class="whitecross" th:src="@{/images/whitecross.png}"
 				src="./images/whitecross.png" alt="Image failed to load" /> <img
 				th:src="@{/images/blackcross.png}" class="blackcross"

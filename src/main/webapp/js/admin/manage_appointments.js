@@ -451,3 +451,7 @@ function setSelectOptions(selectElement, values, valueKey, textKey, defaultValue
     }
     return false;
 }
+
+function closeDialog(){
+	window.location = "manage-appointments";
+}
