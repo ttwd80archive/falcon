@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
+import com.twistlet.falcon.model.service.AppointmentService;
 import com.twistlet.falcon.model.service.PatronService;
 import com.twistlet.falcon.model.service.StaffService;
 
@@ -32,13 +34,44 @@ public class ListStaffController {
 	
 	private final PatronService patronService;
 	
+	private final AppointmentService appointmentService;
+	
+	
 	@Autowired
 	public ListStaffController(StaffService staffService,
-			PatronService patronService) {
+			PatronService patronService, AppointmentService appointmentService) {
 		this.staffService = staffService;
 		this.patronService = patronService;
+		this.appointmentService = appointmentService;
 	}
 
+
+	@RequestMapping("/check-staff-availability/{appointmentId}/{admin}/{date}/{startTime}/{endTime}")
+	@ResponseBody
+	public String velidateStaffAvailability(@PathVariable Integer appointmentId, @PathVariable String admin, @PathVariable(value = "date") String date,
+			@PathVariable("startTime") String start, @PathVariable("endTime") String end) {
+		final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy HHmm");
+		final FalconAppointment appointment = appointmentService.findAppointment(appointmentId);
+		String status = "busy";
+		try {
+			final Date startDate = sdf.parse(date + " " + start);
+			final Date endDate = sdf.parse(date + " " + end);
+			FalconUser falconUser = new FalconUser();
+			falconUser.setUsername(admin);
+			Set<FalconStaff> staffs = staffService.listAvailableStaff(falconUser, startDate, endDate);
+			FalconStaff currentStaff = appointment.getFalconStaff();
+			for(FalconStaff staff : staffs){
+				if(currentStaff.getId().equals(staff.getId())){
+					status = "available";
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+
+	
 	@RequestMapping("/list-staff/{admin}/{date}")
 	@ResponseBody
 	public List<FalconStaff> listStaffs(@PathVariable String admin, @PathVariable(value = "date") String date) {

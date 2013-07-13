@@ -132,6 +132,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Transactional(readOnly = true)
 	public FalconAppointment findAppointment(Integer id) {
 		FalconAppointment falconAppointment = falconAppointmentRepository.findOne(id);
+		falconAppointment.getFalconStaff().getId();
 		for(FalconAppointmentPatron falconAppointmentPatron : falconAppointment.getFalconAppointmentPatrons()){
 			falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName();
 			falconAppointmentPatron.getFalconAppointment().getFalconLocation().getName();
