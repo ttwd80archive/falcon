@@ -168,7 +168,7 @@
 .col-right                                       {background: none repeat scroll 0 0 #FFFFFF; width: 220px; height: 270px; margin: 16px 0 0 16px; float: left;}
 .drop-arrow-gray                                 {position: relative; right: 20px;}
 
-.drop-menu                                       {display: inline-block; width: 100%; margin: 4px; position: relative; top: 5px; right: 15px;}
+.drop-menu                                       {width: 100%; margin: 4px; position: relative; top: 7px; right: 15px;}
 .drop-menu ul                                    {display: block; font-weight: bold; margin: 0; float: right;}
 .drop-menu ul li                                 {border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; display: block; 
                                                   width: 100%; padding-right: 4px;}
