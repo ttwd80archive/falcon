@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Repository;
 
 import com.mysema.query.jpa.JPQLQuery;
@@ -31,6 +32,8 @@ public class FalconLocationRepositoryImpl implements FalconLocationRepositoryCus
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconAppointment falconAppointment = QFalconAppointment.falconAppointment;
 		query.from(falconAppointment);
+		start = DateUtils.addSeconds(start, 1);
+		end = DateUtils.addSeconds(end, -1);
 		final BooleanExpression conditionStartDate = falconAppointment.appointmentDate.between(start, end);
 		final BooleanExpression conditionEndDate = falconAppointment.appointmentDateEnd.between(start, end);
 		final BooleanExpression conditionStartEndDate = falconAppointment.appointmentDate.before(start).and(falconAppointment.appointmentDateEnd.after(end));
