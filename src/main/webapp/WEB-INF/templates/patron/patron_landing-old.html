@@ -37,7 +37,7 @@
 					<li><a href="../logout" id="signout">SIGN OUT</a></li>
 					<li class="editprofile">
 						<div id="editprofile">
-							Hi&#44; <span id="username" th:text="${#authentication.principal.name}">Inban</span><span
+							Hi&#44; <span id="username" style="display: none" th:text="${#authentication.name}">username</span><span th:text="${#authentication.principal.name}">Inban</span><span
 								class="drop-arrow-white"></span> &#124;
 							<div class="drop-menu">
 								<ul class="menu-lvl-1">
