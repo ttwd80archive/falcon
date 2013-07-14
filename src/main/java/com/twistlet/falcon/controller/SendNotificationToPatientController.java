@@ -63,8 +63,6 @@ public class SendNotificationToPatientController {
 			@RequestParam(value = "sms", required = false) final String sendSms,
 			@RequestParam(value = "mail", required = false) final String sendMail) {
 		final Map<String, String> map = new LinkedHashMap<>();
-
-		map.put("balanceSms", "0");
 		final FalconUser falconUser = userAdminService.getFalconUser(username);
 		if (falconUser != null) {
 			final String name = falconUser.getName();

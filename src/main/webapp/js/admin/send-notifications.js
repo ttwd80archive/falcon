@@ -35,8 +35,8 @@ $(function() {
 			form.ajaxSubmit(options);
 		});
 		function handle_ajax_success(data) {
-			
-			alert("message sent");
+			alert("SMS Sent : " + data.smsSent + "\n" + "SMS Balance : "
+					+ data.smsBalance);
 		}
 	}
 
