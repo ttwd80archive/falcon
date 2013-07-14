@@ -3,5 +3,5 @@
 	<Resource name="jdbc/falconDB" auth="Container" type="javax.sql.DataSource"
 		maxActive="100" maxIdle="30" maxWait="10000" username="falcon"
 		password="phefrebre796ayuf" driverClassName="com.mysql.jdbc.Driver"
-		url="com.mysql.jdbc.Driver" />
+		url="jdbc:mysql://localhost/falcon" />
 </Context>
