@@ -2,8 +2,11 @@ package com.twistlet.falcon.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,9 +59,12 @@ public class SendNotificationToPatientController {
 
 	@RequestMapping("/admin/notification/send-to-patient")
 	@ResponseBody
-	public String send(@RequestParam("username") final String username, @RequestParam("message") final String message,
+	public Map<String, String> send(@RequestParam("username") final String username, @RequestParam("message") final String message,
 			@RequestParam(value = "sms", required = false) final String sendSms,
 			@RequestParam(value = "mail", required = false) final String sendMail) {
+		final Map<String, String> map = new LinkedHashMap<>();
+
+		map.put("balanceSms", "0");
 		final FalconUser falconUser = userAdminService.getFalconUser(username);
 		if (falconUser != null) {
 			final String name = falconUser.getName();
@@ -70,14 +76,24 @@ public class SendNotificationToPatientController {
 				logger.debug("sending email to {}", mail);
 				final boolean result = staffService.sendEmail(currentUserId, name, mail, message);
 				logger.debug("sent email to {} - {}", mail, result);
+			} else {
+				logger.info("Mail not sent");
 			}
 			if (!StringUtils.isEmpty(sendSms)) {
 				logger.debug("sending sms to {}", phone);
 				final boolean result = staffService.sendSms(currentUserId, phone, message);
+				map.put("smsSent", BooleanUtils.toString(result, "true", "false"));
 				logger.debug("sent sms to {} - {}", phone, result);
+			} else {
+				logger.info("SMS not sent");
+				map.put("smsSent", "false");
 			}
+			final String senderId = securityService.getCurrentUserId();
+			final FalconUser falconUserSender = userAdminService.getFalconUser(senderId);
+			map.put("smsBalance", falconUserSender.getSmsRemaining().toString());
+
 		}
-		return StringUtils.EMPTY;
+		return map;
 	}
 
 	private String sanitizePhone(final String phone) {
