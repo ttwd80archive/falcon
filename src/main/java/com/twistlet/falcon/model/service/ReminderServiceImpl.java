@@ -99,7 +99,7 @@ public class ReminderServiceImpl implements ReminderService {
 			final FalconUser falconUser = falconPatron.getFalconUserByPatron();
 			patron = falconUser.getName();
 		} else {
-			patron = "Patron Group #" + falconAppointment.getId();
+			patron = "(Group of " + set.size() + ")";
 		}
 		final Object[] arguments = { date, time, staff, patron, venue, service };
 		if (BooleanUtils.toBoolean(falconStaff.getSendEmail())) {
