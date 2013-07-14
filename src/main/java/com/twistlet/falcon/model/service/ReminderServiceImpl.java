@@ -76,7 +76,7 @@ public class ReminderServiceImpl implements ReminderService {
 		final String venue = falconLocation.getName();
 		final String service = falconService.getName();
 		final String subject = "Your scheduled appointment is due soon";
-		final String smsFormat = "Appointment due soon! {0} {1} {2} {3} {4} {5}";
+		final String smsFormat = "Appointment due soon! {0}, {1}, {2}, {3}, {4}, {5}";
 		for (final FalconAppointmentPatron falconAppointmentPatron : falconPatrons) {
 			sendToPatron(falconAppointment, date, time, staff, venue, service, subject, smsFormat, falconAppointmentPatron);
 		}
