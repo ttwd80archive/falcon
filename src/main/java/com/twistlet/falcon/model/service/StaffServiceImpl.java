@@ -51,10 +51,20 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
+	@Transactional
 	public boolean sendSms(final String from, final String phone, final String message) {
 		try {
-			smsService.send(from, phone, message);
-			return true;
+			final FalconUser user = falconUserRepository.findOne(from);
+			final int remaining = user.getSmsRemaining();
+			if (remaining > 0) {
+				smsService.send(from, phone, message);
+				user.setSmsRemaining(remaining - 1);
+				user.setSmsSentLifetime(user.getSmsSentLifetime() + 1);
+				falconUserRepository.save(user);
+				return true;
+			} else {
+				return false;
+			}
 		} catch (final Exception e) {
 			e.printStackTrace();
 			return false;

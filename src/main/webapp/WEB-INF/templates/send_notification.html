@@ -230,7 +230,7 @@ a:active {
 					height='60px' width='150px' />
 			</div>
 			<div id='accountinf'>
-				Hi, <span th:text="${#authentication.name}">Inban</span> | <a
+				Hi, <span th:text="${#authentication.principal.name}">Inban</span> | <a
 					th:href="@{/logout}" href='#' id='login'>SIGN OUT</a>
 			</div>
 		</div>
