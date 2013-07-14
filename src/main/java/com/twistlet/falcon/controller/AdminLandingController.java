@@ -76,8 +76,12 @@ public class AdminLandingController {
 	public ModelAndView listAllPatient() {
 		final ModelAndView mav = new ModelAndView("admin/admin_landing");
 		final FalconAppointment appointment = new FalconAppointment();
-		appointment.setAppointmentDate(new Date());
+		final Date now = new Date();
+		final SimpleDateFormat sdf = new SimpleDateFormat("h:mm aa - EEEE, MMMMM d, yyyy");
+		final String currentTime = sdf.format(now);
+		appointment.setAppointmentDate(now);
 		mav.addObject("appointment", appointment);
+		mav.addObject("currentTime", currentTime);
 		return mav;
 	}
 
