@@ -39,7 +39,7 @@
 					<li><a href="../logout" id="signout">SIGN OUT</a></li>
 					<li class="editprofile">
 						<div id="editprofile">
-							Hi&#44; <span id="username" th:text="${#authentication.name}">Inban</span><span
+							Hi&#44; <span id="username" style="display: none" th:text="${#authentication.name}">username</span><span th:text="${#authentication.principal.name}">Inban</span><span
 								class="drop-arrow-white"></span> &#124;
 							<div class="drop-menu">
 								<ul class="menu-lvl-1">
@@ -67,11 +67,8 @@
 				<div id="options-banner">
 					<div class="clock">
 						<div><strong>
-							<a href="http://24timezones.com/world_directory/current_kuala_lumpur_time.php" style="text-decoration: none" title="current local time Kuala Lumpur">Time in Kuala Lumpur</a>
-							<div id="tzTimeSpan_ee51da877dc55ec">
-							</div>
-							<script type="text/javascript" src="http://24timezones.com/js/en/time_12_1_0.js"></script>
-							<script src="http://24timezones.com/timescript/gettime.js.php?city=122&amp;hourtype=12&amp;showdate=1&amp;showseconds=0&amp;id=1317123&amp;elem=ee51da877dc55ec" language="javascript"></script>
+							<span style="display: block;" id="section-current-time" th:text="${currentTime}">current time
+							</span>
 						</strong></div>
 					</div>						
 					<div class="date-options">
@@ -334,5 +331,8 @@
 		src="js/lib/jquery.validationEngine.js"></script>
 	<script type="text/javascript" th:src="@{/js/admin/admin_landing.js}"
 		src="js/admin/admin_landing.js"></script>
+	<script type="text/javascript" th:src="@{/js/show_date_time.js}"
+		src="js/show_date_time.js"></script>
+		
 </body>
 </html>
