@@ -27,6 +27,7 @@ import com.twistlet.falcon.controller.bean.User;
 import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconPatron;
+import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.AppointmentService;
 import com.twistlet.falcon.model.service.PatronService;
@@ -48,6 +49,43 @@ public class ListPatronController {
 		this.patronService = patronService;
 		this.appointmentService = appointmentService;
 	}
+	
+	@RequestMapping("/check-patron-availability/{appointmentId}/{admin}/{date}/{startTime}/{endTime}")
+	@ResponseBody
+	public String velidateStaffAvailability(@PathVariable Integer appointmentId, @PathVariable String admin, @PathVariable(value = "date") String date,
+			@PathVariable("startTime") String start, @PathVariable("endTime") String end) {
+		final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy HHmm");
+		final FalconAppointment appointment = appointmentService.findAppointment(appointmentId);
+		String status = StringUtils.EMPTY;
+		try {
+			final Date startDate = sdf.parse(date + " " + start);
+			final Date endDate = sdf.parse(date + " " + end);
+			FalconUser falconUser = new FalconUser();
+			falconUser.setUsername(admin);
+			Set<User> patients = patronService.listAvailablePatrons(falconUser, startDate, endDate);
+			Set<FalconAppointmentPatron> appointmentPatrons = appointment.getFalconAppointmentPatrons();
+			for(FalconAppointmentPatron falconAppointmentPatron : appointmentPatrons){
+				boolean available = false;
+				for(User user : patients){
+					if(user.getUsername().equals(falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getUsername())){
+						available = true;
+						break;
+					}
+				}
+				if(!available){
+					if(StringUtils.isBlank(status)){
+						status = falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName() + " is not available between the time selected";
+					}else{
+						status = falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName() + ", " + status;
+					}
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+	
 
 	@RequestMapping("/list-patient")
 	@ResponseBody

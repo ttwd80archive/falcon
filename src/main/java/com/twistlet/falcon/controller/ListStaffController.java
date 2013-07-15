@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +32,8 @@ import com.twistlet.falcon.model.service.StaffService;
 @Controller
 public class ListStaffController {
 
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	private final StaffService staffService;
 	
 	private final PatronService patronService;
@@ -60,14 +64,17 @@ public class ListStaffController {
 			falconUser.setUsername(admin);
 			Set<FalconStaff> staffs = staffService.listAvailableStaff(falconUser, startDate, endDate);
 			FalconStaff currentStaff = appointment.getFalconStaff();
+			Integer currentId = currentStaff.getId();
 			for(FalconStaff staff : staffs){
-				if(currentStaff.getId().equals(staff.getId())){
+				Integer availId = staff.getId();
+				if(currentId.equals(availId)){
 					status = "available";
 				}
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		logger.debug("status: " + status);
 		return status;
 	}
 

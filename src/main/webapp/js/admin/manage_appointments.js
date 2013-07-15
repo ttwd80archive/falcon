@@ -213,18 +213,31 @@ $(function() {
 					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + initialLocationId, function(data) {
 						setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
 					});
+
 					url = '../check-staff-availability/' + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
 					$.ajax({
 						url: url
 					}).done(function(data){
 						console.log('response is:' + data);
 						if(data == 'busy'){
-							$("#errorMessage").html('Current staff is not available between the time selected');
-							$("#errorMessage").css('visibility','visible');
+							$("#errorMessageStaff").html('Current staff is not available between the time selected');
+							$("#errorMessageStaff").css('visibility','visible');
 							$("#update").attr('disabled', 'disabled');
 						}else{
-							$("#errorMessage").css('visibility','hidden');
-							$("#update").removeAttr('disabled');
+							url = '../check-patron-availability/'  + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
+							$.ajax({
+								url: url
+							}).done(function(data){
+								console.log('response is:' + data);
+								if(data == ''){
+									$("#errorMessagePatron").css('visibility','hidden');
+									$("#update").removeAttr('disabled');
+								}else{
+									$("#errorMessagePatron").html(data);
+									$("#errorMessagePatron").css('visibility','visible');
+									$("#update").attr('disabled', 'disabled');
+								}
+							});
 						}
 						
 					});
