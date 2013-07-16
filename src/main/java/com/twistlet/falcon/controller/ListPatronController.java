@@ -301,6 +301,7 @@ public class ListPatronController {
 		List<Object> item = new ArrayList<>();
 		List<List<Object>> response = new ArrayList<>();
 		String responseString = "";
+		String username = request.getParameter("falconUserByPatron.username");
 		String theNric = request.getParameter("falconUserByPatron.nric");
 		String thePhone = request.getParameter("falconUserByPatron.phone");;
 		FalconUser user = new FalconUser();
@@ -312,7 +313,11 @@ public class ListPatronController {
 			FalconUser registeredUser = users.get(0);
 			registeredEmail = registeredUser.getEmail();
 			item.add("falconUserByPatron.nric");
-			item.add(false);
+			if(!registeredUser.getUsername().equals(username)){
+				item.add(false);
+			}else{
+				item.add(true);
+			}
 			//item.add("A duplicate nric is already registered by " + registeredEmail);
 			//responseString = "['" + item.get(0) + "'," + item.get(1) + ",'" + item.get(2) + "']";
 			responseString = "['" + item.get(0) + "'," + item.get(1) + "]";
@@ -330,8 +335,12 @@ public class ListPatronController {
 			FalconUser registeredUser = users.get(0);
 			registeredEmail = registeredUser.getEmail();
 			item.add("falconUserByPatron.phone");
-			item.add(false);
-			item.add("A duplicate phone is already registered by " + registeredEmail);
+			if(!registeredUser.getUsername().equals(username)){
+				item.add(false);
+				item.add("A duplicate phone is already registered by " + registeredEmail);
+			}else{
+				item.add(true);
+			}
 			//responseString = responseString + ",['" + item.get(0) + "'," + item.get(1) + ",'" + item.get(2) + "']";
 			responseString = responseString + ",['" + item.get(0) + "'," + item.get(1) + "]";
 			response.add(item);
