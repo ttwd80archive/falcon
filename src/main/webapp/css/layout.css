@@ -319,3 +319,48 @@ font-style:italic;
     position: relative;
     top: -1px;
 }
+
+.social-bg {
+background: url("../../images/social-bg.png") no-repeat scroll 0 0 #00A99D;
+    height: 100%;
+    width: 100%;
+                                                  text-align: left;
+	padding-top:60px;
+}
+
+.social-bg  *{
+padding:0;
+margin:5px;
+}
+
+.social-bg h3{
+margin-left: 20px;
+text-decoration: underline;
+}
+
+.social-bg span {
+    display: inline-block;
+    padding-left: 50px;
+	padding-top: 5px;
+    width: 110px;
+}
+
+.social-bg a {
+    background-image: url("../../images/social.png");
+    background-repeat: no-repeat;
+    color: #000000;
+    display: inline-block;
+    text-decoration: none;
+    width: 48px;
+}
+
+.social-bg a:hover{color: #0000FF;}
+
+.sprite-fb{ background-position: 0 0; width: 48px; height: 48px; } 
+.sprite-twitter{ background-position: -156px 0; width: 48px; height: 48px; } 
+.sprite-gplus{ background-position: -52px 0; width: 48px; height: 48px; } 
+.sprite-linkedin{ background-position: -104px 0; width: 48px; height: 48px; } 
+.sprite-fb:hover{ background-position: 0 -52px;} 
+.sprite-twitter:hover{ background-position: -156px -52px;} 
+.sprite-gplus:hover{ background-position: -52px -52px;} 
+.sprite-linkedin:hover{ background-position: -104px -52px;} 
