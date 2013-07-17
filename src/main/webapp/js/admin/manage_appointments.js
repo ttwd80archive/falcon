@@ -145,6 +145,71 @@ $(function() {
 			$("#rescheduleDate").datepicker({
 				dateFormat: 'dd-mm-yy'
 			});
+			$("#rescheduleDate").change(function(){
+				if($.trim($('#rescheduleTime').val()) != ""){
+					console.log('the current location id:' + initialLocationId);
+					var date = $("#rescheduleDate").val().replace(/-/g, '');
+					console.log(date + ':' + date.length);
+					if(date.length == 7 ){
+						console.log('add padding 0');
+						date = "0".concat(date);
+						console.log('DATE:' + date);
+					}
+					var starttime = $('#rescheduleTime').val().replace(/:/g, '');
+					var endtime =  $('#rescheduleTimeEnd').val().replace(/:/g, '');
+					if(starttime.substring(5,7).toLowerCase() == 'pm' ){
+						starttime = starttime.substring(0,4);
+						starttime = parseInt(starttime) + 1200;
+					}else{
+						starttime = starttime.substring(0,4);
+					}
+					if(endtime.substring(5,7).toLowerCase() == 'pm'){
+						endtime = endtime.substring(0,4);
+						console.log(parseInt(endtime));
+						if(parseInt(endtime) <= 1200 ){
+							console.log("adding to pm");
+							endtime = parseInt(endtime) + 1200;
+							console.log(endtime);
+						}
+					}else{
+						endtime = endtime.substring(0,4);
+					}
+					console.log("date:" + date);
+					console.log("start:" + starttime + " end: "+ endtime );
+					console.log("on click location id is:" + initialLocationId );
+					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + initialLocationId, function(data) {
+						setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
+					});
+
+					url = '../check-staff-availability/' + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
+					$.ajax({
+						url: url
+					}).done(function(data){
+						console.log('response is:' + data);
+						if(data == 'busy'){
+							$("#errorMessageStaff").html('Current staff is not available between the time selected');
+							$("#errorMessageStaff").css('visibility','visible');
+							$("#update").attr('disabled', 'disabled');
+						}else{
+							url = '../check-patron-availability/'  + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
+							$.ajax({
+								url: url
+							}).done(function(data){
+								console.log('response is:' + data);
+								if(data == ''){
+									$("#errorMessagePatron").css('visibility','hidden');
+									$("#update").removeAttr('disabled');
+								}else{
+									$("#errorMessagePatron").html(data);
+									$("#errorMessagePatron").css('visibility','visible');
+									$("#update").attr('disabled', 'disabled');
+								}
+							});
+						}
+						
+					});
+				}
+			});
 //			$('#rescheduleTime').timepicker({
 //				controlType: 'select',
 //				timeOnly: true,
@@ -250,13 +315,77 @@ $(function() {
 //		});
 		
 		$('#update').click(function(){
-			var url = "reschedule_appointment/" + $("#rescheduleId").html() + "/" + $("#rescheduleDate").val() + "/" + $("#rescheduleTime").val() + "/" + $("#rescheduleTimeEnd").val() + "/" + $("#rescheduleVenue").val() + "/";
-			console.log(url);
-			$.ajax({
-				  url: url
-			}).done(function(){
-				window.location = "manage-appointments";
-			});
+			if($.trim($('#rescheduleTime').val()) != ""){
+				console.log('the current location id:' + initialLocationId);
+				var date = $("#rescheduleDate").val().replace(/-/g, '');
+				console.log(date + ':' + date.length);
+				if(date.length == 7 ){
+					console.log('add padding 0');
+					date = "0".concat(date);
+					console.log('DATE:' + date);
+				}
+				var starttime = $('#rescheduleTime').val().replace(/:/g, '');
+				var endtime =  $('#rescheduleTimeEnd').val().replace(/:/g, '');
+				if(starttime.substring(5,7).toLowerCase() == 'pm' ){
+					starttime = starttime.substring(0,4);
+					starttime = parseInt(starttime) + 1200;
+				}else{
+					starttime = starttime.substring(0,4);
+				}
+				if(endtime.substring(5,7).toLowerCase() == 'pm'){
+					endtime = endtime.substring(0,4);
+					console.log(parseInt(endtime));
+					if(parseInt(endtime) <= 1200 ){
+						console.log("adding to pm");
+						endtime = parseInt(endtime) + 1200;
+						console.log(endtime);
+					}
+				}else{
+					endtime = endtime.substring(0,4);
+				}
+				console.log("date:" + date);
+				console.log("start:" + starttime + " end: "+ endtime );
+				console.log("on click location id is:" + initialLocationId );
+				$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + initialLocationId, function(data) {
+					setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
+				});
+
+				url = '../check-staff-availability/' + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
+				$.ajax({
+					url: url
+				}).done(function(data){
+					console.log('response is:' + data);
+					if(data == 'busy'){
+						$("#errorMessageStaff").html('Current staff is not available between the time selected');
+						$("#errorMessageStaff").css('visibility','visible');
+						$("#update").attr('disabled', 'disabled');
+					}else{
+						url = '../check-patron-availability/'  + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
+						$.ajax({
+							url: url
+						}).done(function(data){
+							console.log('response is:' + data);
+							if(data == ''){
+								$("#errorMessagePatron").css('visibility','hidden');
+								$("#update").removeAttr('disabled');
+								url = "reschedule_appointment/" + $("#rescheduleId").html() + "/" + $("#rescheduleDate").val() + "/" + $("#rescheduleTime").val() + "/" + $("#rescheduleTimeEnd").val() + "/" + $("#rescheduleVenue").val() + "/";
+								console.log(url);
+								$.ajax({
+									  url: url
+								}).done(function(){
+									window.location = "manage-appointments";
+								});
+							}else{
+								$("#errorMessagePatron").html(data);
+								$("#errorMessagePatron").css('visibility','visible');
+								$("#update").attr('disabled', 'disabled');
+							}
+						});
+					}
+					
+				});
+			}
+			
 		});
 	});
 	$.getJSON('../list-staff/'+ currentuser + '/99999999', function(data) {

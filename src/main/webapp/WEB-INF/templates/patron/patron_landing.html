@@ -119,13 +119,13 @@
 						<tbody>
 							<tr>
 								<td colspan="8" style="padding: 0">
-									<div class="innertable2">
+									<div class="innertable1">
 										<table class="result-table-rows">
 											<tbody>
 												<tr th:each="appointment : ${appointments}">
 													<td class="td1-ext"
-														th:text="${appointment.falconStaff.name}"></td>
-													<td class="td2-ext"><a href="#"
+														th:text="${appointment.falconStaff.name}" style="width: 75px;"></td>
+													<td class="td2-ext" style="width: 75px;"><a href="#"
 														th:href="@{patron_group_list(id=${appointment.id})}"
 														th:if="${#lists.size(appointment.falconAppointmentPatrons) > 1}">Patron
 															Group</a>
@@ -138,12 +138,12 @@
 															</span>
 														</div>
 													</td>
-													<td class="td4" th:text="${appointment.falconLocation.name}"></td>
-													<td class="td3-ext" th:text="${appointment.falconStaff.falconUser.name}"></td>
-													<td class="td5" th:text="${appointment.falconService.name}"></td>
-													<td class="td6" th:text="${#dates.format(appointment.appointmentDate, 'dd/MM/yyyy')}"></td>
-													<td class="td7" th:text="${#dates.format(appointment.appointmentDate, 'hh:mm aaa')}"></td>
-													<td class="td8">
+													<td class="td4" th:text="${appointment.falconLocation.name}" style="width: 70px;"></td>
+													<td class="td3-ext" th:text="${appointment.falconStaff.falconUser.name}" style="width: 77px;"></td>
+													<td class="td5" th:text="${appointment.falconService.name}" style="width: 80px;"></td>
+													<td class="td6" th:text="${#dates.format(appointment.appointmentDate, 'dd/MM/yyyy')}" style="width: 80px;"></td>
+													<td class="td7" th:text="${#dates.format(appointment.appointmentDate, 'hh:mm aaa')}" style="width: 80px;"></td>
+													<td class="td8" style="width: 80px;">
 														<ul class="schedule-action">
 															<li class="hidden"><a class="remove" href="#"
 																th:id="${appointment.id}">Remove</a></li>
