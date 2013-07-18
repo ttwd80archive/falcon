@@ -88,7 +88,8 @@ $(function() {
 	$('.reschedule').click(function(){
 		var initialLocationId = 0;
 		console.log('clicked');
-		var url = '../apppointment_fetch/' + $(this).attr('id');
+		var selectedAppointment = $(this).attr('id');
+		var url = '../apppointment_fetch/' + selectedAppointment;
 		$.getJSON(url, function(data){
 			console.log(data);
 			$("#rescheduleappt-box").css("display","block");
@@ -126,8 +127,8 @@ $(function() {
 				endtime = endtime.substring(0,4);
 			}
 			initialLocationId = data.locationId;
-			console.log("on select row location id is:" + initialLocationId );
-			$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + initialLocationId, function(data) {
+			console.log("on select row appointment id is:" + selectedAppointment );
+			$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + selectedAppointment, function(data) {
 				setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
 			});
 			
@@ -177,8 +178,8 @@ $(function() {
 					}
 					console.log("date:" + date);
 					console.log("start:" + starttime + " end: "+ endtime );
-					console.log("on click location id is:" + initialLocationId );
-					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + initialLocationId, function(data) {
+					console.log("on click appointment id is:" + $("#rescheduleId").html());
+					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + $("#rescheduleId").html(), function(data) {
 						setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
 					});
 
@@ -277,8 +278,8 @@ $(function() {
 					}
 					console.log("date:" + date);
 					console.log("start:" + starttime + " end: "+ endtime );
-					console.log("on click location id is:" + initialLocationId );
-					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + initialLocationId, function(data) {
+					console.log("on click appointment id is:" + $("#rescheduleId").html());
+					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + $("#rescheduleId").html(), function(data) {
 						setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
 					});
 
@@ -319,6 +320,16 @@ $(function() {
 //		});
 		
 		$('#update').click(function(){
+			var selectedVenue =  $("#rescheduleVenue").val();
+			console.log('venue is:' + selectedVenue);
+			if(selectedVenue == ''){
+				$("#errorMessageLocation").html('Please select a valid location');
+				$("#errorMessageLocation").css('visibility','visible');
+				console.log('not selected');
+				return false;
+			}else{
+				$("#errorMessageLocation").css('visibility','hidden');
+			}
 			var flag = $("#updateTime").html();
 			console.log('action ? :' + flag);
 			if(flag == 'true'){
@@ -352,8 +363,8 @@ $(function() {
 					}
 					console.log("date:" + date);
 					console.log("start:" + starttime + " end: "+ endtime );
-					console.log("on click location id is:" + initialLocationId );
-					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + initialLocationId, function(data) {
+					console.log("on click appointment id is:" + $("#rescheduleId").html());
+					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + $("#rescheduleId").html(), function(data) {
 						setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
 					});
 
@@ -376,7 +387,8 @@ $(function() {
 								if(data == ''){
 									$("#errorMessagePatron").css('visibility','hidden');
 									$("#update").removeAttr('disabled');
-									url = "reschedule_appointment/" + $("#rescheduleId").html() + "/" + $("#rescheduleDate").val() + "/" + $("#rescheduleTime").val() + "/" + $("#rescheduleTimeEnd").val() + "/" + $("#rescheduleVenue").val() + "/";
+									console.log('the selected venus is:' + selectedVenue);
+									url = "reschedule_appointment/" + $("#rescheduleId").html() + "/" + $("#rescheduleDate").val() + "/" + $("#rescheduleTime").val() + "/" + $("#rescheduleTimeEnd").val() + "/" + selectedVenue + "/";
 									console.log(url);
 									$.ajax({
 										  url: url

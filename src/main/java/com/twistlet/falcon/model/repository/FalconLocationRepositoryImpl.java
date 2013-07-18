@@ -61,5 +61,26 @@ public class FalconLocationRepositoryImpl implements FalconLocationRepositoryCus
 		query.where(conditionValid.and(conditionAdmin.and(conditionNameLike)));
 		return query.list(falconLocation);
 	}
+	
+	public Set<FalconLocation> findLocationDateRange(FalconUser admin, Date start, Date end, Integer appointmentId) {
+		final JPQLQuery query = new JPAQuery(entityManager);
+		final QFalconAppointment falconAppointment = QFalconAppointment.falconAppointment;
+		query.from(falconAppointment);
+		start = DateUtils.addSeconds(start, 1);
+		end = DateUtils.addSeconds(end, -1);
+		final BooleanExpression conditionDontSelectCurrent = falconAppointment.id.ne(appointmentId);
+		final BooleanExpression conditionStartDate = falconAppointment.appointmentDate.between(start, end);
+		final BooleanExpression conditionEndDate = falconAppointment.appointmentDateEnd.between(start, end);
+		final BooleanExpression conditionStartEndDate = falconAppointment.appointmentDate.before(start).and(falconAppointment.appointmentDateEnd.after(end));
+		BooleanExpression conditionTimeRange = conditionStartDate.or(conditionEndDate);
+		conditionTimeRange = conditionTimeRange.or(conditionStartEndDate);
+		query.where(conditionTimeRange.and(conditionDontSelectCurrent));
+		List<FalconAppointment> falconAppointments = query.list(falconAppointment);
+		Set<FalconLocation> locations = new HashSet<>();
+		for(FalconAppointment appointment: falconAppointments){
+			locations.add(appointment.getFalconLocation());
+		}
+		return locations;
+	}
 
 }

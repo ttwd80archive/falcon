@@ -83,13 +83,13 @@ public class ListLocationController {
 		return locations;
 	}
 	
-	@RequestMapping("/list-location/{admin}/{date}/{startTime}/{endTime}/{currentLocation}")
+	@RequestMapping("/list-location/{admin}/{date}/{startTime}/{endTime}/{appointmentId}")
 	@ResponseBody
 	public Set<FalconLocation> listAvailableLocationReschedule(@PathVariable String admin,
 			@PathVariable(value="date") String date,
 			@PathVariable("startTime") String start,
 			@PathVariable("endTime") String end,
-			@PathVariable("currentLocation") Integer locationId) {
+			@PathVariable("appointmentId") Integer appointmentId) {
 		final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy HHmm");
 		FalconUser falconUser = new FalconUser();
 		falconUser.setUsername(admin);
@@ -97,7 +97,7 @@ public class ListLocationController {
 		try {
 			final Date startDate = sdf.parse(date + " " + start);
 			final Date endDate = sdf.parse(date + " " + end);
-			locations = locationService.listAvailableLocations(falconUser, startDate, endDate, locationId);
+			locations = locationService.listAvailableLocations(falconUser, startDate, endDate, appointmentId);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
