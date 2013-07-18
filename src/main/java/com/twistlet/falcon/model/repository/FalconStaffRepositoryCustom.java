@@ -20,5 +20,7 @@ public interface FalconStaffRepositoryCustom {
 	List<FalconStaff> findByFalconUserStaffLike(FalconUser falconUser, FalconStaff staff);
 	
 	Set<FalconStaff> findStaffDateRange(FalconUser admin, Date start, Date end);
+	
+	Set<FalconStaff> findStaffDateRange(FalconUser admin, Date start, Date end, Integer appointmentId);
 
 }

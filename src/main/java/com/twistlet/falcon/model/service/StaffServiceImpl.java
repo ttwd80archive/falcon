@@ -148,6 +148,28 @@ public class StaffServiceImpl implements StaffService {
 		}
 		return availableStaffs;
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Set<FalconStaff> listAvailableStaff(FalconUser admin, Date start,
+			Date end, Integer appointmentId) {
+		final List<FalconStaff> staffs = falconStaffRepository.findByFalconUserAndValid(admin, true);
+		final Set<FalconStaff> busyStaffs = falconStaffRepository.findStaffDateRange(admin, start, end, appointmentId);
+		final Set<FalconStaff> availableStaffs = new HashSet<>();
+		for (final FalconStaff staff : staffs) {
+			boolean found = false;
+			for (final FalconStaff busyStaff : busyStaffs) {
+				if (staff.getId().equals(busyStaff.getId())) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				availableStaffs.add(staff);
+			}
+		}
+		return availableStaffs;
+	}
 
 	@Override
 	@Transactional(readOnly = true)

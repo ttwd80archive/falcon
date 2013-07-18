@@ -62,7 +62,7 @@ public class ListStaffController {
 			final Date endDate = sdf.parse(date + " " + end);
 			FalconUser falconUser = new FalconUser();
 			falconUser.setUsername(admin);
-			Set<FalconStaff> staffs = staffService.listAvailableStaff(falconUser, startDate, endDate);
+			Set<FalconStaff> staffs = staffService.listAvailableStaff(falconUser, startDate, endDate, appointmentId);
 			FalconStaff currentStaff = appointment.getFalconStaff();
 			Integer currentId = currentStaff.getId();
 			for(FalconStaff staff : staffs){

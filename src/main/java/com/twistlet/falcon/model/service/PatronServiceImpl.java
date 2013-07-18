@@ -221,6 +221,30 @@ public class PatronServiceImpl implements PatronService {
 		}
 		return availablePatron;
 	}
+	
+
+	@Override
+	@Transactional(readOnly = true)
+	public Set<User> listAvailablePatrons(FalconUser admin, Date start,
+			Date end, Integer appointmentId) {
+		List<User> allPatron = listRegisteredPatrons(admin);
+		Set<User> availablePatron = new HashSet<>();
+		Set<FalconPatron> busyPatrons = falconPatronRepository.findPatronsDateRange(admin, start, end, appointmentId);
+		for(User user: allPatron){
+			boolean found = false;
+			for(FalconPatron patron : busyPatrons){
+				if(StringUtils.equals(user.getUsername(), patron.getFalconUserByPatron().getUsername())){
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				availablePatron.add(user);
+			}
+		}
+		return availablePatron;
+	}
+
 
 	@Override
 	@Transactional(readOnly = true)
@@ -417,11 +441,7 @@ public class PatronServiceImpl implements PatronService {
 	public List<FalconUser> listUserByPhone(FalconUser user) {
 		List<FalconUser> users = falconUserRepository.findByPhone(user.getPhone());
 		return users;
-	}
-
-	
-	
-	
+	}	
 	
 
 }

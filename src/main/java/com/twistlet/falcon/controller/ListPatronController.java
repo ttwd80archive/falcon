@@ -62,7 +62,7 @@ public class ListPatronController {
 			final Date endDate = sdf.parse(date + " " + end);
 			FalconUser falconUser = new FalconUser();
 			falconUser.setUsername(admin);
-			Set<User> patients = patronService.listAvailablePatrons(falconUser, startDate, endDate);
+			Set<User> patients = patronService.listAvailablePatrons(falconUser, startDate, endDate, appointmentId);
 			Set<FalconAppointmentPatron> appointmentPatrons = appointment.getFalconAppointmentPatrons();
 			for(FalconAppointmentPatron falconAppointmentPatron : appointmentPatrons){
 				boolean available = false;
