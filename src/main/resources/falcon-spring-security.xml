@@ -12,11 +12,11 @@
 	<security:http pattern="/captcha/**" security="none" />
 
 	<security:http auto-config="true">
-		<security:intercept-url pattern="/**"
+		<security:intercept-url pattern="/**" requires-channel="https"
 			access="IS_AUTHENTICATED_FULLY" />
-		<security:intercept-url pattern="/main"
+		<security:intercept-url pattern="/main" requires-channel="https"
 			access="IS_AUTHENTICATED_FULLY" />
-		<security:intercept-url pattern="/send_notification"
+		<security:intercept-url pattern="/send_notification" requires-channel="https"
 			access="ROLE_USER" />
 		<security:form-login login-page="/index" 
 			authentication-failure-url="/index?fail=true" default-target-url="/main"
