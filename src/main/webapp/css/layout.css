@@ -127,6 +127,7 @@
 #tab-window ul                                   {padding: 16px 0 0 0;}
 #tab-window div ul li                            {display: block; padding: 4px; float: left; width: 100%;}
 #tab-window div ul li span                       {float: left; width: 100px;}
+#tab-window div ul li input                      {float:left;}
 #tablebody tr td:hover                           {border: 1px solid #22B574; font-weight: bold;}
 
 
