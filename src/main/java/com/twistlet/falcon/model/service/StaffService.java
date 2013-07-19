@@ -14,6 +14,8 @@ public interface StaffService {
 	List<FalconStaff> listStaffByAdmin(String admin);
 
 	Set<FalconStaff> listAvailableStaff(FalconUser admin, Date start, Date end);
+	
+	Set<FalconStaff> listAvailableStaff(FalconUser admin, Date start, Date end, Integer appointmentId);
 
 	List<FalconStaff> listStaffByAdminNameLike(FalconUser admin, String name);
 

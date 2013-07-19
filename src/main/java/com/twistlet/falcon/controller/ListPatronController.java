@@ -27,6 +27,7 @@ import com.twistlet.falcon.controller.bean.User;
 import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconPatron;
+import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.AppointmentService;
 import com.twistlet.falcon.model.service.PatronService;
@@ -48,6 +49,43 @@ public class ListPatronController {
 		this.patronService = patronService;
 		this.appointmentService = appointmentService;
 	}
+	
+	@RequestMapping("/check-patron-availability/{appointmentId}/{admin}/{date}/{startTime}/{endTime}")
+	@ResponseBody
+	public String velidateStaffAvailability(@PathVariable Integer appointmentId, @PathVariable String admin, @PathVariable(value = "date") String date,
+			@PathVariable("startTime") String start, @PathVariable("endTime") String end) {
+		final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy HHmm");
+		final FalconAppointment appointment = appointmentService.findAppointment(appointmentId);
+		String status = StringUtils.EMPTY;
+		try {
+			final Date startDate = sdf.parse(date + " " + start);
+			final Date endDate = sdf.parse(date + " " + end);
+			FalconUser falconUser = new FalconUser();
+			falconUser.setUsername(admin);
+			Set<User> patients = patronService.listAvailablePatrons(falconUser, startDate, endDate, appointmentId);
+			Set<FalconAppointmentPatron> appointmentPatrons = appointment.getFalconAppointmentPatrons();
+			for(FalconAppointmentPatron falconAppointmentPatron : appointmentPatrons){
+				boolean available = false;
+				for(User user : patients){
+					if(user.getUsername().equals(falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getUsername())){
+						available = true;
+						break;
+					}
+				}
+				if(!available){
+					if(StringUtils.isBlank(status)){
+						status = falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName() + " is not available between the time selected";
+					}else{
+						status = falconAppointmentPatron.getFalconPatron().getFalconUserByPatron().getName() + ", " + status;
+					}
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+	
 
 	@RequestMapping("/list-patient")
 	@ResponseBody
@@ -263,6 +301,7 @@ public class ListPatronController {
 		List<Object> item = new ArrayList<>();
 		List<List<Object>> response = new ArrayList<>();
 		String responseString = "";
+		String username = request.getParameter("falconUserByPatron.username");
 		String theNric = request.getParameter("falconUserByPatron.nric");
 		String thePhone = request.getParameter("falconUserByPatron.phone");;
 		FalconUser user = new FalconUser();
@@ -274,7 +313,11 @@ public class ListPatronController {
 			FalconUser registeredUser = users.get(0);
 			registeredEmail = registeredUser.getEmail();
 			item.add("falconUserByPatron.nric");
-			item.add(false);
+			if(!registeredUser.getUsername().equals(username)){
+				item.add(false);
+			}else{
+				item.add(true);
+			}
 			//item.add("A duplicate nric is already registered by " + registeredEmail);
 			//responseString = "['" + item.get(0) + "'," + item.get(1) + ",'" + item.get(2) + "']";
 			responseString = "['" + item.get(0) + "'," + item.get(1) + "]";
@@ -292,8 +335,12 @@ public class ListPatronController {
 			FalconUser registeredUser = users.get(0);
 			registeredEmail = registeredUser.getEmail();
 			item.add("falconUserByPatron.phone");
-			item.add(false);
-			item.add("A duplicate phone is already registered by " + registeredEmail);
+			if(!registeredUser.getUsername().equals(username)){
+				item.add(false);
+				item.add("A duplicate phone is already registered by " + registeredEmail);
+			}else{
+				item.add(true);
+			}
 			//responseString = responseString + ",['" + item.get(0) + "'," + item.get(1) + ",'" + item.get(2) + "']";
 			responseString = responseString + ",['" + item.get(0) + "'," + item.get(1) + "]";
 			response.add(item);

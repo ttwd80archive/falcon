@@ -144,7 +144,7 @@ public class FalconPatronRepositoryImplTest extends AbstractFalconRepositoryTest
 
 	@Test
 	public void testPatronsOverlapStart() {
-		final Date end = new Date();
+		final Date end = DateUtils.addHours(new Date(),1);
 		final Date start = DateUtils.addHours(end, -1);
 		final FalconUser admin = createNewUser("ADMIN_1", "emailadmin1@add.com", "4", "4");
 		final Set<FalconPatron> patrons = falconPatronRepository.findPatronsDateRange(admin, start, end);

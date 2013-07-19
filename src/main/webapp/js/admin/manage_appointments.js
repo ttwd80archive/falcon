@@ -88,7 +88,8 @@ $(function() {
 	$('.reschedule').click(function(){
 		var initialLocationId = 0;
 		console.log('clicked');
-		var url = '../apppointment_fetch/' + $(this).attr('id');
+		var selectedAppointment = $(this).attr('id');
+		var url = '../apppointment_fetch/' + selectedAppointment;
 		$.getJSON(url, function(data){
 			console.log(data);
 			$("#rescheduleappt-box").css("display","block");
@@ -126,8 +127,8 @@ $(function() {
 				endtime = endtime.substring(0,4);
 			}
 			initialLocationId = data.locationId;
-			console.log("on select row location id is:" + initialLocationId );
-			$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + initialLocationId, function(data) {
+			console.log("on select row appointment id is:" + selectedAppointment );
+			$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + selectedAppointment, function(data) {
 				setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
 			});
 			
@@ -144,6 +145,73 @@ $(function() {
 			$("#rescheduleId").html(data.id);
 			$("#rescheduleDate").datepicker({
 				dateFormat: 'dd-mm-yy'
+			});
+			$("#rescheduleDate").change(function(){
+				$("#updateTime").html('true');
+				if($.trim($('#rescheduleTime').val()) != ""){
+					console.log('the current location id:' + initialLocationId);
+					var date = $("#rescheduleDate").val().replace(/-/g, '');
+					console.log(date + ':' + date.length);
+					if(date.length == 7 ){
+						console.log('add padding 0');
+						date = "0".concat(date);
+						console.log('DATE:' + date);
+					}
+					var starttime = $('#rescheduleTime').val().replace(/:/g, '');
+					var endtime =  $('#rescheduleTimeEnd').val().replace(/:/g, '');
+					if(starttime.substring(5,7).toLowerCase() == 'pm' ){
+						starttime = starttime.substring(0,4);
+						starttime = parseInt(starttime) + 1200;
+					}else{
+						starttime = starttime.substring(0,4);
+					}
+					if(endtime.substring(5,7).toLowerCase() == 'pm'){
+						endtime = endtime.substring(0,4);
+						console.log(parseInt(endtime));
+						if(parseInt(endtime) <= 1200 ){
+							console.log("adding to pm");
+							endtime = parseInt(endtime) + 1200;
+							console.log(endtime);
+						}
+					}else{
+						endtime = endtime.substring(0,4);
+					}
+					console.log("date:" + date);
+					console.log("start:" + starttime + " end: "+ endtime );
+					console.log("on click appointment id is:" + $("#rescheduleId").html());
+					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + $("#rescheduleId").html(), function(data) {
+						setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
+					});
+
+					url = '../check-staff-availability/' + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
+					$.ajax({
+						url: url
+					}).done(function(data){
+						console.log('response is:' + data);
+						if(data == 'busy'){
+							$("#errorMessageStaff").html('Current staff is not available between the time selected');
+							$("#errorMessageStaff").css('visibility','visible');
+							$("#update").attr('disabled', 'disabled');
+						}else{
+							$("#errorMessageStaff").css('visibility','hidden');
+							url = '../check-patron-availability/'  + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
+							$.ajax({
+								url: url
+							}).done(function(data){
+								console.log('response is:' + data);
+								if(data == ''){
+									$("#errorMessagePatron").css('visibility','hidden');
+									$("#update").removeAttr('disabled');
+								}else{
+									$("#errorMessagePatron").html(data);
+									$("#errorMessagePatron").css('visibility','visible');
+									$("#update").attr('disabled', 'disabled');
+								}
+							});
+						}
+						
+					});
+				}
 			});
 //			$('#rescheduleTime').timepicker({
 //				controlType: 'select',
@@ -179,6 +247,7 @@ $(function() {
 //			});
 			
 			$('#rescheduleTimeEnd').change(function(){
+				$("#updateTime").html('true');
 				if($.trim($('#rescheduleTime').val()) != ""){
 					console.log('the current location id:' + initialLocationId);
 					var date = $("#rescheduleDate").val().replace(/-/g, '');
@@ -209,22 +278,36 @@ $(function() {
 					}
 					console.log("date:" + date);
 					console.log("start:" + starttime + " end: "+ endtime );
-					console.log("on click location id is:" + initialLocationId );
-					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + initialLocationId, function(data) {
+					console.log("on click appointment id is:" + $("#rescheduleId").html());
+					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + $("#rescheduleId").html(), function(data) {
 						setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
 					});
+
 					url = '../check-staff-availability/' + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
 					$.ajax({
 						url: url
 					}).done(function(data){
 						console.log('response is:' + data);
 						if(data == 'busy'){
-							$("#errorMessage").html('Current staff is not available between the time selected');
-							$("#errorMessage").css('visibility','visible');
+							$("#errorMessageStaff").html('Current staff is not available between the time selected');
+							$("#errorMessageStaff").css('visibility','visible');
 							$("#update").attr('disabled', 'disabled');
 						}else{
-							$("#errorMessage").css('visibility','hidden');
-							$("#update").removeAttr('disabled');
+							$("#errorMessageStaff").css('visibility','hidden');
+							url = '../check-patron-availability/'  + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
+							$.ajax({
+								url: url
+							}).done(function(data){
+								console.log('response is:' + data);
+								if(data == ''){
+									$("#errorMessagePatron").css('visibility','hidden');
+									$("#update").removeAttr('disabled');
+								}else{
+									$("#errorMessagePatron").html(data);
+									$("#errorMessagePatron").css('visibility','visible');
+									$("#update").attr('disabled', 'disabled');
+								}
+							});
 						}
 						
 					});
@@ -237,13 +320,101 @@ $(function() {
 //		});
 		
 		$('#update').click(function(){
-			var url = "reschedule_appointment/" + $("#rescheduleId").html() + "/" + $("#rescheduleDate").val() + "/" + $("#rescheduleTime").val() + "/" + $("#rescheduleTimeEnd").val() + "/" + $("#rescheduleVenue").val() + "/";
-			console.log(url);
-			$.ajax({
-				  url: url
-			}).done(function(){
-				window.location = "manage-appointments";
-			});
+			var selectedVenue =  $("#rescheduleVenue").val();
+			console.log('venue is:' + selectedVenue);
+			if(selectedVenue == ''){
+				$("#errorMessageLocation").html('Please select a valid location');
+				$("#errorMessageLocation").css('visibility','visible');
+				console.log('not selected');
+				return false;
+			}else{
+				$("#errorMessageLocation").css('visibility','hidden');
+			}
+			var flag = $("#updateTime").html();
+			console.log('action ? :' + flag);
+			if(flag == 'true'){
+				if($.trim($('#rescheduleTime').val()) != ""){
+					console.log('the current location id:' + initialLocationId);
+					var date = $("#rescheduleDate").val().replace(/-/g, '');
+					console.log(date + ':' + date.length);
+					if(date.length == 7 ){
+						console.log('add padding 0');
+						date = "0".concat(date);
+						console.log('DATE:' + date);
+					}
+					var starttime = $('#rescheduleTime').val().replace(/:/g, '');
+					var endtime =  $('#rescheduleTimeEnd').val().replace(/:/g, '');
+					if(starttime.substring(5,7).toLowerCase() == 'pm' ){
+						starttime = starttime.substring(0,4);
+						starttime = parseInt(starttime) + 1200;
+					}else{
+						starttime = starttime.substring(0,4);
+					}
+					if(endtime.substring(5,7).toLowerCase() == 'pm'){
+						endtime = endtime.substring(0,4);
+						console.log(parseInt(endtime));
+						if(parseInt(endtime) <= 1200 ){
+							console.log("adding to pm");
+							endtime = parseInt(endtime) + 1200;
+							console.log(endtime);
+						}
+					}else{
+						endtime = endtime.substring(0,4);
+					}
+					console.log("date:" + date);
+					console.log("start:" + starttime + " end: "+ endtime );
+					console.log("on click appointment id is:" + $("#rescheduleId").html());
+					$.getJSON('../list-location/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/' + $("#rescheduleId").html(), function(data) {
+						setSelectOptions($('#rescheduleVenue'), data, 'id', 'name', [initialLocationId]);
+					});
+
+					url = '../check-staff-availability/' + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
+					$.ajax({
+						url: url
+					}).done(function(data){
+						console.log('response is:' + data);
+						if(data == 'busy'){
+							$("#errorMessageStaff").html('Current staff is not available between the time selected');
+							$("#errorMessageStaff").css('visibility','visible');
+							$("#update").attr('disabled', 'disabled');
+						}else{
+							$("#errorMessageStaff").css('visibility','hidden');
+							url = '../check-patron-availability/'  + $("#rescheduleId").html() +  '/' + currentuser + '/' +  date + '/' + starttime + '/' + endtime + '/';
+							$.ajax({
+								url: url
+							}).done(function(data){
+								console.log('response is:' + data);
+								if(data == ''){
+									$("#errorMessagePatron").css('visibility','hidden');
+									$("#update").removeAttr('disabled');
+									console.log('the selected venus is:' + selectedVenue);
+									url = "reschedule_appointment/" + $("#rescheduleId").html() + "/" + $("#rescheduleDate").val() + "/" + $("#rescheduleTime").val() + "/" + $("#rescheduleTimeEnd").val() + "/" + selectedVenue + "/";
+									console.log(url);
+									$.ajax({
+										  url: url
+									}).done(function(){
+										window.location = "manage-appointments";
+									});
+								}else{
+									$("#errorMessagePatron").html(data);
+									$("#errorMessagePatron").css('visibility','visible');
+									$("#update").attr('disabled', 'disabled');
+								}
+							});
+						}
+						
+					});
+				}
+			}else{
+				console.log('updating');
+				var url = "reschedule_appointment/" + $("#rescheduleId").html() + "/" + $("#rescheduleDate").val() + "/" + $("#rescheduleTime").val() + "/" + $("#rescheduleTimeEnd").val() + "/" + $("#rescheduleVenue").val() + "/";
+				console.log(url);
+				$.ajax({
+					  url: url
+				}).done(function(){
+					window.location = "manage-appointments";
+				});
+			}
 		});
 	});
 	$.getJSON('../list-staff/'+ currentuser + '/99999999', function(data) {

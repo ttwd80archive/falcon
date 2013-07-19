@@ -19,6 +19,7 @@
 	href="css/chosen.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" th:href="@{/css/validationEngine.jquery.css}"
 	href="css/validationEngine.jquery.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="../../../images/fav-icon.ico" />
 <style>
 .ui-widget {
 	font-size: x-small;
@@ -31,7 +32,8 @@
 			<div id="logo">
 				<img th:src="@{/images/butter-bun-logo.png}"
 					src="./images/butter-bun-logo.png" alt="Image failed to load"
-					height="60px" width="150px" />
+					height="50px" width="150px" />
+				<span>Malaysia's Premier Automated Scheduler</span>
 			</div>
 			<div id="header-inf">
 				<a href="feedback" id="custsupportlink">CONTACT
@@ -117,13 +119,13 @@
 						<tbody>
 							<tr>
 								<td colspan="8" style="padding: 0">
-									<div class="innertable2">
+									<div class="innertable1">
 										<table class="result-table-rows">
 											<tbody>
 												<tr th:each="appointment : ${appointments}">
 													<td class="td1-ext"
-														th:text="${appointment.falconStaff.name}"></td>
-													<td class="td2-ext"><a href="#"
+														th:text="${appointment.falconStaff.name}" style="width: 75px;"></td>
+													<td class="td2-ext" style="width: 75px;"><a href="#"
 														th:href="@{patron_group_list(id=${appointment.id})}"
 														th:if="${#lists.size(appointment.falconAppointmentPatrons) > 1}">Patron
 															Group</a>
@@ -136,12 +138,12 @@
 															</span>
 														</div>
 													</td>
-													<td class="td4" th:text="${appointment.falconLocation.name}"></td>
-													<td class="td3-ext" th:text="${appointment.falconStaff.falconUser.name}"></td>
-													<td class="td5" th:text="${appointment.falconService.name}"></td>
-													<td class="td6" th:text="${#dates.format(appointment.appointmentDate, 'dd/MM/yyyy')}"></td>
-													<td class="td7" th:text="${#dates.format(appointment.appointmentDate, 'hh:mm aaa')}"></td>
-													<td class="td8">
+													<td class="td4" th:text="${appointment.falconLocation.name}" style="width: 70px;"></td>
+													<td class="td3-ext" th:text="${appointment.falconStaff.falconUser.name}" style="width: 77px;"></td>
+													<td class="td5" th:text="${appointment.falconService.name}" style="width: 80px;"></td>
+													<td class="td6" th:text="${#dates.format(appointment.appointmentDate, 'dd/MM/yyyy')}" style="width: 80px;"></td>
+													<td class="td7" th:text="${#dates.format(appointment.appointmentDate, 'hh:mm aaa')}" style="width: 80px;"></td>
+													<td class="td8" style="width: 80px;">
 														<ul class="schedule-action">
 															<li class="hidden"><a class="remove" href="#"
 																th:id="${appointment.id}">Remove</a></li>
@@ -160,7 +162,16 @@
 		</div>
 		<div id="sidebar-wrapper">
 			<div id="sidebar" class="bold">
-				<div id="ad-banner">ADVERTISING</div>
+					<div id="msg-box-right">
+						<p>Dear Patron,</p>
+						<p>Welcome to your appointment portal.</p>
+						<p>For now, you may view all your upcoming appointments here.</p>
+						<p>You will receive SMS and E-Mail notifications 2 hours before an appointment.</p>
+						<p>You will also receive notifications if your appointment has been rescheduled or cancelled.</p>
+						<p>Drop us a line via the contact customer support link above if you have any feedback or enquiries.</p>
+						<p>Warm Regards,</p>
+						<p>Butter-Bun Administrators</p>
+					</div>
 			</div>
 		</div>
 		<div id="removeappt-box" class="absoluteleftcenter hidden">

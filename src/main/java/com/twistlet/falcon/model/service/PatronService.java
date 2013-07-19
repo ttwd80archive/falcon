@@ -13,6 +13,8 @@ public interface PatronService {
 	List<User> listRegisteredPatrons(FalconUser admin);
 
 	Set<User> listAvailablePatrons(FalconUser admin, Date start, Date end);
+	
+	Set<User> listAvailablePatrons(FalconUser admin, Date start, Date end, Integer appointmentId);
 
 	void savePatron(FalconPatron patron);
 	

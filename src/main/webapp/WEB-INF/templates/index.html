@@ -8,6 +8,7 @@
 	href="css/styles.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" th:href="@{/css/layout.css}"
 	href="css/layout.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="../../images/fav-icon.ico" />	
 </head>
 <body>
 	<div id="header-wrapper">
@@ -15,7 +16,8 @@
 			<div id="logo">
 				<img th:src="@{/images/butter-bun-logo.png}"
 					src="./images/butter-bun-logo.png" alt="Image failed to load"
-					height="60px" width="150px" />
+					height="50px" width="150px" />
+				<span>Malaysia's Premier Automated Scheduler</span>
 			</div>
 			<div id="header-inf" class="hidden">
 				<a href="customersupport.html" id="custsupportlink">CONTACT
@@ -39,9 +41,9 @@
 					</div>
 					<div>
 						<ul class="nopadding">
-							<li><a href="#" id="forgotpwd">forgot your password?</a> <input
+							<li><a href="#" id="forgotpwd" class="hidden">forgot your password?</a> <input
 								type="submit" value="SIGN IN" class="button" id="loginbutton" /></li>
-							<li id="newuserinf"><span>New User&#63; Sign Up
+							<li id="newuserinf" class="hidden"><span>New User&#63; Sign Up
 									Now&#33;</span> <input type="button" value="SIGN UP" class="button"
 								id="signupbutton" /></li>
 						</ul>
@@ -73,14 +75,21 @@
 			<div class="col-right">
 				<div class="col-head bold">Customer Support</div>
 				<div class="col-content">
-				<p>Facing an issue or have feedback?</p>
+				<p>Facing an issue, forgot password or have feedback?</p>
 				<p>Drop us a line at <a href="mailto:support@butter-bun.com">support@butter-bun.com</a> and we will get back to you <b>as soon as possible</b>.</p>
 				</div>
 			</div>
 		</div>
 		<div id="sidebar-wrapper">
 			<div id="sidebar" class="bold">
-				<div id="ad-banner">ADVERTISING</div>
+				<div class="social-bg">
+				<h3>Follow Us:</h3>
+				<ul>
+				<li><a href="http://www.facebook.com/pages/Butter-Bun/364305490347464" class="sprite-fb"><span>On Facebook</span></a></li>
+				<li><a href="http://plus.google.com/u/0/100435016393666376233/about" class="sprite-gplus"><span>On Google Plus</span></a></li>
+				<li><a href="http://www.linkedin.com/company/apris-solutions-sdn-bhd-/butter-bun-1704912/product?trk=biz_product" class="sprite-linkedin"><span>On LinkedIn</span></a></li>
+				</ul>
+				</div>
 			</div>
 		</div>
 	</div>

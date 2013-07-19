@@ -12,4 +12,7 @@ public interface FalconLocationRepositoryCustom {
 	Set<FalconLocation> findLocationDateRange(FalconUser admin, Date start, Date end);
 
 	List<FalconLocation> findByFalconUserLike(FalconLocation location);
+	
+	Set<FalconLocation> findLocationDateRange(FalconUser admin, Date start, Date end, Integer appointmentId);
+	
 }

@@ -11,6 +11,8 @@ public interface FalconPatronRepositoryCustom {
 	
 	Set<FalconPatron> findPatronsDateRange(FalconUser admin, Date start, Date end);
 	
+	Set<FalconPatron> findPatronsDateRange(FalconUser admin, Date start, Date end, Integer appointmentId);
+	
 	List<FalconPatron> findByFalconUserNameLike(FalconUser falconUser, String name);
 	
 	List<FalconPatron> findByFalconUserNricLike(FalconUser falconUser, String nric);

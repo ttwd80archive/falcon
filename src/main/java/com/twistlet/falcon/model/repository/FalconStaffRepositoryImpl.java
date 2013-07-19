@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Repository;
 
 import com.mysema.query.jpa.JPQLQuery;
@@ -133,12 +134,37 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 		final JPQLQuery query = new JPAQuery(entityManager);
 		final QFalconAppointment falconAppointment = QFalconAppointment.falconAppointment;
 		query.from(falconAppointment);
+		start = DateUtils.addSeconds(start, 1);
+		end = DateUtils.addSeconds(end, -1);
 		final BooleanExpression conditionStartDate = falconAppointment.appointmentDate.between(start, end);
 		final BooleanExpression conditionEndDate = falconAppointment.appointmentDateEnd.between(start, end);
 		final BooleanExpression conditionStartEndDate = falconAppointment.appointmentDate.before(start).and(falconAppointment.appointmentDateEnd.after(end));
 		BooleanExpression conditionTimeRange = conditionStartDate.or(conditionEndDate);
 		conditionTimeRange = conditionTimeRange.or(conditionStartEndDate);
 		query.where(conditionTimeRange);
+		List<FalconAppointment> falconAppointments = query.list(falconAppointment);
+		Set<FalconStaff> staffs = new HashSet<>();
+		for(FalconAppointment appointment: falconAppointments){
+			staffs.add(appointment.getFalconStaff());
+		}
+		return staffs;
+	}
+
+	@Override
+	public Set<FalconStaff> findStaffDateRange(FalconUser admin, Date start,
+			Date end, Integer appointmentId) {
+		final JPQLQuery query = new JPAQuery(entityManager);
+		final QFalconAppointment falconAppointment = QFalconAppointment.falconAppointment;
+		query.from(falconAppointment);
+		start = DateUtils.addSeconds(start, 1);
+		end = DateUtils.addSeconds(end, -1);
+		final BooleanExpression conditionNotCurrentAppointment = falconAppointment.id.ne(appointmentId);
+		final BooleanExpression conditionStartDate = falconAppointment.appointmentDate.between(start, end);
+		final BooleanExpression conditionEndDate = falconAppointment.appointmentDateEnd.between(start, end);
+		final BooleanExpression conditionStartEndDate = falconAppointment.appointmentDate.before(start).and(falconAppointment.appointmentDateEnd.after(end));
+		BooleanExpression conditionTimeRange = conditionStartDate.or(conditionEndDate);
+		conditionTimeRange = conditionTimeRange.or(conditionStartEndDate);
+		query.where(conditionTimeRange.and(conditionNotCurrentAppointment));
 		List<FalconAppointment> falconAppointments = query.list(falconAppointment);
 		Set<FalconStaff> staffs = new HashSet<>();
 		for(FalconAppointment appointment: falconAppointments){

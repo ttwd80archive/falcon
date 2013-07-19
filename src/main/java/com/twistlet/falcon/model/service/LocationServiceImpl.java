@@ -68,18 +68,16 @@ public class LocationServiceImpl implements LocationService {
 		return availableLocations;
 	}
 	
-	public Set<FalconLocation> listAvailableLocations(FalconUser admin, Date start, Date end, Integer locationId) {
+	public Set<FalconLocation> listAvailableLocations(FalconUser admin, Date start, Date end, Integer appointmentId) {
 		List<FalconLocation> locations = falconLocationRepository.findByFalconUser(admin);
-		Set<FalconLocation> occupiedLocations = falconLocationRepository.findLocationDateRange(admin, start, end);
+		Set<FalconLocation> occupiedLocations = falconLocationRepository.findLocationDateRange(admin, start, end, appointmentId);
 		Set<FalconLocation> availableLocations = new HashSet<>();
 		for(FalconLocation location : locations){
 			boolean found = false;
 			for(FalconLocation occupiedLocation : occupiedLocations){
 				if(location.getId().equals(occupiedLocation.getId())){
-					if(!location.getId().equals(locationId)){
 						found = true;
 						break;
-					}
 				}
 			}
 			if(!found){

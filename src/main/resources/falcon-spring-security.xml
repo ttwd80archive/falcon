@@ -18,7 +18,7 @@
 			access="IS_AUTHENTICATED_FULLY" />
 		<security:intercept-url pattern="/send_notification"
 			access="ROLE_USER" />
-		<security:form-login login-page="/index"
+		<security:form-login login-page="/index" 
 			authentication-failure-url="/index?fail=true" default-target-url="/main"
 			always-use-default-target="true" />
 		<security:logout logout-url="/logout"
