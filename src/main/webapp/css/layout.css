@@ -98,7 +98,7 @@
 #result-table                                    {padding-right: 48px; width: 710px;}
 #result-table th                                 {padding: 4px; text-align: left;}
 #result-table td                                 {vertical-align: top; height: 48px; text-align: left;}
-#result-table td td                              {padding-left: 4px;}
+#result-table td td                              {padding-left: 4px; border-bottom: 1px solid;}
 #searchicon                                      {position: relative; top: 6px;}
 #searchfilters                                   {float:left; width: 480px;}
 #sidebar                                         {background: none repeat scroll 0 0 #FFFFFF; width: 190px; height: 484px; margin: 16px; text-align: center;}
