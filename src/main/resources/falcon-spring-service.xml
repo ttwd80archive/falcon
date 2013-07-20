@@ -6,4 +6,52 @@
 
 	<context:component-scan base-package="com.twistlet.falcon.model.service" />
 
+	<bean id="notificationWelcomeService"
+		class="com.twistlet.falcon.model.service.NotificationWelcomeServiceImpl">
+		<constructor-arg index="0">
+			<bean class="org.springframework.mail.SimpleMailMessage">
+				<property name="from">
+					<value>"Butter-Bun Sign-Up" &lt;signup@butter-bun.com&gt;</value>
+				</property>
+				<property name="subject">
+					<value>Welcome to Butter-Bun</value>
+				</property>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+				<property name="host">
+					<value>mail.apris-solutions.com</value>
+				</property>
+				<property name="port">
+					<value>587</value>
+				</property>
+				<property name="username">
+					<value>signup@butter-bun.com</value>
+				</property>
+				<property name="password">
+					<value>butter2012</value>
+				</property>
+				<property name="javaMailProperties">
+					<props>
+						<prop key="mail.smtp.auth">true</prop>
+						<prop key="mail.smtp.starttls.enable">false</prop>
+					</props>
+				</property>
+			</bean>
+		</constructor-arg>
+		<constructor-arg>
+			<bean class="org.apache.commons.io.FileUtils" factory-method="readFileToString">
+				<constructor-arg index="0"
+					value="classpath:com/twistlet/falcon/mail/welcome.txt" />
+				<constructor-arg index="1">
+					<bean class="java.nio.charset.Charset" factory-method="forName">
+						<constructor-arg>
+							<value>UTF-8</value>
+						</constructor-arg>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
 </beans>
