@@ -47,7 +47,7 @@
 				<constructor-arg index="1">
 					<bean class="java.nio.charset.Charset" factory-method="forName">
 						<constructor-arg>
-							<value>UTF-8</value>
+							<value>US-ASCII</value>
 						</constructor-arg>
 					</bean>
 				</constructor-arg>
