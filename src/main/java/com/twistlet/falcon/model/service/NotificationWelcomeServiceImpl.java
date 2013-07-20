@@ -22,7 +22,7 @@ public class NotificationWelcomeServiceImpl implements NotificationWelcomeServic
 	public void send(final String fullName, final String ic, final String hp, final String mail, final String password,
 			final String patronOf) {
 		final SimpleMailMessage mailMessage = new SimpleMailMessage(this.mailMessage);
-		final Object[] arguments = {};
+		final Object[] arguments = { fullName, ic, hp, mail, password, patronOf };
 		final String content = MessageFormat.format(contentTemplate, arguments);
 		final String to = MessageFormat.format("\"{0}\" <{1}>", new Object[] { fullName, mail });
 		try {
