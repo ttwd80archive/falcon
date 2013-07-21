@@ -1,0 +1,13 @@
+Dear User,
+Your e-mail address is your user id for future sign-in''s
+
+Full Name: {0}
+I.C No: {1}
+HP: {2}
+Email: {3}
+Password: {4}
+Patron of {5}
+
+Please proceed to log-in at www.butter-bun.com & schedule away!
+Warm Regards,
+Apris Solutions

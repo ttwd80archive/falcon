@@ -158,6 +158,9 @@ public class FalconStaffRepositoryImpl implements FalconStaffRepositoryCustom {
 		query.from(falconAppointment);
 		start = DateUtils.addSeconds(start, 1);
 		end = DateUtils.addSeconds(end, -1);
+		if(end.before(start)){
+			end = start;
+		}
 		final BooleanExpression conditionNotCurrentAppointment = falconAppointment.id.ne(appointmentId);
 		final BooleanExpression conditionStartDate = falconAppointment.appointmentDate.between(start, end);
 		final BooleanExpression conditionEndDate = falconAppointment.appointmentDateEnd.between(start, end);
