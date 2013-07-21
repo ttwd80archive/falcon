@@ -75,7 +75,7 @@ public class ReminderServiceImpl implements ReminderService {
 		final String staff = falconStaff.getName();
 		final String venue = falconLocation.getName();
 		final String service = falconService.getName();
-		final String subject = "Your scheduled appointment is due soon";
+		final String subject = "Butter-Bun - Your appointment is Due Soon";
 		final String smsFormat = "Appointment due soon! {0}, {1}, {2}, {3}, {4}, {5}";
 		for (final FalconAppointmentPatron falconAppointmentPatron : falconPatrons) {
 			sendToPatron(falconAppointment, date, time, staff, venue, service, subject, smsFormat, falconAppointmentPatron);
@@ -103,8 +103,10 @@ public class ReminderServiceImpl implements ReminderService {
 		}
 		final Object[] arguments = { date, time, staff, patron, venue, service };
 		if (BooleanUtils.toBoolean(falconStaff.getSendEmail())) {
-			final String mailContent = MessageFormat.format(message, arguments);
+			String mailContent = MessageFormat.format(message, arguments);
 			try {
+				mailContent = mailContent.replace("\r\n", "\n");
+				mailContent = mailContent.replace("\n", "\r\n");
 				mailSenderService.send(sender, target, mailContent, subject);
 			} catch (final Exception e) {
 				e.printStackTrace();
