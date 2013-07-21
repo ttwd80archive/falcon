@@ -1,5 +1,5 @@
 Dear User,
-Your e-mail address is your user id for future sign-in's
+Your e-mail address is your user id for future sign-in''s
 
 Full Name: {0}
 I.C No: {1}
