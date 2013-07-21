@@ -107,6 +107,7 @@ public class ReminderServiceImpl implements ReminderService {
 			try {
 				mailContent = mailContent.replace("\r\n", "\n");
 				mailContent = mailContent.replace("\n", "\r\n");
+				logger.info("Sending reminder to staff : {}\n{}", target, mailContent);
 				mailSenderService.send(sender, target, mailContent, subject);
 			} catch (final Exception e) {
 				e.printStackTrace();
@@ -147,6 +148,7 @@ public class ReminderServiceImpl implements ReminderService {
 			try {
 				mailContent = mailContent.replace("\r\n", "\n");
 				mailContent = mailContent.replace("\n", "\r\n");
+				logger.info("Sending reminder to patron : {}\n{}", thePatron.getEmail(), mailContent);
 				mailSenderService.send(sender, thePatron.getEmail(), mailContent, subject);
 			} catch (final Exception e) {
 				e.printStackTrace();
