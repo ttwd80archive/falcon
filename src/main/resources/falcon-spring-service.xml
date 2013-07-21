@@ -6,12 +6,6 @@
 
 	<context:component-scan base-package="com.twistlet.falcon.model.service" />
 
-	<bean id="charsetAscii" class="java.nio.charset.Charset"
-		factory-method="forName">
-		<constructor-arg>
-			<value>US-ASCII</value>
-		</constructor-arg>
-	</bean>
 
 	<bean id="notificationWelcomeService"
 		class="com.twistlet.falcon.model.service.NotificationServiceImpl">
@@ -51,55 +45,63 @@
 				<constructor-arg index="0"
 					value="classpath:com/twistlet/falcon/mail/welcome.txt" />
 				<constructor-arg index="1">
-					<ref local="charsetAscii" />
+					<bean class="java.nio.charset.Charset" factory-method="forName">
+						<constructor-arg>
+							<value>UTF-8</value>
+						</constructor-arg>
+					</bean>
 				</constructor-arg>
 			</bean>
 		</constructor-arg>
 	</bean>
 
-	<bean id="notificationRemovalService"
-		class="com.twistlet.falcon.model.service.NotificationServiceImpl">
-		<constructor-arg index="0">
-			<bean class="org.springframework.mail.SimpleMailMessage">
-				<property name="from"
-					value="Butter-Bun Notification &lt;notifications@butter-bun.com&gt;">
-				</property>
-				<property name="subject">
-					<value>Butter-Bun - Your appointment has been cancelled</value>
-				</property>
-			</bean>
-		</constructor-arg>
-		<constructor-arg index="1">
-			<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
-				<property name="host">
-					<value>${smtp.notifications.host}</value>
-				</property>
-				<property name="port">
-					<value>${smtp.notifications.port}</value>
-				</property>
-				<property name="username">
-					<value>${smtp.notifications.username}</value>
-				</property>
-				<property name="password">
-					<value>${smtp.notifications.password}</value>
-				</property>
-				<property name="javaMailProperties">
-					<props>
-						<prop key="mail.smtp.auth">true</prop>
-						<prop key="mail.smtp.starttls.enable">false</prop>
-					</props>
-				</property>
-			</bean>
-		</constructor-arg>
-		<constructor-arg>
-			<bean class="org.apache.commons.io.FileUtils" factory-method="readFileToString">
-				<constructor-arg index="0"
-					value="classpath:com/twistlet/falcon/mail/remove.txt" />
-				<constructor-arg index="1">
-					<ref local="charsetAscii" />
-				</constructor-arg>
-			</bean>
-		</constructor-arg>
-	</bean>
+<!-- 	<bean id="notificationRemovalService" -->
+<!-- 		class="com.twistlet.falcon.model.service.NotificationServiceImpl"> -->
+<!-- 		<constructor-arg index="0"> -->
+<!-- 			<bean class="org.springframework.mail.SimpleMailMessage"> -->
+<!-- 				<property name="from" -->
+<!-- 					value="Butter-Bun Notification &lt;notifications@butter-bun.com&gt;"> -->
+<!-- 				</property> -->
+<!-- 				<property name="subject"> -->
+<!-- 					<value>Butter-Bun - Your appointment has been cancelled</value> -->
+<!-- 				</property> -->
+<!-- 			</bean> -->
+<!-- 		</constructor-arg> -->
+<!-- 		<constructor-arg index="1"> -->
+<!-- 			<bean class="org.springframework.mail.javamail.JavaMailSenderImpl"> -->
+<!-- 				<property name="host"> -->
+<!-- 					<value>${smtp.notifications.host}</value> -->
+<!-- 				</property> -->
+<!-- 				<property name="port"> -->
+<!-- 					<value>${smtp.notifications.port}</value> -->
+<!-- 				</property> -->
+<!-- 				<property name="username"> -->
+<!-- 					<value>${smtp.notifications.username}</value> -->
+<!-- 				</property> -->
+<!-- 				<property name="password"> -->
+<!-- 					<value>${smtp.notifications.password}</value> -->
+<!-- 				</property> -->
+<!-- 				<property name="javaMailProperties"> -->
+<!-- 					<props> -->
+<!-- 						<prop key="mail.smtp.auth">true</prop> -->
+<!-- 						<prop key="mail.smtp.starttls.enable">false</prop> -->
+<!-- 					</props> -->
+<!-- 				</property> -->
+<!-- 			</bean> -->
+<!-- 		</constructor-arg> -->
+<!-- 		<constructor-arg> -->
+<!-- 			<bean class="org.apache.commons.io.FileUtils" factory-method="readFileToString"> -->
+<!-- 				<constructor-arg index="0" -->
+<!-- 					value="classpath:com/twistlet/falcon/mail/remove.txt" /> -->
+<!-- 				<constructor-arg index="1"> -->
+<!-- 					<bean class="java.nio.charset.Charset" factory-method="forName"> -->
+<!-- 						<constructor-arg> -->
+<!-- 							<value>UTF-8</value> -->
+<!-- 						</constructor-arg> -->
+<!-- 					</bean> -->
+<!-- 				</constructor-arg> -->
+<!-- 			</bean> -->
+<!-- 		</constructor-arg> -->
+<!-- 	</bean> -->
 
 </beans>
