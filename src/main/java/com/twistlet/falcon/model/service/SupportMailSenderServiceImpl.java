@@ -1,5 +1,6 @@
 package com.twistlet.falcon.model.service;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +32,7 @@ public class SupportMailSenderServiceImpl implements SupportMailSenderService {
 		final SimpleMailMessage simpleMessage = new SimpleMailMessage();
 		simpleMessage.setTo(addressTo);
 		simpleMessage.setCc(cc);
-		simpleMessage.setSubject(supportSubject + " - " + messageType);
+		simpleMessage.setSubject(supportSubject + " - " + WordUtils.capitalize(messageType));
 		simpleMessage.setText("From: " + cc + "\n\n\n" + content);
 		try {
 			javaMailSender.send(simpleMessage);
