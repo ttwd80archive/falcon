@@ -19,9 +19,9 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
 @RunWith(MockitoJUnitRunner.class)
-public class NotificationWelcomeServiceImplTest {
+public class NotificationServiceImplTest {
 
-	NotificationWelcomeService unit;
+	NotificationService unit;
 
 	@Mock
 	MailSender mailSender;
@@ -33,8 +33,7 @@ public class NotificationWelcomeServiceImplTest {
 		final Charset encoding = Charset.forName("US-ASCII");
 		final File contentFile = new ClassPathResource("com/twistlet/falcon/mail/welcome.txt").getFile();
 		final String contentTemplate = FileUtils.readFileToString(contentFile, encoding);
-		// final String contentTemplate = "{0}, {1}, {2}, {3}";
-		unit = new NotificationWelcomeServiceImpl(mailMessage, mailSender, contentTemplate);
+		unit = new NotificationServiceImpl(mailMessage, mailSender, contentTemplate);
 	}
 
 	@Test

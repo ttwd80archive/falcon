@@ -19,7 +19,7 @@ import com.twistlet.falcon.model.entity.FalconService;
 import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.service.LocationService;
-import com.twistlet.falcon.model.service.NotificationWelcomeService;
+import com.twistlet.falcon.model.service.NotificationService;
 import com.twistlet.falcon.model.service.PatronService;
 import com.twistlet.falcon.model.service.ServicesTypeService;
 import com.twistlet.falcon.model.service.StaffService;
@@ -38,20 +38,20 @@ public class AdminManagementController {
 
 	private final ServicesTypeService serviceTypeService;
 
-	private final NotificationWelcomeService notificationWelcomeService;
+	private final NotificationService notificationService;
 
 	private final UserAdminService userAdminService;
 
 	@Autowired
 	public AdminManagementController(final StaffService staffService, final PatronService patronService,
 			final LocationService locationService, final ServicesTypeService serviceTypeService,
-			final UserAdminService userAdminService, final NotificationWelcomeService notificationWelcomeService) {
+			final UserAdminService userAdminService, final NotificationService notificationService) {
 		this.staffService = staffService;
 		this.patronService = patronService;
 		this.locationService = locationService;
 		this.serviceTypeService = serviceTypeService;
 		this.userAdminService = userAdminService;
-		this.notificationWelcomeService = notificationWelcomeService;
+		this.notificationService = notificationService;
 	}
 
 	@RequestMapping("/admin/manageusers")
@@ -101,7 +101,7 @@ public class AdminManagementController {
 		final String mail = falconPatron.getEmail();
 		final String password = StringUtils.split(falconPatron.getName(), " ")[0];
 		final String patronOf = falconAdmin.getName();
-		notificationWelcomeService.send(fullName, ic, hp, mail, password, patronOf);
+		notificationService.send(fullName, ic, hp, mail, password, patronOf);
 
 	}
 

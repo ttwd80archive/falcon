@@ -6,8 +6,15 @@
 
 	<context:component-scan base-package="com.twistlet.falcon.model.service" />
 
+	<bean id="charsetAscii" class="java.nio.charset.Charset"
+		factory-method="forName">
+		<constructor-arg>
+			<value>US-ASCII</value>
+		</constructor-arg>
+	</bean>
+
 	<bean id="notificationWelcomeService"
-		class="com.twistlet.falcon.model.service.NotificationWelcomeServiceImpl">
+		class="com.twistlet.falcon.model.service.NotificationServiceImpl">
 		<constructor-arg index="0">
 			<bean class="org.springframework.mail.SimpleMailMessage">
 				<property name="from">
@@ -45,11 +52,7 @@
 				<constructor-arg index="0"
 					value="classpath:com/twistlet/falcon/mail/welcome.txt" />
 				<constructor-arg index="1">
-					<bean class="java.nio.charset.Charset" factory-method="forName">
-						<constructor-arg>
-							<value>US-ASCII</value>
-						</constructor-arg>
-					</bean>
+					<ref local="charsetAscii" />
 				</constructor-arg>
 			</bean>
 		</constructor-arg>
