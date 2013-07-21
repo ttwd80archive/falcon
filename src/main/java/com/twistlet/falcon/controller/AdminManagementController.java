@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -38,20 +39,21 @@ public class AdminManagementController {
 
 	private final ServicesTypeService serviceTypeService;
 
-	private final NotificationService notificationService;
+	private final NotificationService notificationWelcomeService;
 
 	private final UserAdminService userAdminService;
 
 	@Autowired
 	public AdminManagementController(final StaffService staffService, final PatronService patronService,
 			final LocationService locationService, final ServicesTypeService serviceTypeService,
-			final UserAdminService userAdminService, final NotificationService notificationService) {
+			final UserAdminService userAdminService,
+			@Qualifier("notificationWelcomeService") final NotificationService notificationWelcomeService) {
 		this.staffService = staffService;
 		this.patronService = patronService;
 		this.locationService = locationService;
 		this.serviceTypeService = serviceTypeService;
 		this.userAdminService = userAdminService;
-		this.notificationService = notificationService;
+		this.notificationWelcomeService = notificationWelcomeService;
 	}
 
 	@RequestMapping("/admin/manageusers")
@@ -101,7 +103,7 @@ public class AdminManagementController {
 		final String mail = falconPatron.getEmail();
 		final String password = StringUtils.split(falconPatron.getName(), " ")[0];
 		final String patronOf = falconAdmin.getName();
-		notificationService.send(fullName, ic, hp, mail, password, patronOf);
+		notificationWelcomeService.send(fullName, ic, hp, mail, password, patronOf);
 
 	}
 
