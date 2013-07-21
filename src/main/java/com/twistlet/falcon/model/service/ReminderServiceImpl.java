@@ -139,10 +139,12 @@ public class ReminderServiceImpl implements ReminderService {
 		final String sender = theAdmin.getUsername();
 		final String patron = thePatron.getName();
 		final Object[] arguments = { date, time, staff, patron, venue, service };
-		final String mailContent = MessageFormat.format(message, arguments);
+		String mailContent = MessageFormat.format(message, arguments);
 		final String smsContent = MessageFormat.format(smsFormat, arguments);
 		if (BooleanUtils.toBoolean(thePatron.getSendEmail())) {
 			try {
+				mailContent = mailContent.replace("\r\n", "\n");
+				mailContent = mailContent.replace("\n", "\r\n");
 				mailSenderService.send(sender, thePatron.getEmail(), mailContent, subject);
 			} catch (final Exception e) {
 				e.printStackTrace();
