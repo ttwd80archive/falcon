@@ -158,7 +158,7 @@
 */
 .account-inf                                     {position: relative; text-align: right; width: 500px; float: left;}
 .account-inf ul                                  {margin-top: 4px; padding-top: 0;}
-.account-inf ul li                               {float: right; height: 32px;}
+.account-inf ul li                               {float: right; height: 35px;}
 .account-inf ul li a                             {margin: 0 2px;}
 .blackcross                                      {display: none; z-index: 1800; position: relative;}
 .close-box                                       {top: 90px; left: 47%; z-index: 1500; position: relative;}
