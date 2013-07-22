@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.10, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.12, for Win64 (x86_64)
 --
 -- Host: localhost    Database: falcon
 -- ------------------------------------------------------
--- Server version	5.6.10
+-- Server version	5.6.12-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -42,7 +42,7 @@ CREATE TABLE `falcon_appointment` (
   CONSTRAINT `falcon_appointment_ibfk_1` FOREIGN KEY (`staff`) REFERENCES `falcon_staff` (`id`),
   CONSTRAINT `falcon_appointment_ibfk_2` FOREIGN KEY (`service`) REFERENCES `falcon_service` (`id`),
   CONSTRAINT `FK_falcon_appointment_falcon_location` FOREIGN KEY (`location`) REFERENCES `falcon_location` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,7 +61,7 @@ CREATE TABLE `falcon_appointment_patron` (
   KEY `patron` (`patron`),
   CONSTRAINT `falcon_appointment_patron_ibfk_1` FOREIGN KEY (`patron`) REFERENCES `falcon_patron` (`id`),
   CONSTRAINT `FK_falcon_patron_falcon_appointment` FOREIGN KEY (`appointment`) REFERENCES `falcon_appointment` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,6 +115,23 @@ CREATE TABLE `falcon_message_log` (
   `error_message` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `falcon_password_change`
+--
+
+DROP TABLE IF EXISTS `falcon_password_change`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `falcon_password_change` (
+  `nric` varchar(50) DEFAULT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `random_string` varchar(50) DEFAULT NULL,
+  `executed` tinyint(1) unsigned DEFAULT NULL,
+  `date_request` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,3 +262,4 @@ CREATE TABLE `falcon_user_role` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+-- Dump completed on 2013-07-23  0:27:48
