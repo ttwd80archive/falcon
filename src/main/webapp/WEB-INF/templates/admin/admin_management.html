@@ -125,23 +125,25 @@
 									th:field="*{falconUserByPatron.nric}"
 									id="identificationnum-patron" size="30"
 									class="validate[required, ajax[validate-patron-nric]] text-input" />
+									<span class="notes bold">&nbsp;(Ex: 850321102020)</span>
 								</li>
 								<li><span>H&#47;P No&#46;</span> <input type="text"
 									th:field="*{falconUserByPatron.phone}" id="mobilenum-patron"
 									size="30"
 									class="validate[required, custom[phone], ajax[validate-patron-phone]] text-input" />
+									<span class="notes bold">&nbsp;(Ex: 01XXXXXXXX)</span>
 								</li>
 								<li><span>Email</span> <input type="text"
 									th:field="*{falconUserByPatron.email}" id="email-patron"
 									size="30"
 									class="validate[required, custom[email], ajax[validate-patron-email]] text-input" />
 								</li>
-								<li>Notification Preference <input type="checkbox"
+								<li><span>Notification Preference</span> <input type="checkbox"
 									id="smsnotification-patron" value="SMS"
-									th:field="*{falconUserByPatron.sendSms}" /> SMS
+									th:field="*{falconUserByPatron.sendSms}" /> <span>SMS</span>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox"
 									id="emailnotification-patron" value="Email"
-									th:field="*{falconUserByPatron.sendEmail}" /> Email
+									th:field="*{falconUserByPatron.sendEmail}" /> <span>Email</span>
 								</li>
 								<li><input type="hidden"
 									th:field="*{falconUserByPatron.username}" id="username-patron" />
