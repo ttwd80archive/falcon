@@ -93,6 +93,7 @@
 			</div>
 			
 		</div>
+<<<<<<< Upstream, based on branch 'master' of https://github.com/blacksnow666/falcon.git
 		<div id="pwd-reset-box" class="absoluteleftcenter hidden">
 			<a class="close-box"
 				onclick="document.getElementById('pwd-reset-box').style.display='none'; document.getElementById('bg').style.display='none';">
@@ -117,6 +118,30 @@
 			</form>
 		</div>		
 	<div id="bg"></div>			
+=======
+		<div id="resetpasswordappt-box" class="absoluteleftcenter hidden">
+			<a class="close-box"
+				onclick="javascript: closeDialog();"><img
+				class="whitecross" src="./images/whitecross.png"
+				th:src="@{/images/whitecross.png}" alt="Image failed to load" /><img
+				class="blackcross" src="./images/blackcross.png"
+				th:src="@{/images/blackcross.png}" alt="Image failed to load" /></a>
+			<div id="rescheduleappt" class="relativeleftcenter">
+				<form id="verifyIdentity" action="verify-identity" method="post">
+				<h2>Reset Password</h2>
+				<ul id="resetpwdtfilter" class="nopadding">
+					<li><div id="resetAlert" style="visibility: hidden; color: red;"></div></li>
+					<li><span style="font-weight: bold;">IC No&#58;</span>
+						<input name="nric" /></li>
+					<li>&nbsp;</li>
+					<li><input class="button" type="submit" id="resetPassword"
+						value="RESET" /></li>
+				</ul>
+				</form>
+			</div>
+		</div>
+		<div id="bg"></div>
+>>>>>>> ca1c978 Reset password
 	</div>
 	<div class="clear"></div>
 	<div id="footer-wrapper">

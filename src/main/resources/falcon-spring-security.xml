@@ -9,6 +9,7 @@
 	<security:http pattern="/css/**" security="none" />
 	<security:http pattern="/index" security="none" />
 	<security:http pattern="/registration/**" security="none" />
+	<security:http pattern="/verify-identity/**" security="none" />
 	<security:http pattern="/captcha/**" security="none" />
 
 	<security:http auto-config="true">

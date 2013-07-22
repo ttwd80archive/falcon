@@ -16,6 +16,7 @@ import com.twistlet.falcon.model.repository.FalconUserRepository;
 public class UserAdminServiceImpl implements UserAdminService {
 
 	private final FalconUserRepository falconUserRepository;
+
 	
 	@Autowired
 	public UserAdminServiceImpl(FalconUserRepository falconUserRepository) {
