@@ -41,7 +41,7 @@
 					</div>
 					<div>
 						<ul class="nopadding">
-							<li><a href="#" id="forgotpwd" class="hidden">forgot your password?</a> <input
+							<li><a href="#" id="forgotpwd" onclick="document.getElementById('pwd-reset-box').style.display='block'; document.getElementById('bg').style.display='block';">forgot your password?</a> <input
 								type="submit" value="SIGN IN" class="button" id="loginbutton" /></li>
 							<li id="newuserinf" class="hidden"><span>New User&#63; Sign Up
 									Now&#33;</span> <input type="button" value="SIGN UP" class="button"
@@ -91,7 +91,33 @@
 				</ul>
 				</div>
 			</div>
+			
 		</div>
+		<div id="pwd-reset-box" class="absoluteleftcenter hidden">
+			<a class="close-box"
+				onclick="document.getElementById('pwd-reset-box').style.display='none'; document.getElementById('bg').style.display='none';">
+				<img class="whitecross" th:src="@{/images/whitecross.png}"
+				src="../../images/whitecross.png" alt="Image failed to load" /> <img
+				th:src="@{/images/blackcross.png}" class="blackcross"
+				src="../../images/blackcross.png" alt="Image failed to load" />
+			</a>
+			<form action="#" id="pwdresetform"> 
+			<div id="pwdreset" class="relativeleftcenter">
+				<h2>Can't sign in? Forgot your password?</h2>
+				<div>Please key in your I&#47;C No&#46; below and we will send you the password reset instructions at your registered e-mail address.</div>
+				<ul id="pwdresetfilter" class="nopadding">
+					<li>
+						<span>I&#47;C No&#46;</span>
+						<input type="text" id="identificationnum-patron"/>
+						<span class="notes bold" style="float:none">&nbsp;(Eg: 850321102020)</span>
+					</li>
+					<br/>
+					<li><input class="button" type="submit" value="RESET" id="submit" /></li>
+				</ul>
+			</div>
+			</form>
+		</div>		
+	<div id="bg"></div>			
 	</div>
 	<div class="clear"></div>
 	<div id="footer-wrapper">
