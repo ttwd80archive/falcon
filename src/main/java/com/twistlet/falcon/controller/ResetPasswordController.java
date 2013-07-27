@@ -54,19 +54,18 @@ public class ResetPasswordController {
 	}
 
 	@RequestMapping(value = "/verify-identity/reset-password", method = RequestMethod.POST)
-	public ModelAndView resetPassword(@ModelAttribute("resetPassword") ResetPassword resetPassword){
-		boolean success = false;
+	@ResponseBody
+	public String resetPassword(@ModelAttribute("resetPassword") ResetPassword resetPassword){
+		String status = "valid";
+		boolean success = true;
 		if(StringUtils.equals(resetPassword.getPassword(), resetPassword.getConfirmPassword())){
 			success = resetPasswordService.resetPassword(resetPassword.getNric(), resetPassword.getRandom(), resetPassword.getPassword());
+		}else{
+			status = "Please verify that password is typed correctly";
 		}
-		String page = "redirect:../index";
-		ModelAndView mav = new ModelAndView();
 		if(success != true){
-			page = "reset_password";
-			resetPassword = new ResetPassword();
-			resetPassword.setRandom(resetPassword.getRandom());
-			mav.addObject("resetPassword",resetPassword);
+			status = "Please verify that nric is valid";
 		}
-		return new ModelAndView(page);
+		return status;
 	}
 }
