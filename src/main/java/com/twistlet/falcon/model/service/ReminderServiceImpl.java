@@ -106,7 +106,7 @@ public class ReminderServiceImpl implements ReminderService {
 			final String mailContent = MessageFormat.format(message, arguments);
 			try {
 				logger.info("Sending reminder to staff : {}\n{}", target, mailContent);
-				mailSenderService.send(sender, target, mailContent, subject);
+				mailSenderService.sendHtml(sender, target, mailContent, subject);
 			} catch (final Exception e) {
 				e.printStackTrace();
 			}
@@ -145,7 +145,7 @@ public class ReminderServiceImpl implements ReminderService {
 		if (BooleanUtils.toBoolean(thePatron.getSendEmail())) {
 			try {
 				logger.info("Sending reminder to patron : {}\n{}", thePatron.getEmail(), mailContent);
-				mailSenderService.send(sender, thePatron.getEmail(), mailContent, subject);
+				mailSenderService.sendHtml(sender, thePatron.getEmail(), mailContent, subject);
 			} catch (final Exception e) {
 				e.printStackTrace();
 			}
