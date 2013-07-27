@@ -13,11 +13,7 @@ $(function() {
 	    $.ajax({
 	           type: "POST",
 	           url: url,
-	           data: $("#verifyIdentity").serialize(),
-	           success: function(data)
-	           {
-	               console.log('in here');
-	           }
+	           data: $("#verifyIdentity").serialize()
 	         }).done(function(data){
 	        	 if(data == 'success'){
 	        		 $('#resetAlert').html('An Email has been sent to your email address for verification');
@@ -37,6 +33,7 @@ $(function() {
 
 
 function closeDialog(){
-	document.getElementById('resetpasswordappt-box').style.display='none'; 
-	document.getElementById('bg').style.display='none'; 
+	//document.getElementById('resetpasswordappt-box').style.display='none'; 
+	//document.getElementById('bg').style.display='none'; 
+	window.location = 'index';
 }
