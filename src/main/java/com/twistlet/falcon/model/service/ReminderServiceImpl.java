@@ -103,10 +103,8 @@ public class ReminderServiceImpl implements ReminderService {
 		}
 		final Object[] arguments = { date, time, staff, patron, venue, service };
 		if (BooleanUtils.toBoolean(falconStaff.getSendEmail())) {
-			String mailContent = MessageFormat.format(message, arguments);
+			final String mailContent = MessageFormat.format(message, arguments);
 			try {
-				mailContent = mailContent.replace("\r\n", "\n");
-				mailContent = mailContent.replace("\n", "\r\n");
 				logger.info("Sending reminder to staff : {}\n{}", target, mailContent);
 				mailSenderService.send(sender, target, mailContent, subject);
 			} catch (final Exception e) {
@@ -142,12 +140,10 @@ public class ReminderServiceImpl implements ReminderService {
 		final String sender = theAdmin.getUsername();
 		final String patron = thePatron.getName();
 		final Object[] arguments = { date, time, staff, patron, venue, service };
-		String mailContent = MessageFormat.format(message, arguments);
+		final String mailContent = MessageFormat.format(message, arguments);
 		final String smsContent = MessageFormat.format(smsFormat, arguments);
 		if (BooleanUtils.toBoolean(thePatron.getSendEmail())) {
 			try {
-				mailContent = mailContent.replace("\r\n", "\n");
-				mailContent = mailContent.replace("\n", "\r\n");
 				logger.info("Sending reminder to patron : {}\n{}", thePatron.getEmail(), mailContent);
 				mailSenderService.send(sender, thePatron.getEmail(), mailContent, subject);
 			} catch (final Exception e) {

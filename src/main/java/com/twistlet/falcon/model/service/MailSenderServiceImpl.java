@@ -1,6 +1,7 @@
 package com.twistlet.falcon.model.service;
 
-import java.util.Date;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,7 +45,6 @@ public class MailSenderServiceImpl implements MailSenderService {
 		final String from = "\"" + senderName + "\" <" + senderAddress + ">";
 		mailMessage.setFrom(from);
 		mailMessage.setTo(sendTo);
-		mailMessage.setSentDate(new Date());
 		mailMessage.setSubject(subject);
 		mailMessage.setText(message);
 		String errorMessage = null;
@@ -56,4 +57,26 @@ public class MailSenderServiceImpl implements MailSenderService {
 			databaseLoggingService.logEmailSent(sendTo, message, errorMessage);
 		}
 	}
+
+	@Override
+	public void sendHtml(final String fromUserId, final String sendTo, final String message, final String subject) {
+		final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+		final String from = "\"" + senderName + "\" <" + senderAddress + ">";
+		String errorMessage = null;
+		try {
+			helper.setFrom(from);
+			helper.setTo(sendTo);
+			helper.setSubject(subject);
+			helper.setText(message, true);
+			javaMailSender.send(mimeMessage);
+		} catch (final MailException e) {
+			errorMessage = e.toString();
+		} catch (final MessagingException e) {
+			errorMessage = e.toString();
+		} finally {
+			databaseLoggingService.logEmailSent(sendTo, message, errorMessage);
+		}
+	}
+
 }

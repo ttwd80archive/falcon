@@ -36,26 +36,13 @@ public class NotificationServiceImpl implements NotificationService {
 		logger.info("content\n{}", content);
 		final String to = MessageFormat.format("\"{0}\" <{1}>", new Object[] { fullName, mail });
 		try {
-			final MimeMessage message = javaMailSender.createMimeMessage();
-			final MimeMessageHelper helper = new MimeMessageHelper(message);
-			final String from = mailMessage.getFrom();
-			helper.setFrom(from);
-			if (mailMessage.getReplyTo() != null) {
-				helper.setReplyTo(mailMessage.getReplyTo());
-			}
-			if (mailMessage.getCc() != null) {
-				helper.setCc(mailMessage.getCc());
-			}
-			if (mailMessage.getBcc() != null) {
-				helper.setBcc(mailMessage.getBcc());
-			}
-			if (mailMessage.getSentDate() != null) {
-				helper.setSentDate(mailMessage.getSentDate());
-			}
+			final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+			final SimpleToMimeConversionService conversion = new SimpleToMimeConversionService();
+			conversion.toMime(mailMessage, mimeMessage);
+			final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 			helper.setTo(to);
-			helper.setSubject(mailMessage.getSubject());
 			helper.setText(content, true);
-			javaMailSender.send(message);
+			javaMailSender.send(mimeMessage);
 		} catch (final RuntimeException e) {
 			e.printStackTrace();
 		} catch (final MessagingException e) {

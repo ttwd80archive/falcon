@@ -11,7 +11,7 @@
 </div>
 <div>
 <br/>
-<div>Please proceed to log-in at www.butter-bun.com & schedule away!</div>
+<div>Please proceed to log-in at <a href="https://www.butter-bun.com/">www.butter-bun.com</a> & schedule away!</div>
 <div>Warm Regards,</div>
 <div>Apris Solutions</div>
 </div>
