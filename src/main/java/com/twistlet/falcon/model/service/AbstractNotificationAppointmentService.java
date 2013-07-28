@@ -190,23 +190,9 @@ public abstract class AbstractNotificationAppointmentService implements Notifica
 
 	@Override
 	@Transactional
-	public void sendSmsMessages(final Integer appointmentId, final Map<String, String> messageMap) {
-		final FalconAppointment falconAppointment = falconAppointmentRepository.findOne(appointmentId);
-		if (falconAppointment == null) {
-			logger.info("No sms to send. No appointment for appointment id {}", appointmentId);
-			return;
-		}
-		final FalconLocation falconLocation = falconAppointment.getFalconLocation();
-		if (falconLocation == null) {
-			logger.info("No sms to send. No location for appointment id {}", appointmentId);
-			return;
-		}
-		final FalconUser falconUser = falconLocation.getFalconUser();
-		if (falconUser == null) {
-			logger.info("No sms to send. No admin for appointment id {}", appointmentId);
-			return;
-		}
-		final String username = falconUser.getUsername();
+	public void sendSmsMessages(final String currentUser, final Map<String, String> messageMap) {
+		final String username = currentUser;
+		final FalconUser falconUser = falconUserRepository.findOne(currentUser);
 		if (falconUser.getSmsRemaining() != null) {
 			final Set<String> phoneSet = messageMap.keySet();
 			for (final String phone : phoneSet) {

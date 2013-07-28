@@ -12,6 +12,6 @@ public interface NotificationAppointmentService {
 
 	void send(List<MimeMessage> list);
 
-	void sendSmsMessages(Integer appointmentId, Map<String, String> messages);
+	void sendSmsMessages(String currentUser, Map<String, String> messages);
 
 }

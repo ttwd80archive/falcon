@@ -34,6 +34,7 @@ import com.twistlet.falcon.model.service.AppointmentService;
 import com.twistlet.falcon.model.service.NotificationAppointmentRemovalService;
 import com.twistlet.falcon.model.service.NotificationAppointmentRescheduleService;
 import com.twistlet.falcon.model.service.PatronService;
+import com.twistlet.falcon.model.service.SecurityService;
 
 @Controller
 public class AppointmentManagementController {
@@ -48,14 +49,18 @@ public class AppointmentManagementController {
 
 	private final NotificationAppointmentRescheduleService notificationAppointmentRescheduleService;
 
+	private final SecurityService securityService;
+
 	@Autowired
 	public AppointmentManagementController(final AppointmentService appointmentService, final PatronService patronService,
 			final NotificationAppointmentRemovalService appointmentRemovalService,
-			final NotificationAppointmentRescheduleService notificationAppointmentRescheduleService) {
+			final NotificationAppointmentRescheduleService notificationAppointmentRescheduleService,
+			final SecurityService securityService) {
 		this.appointmentService = appointmentService;
 		this.patronService = patronService;
 		this.appointmentRemovalService = appointmentRemovalService;
 		this.notificationAppointmentRescheduleService = notificationAppointmentRescheduleService;
+		this.securityService = securityService;
 	}
 
 	@InitBinder
@@ -140,6 +145,7 @@ public class AppointmentManagementController {
 
 	@RequestMapping("/admin/delete_appointment/{id}")
 	public ModelAndView deleteAppointment(@PathVariable final Integer id) {
+		final String currentUser = securityService.getCurrentUserId();
 		try {
 			logger.info("Delete Appointment {}", id);
 			final List<MimeMessage> mailMessages = appointmentRemovalService.createMessages(id);
@@ -150,7 +156,7 @@ public class AppointmentManagementController {
 			logger.info("Deleted Appointment {}", id);
 			appointmentRemovalService.send(mailMessages);
 			logger.info("Mail sent");
-			appointmentRemovalService.sendSmsMessages(id, smsMessages);
+			appointmentRemovalService.sendSmsMessages(currentUser, smsMessages);
 			logger.info("SMS sent");
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -168,6 +174,7 @@ public class AppointmentManagementController {
 	public ModelAndView rescheduleAppointment(@PathVariable final Integer id, @PathVariable final String date,
 			@PathVariable final String start, @PathVariable final String end, @PathVariable final Integer location) {
 		final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
+		final String currentUser = securityService.getCurrentUserId();
 		try {
 			final Date startDate = sdf.parse(date + " " + start);
 			final Date endDate = sdf.parse(date + " " + end);
@@ -179,7 +186,7 @@ public class AppointmentManagementController {
 			logger.info("Text message for reschdeule created");
 			notificationAppointmentRescheduleService.send(mailMessages);
 			logger.info("Mail message for reschdeule sent");
-			notificationAppointmentRescheduleService.sendSmsMessages(id, textMessages);
+			notificationAppointmentRescheduleService.sendSmsMessages(currentUser, textMessages);
 			logger.info("Text message for reschdeule sent");
 		} catch (final Exception e) {
 			e.printStackTrace();
