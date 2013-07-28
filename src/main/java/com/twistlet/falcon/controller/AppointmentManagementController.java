@@ -32,6 +32,7 @@ import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.service.AppointmentService;
 import com.twistlet.falcon.model.service.NotificationAppointmentRemovalService;
+import com.twistlet.falcon.model.service.NotificationAppointmentRescheduleService;
 import com.twistlet.falcon.model.service.PatronService;
 
 @Controller
@@ -45,12 +46,16 @@ public class AppointmentManagementController {
 
 	private final NotificationAppointmentRemovalService appointmentRemovalService;
 
+	private final NotificationAppointmentRescheduleService notificationAppointmentRescheduleService;
+
 	@Autowired
 	public AppointmentManagementController(final AppointmentService appointmentService, final PatronService patronService,
-			final NotificationAppointmentRemovalService appointmentRemovalService) {
+			final NotificationAppointmentRemovalService appointmentRemovalService,
+			final NotificationAppointmentRescheduleService notificationAppointmentRescheduleService) {
 		this.appointmentService = appointmentService;
 		this.patronService = patronService;
 		this.appointmentRemovalService = appointmentRemovalService;
+		this.notificationAppointmentRescheduleService = notificationAppointmentRescheduleService;
 	}
 
 	@InitBinder
@@ -157,6 +162,10 @@ public class AppointmentManagementController {
 			final Date startDate = sdf.parse(date + " " + start);
 			final Date endDate = sdf.parse(date + " " + end);
 			appointmentService.rescheduleAppointment(id, startDate, endDate, location);
+			final List<MimeMessage> mailMessages = notificationAppointmentRescheduleService.createMessages(id);
+			final Map<String, String> textMessages = notificationAppointmentRescheduleService.createSmsMessages(id);
+			notificationAppointmentRescheduleService.send(mailMessages);
+			notificationAppointmentRescheduleService.sendSmsMessages(id, textMessages);
 		} catch (final ParseException e) {
 			e.printStackTrace();
 		}
