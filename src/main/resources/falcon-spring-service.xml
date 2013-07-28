@@ -99,4 +99,49 @@
 			value="Appointment has been cancelled. {0}, {1}, {2}, {3}, {4}, {5}" />
 		<!-- Injection index 6 repository -->
 	</bean>
+
+	<bean id="notificationAppointmentRescheduleService"
+		class="com.twistlet.falcon.model.service.NotificationAppointmentRescheduleServiceImpl">
+		<!-- Injection index 0 repository -->
+		<!-- Injection index 1 repository -->
+		<constructor-arg index="2">
+			<bean class="org.apache.commons.io.FileUtils" factory-method="readFileToString">
+				<constructor-arg index="0"
+					value="classpath:com/twistlet/falcon/mail/reschedule.txt" />
+				<constructor-arg index="1">
+					<bean class="java.nio.charset.Charset" factory-method="forName">
+						<constructor-arg>
+							<value>UTF-8</value>
+						</constructor-arg>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+				<property name="host" value="${smtp.notifications.host}" />
+				<property name="port" value="${smtp.notifications.port}" />
+				<property name="username" value="${smtp.notifications.username}" />
+				<property name="password" value="${smtp.notifications.password}" />
+				<property name="javaMailProperties">
+					<props>
+						<prop key="mail.smtp.auth">true</prop>
+						<prop key="mail.smtp.starttls.enable">false</prop>
+					</props>
+				</property>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="4">
+			<bean class="org.springframework.mail.SimpleMailMessage">
+				<property name="from"
+					value="Butter-Bun Notifications &lt;notifications@butter-bun.com&gt;" />
+				<property name="subject"
+					value="Butter-Bun - Your appointment has been rescheduled" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="5"
+			value="Appointment has been rescheduled! {0}, {1}, {2}, {3}, {4}, {5}" />
+		<!-- Injection index 6 repository -->
+	</bean>
+
 </beans>
