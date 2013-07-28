@@ -4,7 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,6 +31,7 @@ import com.twistlet.falcon.model.entity.FalconAppointment;
 import com.twistlet.falcon.model.entity.FalconAppointmentPatron;
 import com.twistlet.falcon.model.entity.FalconPatron;
 import com.twistlet.falcon.model.service.AppointmentService;
+import com.twistlet.falcon.model.service.NotificationAppointmentRemovalService;
 import com.twistlet.falcon.model.service.PatronService;
 
 @Controller
@@ -36,125 +40,133 @@ public class AppointmentManagementController {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private final AppointmentService appointmentService;
-	
+
 	private final PatronService patronService;
-	
+
+	private final NotificationAppointmentRemovalService appointmentRemovalService;
+
 	@Autowired
-	public AppointmentManagementController(
-			AppointmentService appointmentService, PatronService patronService) {
+	public AppointmentManagementController(final AppointmentService appointmentService, final PatronService patronService,
+			final NotificationAppointmentRemovalService appointmentRemovalService) {
 		this.appointmentService = appointmentService;
 		this.patronService = patronService;
+		this.appointmentRemovalService = appointmentRemovalService;
 	}
 
 	@InitBinder
-	public void initFalconPatronsBinder(final WebDataBinder dataBinder){
-		dataBinder.registerCustomEditor(Set.class, "falconAppointmentPatrons", new CustomCollectionEditor(Set.class){
-			 @Override
-	         protected Object convertElement(Object element){
-				 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			     String adminUsername = auth.getName();
-				 String username = StringUtils.EMPTY;
-				 if(element instanceof String && !((String)element).equals("")){
-					 username = (String) element;
-				 }
-				 else{
-					 return null;
-				 }
-				 FalconAppointmentPatron falconAppointmentPatron = new FalconAppointmentPatron();
-				 FalconPatron falconPatron = patronService.findPatron(username, adminUsername);
-				 falconAppointmentPatron.setFalconPatron(falconPatron);
-				 return falconAppointmentPatron;
-			 }
+	public void initFalconPatronsBinder(final WebDataBinder dataBinder) {
+		dataBinder.registerCustomEditor(Set.class, "falconAppointmentPatrons", new CustomCollectionEditor(Set.class) {
+			@Override
+			protected Object convertElement(final Object element) {
+				final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				final String adminUsername = auth.getName();
+				String username = StringUtils.EMPTY;
+				if (element instanceof String && !((String) element).equals("")) {
+					username = (String) element;
+				} else {
+					return null;
+				}
+				final FalconAppointmentPatron falconAppointmentPatron = new FalconAppointmentPatron();
+				final FalconPatron falconPatron = patronService.findPatron(username, adminUsername);
+				falconAppointmentPatron.setFalconPatron(falconPatron);
+				return falconAppointmentPatron;
+			}
 		});
 	}
 
 	@RequestMapping("/admin/manage-appointments")
-	public ModelAndView viewAppointments(){
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    String adminUsername = auth.getName();
-		Date now = new Date();
-		List<FalconAppointment> falconAppointments = appointmentService.listMonthlyScheduleAdmin(now, adminUsername);
-		SearchAppointment search = new SearchAppointment();
-		ModelAndView mav = new ModelAndView("admin/manage_appointments");
-		FalconAppointment appointment = new FalconAppointment();
+	public ModelAndView viewAppointments() {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final String adminUsername = auth.getName();
+		final Date now = new Date();
+		final List<FalconAppointment> falconAppointments = appointmentService.listMonthlyScheduleAdmin(now, adminUsername);
+		final SearchAppointment search = new SearchAppointment();
+		final ModelAndView mav = new ModelAndView("admin/manage_appointments");
+		final FalconAppointment appointment = new FalconAppointment();
 		mav.addObject("appointment", appointment);
 		mav.addObject("appointments", falconAppointments);
 		mav.addObject("search", search);
 		return mav;
 	}
-	
-	@RequestMapping(value="/admin/search-appointments", method =  RequestMethod.GET)
-	public ModelAndView searchAppointmentsGet(){
+
+	@RequestMapping(value = "/admin/search-appointments", method = RequestMethod.GET)
+	public ModelAndView searchAppointmentsGet() {
 		return viewAppointments();
 	}
-	
-	@RequestMapping(value="/admin/search-appointments", method =  RequestMethod.POST)
-	public ModelAndView searchAppointments(@ModelAttribute("search") SearchAppointment searchAppointment){
+
+	@RequestMapping(value = "/admin/search-appointments", method = RequestMethod.POST)
+	public ModelAndView searchAppointments(@ModelAttribute("search") final SearchAppointment searchAppointment) {
 		final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
 		Date searchDate = null;
-		if(StringUtils.isNotBlank(searchAppointment.getSearchDate())){
-			String date = searchAppointment.getSearchDate();
+		if (StringUtils.isNotBlank(searchAppointment.getSearchDate())) {
+			final String date = searchAppointment.getSearchDate();
 			String time = "00:00 am";
-			if(StringUtils.isNotBlank(searchAppointment.getSearchTime())){
+			if (StringUtils.isNotBlank(searchAppointment.getSearchTime())) {
 				time = searchAppointment.getSearchTime();
 			}
 			try {
 				searchDate = sdf.parse(date + " " + time);
-			} catch (ParseException e) {
+			} catch (final ParseException e) {
 				e.printStackTrace();
 			}
 		}
 		String patronId = null;
-		if(StringUtils.isNotBlank(searchAppointment.getPatronId())){
+		if (StringUtils.isNotBlank(searchAppointment.getPatronId())) {
 			patronId = searchAppointment.getPatronId();
 		}
-		List<FalconAppointment> falconAppointments = appointmentService.findAppointmentsByParameter(searchAppointment.getStaffId(), patronId, searchAppointment.getServiceId(), searchAppointment.getLocationId(), searchDate);
-		ModelAndView mav = new ModelAndView("admin/manage_appointments");
-		FalconAppointment appointment = new FalconAppointment();
+		final List<FalconAppointment> falconAppointments = appointmentService.findAppointmentsByParameter(
+				searchAppointment.getStaffId(), patronId, searchAppointment.getServiceId(), searchAppointment.getLocationId(),
+				searchDate);
+		final ModelAndView mav = new ModelAndView("admin/manage_appointments");
+		final FalconAppointment appointment = new FalconAppointment();
 		mav.addObject("appointment", appointment);
 		mav.addObject("appointments", falconAppointments);
 		mav.addObject("search", searchAppointment);
 		return mav;
 	}
-	
+
 	@RequestMapping("/admin/patron_group_list")
-	public ModelAndView viewPatrons(@RequestParam("id") Integer id){
-		FalconAppointment appointment = appointmentService.findAppointment(id);
-		ModelAndView mav = new ModelAndView("admin/patron_group_list");
+	public ModelAndView viewPatrons(@RequestParam("id") final Integer id) {
+		final FalconAppointment appointment = appointmentService.findAppointment(id);
+		final ModelAndView mav = new ModelAndView("admin/patron_group_list");
 		mav.addObject("appointmentPatrons", appointment.getFalconAppointmentPatrons());
 		return mav;
 	}
-	
+
 	@RequestMapping("/admin/delete_appointment/{id}")
-	public ModelAndView deleteAppointment(@PathVariable Integer id){
+	public ModelAndView deleteAppointment(@PathVariable final Integer id) {
+		final List<MimeMessage> mailMessages = appointmentRemovalService.createMessages(id);
+		final Map<String, String> smsMessages = appointmentRemovalService.createSmsMessages(id);
 		appointmentService.deleteAppointment(id);
+		appointmentRemovalService.send(mailMessages);
+		appointmentRemovalService.sendSmsMessages(id, smsMessages);
 		return new ModelAndView("redirect:/admin/manage-appointments");
 	}
-	
+
 	@RequestMapping("/admin/delete_patron_appointment/{id}")
-	public ModelAndView deletePatronAppointment(@PathVariable Integer id){
+	public ModelAndView deletePatronAppointment(@PathVariable final Integer id) {
 		appointmentService.deleteAppointmentPatron(id);
 		return new ModelAndView("redirect:/admin/manage-appointments");
 	}
-	
-	
+
 	@RequestMapping("/admin/reschedule_appointment/{id}/{date}/{start}/{end}/{location}")
-	public ModelAndView rescheduleAppointment(@PathVariable Integer id, @PathVariable String date, @PathVariable String start, @PathVariable String end, @PathVariable Integer location){	
+	public ModelAndView rescheduleAppointment(@PathVariable final Integer id, @PathVariable final String date,
+			@PathVariable final String start, @PathVariable final String end, @PathVariable final Integer location) {
 		final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm aaa");
 		try {
 			final Date startDate = sdf.parse(date + " " + start);
 			final Date endDate = sdf.parse(date + " " + end);
 			appointmentService.rescheduleAppointment(id, startDate, endDate, location);
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			e.printStackTrace();
 		}
 		return new ModelAndView("redirect:/admin/manage-appointments");
 	}
-	
+
 	@RequestMapping(value = "/admin/update-appointment", method = RequestMethod.POST)
-	public ModelAndView updateAppointmentPatron(@ModelAttribute("appointment") FalconAppointment appointment){
+	public ModelAndView updateAppointmentPatron(@ModelAttribute("appointment") final FalconAppointment appointment) {
 		appointmentService.updateAppointmentPatrons(appointment);
 		return new ModelAndView("redirect:/admin/manage-appointments");
 	}
-	
+
 }

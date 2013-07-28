@@ -1,9 +1,12 @@
 package com.twistlet.falcon.model.service;
 
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.mail.MessagingException;
@@ -11,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -24,14 +28,31 @@ import com.twistlet.falcon.model.entity.FalconService;
 import com.twistlet.falcon.model.entity.FalconStaff;
 import com.twistlet.falcon.model.entity.FalconUser;
 import com.twistlet.falcon.model.repository.FalconAppointmentRepository;
+import com.twistlet.falcon.model.repository.FalconUserRepository;
 
 public class NotificationAppointmentRemovalServiceImpl implements NotificationAppointmentRemovalService {
 
-	private FalconAppointmentRepository falconAppointmentRepository;
-	private String template;
-	private JavaMailSender javaMailSender;
-	private SimpleMailMessage simpleMailMessage;
+	private final FalconAppointmentRepository falconAppointmentRepository;
+	private final FalconUserRepository falconUserRepository;
+	private final String template;
+	private final JavaMailSender javaMailSender;
+	private final SimpleMailMessage simpleMailMessage;
+	private final String smsTemplate;
+	private final SmsService smsService;
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+	@Autowired
+	public NotificationAppointmentRemovalServiceImpl(final FalconAppointmentRepository falconAppointmentRepository,
+			final FalconUserRepository falconUserRepository, final String template, final JavaMailSender javaMailSender,
+			final SimpleMailMessage simpleMailMessage, final String smsTemplate, final SmsService smsService) {
+		this.falconAppointmentRepository = falconAppointmentRepository;
+		this.falconUserRepository = falconUserRepository;
+		this.template = template;
+		this.javaMailSender = javaMailSender;
+		this.simpleMailMessage = simpleMailMessage;
+		this.smsTemplate = smsTemplate;
+		this.smsService = smsService;
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -42,13 +63,13 @@ public class NotificationAppointmentRemovalServiceImpl implements NotificationAp
 			final FalconStaff staff = falconAppointment.getFalconStaff();
 			final FalconLocation falconLocation = falconAppointment.getFalconLocation();
 			final FalconService falconService = falconAppointment.getFalconService();
+			final Set<FalconAppointmentPatron> set = falconAppointment.getFalconAppointmentPatrons();
 			final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
 			final SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm:ss aa");
 			final Date appointmentDate = falconAppointment.getAppointmentDate();
 			final String date = formatDate.format(appointmentDate);
 			final String time = formatTime.format(appointmentDate);
 			final String staffName = staff.getName();
-			final Set<FalconAppointmentPatron> set = falconAppointment.getFalconAppointmentPatrons();
 			final String patronName = nameOrGroupSize(set);
 			final String venue = falconLocation.getName();
 			final String service = falconService.getName();
@@ -59,10 +80,19 @@ public class NotificationAppointmentRemovalServiceImpl implements NotificationAp
 			}
 
 			for (final FalconAppointmentPatron item : set) {
+				final FalconPatron patron = item.getFalconPatron();
+				final FalconUser user = patron.getFalconUserByPatron();
+				if (Boolean.TRUE.equals(user.getSendEmail())) {
+					final String patronMailName = user.getName();
+					final String patronMail = user.getEmail();
+					final MimeMessage mimeMessage = createMessage(patronMailName, patronMail, date, time, staffName, patronName,
+							venue, service);
+					list.add(mimeMessage);
+				}
 			}
 
 		} else {
-			logger.warn("Unable to find appointment id # {} for removal messsage creation");
+			logger.warn("Unable to find appointment id # {} for removal messsage creation", appointmentId);
 		}
 
 		return list;
@@ -86,7 +116,10 @@ public class NotificationAppointmentRemovalServiceImpl implements NotificationAp
 		try {
 			conversionService.toMime(simpleMailMessage, mimeMessage);
 			final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+			final Object[] arguments = { date, time, staffName, patronName, venue, service };
+			final String content = MessageFormat.format(template, arguments);
 			helper.setTo("\"" + name + "\" <" + email + ">");
+			helper.setText(content, true);
 		} catch (final MessagingException e) {
 			e.printStackTrace();
 		}
@@ -95,8 +128,101 @@ public class NotificationAppointmentRemovalServiceImpl implements NotificationAp
 
 	@Override
 	public void send(final List<MimeMessage> list) {
-		// TODO Auto-generated method stub
-
+		for (final MimeMessage mimeMessage : list) {
+			try {
+				javaMailSender.send(mimeMessage);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
+	@Override
+	public Map<String, String> createSmsMessages(final Integer appointmentId) {
+		final Map<String, String> map = new LinkedHashMap<>();
+		final FalconAppointment falconAppointment = falconAppointmentRepository.findOne(appointmentId);
+		if (falconAppointment != null) {
+			final FalconStaff staff = falconAppointment.getFalconStaff();
+			final FalconLocation falconLocation = falconAppointment.getFalconLocation();
+			final FalconService falconService = falconAppointment.getFalconService();
+			final Set<FalconAppointmentPatron> set = falconAppointment.getFalconAppointmentPatrons();
+			final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+			final SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm:ss aa");
+			final Date appointmentDate = falconAppointment.getAppointmentDate();
+			final String date = formatDate.format(appointmentDate);
+			final String time = formatTime.format(appointmentDate);
+			final String staffName = staff.getName();
+			final String patronName = nameOrGroupSize(set);
+			final String venue = falconLocation.getName();
+			final String service = falconService.getName();
+			if (Boolean.TRUE.equals(staff.getSendSms())) {
+				final String smsMessage = createSmsMessage(date, time, staffName, patronName, venue, service);
+				final String phone = staff.getHpTel();
+				map.put(phone, smsMessage);
+			}
+
+			for (final FalconAppointmentPatron item : set) {
+				final FalconPatron patron = item.getFalconPatron();
+				final FalconUser user = patron.getFalconUserByPatron();
+				if (Boolean.TRUE.equals(user.getSendSms())) {
+					final String smsMessage = createSmsMessage(date, time, staffName, patronName, venue, service);
+					final String phone = user.getPhone();
+					map.put(phone, smsMessage);
+				}
+			}
+
+		} else {
+			logger.warn("Unable to find appointment id # {} for removal messsage creation", appointmentId);
+		}
+
+		return map;
+	}
+
+	private String createSmsMessage(final String date, final String time, final String staffName, final String patronName,
+			final String venue, final String service) {
+		final Object[] arguments = { date, time, staffName, patronName, venue, service };
+		return MessageFormat.format(smsTemplate, arguments);
+	}
+
+	@Override
+	@Transactional
+	public void sendSmsMessages(final Integer appointmentId, final Map<String, String> messageMap) {
+		final FalconAppointment falconAppointment = falconAppointmentRepository.findOne(appointmentId);
+		if (falconAppointment == null) {
+			logger.info("No sms to send. No appointment for appointment id {}", appointmentId);
+			return;
+		}
+		final FalconLocation falconLocation = falconAppointment.getFalconLocation();
+		if (falconLocation == null) {
+			logger.info("No sms to send. No location for appointment id {}", appointmentId);
+			return;
+		}
+		final FalconUser falconUser = falconLocation.getFalconUser();
+		if (falconUser == null) {
+			logger.info("No sms to send. No admin for appointment id {}", appointmentId);
+			return;
+		}
+		final String username = falconUser.getUsername();
+		if (falconUser.getSmsRemaining() != null) {
+			final Set<String> phoneSet = messageMap.keySet();
+			for (final String phone : phoneSet) {
+				final FalconUser admin = falconUserRepository.findOne(username);
+				final Integer count = admin.getSmsRemaining();
+				if (count != null && count > 0) {
+					final String message = messageMap.get(phone);
+					if (message != null) {
+						smsService.send(falconUser.getUsername(), phone, message);
+						admin.setSmsRemaining(count - 1);
+						falconUserRepository.save(admin);
+					}
+				} else {
+					logger.error("Unable to send sms from user {}, no sms remaining.", falconUser.getUsername());
+				}
+			}
+
+		} else {
+			logger.error("Unable to send sms from user {}, no valid sms remaining.", falconUser.getUsername());
+		}
+
+	}
 }

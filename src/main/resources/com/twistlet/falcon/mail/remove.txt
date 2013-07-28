@@ -13,7 +13,7 @@
 </div>
 <br/>
 <div>
-<div>Please log-in at www.butter-bun.com if you wish to view your appointment.</div>
+<div>Please log-in at <a href="https://www.butter-bun.com/">www.butter-bun.com</a> if you wish to view your appointment.</div>
 <div>Have a nice day,</div>
 <div>Apris Solutions</div>
 <div>
