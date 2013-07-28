@@ -140,11 +140,21 @@ public class AppointmentManagementController {
 
 	@RequestMapping("/admin/delete_appointment/{id}")
 	public ModelAndView deleteAppointment(@PathVariable final Integer id) {
-		final List<MimeMessage> mailMessages = appointmentRemovalService.createMessages(id);
-		final Map<String, String> smsMessages = appointmentRemovalService.createSmsMessages(id);
-		appointmentService.deleteAppointment(id);
-		appointmentRemovalService.send(mailMessages);
-		appointmentRemovalService.sendSmsMessages(id, smsMessages);
+		try {
+			logger.info("Delete Appointment {}", id);
+			final List<MimeMessage> mailMessages = appointmentRemovalService.createMessages(id);
+			logger.info("MIME message created");
+			final Map<String, String> smsMessages = appointmentRemovalService.createSmsMessages(id);
+			logger.info("Text message created");
+			appointmentService.deleteAppointment(id);
+			logger.info("Deleted Appointment {}", id);
+			appointmentRemovalService.send(mailMessages);
+			logger.info("Mail sent");
+			appointmentRemovalService.sendSmsMessages(id, smsMessages);
+			logger.info("SMS sent");
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
 		return new ModelAndView("redirect:/admin/manage-appointments");
 	}
 
@@ -161,12 +171,17 @@ public class AppointmentManagementController {
 		try {
 			final Date startDate = sdf.parse(date + " " + start);
 			final Date endDate = sdf.parse(date + " " + end);
+			logger.info("Reschedule Appointment {}", id);
 			appointmentService.rescheduleAppointment(id, startDate, endDate, location);
 			final List<MimeMessage> mailMessages = notificationAppointmentRescheduleService.createMessages(id);
+			logger.info("Mail message for reschdeule created");
 			final Map<String, String> textMessages = notificationAppointmentRescheduleService.createSmsMessages(id);
+			logger.info("Text message for reschdeule created");
 			notificationAppointmentRescheduleService.send(mailMessages);
+			logger.info("Mail message for reschdeule sent");
 			notificationAppointmentRescheduleService.sendSmsMessages(id, textMessages);
-		} catch (final ParseException e) {
+			logger.info("Text message for reschdeule sent");
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return new ModelAndView("redirect:/admin/manage-appointments");

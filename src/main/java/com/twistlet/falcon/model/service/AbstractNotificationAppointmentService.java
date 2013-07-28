@@ -96,7 +96,7 @@ public abstract class AbstractNotificationAppointmentService implements Notifica
 		} else {
 			logger.warn("Unable to find appointment id # {} for " + operation + " messsage creation", appointmentId);
 		}
-
+		logger.info("{} mail messages created", list.size());
 		return list;
 	}
 
@@ -177,6 +177,7 @@ public abstract class AbstractNotificationAppointmentService implements Notifica
 			logger.warn("Unable to find appointment id # {} for " + operation + " messsage creation", appointmentId);
 		}
 
+		logger.info("{} text messages created", map.size());
 		return map;
 	}
 
