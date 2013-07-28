@@ -140,6 +140,7 @@ public abstract class AbstractNotificationAppointmentService implements Notifica
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Map<String, String> createSmsMessages(final Integer appointmentId) {
 		final Map<String, String> map = new LinkedHashMap<>();
 		final FalconAppointment falconAppointment = falconAppointmentRepository.findOne(appointmentId);
