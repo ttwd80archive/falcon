@@ -8,6 +8,9 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +22,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.MailException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -38,7 +42,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
 	private final FalconUserRepository falconUserRepository;
 	private final FalconPasswordChangeRepository passwordChangeRepository;
 	private final PasswordEncoder passwordEncoder;
-	private final MailSender mailSender;
+	private final JavaMailSender javaMailSender;
 	private final String message;
 	
 	@Autowired
@@ -46,8 +50,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
 			FalconPasswordChangeRepository passwordChangeRepository,
 			PasswordEncoder passwordEncoder,
 			@Value("${mail.content.reset}") final String messageLocation,
-			@Qualifier("resetMailSender") final MailSender mailSender) {
-		super();
+			@Qualifier("resetMailSender") final JavaMailSender javaMailSender) {
 		this.falconUserRepository = falconUserRepository;
 		this.passwordChangeRepository = passwordChangeRepository;
 		this.passwordEncoder = passwordEncoder;
@@ -56,7 +59,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-		this.mailSender = mailSender;
+		this.javaMailSender = javaMailSender;
 	}
 
 	@Override
@@ -94,14 +97,22 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
 
 	@Transactional
 	private void sendToUser(final FalconUser user, final String random){
-		final SimpleMailMessage simpleMessage = new SimpleMailMessage();
-		simpleMessage.setFrom("signup@butter-bun.com");
-		simpleMessage.setTo(MessageFormat.format("{0} <{1}>", new Object[] { user.getName(), user.getEmail() }));
-		simpleMessage.setSubject("Your Butter-Bun password has been reset. Please use the link to key in your new password");
-		final Object[] arguments = { user.getName(), random };
-		final String text = MessageFormat.format(message, arguments);
-		simpleMessage.setText(text);
-		mailSender.send(simpleMessage);
+		final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+		final String sendTo = "\"" + user.getName() + "\" <" + user.getEmail() + ">";
+		try {
+			helper.setFrom("signup@butter-bun.com");
+			helper.setTo(sendTo);
+			helper.setSubject("Your Butter-Bun password has been reset. Please use the link to key in your new password");
+			final Object[] arguments = { user.getName(), random };
+			final String text = MessageFormat.format(message, arguments);
+			helper.setText(text, true);
+			javaMailSender.send(mimeMessage);
+		} catch (final MailException e) {
+			logger.error(e.toString(), e);
+		} catch (final MessagingException e) {
+			logger.error(e.toString(), e);
+		}
 	}
 
 	@Override
